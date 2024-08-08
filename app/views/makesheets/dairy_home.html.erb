@@ -1,0 +1,67 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for(:page_title, "DAIRY")%>
+
+  <div class="flex flex-wrap w-full justify-center gap-6 lg:gap-20">
+   
+    <div class="">
+      <p class="mt-10 text-xl font-strong mb-9">New Make Sheet </p>
+       <%= link_to "Create Make Sheet", new_makesheet_path, class: clear_button_class %>
+    </div>
+   
+    <div class="">
+      <p class="mt-10 text-xl font-strong">Edit Make Sheet<br><span class="text-sm"> (last 7 only)</span> </p>
+      
+      <!-- Dropdown menu -->
+      <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li>
+              <%= link_to @makesheets[1].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[1]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[2].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[2]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[3].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[3]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[4].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[4]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[5].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[5]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[6].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[6]), class: dropdown_list_class %></a>
+            </li>
+            <li>
+              <%= link_to @makesheets[7].make_date.to_formatted_s(:uk_day), edit_makesheet_path(@makesheets[7]), class: dropdown_list_class %></a>
+            </li>
+          </ul>
+      </div>
+     
+  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-semibold bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Select Make Sheet <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+  </svg>
+  </button>
+     </div>
+  
+  <div class="">
+    <p class="mt-10 text-xl font-strong mb-7">Print Make Sheet </p>
+    <div class="relative max-w-sm">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+        
+      </div>
+      <input datepicker datepicker-autohide id="default-datepicker" type="text" class="bg-gray-50 border border-green-800 font-semibold text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Select date">
+    </div>
+  </div>
+  
+  <div class="">
+    <p class="mt-10 text-xl font-strong mb-9">View All </p>
+     <%= link_to "View All", makesheets_path, class: clear_button_class %>
+  </div>
+ 
+   </div>
+   
+
+
+ 

@@ -1,0 +1,33 @@
+<%= form_with(model: turn, class: "contents") do |form| %>
+  <% if turn.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(turn.errors.count, "error") %> prohibited this turn from being saved:</h2>
+
+      <ul>
+        <% turn.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :turn_date, class: label_class %>
+    <%= form.datetime_field :turn_date, :input_html => { :value => Date.today }, class: field_class %>
+  </div>
+
+  <div>
+    <%= form.label :makesheet_id, "Batch", class: label_class %>
+    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class
+         }) %>
+  </div>
+
+  <div>
+    <%= form.label :turned_by, class: label_class %>
+    <%=  form.select :turned_by, options_for_select(turned_by, :selected => turn.turned_by),{:prompt=>true}, class: field_class%>
+  </div>
+
+  <div>
+    <%= form.submit class: clear_button_class %>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+<div id="<%= dom_id makesheet %>">
+  <p>
+    <strong>Make date:</strong>
+    <%= makesheet.make_date.to_formatted_s(:uk_time)%>
+  </p>
+
+  <p>
+    <strong>Milk used:</strong>
+    <%= makesheet.milk_used %>
+  </p>
+
+  <p>
+    <strong>Total weight:</strong>
+    <%= makesheet.total_weight %>
+  </p>
+
+  <p>
+    <strong>Number of cheeses:</strong>
+    <%= makesheet.number_of_cheeses %>
+  </p>
+
+  <p>
+    <strong>Grade:</strong>
+    <%= makesheet.grade %>
+  </p>
+
+  <p>
+    <strong>Weight type:</strong>
+    <%= makesheet.weight_type %>
+  </p>
+
+</div>

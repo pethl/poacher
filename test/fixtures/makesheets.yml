@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  make_date: 2024-08-04 17:20:25
+  milk_used: 1
+  total_weight: 1
+  number_of_cheeses: 1
+  grade: MyString
+  weight_type: MyString
+
+two:
+  make_date: 2024-08-04 17:20:25
+  milk_used: 1
+  total_weight: 1
+  number_of_cheeses: 1
+  grade: MyString
+  weight_type: MyString

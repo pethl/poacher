@@ -1,0 +1,10 @@
+<% content_for(:page_title, "DAIRY : EDIT MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk_day)}")%>
+
+<%= render "form", makesheet: @makesheet %>
+
+<br>
+
+<div>
+  <%= link_to "Show this makesheet", @makesheet %> |
+  <%= link_to "Back to makesheets", makesheets_path %>
+</div>

@@ -1,0 +1,209 @@
+<div class="my-4 text-left text-green-800 mt-8">
+
+  <div class="my-4 ">
+    <header class="text-2xl font-strong">OVERVIEW</header>
+    <p class="text-base font-normal"># of cheese</p>
+  </div>
+  </div>
+  
+  
+  <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      Dairy
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      Nursery
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      Shelves
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      Wash
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-right">
+                      Todays Cutting
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-center">
+                      Shipped Yesterday
+                  </th>
+                  
+              </tr>
+          </thead>
+          <tbody>
+          
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                Ungraded
+                </th>
+                <td class="px-6 py-4 text-right">
+                <%= Makesheet.where('make_date BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).sum(:number_of_cheeses) %>
+                </td>
+                <td class="px-6 py-4 text-right">
+                <%= Makesheet.where(grade: "").sum(:number_of_cheeses) %>
+            
+                </td>
+                <td class="px-6 py-4 text-right">
+                
+                </td>
+                <td class="px-6 py-4 text-right">
+                  
+                </td>
+                <td class="px-6 py-4  text-center">
+                  
+                </td>
+                <td class="px-6 py-4  text-center">
+          
+                </td>
+              </tr>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  Poacher
+                  </th>
+                  <td class="px-6 py-4 text-right">
+                
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                 
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                     <%= Makesheet.where(grade: "Poacher").sum(:number_of_cheeses) %>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                  5
+                  </td>
+                  <td class="px-6 py-4  text-center">
+                  
+                  </td>
+                  <td class="px-6 py-4  text-center">
+            
+                  </td>
+                </tr>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Vintage
+                    </th>
+                    <td class="px-6 py-4 text-right">
+                
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                 
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                       <%= Makesheet.where(grade: "Vintage").sum(:number_of_cheeses) %>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                    1
+                    </td>
+                    <td class="px-6 py-4  text-center">
+                  
+                    </td>
+                    <td class="px-6 py-4  text-center">
+              
+                    </td>
+                  </tr>
+                  <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      K Duster
+                      </th>
+                      <td class="px-6 py-4 text-right">
+                
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                 
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                         <%= Makesheet.where(grade: "Knuckle Duster").sum(:number_of_cheeses) %>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                      2
+                      </td>
+                      <td class="px-6 py-4  text-center">
+                  
+                      </td>
+                      <td class="px-6 py-4  text-center">
+                
+                      </td>
+                    </tr>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        P50
+                        </th>
+                        <td class="px-6 py-4 text-right">
+                
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                 
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                           <%= Makesheet.where(grade: "P50").sum(:number_of_cheeses) %>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                        1
+                        </td>
+                        <td class="px-6 py-4  text-center">
+                  
+                        </td>
+                        <td class="px-6 py-4  text-center">
+                  
+                        </td>
+                      </tr>
+                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                          <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          Smoked
+                          </th>
+                          <td class="px-6 py-4 text-right">
+                
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                 
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                             <%= Makesheet.where(grade: "Smoked").sum(:number_of_cheeses) %>
+                          </td>
+                          <td class="px-6 py-4 text-right">
+                          2
+                          </td>
+                          <td class="px-6 py-4  text-center">
+                  
+                          </td>
+                          <td class="px-6 py-4  text-center">
+                  
+                          </td>
+                        </tr>
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            Special
+                            </th>
+                            <td class="px-6 py-4 text-right">
+                
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                 
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                               <%= Makesheet.where(grade: "Special").sum(:number_of_cheeses) %>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                  
+                            </td>
+                            <td class="px-6 py-4  text-center">
+                  
+                            </td>
+                            <td class="px-6 py-4  text-center">
+                  
+                            </td>
+                          </tr>
+          </tbody>
+    </table>
+</div>
+  
+  
+   
+   
+</div>

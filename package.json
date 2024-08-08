@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "private": true,
+  "devDependencies": {
+    "esbuild": "^0.23.0"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@hotwired/turbo-rails": "^8.0.5",
+    "apexcharts": "^3.51.0",
+    "autoprefixer": "^10.4.20",
+    "chart.js": "^4.4.3",
+    "chartkick": "^5.0.1",
+    "flowbite": "^2.4.1",
+    "postcss": "^8.4.40",
+    "tailwindcss": "^3.4.7"
+  }
+}

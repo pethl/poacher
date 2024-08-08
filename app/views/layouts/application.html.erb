@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Poacher</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+    <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
+    <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body class="text-green-800">
+  <div class="container">
+   <div class="h-dvh w-dvw">
+    <div class="m-6 border border-green-800 rounded-lg">
+     <div class="my-4 text-center">
+    
+      <div class="flex w-full justify-between">
+        <div class="flex-none w-32 ml-4">
+        <%= link_to root_path do %>
+                    <i data-tooltip-target="tooltip-home" class="fa-solid fa-house text-green-800"> </i>
+                  <% end %>
+        </div>
+        <div class="flex-initial w-1/2">
+         <header class="text-2xl font-bold">LINCOLNSHIRE POACHER</header>
+          <h2 class="text-xl font-normal">Production System</h2>
+            <div class="text-center">
+             <%= render "layouts/departments" %>
+            </div>
+          </div>
+        <div class="flex-initial w-32 mr-4">
+       <span class="mr-4"> <%= Date.today.to_formatted_s(:uk) %></span>
+        <%= link_to makesheets_path do %>
+           <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
+            <% end %>
+        </div>
+      </div>
+          <%= render "layouts/title_bar" %>
+      </div>
+       <div class="m-4">
+        <%= yield %>
+       </div>  
+    </div>  
+   </div>
+  </div>
+  </body>
+</html>
