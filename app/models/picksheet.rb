@@ -1,0 +1,2 @@
+class Picksheet < ApplicationRecord
+end

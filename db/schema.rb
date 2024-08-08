@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_07_111053) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,31 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_07_111053) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "batch"
+  end
+
+  create_table "picksheet_items", force: :cascade do |t|
+    t.string "product"
+    t.string "size"
+    t.integer "count"
+    t.decimal "weight"
+    t.string "code"
+    t.decimal "sp_price"
+    t.datetime "bb_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "picksheets", force: :cascade do |t|
+    t.datetime "date_order_placed"
+    t.datetime "delivery_required_by"
+    t.string "order_number"
+    t.string "contact_telephone_number"
+    t.string "invoice_number"
+    t.string "carrier"
+    t.datetime "carrier_delivery_date"
+    t.integer "number_of_boxes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "turns", force: :cascade do |t|

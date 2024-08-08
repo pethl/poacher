@@ -1,0 +1,77 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for(:page_title, "SALE & SHIP : PICK SHEETS")%>
+
+<div id="picksheets">
+  <div class="m-4">
+    <%= link_to "New picksheet", new_picksheet_path, class: clear_button_class %>
+  </div>
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    Date Order Placed
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Delivery Required By
+                </th>
+                <th scope="col" class="px-6 py-3">
+                   Order No.
+                </th>
+                <th scope="col" class="px-6 py-3 ">
+                   Invoice No.
+                </th>
+                <th scope="col" class="px-6 py-3 ">
+                Contact Telephone No.
+                </th>
+                <th scope="col" class="px-6 py-3 ">
+                    Carrier
+                </th>
+                <th scope="col" class="px-6 py-3 text-centre ">
+                   No of Boxes
+                </th>
+                <th scope="col" class="px-6 py-3  ">
+                Order Taken By
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+         <% @picksheets.each do |picksheet| %>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
+                   <%= link_to picksheet.date_order_placed.to_formatted_s(:uk_time), picksheet %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= picksheet.delivery_required_by %>
+                </td>
+                <td class="px-6 py-4 ">
+                  <%=  picksheet.order_number %>
+                </td>
+                <td class="px-6 py-4">
+                  <%=  picksheet.invoice_number %>
+                </td>
+                <td class="px-6 py-4">
+                  <%=  picksheet.contact_telephone_number %>
+                </td>
+                <td class="px-6 py-4">
+                  <%=  picksheet.carrier %>
+                </td>
+                <td class="px-6 py-4 text-centre ">
+                   <%= link_to picksheet.number_of_boxes, edit_picksheet_path(picksheet) %>
+                </td>
+                <td class="px-6 py-4  ">
+                 
+                </td>
+            </tr>
+           
+              <% end %>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
