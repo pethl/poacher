@@ -8,7 +8,7 @@
            <%= picksheet_item.product %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
            <%= picksheet_item.size %>
         </td>
     
@@ -33,7 +33,7 @@
         </td>
     </div>
   <div class="picksheet_item__actions">
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
          <%= button_to "Delete",
                          [@picksheet, picksheet_item],
                          method: :delete,
@@ -41,7 +41,7 @@
                          class: "text-red-500" %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
         <%= link_to "Edit",
                          [:edit, @picksheet, picksheet_item],
                          class: "btn btn--light" %>

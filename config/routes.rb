@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   get "picksheets/sales_home"
   resources :makesheets
   resources :turns
- 
+   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
+   
   resources :picksheets do
     resources :picksheet_items, except: [:index, :show]
   end
+  
+ 
 end

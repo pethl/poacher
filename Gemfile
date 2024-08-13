@@ -83,3 +83,7 @@ gem "tailwindcss-rails", "~> 2.6"
 gem "chartkick"
 gem "highcharts-rails"
 gem "groupdate"
+
+# PDF generator
+gem 'prawn', '~> 2.5'
+gem 'prawn-table', '~> 0.1.0'
