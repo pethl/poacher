@@ -30,6 +30,9 @@
                     Carrier
                 </th>
                 <th scope="col" class="px-6 py-3 text-centre ">
+                   No of Line Items
+                </th>
+                <th scope="col" class="px-6 py-3 text-centre ">
                    No of Boxes
                 </th>
                 <th scope="col" class="px-6 py-3  ">
@@ -44,7 +47,7 @@
                    <%= link_to picksheet.date_order_placed.to_formatted_s(:uk_time), picksheet %>
                 </td>
                 <td class="px-6 py-4">
-                  <%= picksheet.delivery_required_by %>
+                  <%= picksheet.delivery_required_by.to_formatted_s(:uk_time) unless picksheet.delivery_required_by.to_s.empty? %>
                 </td>
                 <td class="px-6 py-4 ">
                   <%=  picksheet.order_number %>
@@ -57,6 +60,9 @@
                 </td>
                 <td class="px-6 py-4">
                   <%=  picksheet.carrier %>
+                </td>
+                <td class="px-6 py-4">
+                  <%=  picksheet.picksheet_items.count %>
                 </td>
                 <td class="px-6 py-4 text-centre ">
                    <%= link_to picksheet.number_of_boxes, edit_picksheet_path(picksheet) %>

@@ -12,46 +12,46 @@
   <% end %>
 
   <div class="my-5">
-    <%= form.label :date_order_placed %>
-    <%= form.datetime_field :date_order_placed, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :date_order_placed, class: label_class %>
+    <%= form.date_field :date_order_placed, class: field_class %>
   </div>
 
   <div class="my-5">
-    <%= form.label :delivery_required_by %>
-    <%= form.datetime_field :delivery_required_by, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :delivery_required_by, class: label_class  %>
+    <%= form.datetime_field :delivery_required_by,  class: field_class%>
   </div>
 
   <div class="my-5">
-    <%= form.label :order_number %>
-    <%= form.text_field :order_number, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :order_number, class: label_class  %>
+    <%= form.text_field :order_number, class: field_class %>
   </div>
 
   <div class="my-5">
-    <%= form.label :contact_telephone_number %>
-    <%= form.text_field :contact_telephone_number, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :contact_telephone_number, class: label_class  %>
+    <%= form.text_field :contact_telephone_number, class: field_class %>
   </div>
 
   <div class="my-5">
-    <%= form.label :invoice_number %>
-    <%= form.text_field :invoice_number, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :invoice_number, class: label_class  %>
+    <%= form.text_field :invoice_number,  class: field_class %>
   </div>
 
   <div class="my-5">
-    <%= form.label :carrier %>
-    <%= form.text_field :carrier, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :carrier, class: label_class  %>
+    <%= form.text_field :carrier,  class: field_class%>
   </div>
 
   <div class="my-5">
-    <%= form.label :carrier_delivery_date %>
-    <%= form.datetime_field :carrier_delivery_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :carrier_delivery_date, class: label_class  %>
+    <%= form.datetime_field :carrier_delivery_date,  class: field_class%>
   </div>
 
   <div class="my-5">
-    <%= form.label :number_of_boxes %>
-    <%= form.number_field :number_of_boxes, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :number_of_boxes, class: label_class  %>
+    <%= form.number_field :number_of_boxes,  class: field_class%>
   </div>
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-green-800 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

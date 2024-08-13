@@ -1,15 +1,86 @@
+
+<% content_for(:page_title, "SALE & SHIP : PICK SHEET")%>
+
 <div class="mx-auto md:w-2/3 w-full flex">
+<div class="border border-double border-4 border-green-800 p-2 rounded-lg">
   <div class="mx-auto">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
+    
+<main class="container">
+  <div class="header">
 
     <%= render @picksheet %>
-
+   </div>
+   
+     <div class="relative overflow-x-auto">
+         <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                 <tr>
+                     <th scope="col" class="px-6 py-3">
+                         Product
+                     </th>
+                     <th scope="col" class="px-6 py-3">
+                         Size
+                     </th>
+                     <th scope="col" class="px-6 py-3 text-right ">
+                        Count
+                     </th>
+                     <th scope="col" class="px-6 py-3 text-right ">
+                        Weight
+                     </th>
+                     <th scope="col" class="px-6 py-3 ">
+                        Code
+                     </th>
+                     <th scope="col" class="px-6 py-3 ">
+                         Sp_Price
+                     </th>
+                     <th scope="col" class="px-6 py-3 ">
+                         B/B Date
+                     </th>
+                     <th scope="col" class="px-6 py-3 ">
+                     
+                     </th>
+                     <th scope="col" class="px-6 py-3  ">
+                  
+                     </th>
+                 </tr>
+             </thead>
+            <tbody>
+            <tr>
+              <td colspan="3">
+                <div class="mt-4">
+                 <%= link_to " Add New Line Item ",
+                                 new_picksheet_picksheet_item_path(@picksheet),
+                                data: { turbo_frame: dom_id(PicksheetItem.new) },
+                                class: tight_clear_button_class %>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="9">
+                  <%= turbo_frame_tag PicksheetItem.new %>
+                 </td>
+              </tr>
+              <tr>
+                 <td colspan="9">
+                   <%= turbo_frame_tag "picksheet_items" do %>
+                    <%= render @picksheet_items, picksheet: @picksheet %>
+                    <% end %>
+                </td>
+              </tr>
+              
+             </tbody>
+          </table>  
+     
+          <br><br>
+     
     <%= link_to "Edit this picksheet", edit_picksheet_path(@picksheet), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <%= link_to "Back to picksheets", picksheets_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this picksheet", @picksheet, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
+  </div>
   </div>
 </div>

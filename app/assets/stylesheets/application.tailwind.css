@@ -6,3 +6,5 @@
     font-family: "Raleway", system-ui, sans-serif;
   }
 }
+@import "flash";
+@import "config/animations";

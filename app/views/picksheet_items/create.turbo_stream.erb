@@ -1,0 +1,4 @@
+<%= turbo_stream.update PicksheetItem.new, "" %>
+
+<%= turbo_stream.append "picksheet_items", partial: "picksheet_items/picksheet_item", locals: { picksheet_item: @picksheet_item }  %>
+<%= render_turbo_stream_flash_messages %>

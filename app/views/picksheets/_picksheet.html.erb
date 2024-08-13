@@ -1,42 +1,80 @@
-<div id="<%= dom_id picksheet %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Date order placed:</strong>
-    <%= picksheet.date_order_placed %>
-  </p>
+ <div class="grid grid-cols-2 md:grid-cols-4  gap-x-6 gap-y-2">
+    <div class="font-semibold mb-1 text-right self-center">
+      Date order placed:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= picksheet.date_order_placed.to_formatted_s(:uk_day) %>
+    </div>
+  
+    <div class="font-semibold mb-1 text-right self-center">
+      Customer:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= "Penarth Cheese Shop"  %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Delivery required by:</strong>
-    <%= picksheet.delivery_required_by %>
-  </p>
+    <div class="font-semibold mb-1 text-right self-center">
+      Delivery required by:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+     <%= picksheet.delivery_required_by.to_formatted_s(:uk_day) unless picksheet.delivery_required_by.to_s.empty? %>
+    </div>
+  
+    <div class="font-semibold mb-1 text-right self-center">
+      Contact Telephone No.:
+    </div>
+   
+   <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+   <%= picksheet.contact_telephone_number %>
+    </div>
+  
+    <div class="font-semibold mb-1 text-right self-center">
+    Order Number:
+    </div>
+ 
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+     <%= picksheet.order_number %>
+    </div>
+   
+    <div class="font-semibold mb-1 text-right self-center">
+     Invoice Number:
+    </div>
+ 
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+     <%= picksheet.invoice_number %>
+    </div>
+  
+    <div class="font-semibold mb-1 text-right self-center">
+     No of Boxes:
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Order number:</strong>
-    <%= picksheet.order_number %>
-  </p>
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= picksheet.number_of_boxes %>
+    </div>
+    
+    <div class="font-semibold mb-1 text-right self-center">
+    Carrier:
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Contact telephone number:</strong>
-    <%= picksheet.contact_telephone_number %>
-  </p>
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+     <%= picksheet.carrier %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Invoice number:</strong>
-    <%= picksheet.invoice_number %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Carrier:</strong>
-    <%= picksheet.carrier %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Carrier delivery date:</strong>
-    <%= picksheet.carrier_delivery_date %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Number of boxes:</strong>
-    <%= picksheet.number_of_boxes %>
-  </p>
-
+    <div></div>
+    <div>
+      </div>
+ 
+        <div class="font-semibold mb-1 text-right self-center">
+          Carrier delivery date:
+        </div>
+  
+        <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+          <%= picksheet.carrier_delivery_date.to_formatted_s(:uk_day) unless picksheet.carrier_delivery_date.to_s.empty? %>
+        </div>
+ 
+  </div>
 </div>
+<br>

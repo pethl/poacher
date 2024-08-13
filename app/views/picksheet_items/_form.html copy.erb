@@ -1,0 +1,56 @@
+  <%= form_for [picksheet, picksheet_item], html: { class: "form line-item-date" } do |form| %>
+  
+  <% if picksheet_item.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(picksheet_item.errors.count, "error") %> prohibited this picksheet_item from being saved:</h2>
+
+      <ul>
+        <% picksheet_item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+       <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%=  form.select :product, options_for_select(grade),{:prompt=>true} %>
+       </td>
+    
+       <td scope="row" class="px-6 py-4 whitespace-nowrap">
+          <%= form.select :size, options_for_select(sale_size),{:prompt=>true}, class: field_class %>
+       </td>
+    
+       <td scope="row" class="px-6 py-4 text-right ">
+         <%= form.number_field :count, placeholder: "Count", class: field_class %>
+        </td>
+    
+       <td scope="row" class="px-6 py-4 text-right ">
+       <%=  form.number_field :weight, class: field_class %>
+          
+       </td>
+    
+       <td scope="row" class="px-6 py-4 whitespace-nowrap">
+          <%= form.text_field :code %>
+       </td>
+    
+       <td scope="row" class="px-6 py-4 whitespace-nowrap">
+          <%= form.text_field :sp_price %>
+       </td>
+    
+     <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
+       <%= form.datetime_field :bb_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+     </td>
+     <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <%= button_to "Delete",
+                        [picksheet, picksheet_item],
+                        method: :delete,
+                        form: { data: { turbo_confirm: "Are you sure?" } },
+                        class: "btn btn--light" %>
+     </td>
+     <td scope="row" class="px-6 py-4 whitespace-nowrap">
+   
+     </td>
+     </tr>
+<% end %>

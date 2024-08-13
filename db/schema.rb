@@ -27,6 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
   end
 
   create_table "picksheet_items", force: :cascade do |t|
+    t.bigint "picksheet_id", null: false
     t.string "product"
     t.string "size"
     t.integer "count"
@@ -36,6 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
     t.datetime "bb_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["picksheet_id"], name: "index_picksheet_items_on_picksheet_id"
   end
 
   create_table "picksheets", force: :cascade do |t|
@@ -60,5 +62,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
     t.index ["makesheet_id"], name: "index_turns_on_makesheet_id"
   end
 
+  add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "turns", "makesheets"
 end

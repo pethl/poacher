@@ -46,7 +46,11 @@
       </div>
           <%= render "layouts/title_bar" %>
       </div>
-       <div class="m-4">
+       <div class="m-4 text-center">
+          <div id="flash" class="flash">
+             <%= render "layouts/flash" %>
+           </div>
+       
         <%= yield %>
        </div>  
     </div>  

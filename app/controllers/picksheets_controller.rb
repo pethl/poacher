@@ -13,6 +13,8 @@ class PicksheetsController < ApplicationController
 
   # GET /picksheets/1 or /picksheets/1.json
   def show
+     @picksheet_items = @picksheet.picksheet_items.ordered
+     
   end
 
   # GET /picksheets/new

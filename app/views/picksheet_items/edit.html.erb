@@ -1,8 +1,13 @@
 <div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing picksheet item</h1>
+<main class="container">
+  <%= link_to sanitize("&larr; Back to Pick Sheet"), picksheet_path(@picksheet) %>
 
-  <%= render "form", picksheet_item: @picksheet_item %>
+  <div class="header">
+    <h1>Edit Pick Sheet Line Item</h1>
+  </div>
 
-  <%= link_to "Show this picksheet item", @picksheet_item, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to picksheet items", picksheet_items_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= turbo_frame_tag @picksheet_item do %>
+    <%= render "form", picksheet: @picksheet, picksheet_item: @picksheet_item %>
+  <% end %>
+</main>
 </div>

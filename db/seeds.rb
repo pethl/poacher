@@ -5,8 +5,20 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+PicksheetItem.destroy_all;
+Picksheet.destroy_all;
 Turn.destroy_all;
 Makesheet.destroy_all;
+first_order = Picksheet.create(date_order_placed:'01/07/2024', delivery_required_by: '04/07/2024', order_number: 'PD123455', contact_telephone_number: '07803 293 552', invoice_number: '6674876', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+Picksheet.create(date_order_placed:'01/07/2024', delivery_required_by: '04/07/2024', order_number: 'PD123455', contact_telephone_number: '07803 293 552', invoice_number: '6674876', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+Picksheet.create(date_order_placed:'01/07/2024', delivery_required_by: '04/07/2024', order_number: 'PD123456', contact_telephone_number: '07803 293 552', invoice_number: '6674877', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+Picksheet.create(date_order_placed:'02/07/2024', delivery_required_by: '05/07/2024', order_number: 'PD123457', contact_telephone_number: '07803 555 552', invoice_number: '6674878', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 5);
+Picksheet.create(date_order_placed:'02/07/2024', delivery_required_by: '06/07/2024', order_number: 'PD123458', contact_telephone_number: '07888 293 552', invoice_number: '6674879', carrier: 'BY HAND', carrier_delivery_date:'03/07/2024',number_of_boxes: 7);
+Picksheet.create(date_order_placed:'04/07/2024', delivery_required_by: '12/07/2024', order_number: 'PD123459', contact_telephone_number: '07803 293 666', invoice_number: '6674880', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+Picksheet.create(date_order_placed:'05/07/2024', delivery_required_by: '08/07/2024', order_number: 'PD123460', contact_telephone_number: '07803 293 552', invoice_number: '6674881', carrier: 'JH LOAN', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+Picksheet.create(date_order_placed:'05/07/2024', delivery_required_by: '08/07/2024', order_number: 'PD123461', contact_telephone_number: '07803 456 552', invoice_number: '6674882', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
+PicksheetItem.create(picksheet_id:first_order, product: 'Poacher', size: 'whole', count: 2, weight:'5kg', code:'batchid', bb_date:'01/09/2025');
+PicksheetItem.create(picksheet_id:first_order, product: 'Vintage', size: '1/4', count: 4, weight:'2kg', code:'batchid', bb_date:'11/10/2025');
 poacher = Makesheet.create(make_date:'01/06/2023', milk_used:5841, total_weight:542, number_of_cheeses:28, grade:'Poacher', weight_type: "20kg", batch:  '7072024');
 vintage = Makesheet.create(make_date:'02/06/2023', milk_used:5841, total_weight:543, number_of_cheeses:28, grade:'Vintage', weight_type: "20kg", batch:  '8072024');
 p50 = Makesheet.create(make_date:'03/06/2023', milk_used:5840, total_weight:542, number_of_cheeses:28, grade:'P50', weight_type: "20kg", batch:  '9072024');

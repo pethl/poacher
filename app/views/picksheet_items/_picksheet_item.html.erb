@@ -1,37 +1,53 @@
-<div id="<%= dom_id picksheet_item %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Product:</strong>
-    <%= picksheet_item.product %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Size:</strong>
-    <%= picksheet_item.size %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Count:</strong>
-    <%= picksheet_item.count %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Weight:</strong>
-    <%= picksheet_item.weight %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Code:</strong>
-    <%= picksheet_item.code %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Sp price:</strong>
-    <%= picksheet_item.sp_price %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Bb date:</strong>
-    <%= picksheet_item.bb_date %>
-  </p>
-
+<%= turbo_frame_tag picksheet_item do %>
+  <div class="picksheet_item">
+    
+    <div class="picksheet_item__header">
+  <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%= picksheet_item.product %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%= picksheet_item.size %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 text-right ">
+           <%= picksheet_item.count %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 text-right ">
+           <%= picksheet_item.weight %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%= picksheet_item.code %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%= picksheet_item.sp_price %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+           <%= picksheet_item.bb_date.to_formatted_s(:uk_time) unless picksheet_item.bb_date.to_s.empty? %>
+        </td>
+    </div>
+  <div class="picksheet_item__actions">
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+         <%= button_to "Delete",
+                         [@picksheet, picksheet_item],
+                         method: :delete,
+                         form: { data: { turbo_confirm: "Are you sure?" } },
+                         class: "text-red-500" %>
+        </td>
+    
+        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <%= link_to "Edit",
+                         [:edit, @picksheet, picksheet_item],
+                         class: "btn btn--light" %>
+        </td>
+    </div>
+      </tr>
+      </table>
 </div>
+<% end %>
