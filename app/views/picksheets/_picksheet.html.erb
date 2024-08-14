@@ -65,9 +65,8 @@
 
     <div></div>
     <div class="inline-block p-4 rounded-t-lg active font-semibold">
-        <%= link_to "Print Pick Sheet PDF 2", print_picksheet_pdf_path(:id => @picksheet), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
-        <%= link_to "Print Pick Sheet PDF", print_picksheet_pdf_path(:picksheet => @picksheet, :format => 'pdf')%>
-      </div>
+        <%= link_to "Print Pick Sheet PDF", print_picksheet_pdf_path(:id => @picksheet), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
+       </div>
     
         <div class="font-semibold mb-1 text-right self-center">
           Carrier delivery date:
