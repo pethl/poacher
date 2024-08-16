@@ -1,0 +1,43 @@
+<p style="color: green"><%= notice %></p>
+<% content_for(:page_title, "STORE : BATCH TURNS for #{@makesheet.make_date.to_formatted_s(:uk_day)}")%>
+
+<%= render 'makesheet_header', makesheet: @makesheet %>
+
+<div class="flex justify-between mx-auto  px-10 border border-green-800 max-w-lg">
+  <div class="relative overflow-x-auto">
+      <table class="table-auto w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-6 py-3">
+                      Turn Date
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                      Turned By
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+           <% @turns.each do |turn| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                     <%= link_to turn.turn_date.to_formatted_s(:uk_time), turn %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= turn.turned_by %>
+                  </td>
+              </tr>
+           
+                <% end %>
+          </tbody>
+      </table>
+  </div>
+</div>
+
+<div class="m-4">
+ <%= line_chart (@batch_turns_graph_data), id: "batch_turns-chart", width: "1400px", height: "600px", title: "Batch Turns by Month (since creation): should be linear", colors: ["#006400"], xtitle: "Date (since make date)", ytitle: "Turns" %>
+</div>
+
+<div class="m-4">
+  <%= link_to "<< Back to Store Home Page", turns_store_home_path %>
+
+</div>

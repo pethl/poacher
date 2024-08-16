@@ -15,6 +15,9 @@
                     Make Date
                 </th>
                 <th scope="col" class="px-6 py-3 text-right">
+                    Batch
+                </th>
+                <th scope="col" class="px-6 py-3 text-right">
                     Age (D / W / M)
                 </th>
                 <th scope="col" class="px-6 py-3 text-right">
@@ -35,6 +38,9 @@
                 <th scope="col" class="px-6 py-3  text-center">
                     Weight Type
                 </th>
+                <th scope="col" class="px-6 py-3  text-center">
+                    Turns #
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +48,9 @@
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
                    <%= link_to makesheet.make_date.to_formatted_s(:uk_time), makesheet %>
+                </td>
+                <td class="px-6 py-4 text-right underline underline-offset-2">
+                  <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
                 </td>
                 <td class="px-6 py-4 text-right">
                   <%= makesheet.age_in_days %>d /  <%= makesheet.age_in_weeks %>w /  <%= makesheet.age_in_months %>m
@@ -64,6 +73,10 @@
                 <td class="px-6 py-4  text-center">
                   <%=  makesheet.weight_type %>
                 </td>
+                <td class="px-6 py-4  text-center">
+                  <%=  makesheet.turns.count %>
+                </td>
+                
             </tr>
            
               <% end %>

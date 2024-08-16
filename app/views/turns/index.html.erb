@@ -33,7 +33,7 @@
                   <%= turn.turned_by %>
                 </td>
                 <td class="px-6 py-4 underline underline-offset-2">
-                  <%=  link_to turn.makesheet.batch_and_grade, makesheet_path(turn.makesheet) %>
+                  <%=  link_to turn.makesheet.batch_and_grade, batch_turns_makesheet_path(turn.makesheet) %>
                 </td>
                 
             </tr>

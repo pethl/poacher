@@ -96,14 +96,14 @@ class PicksheetsController < ApplicationController
        pdf.text "\n", size: 8  
 
        picksheet_header_table_data = Array.new
-       picksheet_header_table_data << ["Date Order Placed", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer", "Fake Name"]
-       picksheet_header_table_data << ["Delivery Required By", @picksheet.delivery_required_by.to_datetime.strftime('%b %d, %Y'), "Contact Telephone", @picksheet.contact_telephone_number.to_s]
-       picksheet_header_table_data << ["Order Number", @picksheet.order_number, "Invoice Number", @picksheet.invoice_number]
-       picksheet_header_table_data << ["","","Carrier", @picksheet.carrier]
-       picksheet_header_table_data << ["No of Boxes", @picksheet.number_of_boxes.to_s, "Carrier Delivery Date", @picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y')]
+       picksheet_header_table_data << ["Date Order Placed:", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer:", "Fake Name"]
+       picksheet_header_table_data << ["Delivery Required By:", @picksheet.delivery_required_by.to_datetime.strftime('%b %d, %Y'), "Contact Telephone:", @picksheet.contact_telephone_number.to_s]
+       picksheet_header_table_data << ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number]
+       picksheet_header_table_data << ["","","Carrier:", @picksheet.carrier]
+       picksheet_header_table_data << ["No of Boxes:", @picksheet.number_of_boxes.to_s, "Carrier Delivery Date:", @picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y')]
       
               pdf.table(picksheet_header_table_data) do 
-                self.width = 440
+                self.width = 460
                  self.cell_style = { :inline_format => true, size: 10 } 
                  {:borders => [:top, :left, :bottom, :right],
                  :border_width => 1,
@@ -111,15 +111,17 @@ class PicksheetsController < ApplicationController
                  :border_color => "B2BEB5",}
                #  row(0).font_style = :bold  #for some reason this isnt working
                  columns(0).width = 110
-                 columns(1).width = 110
+                 columns(1).width = 120
                  columns(2).width = 110
-                 columns(3).width = 110
+                 columns(3).width = 120
                  columns(0).align = :right
-                 columns(1).align = :left
+                 columns(1).align = :center
                  columns(2).align = :right
-                 columns(3).align = :left
+                 columns(3).align = :center
                  columns(0).background_color = "D3D3D3"
                  columns(2).background_color = "D3D3D3"
+                 columns(0).size = 7
+                 columns(2).size = 7
                end
         pdf.move_down 20
        
@@ -129,23 +131,21 @@ class PicksheetsController < ApplicationController
              picksheet_item_table_data << [item.product, item.size, item.count, item.weight, item.code, item.sp_price, item.bb_date]
           end
           pdf.table(picksheet_item_table_data) do 
-             self.width = 440
+             self.width = 460
              self.cell_style = { :inline_format => true, size: 10 } 
              {:borders => [:top, :left, :bottom, :right],
              :border_width => 1,
              :border_color => "B2BEB5"}
              row(0).background_color = "D3D3D3"
+             row(0).size = 7
              columns(0).width = 84
              columns(1).width = 56
              columns(2).width = 40
              columns(3).width = 60
              columns(4).width = 60
-             columns(5).width = 60
-             columns(6).width = 80
-             columns(1).align = :center
-             columns(2).align = :center
-             columns(3).align = :center
-             columns(4).align = :center
+             columns(5).width = 70
+             columns(6).width = 90
+             columns(1..4).align = :center
            end
            pdf.image logo_img_path, :at => [482,742], :width => 80 
            send_data pdf.render, filename: 'picking_sheet.pdf', type: 'application/pdf', :disposition => 'inline'

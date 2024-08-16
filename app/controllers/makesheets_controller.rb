@@ -1,10 +1,16 @@
 class MakesheetsController < ApplicationController
-  before_action :set_makesheet, only: %i[ show edit update destroy ]
+  before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
 
   # customer page for Dairy logon Start
   def dairy_home
     @makesheets = Makesheet.order('make_date DESC')
   #  @makesheets = @makesheets.last(7)
+  end
+  
+  def batch_turns
+    @turns = @makesheet.turns.ordered
+    
+    @batch_turns_graph_data = get_data(@makesheet)
   end
   
   # GET /makesheets or /makesheets.json
@@ -72,5 +78,21 @@ class MakesheetsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def makesheet_params
       params.require(:makesheet).permit(:make_date, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
+    end
+    
+
+    def get_data(makesheet)
+      @age_counter = (Date.today.year * 12 + Date.today.month) - (makesheet.make_date.year * 12 + makesheet.make_date.month)
+      @batch_turns_graph_data = Hash.new{|h,k| h[k] = [] }
+      compare_date = makesheet.make_date
+      
+      while @age_counter>=0
+        t_count = Turn.where(makesheet_id: makesheet).where('turn_date< ?', (compare_date)).count
+        @batch_turns_graph_data.store(compare_date.to_formatted_s(:uk_m_y), t_count)
+        @age_counter = @age_counter-1 
+        compare_date = compare_date+1.month
+      end
+      # logger.debug "++++++++++count: #{@batch_turns_graph_data.inspect}"
+      return @batch_turns_graph_data
     end
 end

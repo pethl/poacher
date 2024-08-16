@@ -1,4 +1,5 @@
 class Makesheet < ApplicationRecord
+  has_many :turns
   
   def yield
     self.milk_used/self.total_weight #THIS IS NOT THE RIGHT CALC

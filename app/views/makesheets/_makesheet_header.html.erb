@@ -1,0 +1,28 @@
+
+<div class="flex justify-between mx-auto  px-4 border border-green-800 max-w-lg">
+  <div class="p-2 text-center">
+    <strong>Make date:</strong><br>
+    <%= makesheet.make_date.to_formatted_s(:uk_time)%>
+  </div>
+  
+  <div class="p-2 text-center">
+    <strong>Grade:</strong><br>
+    <%= makesheet.grade %>
+  </div>
+  
+  <div class="p-2 text-center">
+    <strong>Number of cheeses:</strong><br>
+    <%= makesheet.number_of_cheeses %>
+  </div>
+
+  
+
+   <div class="p-2 text-center">
+    <strong>Weight type:</strong><br>
+    <%= makesheet.weight_type %>
+  </div>
+</div>
+
+
+
+
