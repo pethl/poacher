@@ -25,7 +25,7 @@
      <div class="my-4">
     
       <div class="flex w-full justify-between">
-        <div class="flex-none w-32 ml-4">
+        <div class="flex-none w-64 ml-4">
          <%= link_to root_path do %>
                     <i data-tooltip-target="tooltip-home" class="fa-solid fa-house text-green-800"> </i>
                   <% end %>
@@ -39,7 +39,8 @@
             </div>
           </div>
         
-        <div class="flex-initial w-32 mr-4">
+        <div class="flex-initial w-64 mr-4 text-right">
+        <span class="mr-4"> <%= Time.now.to_formatted_s(:time_24) %></span>
          <span class="mr-4"> <%= Date.today.to_formatted_s(:uk) %></span>
           <%= link_to makesheets_path do %>
            <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>

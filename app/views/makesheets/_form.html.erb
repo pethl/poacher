@@ -38,7 +38,7 @@
 
   <div>
     <%= form.label :weight_type,  class: label_class %>
-    <%=  form.select :weight_type, options_for_select(weight_type),{:prompt=>true}, class: field_class%>
+    <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class%>
   </div>
 
   <div class="m-2">

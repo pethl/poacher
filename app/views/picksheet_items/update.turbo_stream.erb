@@ -1,9 +1,15 @@
+  <%# Step 1: remove the form %>
+  <%= turbo_stream.remove @picksheet_item %>
 
-<%# Step 1: remove the form %>
-<%= turbo_stream.remove @picksheet_item %>
+  <%# Step 2: insert the updated date at the correct position %>
+ 
+  <%= turbo_stream.append "picksheet_items" do %>
+      <%= render @picksheet_item, picksheet: @picksheet %>
+    <% end %>
+  
 
-<%# Step 2: insert the updated line item %>
-<%= turbo_stream.prepend "picksheet_items" do %>
-    <%= render @picklist_item, picklist: @picklist %>
-  <% end %>
+
+
+
+
   <%= render_turbo_stream_flash_messages %>

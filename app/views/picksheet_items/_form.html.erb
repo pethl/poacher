@@ -17,11 +17,11 @@
 <div class="flex flex-row gap-2">
   <div>
     <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
-    <%=  form.select :product, options_for_select(grade),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
+    <%=  form.select :product, options_for_select(grade, :selected => picksheet_item.product),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
    </div>
    <div>
      <%= form.label :size, class:"font-semibold text-sm pl-4" %><br>
-     <%=  form.select :size, options_for_select(sale_size),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
+     <%=  form.select :size, options_for_select(sale_size, :selected => picksheet_item.size),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
    </div>
    <div>
      <%= form.label :count, class:"font-semibold text-sm pl-4" %><br>

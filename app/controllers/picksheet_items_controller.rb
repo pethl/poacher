@@ -41,7 +41,7 @@ class PicksheetItemsController < ApplicationController
   def update
     if @picksheet_item.update(picksheet_item_params)
       respond_to do |format|
-        format.html { redirect_to picksheet_url(@picksheet), notice: "Line item was successfully updated." }
+        format.html { redirect_to picksheet_path(@picksheet), notice: "Line item was successfully updated." }
         format.turbo_stream { flash.now[:notice] = "Line Item was successfully updated." }
      end
     else
