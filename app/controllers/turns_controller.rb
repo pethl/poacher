@@ -31,6 +31,7 @@ class TurnsController < ApplicationController
   # POST /turns or /turns.json
   def create
     @turn = Turn.new(turn_params)
+     @makesheets = Makesheet.all.order(:make_date)
 
     respond_to do |format|
       if @turn.save

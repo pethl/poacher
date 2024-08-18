@@ -1,9 +1,9 @@
 <% content_for(:page_title, "STORE : EDIT TURN RECORD for #{@turn.turn_date.to_formatted_s(:uk_day)}")%>
-
-<div class="mx-auto md:w-2/3 w-full">
+<div class="mx-auto md:w-2/3 w-full grid justify-center">
 
   <%= render "form", turn: @turn %>
+  </div>
 
-  <%= link_to "Show this turn", @turn, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to turns", turns_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+  <%= link_to "Show this turn", @turn, class: gray_button %>
+  <%= link_to "Back to turns", turns_path, class: gray_button%>
 </div>

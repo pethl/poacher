@@ -1,3 +1,4 @@
+<% content_for(:page_title, "SALE & SHIP : PICK SHEETS")%>
 <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
     <% if notice.present? %>
@@ -6,10 +7,16 @@
 
     <%= render @turn %>
 
-    <%= link_to "Edit this turn", edit_turn_path(@turn), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to turns", turns_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Edit this turn", edit_turn_path(@turn), class: gray_button  %>
+    <%= link_to "Back to turns", turns_path, class: gray_button %>
     <div class="inline-block ml-2">
-      <%= button_to "Destroy this turn", @turn, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    <%= button_to "Delete",
+                    @turn,
+                    method: :delete,
+                    form: { data: { turbo_confirm: "Are you sure?" } },
+                    class: gray_button %>
+   </td>
+    
     </div>
   </div>
 </div>

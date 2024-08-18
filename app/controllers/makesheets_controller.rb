@@ -7,6 +7,20 @@ class MakesheetsController < ApplicationController
   #  @makesheets = @makesheets.last(7)
   end
   
+  def nursery_home
+    @makesheets = Makesheet.where(grade: "").order('make_date DESC')
+   
+  end
+  
+  def makesheet_search
+   # @makesheets = Makesheet.all
+    
+       if params[:search_by_batch] && params[:search_by_batch] != ""
+         @makesheets = Makesheet.where(batch: params[:search_by_batch])
+       end
+      
+  end
+  
   def batch_turns
     @turns = @makesheet.turns.ordered
     

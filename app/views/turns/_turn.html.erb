@@ -1,17 +1,17 @@
 <div id="<%= dom_id turn %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Turn date:</strong>
-    <%= turn.turn_date %>
-  </p>
+  <div class="my-4">
+     <div class=label_class><strong>Turn date:</strong></div>
+    <%= turn.turn_date.to_formatted_s(:uk_time) %>
+  </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Makesheet:</strong>
+  <div class="my-4">
+    <div class=label_class><strong>Makesheet:</strong></div>
     <%= turn.makesheet_id %>
-  </p>
+  </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Turned by:</strong>
+  <div class="my-4">
+     <div class=label_class><strong>Turned by:</strong></div>
     <%= turn.turned_by %>
-  </p>
+  </div>
 
 </div>

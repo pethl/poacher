@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get "pages/home"
   get "pages/overview"
   get "makesheets/dairy_home"
+  get "makesheets/nursery_home"
+  get "makesheets/makesheet_search"
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
  # get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"
   get "turns/store_home"

@@ -1,87 +1,11 @@
-<p style="color: green"><%= notice %></p>
 
 <% content_for(:page_title, "DAIRY:MAKE SHEETS")%>
-
 <div id="makesheets">
   <div class="m-4">
     <%= link_to "New makesheet", new_makesheet_path, class: clear_button_class %>
   </div>
 
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Make Date
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Batch
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Age (D / W / M)
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Milk Used (l)
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Total Weight(kg)
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                ??
-                </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Cheese Count
-                </th>
-                <th scope="col" class="px-6 py-3 text-center">
-                    Grade
-                </th>
-                <th scope="col" class="px-6 py-3  text-center">
-                    Weight Type
-                </th>
-                <th scope="col" class="px-6 py-3  text-center">
-                    Turns #
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-         <% @makesheets.each do |makesheet| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
-                   <%= link_to makesheet.make_date.to_formatted_s(:uk_time), makesheet %>
-                </td>
-                <td class="px-6 py-4 text-right  underline underline-offset-2">
-                  <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%= makesheet.age_in_days %>d /  <%= makesheet.age_in_weeks %>w /  <%= makesheet.age_in_months %>m
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  makesheet.milk_used %>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  makesheet.total_weight %>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  makesheet.number_of_cheeses %>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  makesheet.number_of_cheeses %>
-                </td>
-                <td class="px-6 py-4  text-center">
-                   <%= link_to makesheet.grade, edit_makesheet_path(makesheet) %>
-                </td>
-                <td class="px-6 py-4  text-center">
-                  <%=  makesheet.weight_type %>
-                </td>
-                <td class="px-6 py-4  text-center">
-                  <%=  makesheet.turns.count %>
-                </td>
-                
-            </tr>
-           
-              <% end %>
-        </tbody>
-    </table>
+   <%= render "makesheet_table", makesheets: @makesheets %>
 </div>
 
 

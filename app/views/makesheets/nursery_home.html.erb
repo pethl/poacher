@@ -1,0 +1,16 @@
+<% content_for(:page_title, "NURSERY")%>
+
+  <div class="flex w-full justify-between ">
+ 
+    <div class="">
+      <p class="text-xl text-left font-strong m-2">All Ungraded Batches </p>
+      </div>
+    
+    <div class="">
+      <%= link_to "Search for Batch", makesheets_makesheet_search_path, class: clear_button_class %>
+     </div>
+      </div>
+     <% unless @makesheets.blank? %>
+        <%= render "makesheet_table", makesheets: @makesheets %>
+        <% end %>
+    
