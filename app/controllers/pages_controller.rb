@@ -5,4 +5,7 @@ class PagesController < ApplicationController
   
   def overview
   end
+  
+  def wash_home
+  end
 end

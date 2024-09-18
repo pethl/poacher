@@ -1,0 +1,8 @@
+<% content_for(:page_title, "Reference Data")%>
+
+<div class="mx-auto md:w-2/3 w-full">
+ 
+  <%= render "form", reference: @reference %>
+
+  <%= link_to "Back to references", references_path, class: gray_button %>
+</div>

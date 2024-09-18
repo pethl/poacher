@@ -1,0 +1,111 @@
+<% content_for(:page_title, "WASH REQUEST : DETAILS")%>
+
+<div class="mx-auto justify-center w-full flex">
+<div class="border border-double border-4 border-green-800 p-2 rounded-lg">
+  <div class="mx-auto">
+    
+    
+     <div class="header">
+      <%= render @wash %>
+     </div>
+   </div>
+   
+   <div class="text-sm text-left text-gray-400 ml-2">
+     ASSOCIATED PICKSHEETS
+   </div>
+   <div class="relative overflow-x-auto">
+         <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                 <tr>
+                     <th scope="col" class="px-6 py-3 text-right">
+                         Delivery Due By
+                     </th>
+                     <th scope="col" class="px-6 py-3 text-right">
+                        Order No.
+                     </th>
+                     <th scope="col" class="px-6 py-3 text-right ">
+                       Customer
+                     </th>
+                     <th scope="col" class="px-6 py-3 text-right ">
+                        Total Products
+                     </th>
+                 </tr>
+             </thead>
+             <% if @wash.picksheets.any? %>
+                 <% @wash.picksheets.each do |picksheet| %>
+            <tbody>
+           
+              <tr>
+                <td class="px-6 py-3 text-right">
+                  <%= picksheet.delivery_required_by.to_formatted_s(:uk_day) unless picksheet.delivery_required_by.to_s.empty?  %>
+                 </td>
+                  <td class="px-6 py-3 text-right">
+                   <%= picksheet.order_number %>
+                </td>
+                <td>
+                    <%=  %>
+                 </td>
+                 <td class="px-6 py-3 text-right">
+                   <%= picksheet.picksheet_items.count %>
+                </td>
+              </tr>
+                <% end %>
+             </tbody>
+             <% end %>
+          </table>  
+     
+          <hr><br>
+          
+          <div class="relative overflow-x-auto">
+                <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-right">
+                                Grade
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right">
+                              Count
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-right ">
+                             KG
+                            </th>
+                        </tr>
+                    </thead>
+          
+          <% if @picksheetitems.any? %>
+              <% @picksheetitems.each do |picksheetitem| %>
+         <tbody>
+        
+           <tr>
+             <td class="px-6 py-3 text-right">
+               <%= picksheetitem.product  %>
+              </td>
+               <td class="px-6 py-3 text-right">
+                <%= picksheetitem.size %>
+             </td>
+             <td class="px-6 py-3 text-right">
+                <%= picksheetitem.count %>
+              </td>
+              <td class="px-6 py-3 text-right">
+               
+             </td>
+           </tr>
+             <% end %>
+          </tbody>
+          <% end %>
+       </table>  
+  
+          <br><br>
+     
+    <%= link_to "Edit this Wash", edit_wash_path(@wash), class: gray_button %>
+    <%= link_to "Back to Washes", washes_path, class: gray_button %>
+    <div class="inline-block">
+    <%= button_to "Delete Wash",
+                    @wash,
+                    method: :delete,
+                    form: { data: { turbo_confirm: "Are you sure?" } },
+                    class: gray_button %>
+    </div>
+  </div>
+  </div>
+</div>

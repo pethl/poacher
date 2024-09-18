@@ -1,10 +1,7 @@
 
 <% content_for(:page_title, "DAIRY:MAKE SHEETS")%>
 <div id="makesheets">
-  <div class="m-4">
-    <%= link_to "New makesheet", new_makesheet_path, class: clear_button_class %>
-  </div>
-
+ 
    <%= render "makesheet_table", makesheets: @makesheets %>
 </div>
 

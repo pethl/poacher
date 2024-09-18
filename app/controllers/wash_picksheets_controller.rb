@@ -1,0 +1,2 @@
+class WashPicksheetsController < ApplicationController
+end

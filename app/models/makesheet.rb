@@ -1,8 +1,9 @@
 class Makesheet < ApplicationRecord
   has_many :turns
   
-   validates :make_date, presence: true
+  validates :make_date, presence: true
   
+ 
   def yield
     self.milk_used/self.total_weight #THIS IS NOT THE RIGHT CALC
   end

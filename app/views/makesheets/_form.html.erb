@@ -14,7 +14,7 @@
 
   <div>
     <%= form.label :make_date, class: label_class %>
-    <%= form.datetime_field :make_date, class: field_class_no_block %>
+    <%= form.datetime_field :make_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_no_block %>
   </div>
 
   <div>

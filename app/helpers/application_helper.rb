@@ -45,42 +45,30 @@ module ApplicationHelper
      "text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
    end
    
+   #REFERENECE DATA ONLY
+    def reference_group
+      reference_group = Reference.all.order(group: :asc)
+      reference_group = reference_group.pluck(:group) 
+      reference_group = reference_group.uniq() 
+    end
 
    def weight_type
-     [
-       ["Standard (20 kgs)"],
-       ["Midi (8 kgs)"],
-       ["2.5kg"]
-   ]
+     weight_type = Reference.where(active: "TRUE", group: 'weight_type')
+     weight_type = weight_type.pluck(:value)       
    end
    
    def sale_size
-     [
-       ["Whole"],
-       ["1/2"],
-       ["1/4"],
-       ["1/8"],
-       ["1/16"],
-       ["100g"],
-       ["200g"],
-       ["300g"]
-   ]
+     sale_size = Reference.where(active: "TRUE", group: 'sale_size')
+     sale_size = sale_size.pluck(:value)       
    end
    
    def grade
-     [
-       ["Poacher"],
-       ["Vintage"],
-       ["Knuckle Duster"],
-       ["P50"],
-       ["Smoked"]
-   ]
+     grade = Reference.where(active: "TRUE", group: 'grade')
+     grade = grade.pluck(:value)       
    end
    
    def turned_by
-     [
-       ["Florence"],
-       ["By Hand"]
-   ]
+     turned_by = Reference.where(active: "TRUE", group: 'turned_by')
+     turned_by = turned_by.pluck(:value)       
    end
 end

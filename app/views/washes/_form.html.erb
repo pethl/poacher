@@ -1,0 +1,51 @@
+<div class="mx-auto justify-center m-8">
+  <div class="border border-double border-4 border-green-800 p-2 rounded-lg">
+
+      <%= form_with(model: wash, class: "contents") do |form| %>
+        <% if wash.errors.any? %>
+          <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+            <h2><%= pluralize(wash.errors.count, "error") %> prohibited this wash from being saved:</h2>
+
+            <ul>
+              <% wash.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+  
+        <div class="grid grid-cols-1 md:grid-cols-2  gap-x-6 gap-y-2">
+  
+            <div class="font-semibold self-center">
+              <%= form.label :action_date %>
+            </div>
+            <div class="">
+              <%= form.date_field :action_date, :value => Time.now.strftime('%Y-%m-%d'), class: "border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-50" %>
+            </div>
+
+           <div class="font-semibold self-center">
+              <%= form.label :wash_status %>
+            </div>
+            <div class="">
+              <%= form.text_field :wash_status, :value => "Created", class: "border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-50"%>
+            </div>
+    </div>
+    <br>
+            <div class="mb-6">
+                 <p class="block text-sm font-medium text-gray-700" %>Picksheets (check box to assign to wash)</p>
+                 <div class="mt-1">
+                    <%= form.collection_check_boxes :picksheet_ids, @picksheets_subset, :id, :picksheet_title_detail, not_checked: Picksheet.all.map(&:id) do |b| %>
+                      <span class="indent-3">
+                        <%= b.check_box %>
+                        <%= b.label %><br>
+                      </span>
+                  <% end %>
+                 <div>
+             <div>
+  
+          <div class="inline">
+            <%= form.submit class: clear_button_class %>
+          </div>
+      <% end %>
+      </div>
+</div>

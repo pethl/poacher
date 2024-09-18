@@ -1,0 +1,56 @@
+
+<% content_for(:page_title, "WASH : ALL RECORDS")%>
+
+<div id="washes">
+  <div class="m-4">
+    <%= link_to "New wash", new_wash_path, class: clear_button_class %>
+  </div>
+
+<div class="relative overflow-x-auto">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                   Action Date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Date Created
+                </th>
+                <th scope="col" class="px-6 py-3">
+                   Status
+                </th>
+                <th scope="col" class="px-6 py-3 ">
+                Linked Picksheets?
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+         <% @washes.each do |wash| %>
+            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
+                <%= wash.action_date.to_formatted_s(:uk_time) unless wash.action_date.to_s.empty? %>
+             
+                </td>
+                <td class="px-6 py-4 underline underline-offset-2">
+                    <%= link_to wash.created_at.to_formatted_s(:uk_time), wash %>
+                </td>
+                <td class="px-6 py-4 ">
+                  <%=  wash.wash_status %>
+                </td>
+                <td class="px-6 py-4">
+                  <%=  wash.picksheets.count %>
+                </td>
+                
+            </tr>
+           
+              <% end %>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+

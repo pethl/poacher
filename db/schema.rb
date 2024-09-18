@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_17_153744) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,6 +53,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "references", force: :cascade do |t|
+    t.string "group"
+    t.string "value"
+    t.string "description"
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "turns", force: :cascade do |t|
     t.datetime "turn_date"
     t.bigint "makesheet_id", null: false
@@ -62,6 +71,24 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_08_122008) do
     t.index ["makesheet_id"], name: "index_turns_on_makesheet_id"
   end
 
+  create_table "wash_picksheets", force: :cascade do |t|
+    t.bigint "wash_id", null: false
+    t.bigint "picksheet_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["picksheet_id"], name: "index_wash_picksheets_on_picksheet_id"
+    t.index ["wash_id"], name: "index_wash_picksheets_on_wash_id"
+  end
+
+  create_table "washes", force: :cascade do |t|
+    t.datetime "action_date"
+    t.string "wash_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "turns", "makesheets"
+  add_foreign_key "wash_picksheets", "picksheets"
+  add_foreign_key "wash_picksheets", "washes"
 end

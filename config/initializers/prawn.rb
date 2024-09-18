@@ -1,1 +1,2 @@
-require 'prawn'
+require "prawn"
+require "prawn/table"
