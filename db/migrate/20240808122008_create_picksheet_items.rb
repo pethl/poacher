@@ -5,9 +5,9 @@ class CreatePicksheetItems < ActiveRecord::Migration[7.0]
       t.string :product
       t.string :size
       t.integer :count
-      t.decimal :weight
+      t.decimal :weight, precision: 7, scale: 2
       t.string :code
-      t.decimal :sp_price
+      t.decimal :sp_price, precision: 7, scale: 2
       t.datetime :bb_date
 
       t.timestamps

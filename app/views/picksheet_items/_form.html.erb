@@ -16,13 +16,23 @@
 
 <div class="flex flex-row gap-2">
   <div>
-    <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
-    <%=  form.select :product, options_for_select(grade, :selected => picksheet_item.product),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
-   </div>
-   <div>
+      <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
+      <div class="m-2">
+        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'Poacher'%> Poacher</p>
+        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'Vintage' %> Vintage</p>
+        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'P50' %> P50</p>
+        <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :product, 'Smoked' %> Smoked</p>
+      </div>
+    </div>
+    <div>
      <%= form.label :size, class:"font-semibold text-sm pl-4" %><br>
-     <%=  form.select :size, options_for_select(sale_size, :selected => picksheet_item.size),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
-   </div>
+     <div class="m-2">
+       <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :size, 'Whole'%> Whole</p>
+       <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :size, '1/2' %> 1/2</p>
+       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '1/4' %> 1/4</p>
+       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '1/8' %> 1/4</p>
+     </div>
+     </div>
    <div>
      <%= form.label :count, class:"font-semibold text-sm pl-4" %><br>
       <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>

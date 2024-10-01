@@ -1,3 +1,5 @@
+<hr>
+<br>
   <%= form_for [picksheet, picksheet_item], html: { class: "form line-item-date" } do |form| %>
   
   <% if picksheet_item.errors.any? %>
@@ -12,45 +14,45 @@
     </div>
   <% end %>
 
-
-   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-       <td scope="row" class="px-6 py-4 whitespace-nowrap">
-           <%=  form.select :product, options_for_select(grade),{:prompt=>true} %>
-       </td>
-    
-       <td scope="row" class="px-6 py-4 whitespace-nowrap">
-          <%= form.select :size, options_for_select(sale_size),{:prompt=>true}, class: field_class %>
-       </td>
-    
-       <td scope="row" class="px-6 py-4 text-right ">
-         <%= form.number_field :count, placeholder: "Count", class: field_class %>
-        </td>
-    
-       <td scope="row" class="px-6 py-4 text-right ">
-       <%=  form.number_field :weight, class: field_class %>
-          
-       </td>
-    
-       <td scope="row" class="px-6 py-4 whitespace-nowrap">
-          <%= form.text_field :code %>
-       </td>
-    
-       <td scope="row" class="px-6 py-4 whitespace-nowrap">
-          <%= form.text_field :sp_price %>
-       </td>
-    
-     <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
-       <%= form.datetime_field :bb_date, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-     </td>
-     <td scope="row" class="px-6 py-4 whitespace-nowrap">
-        <%= button_to "Delete",
-                        [picksheet, picksheet_item],
-                        method: :delete,
-                        form: { data: { turbo_confirm: "Are you sure?" } },
-                        class: "btn btn--light" %>
-     </td>
-     <td scope="row" class="px-6 py-4 whitespace-nowrap">
+<div class="flex flex-row gap-2">
+  <div>
+    <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
+    <%=  form.select :product, options_for_select(grade, :selected => picksheet_item.product),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
    
-     </td>
-     </tr>
+   </div>
+   <div>
+     <%= form.label :size, class:"font-semibold text-sm pl-4" %><br>
+     <%=  form.select :size, options_for_select(sale_size, :selected => picksheet_item.size),{:prompt=>true}, class: " text-green-800 rounded-lg" %>
+   </div>
+   <div>
+     <%= form.label :count, class:"font-semibold text-sm pl-4" %><br>
+      <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
+   </div>
+   <div>
+     <%= form.label :weight, class:"font-semibold  text-sm pl-4" %><br>
+      <%= form.text_field :weight, class: "text-green-800 rounded-lg w-32" %>
+   </div>
+   <div>
+     <%= form.label :code, class:"font-semibold  text-sm pl-4" %><br>
+      <%= form.text_field :code, class: "text-green-800 rounded-lg w-32" %>
+   </div>
+   <div>
+     <%= form.label :sp_price, class:"font-semibold text-sm pl-4" %><br>
+      <%= form.number_field :sp_price, class: "text-green-800 rounded-lg w-16" %>
+   </div>
+   <div>
+     <%= form.label :bb_date,"B/b Date:", class:"font-semibold text-sm pl-4" %><br>
+      <%= form.date_field :bb_date, class: "text-green-800 rounded-lg w-32" %>
+   </div>
+      </div>
+      
+   <div class="inline">
+     <%= form.submit "Save Line Item", class: tight_fill_button_class %>
+      <%= link_to "Cancel", picksheet_path(picksheet), class: tight_clear_button_class %>
+   </div>
 <% end %>
+<br>
+<hr>
+<br>
+
+

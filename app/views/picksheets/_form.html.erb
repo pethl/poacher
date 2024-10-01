@@ -13,7 +13,7 @@
 
   <div class="my-5">
     <%= form.label :date_order_placed, class: label_class %>
-    <%= form.date_field :date_order_placed, class: field_class %>
+    <%= form.date_field :date_order_placed, :value => Time.now.strftime('%Y-%m-%d'), class: field_class %>
   </div>
 
   <div class="my-5">

@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
+  resources :calculations
   resources :references
   resources :wash_picksheets
   resources :washes
   root "pages#home"
 
+  get "pages/admin_home"
   get "pages/home"
   get "pages/wash_home"
   get "pages/overview"
+  get "pages/cutting_home"
 
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 

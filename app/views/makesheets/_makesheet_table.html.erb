@@ -1,28 +1,20 @@
 <div class="flex items-center p-3 bg-white text-green-800 space-x-6 border border-gray-200 rounded text-sm">
 
 
-<span class="px-2">Click to sort by:</span>
-      <%= link_to "Batch Code", makesheets_path(column: "batch", direction: direction), class: "underline" %>
-      <%= filter_arrow("make_date") %>
-      <%= link_to "Grade", makesheets_path(column: "grade",  direction: direction), class: "underline" %>
-      <%= filter_arrow("grade") %>
-      <%= link_to "Reset filter", makesheets_path, class: "italic" %>
-    </div>
-
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-6 py-3 w-30">
                     Make Date
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="px-6 py-3 text-right w-28">
                     Batch
                 </th>
                 <th scope="col" class="px-6 py-3 text-right">
                     Age (D / W / M)
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="px-6 py-3 text-right whitespace-nowrap">
                     Milk Used (l)
                 </th>
                 <th scope="col" class="px-6 py-3 text-right">
@@ -40,7 +32,7 @@
                 <th scope="col" class="px-6 py-3  text-center">
                     Weight Type
                 </th>
-                <th scope="col" class="px-6 py-3  text-center">
+                <th scope="col" class="px-6 py-3  text-center whitespace-nowrap">
                     Turns #
                 </th>
             </tr>
@@ -54,7 +46,7 @@
                 <td class="px-6 py-4 text-right  underline underline-offset-2">
                   <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%= makesheet.age_in_days %>d /  <%= makesheet.age_in_weeks %>w /  <%= makesheet.age_in_months %>m
                 </td>
                 <td class="px-6 py-4 text-right">

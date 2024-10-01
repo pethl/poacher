@@ -1,0 +1,15 @@
+<% content_for(:page_title, "Calculation")%>
+
+<div class="mx-auto md:w-1/2 w-full flex">
+  <div class="mx-auto">
+  
+    <%= render @calculation %>
+
+    <%= link_to "Edit this calculation", edit_calculation_path(@calculation), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Back to calculations", calculations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy this calculation", @calculation, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    </div>
+  </div>
+</div>
+

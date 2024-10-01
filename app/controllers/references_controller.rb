@@ -3,7 +3,7 @@ class ReferencesController < ApplicationController
 
   # GET /references or /references.json
   def index
-    @references = Reference.all.order(group: :asc)
+    @references = Reference.all.order(group: :asc, id: :asc)
     @references_by_group = @references.group_by { |t| t.group }
   end
 

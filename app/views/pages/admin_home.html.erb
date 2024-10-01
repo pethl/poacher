@@ -1,0 +1,26 @@
+<% content_for(:page_title, "ADMIN")%>
+
+<div class="my-4 text-center text-green-800 mt-8">
+<br>
+<div class="flex flex-row">
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+       Add/Edit Reference Data<br>
+        <div class="m-4">
+         <%= link_to "Reference Data", references_path, class: clear_button_class %>
+        </div>
+       </div>
+  </div>
+  
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+       Add/Edit Calculation Data<br>
+        <div class="m-4">
+         <%= link_to "Calculation Data", calculations_path, class: clear_button_class %>
+        </div>
+       </div>
+  </div>
+  
+  </div>
+
+

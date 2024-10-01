@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_17_153744) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_01_093704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calculations", force: :cascade do |t|
+    t.string "product"
+    t.string "size"
+    t.integer "weight"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "makesheets", force: :cascade do |t|
     t.datetime "make_date"
@@ -31,9 +40,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_17_153744) do
     t.string "product"
     t.string "size"
     t.integer "count"
-    t.decimal "weight"
+    t.decimal "weight", precision: 7, scale: 2
     t.string "code"
-    t.decimal "sp_price"
+    t.decimal "sp_price", precision: 7, scale: 2
     t.datetime "bb_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

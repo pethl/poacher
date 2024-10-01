@@ -3,6 +3,10 @@ module ApplicationHelper
   def render_turbo_stream_flash_messages
      turbo_stream.prepend "flash", partial: "layouts/flash"
    end
+  
+   def link_class
+     "text-md font-medium hover:italic hover:text-green-600 hover:underline hover:underline-offset-4"
+   end
    
    def label_class
     "block font-semibold pt-4 pb-1"
@@ -10,6 +14,10 @@ module ApplicationHelper
 
    def field_class
     "block shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3 w-60"
+   end
+ 
+   def field_class_flex
+    "shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3 w-60"
    end
    
    def field_class_no_block

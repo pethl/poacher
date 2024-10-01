@@ -1,0 +1,8 @@
+  <% content_for(:page_title, "New Calculation")%>
+
+<div class="mx-auto md:w-2/3 w-full">
+ 
+  <%= render "form", calculation: @calculation %>
+
+  <%= link_to "Back to calculations", calculations_path, class: gray_button %>
+</div>
