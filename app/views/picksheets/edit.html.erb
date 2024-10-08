@@ -1,9 +1,10 @@
-<% content_for(:page_title, "SALE & SHIP : EDIT PICK SHEET")%>
+<% content_for(:page_title, "SALE & SHIP - EDIT PICK SHEET")%>
+<% content_for(:page_button, "picksheets/new")%>
 
-<div class="mx-auto md:w-1/3 w-full text-left">
+<div class="mx-auto md:w-1/3 w-full text-center">
 
   <%= render "form", picksheet: @picksheet %>
 
   <%= link_to "Show this picksheet", @picksheet, class: gray_button %>
-  <%= link_to "Back to picksheets", picksheets_path, class: gray_button %>
+ 
 </div>

@@ -28,7 +28,7 @@
         <tbody>
          <% @washes.each do |wash| %>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
+                <td scope="row" class="px-6 py-4 whitespace-nowrap">
                 <%= wash.action_date.to_formatted_s(:uk_time) unless wash.action_date.to_s.empty? %>
              
                 </td>

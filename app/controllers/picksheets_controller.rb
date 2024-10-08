@@ -2,23 +2,20 @@ class PicksheetsController < ApplicationController
   require 'prawn'
   require 'prawn/table'
  
-
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
-
-  # GET /picksheets or /picksheets.json
-  def sales_home
-    @picksheets = Picksheet.all.order(:date_order_placed)
-  end
   
   # GET /picksheets or /picksheets.json
   def index
-    @picksheets = Picksheet.all
+    if params[:column].present?
+        @picksheets = Picksheet.order("#{params[:column]} #{params[:direction]}")
+      else
+        @picksheets = Picksheet.all.ordered
+      end
   end
 
   # GET /picksheets/1 or /picksheets/1.json
   def show
      @picksheet_items = @picksheet.picksheet_items.ordered
-     
   end
 
   # GET /picksheets/new
@@ -126,9 +123,9 @@ class PicksheetsController < ApplicationController
         pdf.move_down 20
        
           picksheet_item_table_data = Array.new
-          picksheet_item_table_data << ["Product", "Size", "Count", "Weight", "Code", "Sp Price", "B/B Date"]
+          picksheet_item_table_data << ["Product", "Size", "Count", "Weight(kg)", "Code", "Sp Price", "B/B Date"]
           @picksheet_items.each do |item|
-             picksheet_item_table_data << [item.product, item.size, item.count, item.weight, item.code, item.sp_price, item.bb_date]
+             picksheet_item_table_data << [item.product, item.size, item.count, item.get_weight, item.code, item.sp_price, item.bb_date.to_datetime.strftime('%b %d, %Y')]
           end
           pdf.table(picksheet_item_table_data) do 
              self.width = 460
@@ -146,6 +143,7 @@ class PicksheetsController < ApplicationController
              columns(5).width = 70
              columns(6).width = 90
              columns(1..4).align = :center
+             column(5..6).align = :right
            end
            pdf.image logo_img_path, :at => [482,742], :width => 80 
            send_data pdf.render, filename: 'picking_sheet.pdf', type: 'application/pdf', :disposition => 'inline'

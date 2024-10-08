@@ -3,6 +3,10 @@ module ApplicationHelper
   def render_turbo_stream_flash_messages
      turbo_stream.prepend "flash", partial: "layouts/flash"
    end
+   
+   def information_text_class
+     "text-base text-left font-normal"
+   end
   
    def link_class
      "text-md font-medium hover:italic hover:text-green-600 hover:underline hover:underline-offset-4"
@@ -15,9 +19,17 @@ module ApplicationHelper
    def field_class
     "block shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3 w-60"
    end
+   
+   def field_class_unsized
+    "block shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3"
+   end
  
    def field_class_flex
-    "shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3 w-60"
+    "shadow rounded-lg border border-green-800 bg-gray-100 outline-none text-green-800 px-3 w-60"
+   end
+   
+   def field_class_fit
+    "bg-gray-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
    end
    
    def field_class_no_block
@@ -43,7 +55,10 @@ module ApplicationHelper
     def tight_fill_button_class
       "bg-green-800 hover:bg-green-600 text-white font-semibold hover:text-white mt-2 mb-2 p-2 border border-green-900 hover:border-transparent rounded-lg"
     end
-   
+    
+    def header_bar_button_class
+      "text-sm text-right hover:bg-green-600 p-1 font-base border border-gray-100 rounded-lg"
+    end
    
    def dropdown_list_class
      "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -51,6 +66,27 @@ module ApplicationHelper
    
    def table_head_class
      "text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+   end
+   
+  
+   #THIS SECTION DUPED TO WASHES CONTROLLER FOR PDF
+   def weight_of_whole_cheese(product)
+     product_name = product
+     Calculation.where(product: product_name, size: "Whole").pluck(:weight)
+   end
+   
+   def get_weight_of_group(picksheet_items)
+     picksheet_items.map(&:get_weight).sum 
+   end
+   
+   # This takes input of ordered cheese weight (in kgs) and product name, 
+   def how_many_cheeses_do_i_need(product, picksheet_items)
+     
+    weight_of_cheese_ordered_in_g = get_weight_of_group(picksheet_items)*1000
+    
+    weight_of_one_whole_cheese = weight_of_whole_cheese(product).first.to_i
+    
+    (weight_of_cheese_ordered_in_g.to_f/weight_of_one_whole_cheese.to_f).round(1) 
    end
    
    #REFERENECE DATA ONLY
@@ -78,5 +114,10 @@ module ApplicationHelper
    def turned_by
      turned_by = Reference.where(active: "TRUE", group: 'turned_by')
      turned_by = turned_by.pluck(:value)       
+   end
+   
+   def wash_status
+     wash_status = Reference.where(active: "TRUE", group: 'wash_status')
+     wash_status = wash_status.pluck(:value)       
    end
 end

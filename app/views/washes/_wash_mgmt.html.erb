@@ -1,0 +1,47 @@
+
+ <div class="grid grid-cols-2 md:grid-cols-4  gap-x-6 gap-y-2">
+    <div class="font-semibold mb-1 text-right self-center">
+     Action date:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= wash.action_date.to_formatted_s(:uk_day) unless wash.action_date.to_s.empty?  %>
+    </div>
+  
+    <div class="font-semibold mb-1 text-right self-center">
+      Wash Status:
+    </div>
+    <%= form_with(model: @wash, class: "contents") do |form| %>
+    <div>
+      <%=  form.select :wash_status, options_for_select(wash_status, :selected => wash.wash_status),{:prompt=>true}, class:  "shadow rounded-lg border border-green-800 bg-white outline-none text-green-800 font-semibold px-3 w-60" %>
+    </div>
+  
+    
+    <div class="font-semibold text-right self-center">
+      Created At:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+     <%= wash.created_at.to_formatted_s(:uk_day) unless wash.created_at.to_s.empty? %>
+    </div>
+   
+    <div class="font-semibold text-right self-center">
+      Created By:
+    </div>
+    
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      User Name Here
+    </div>
+    
+    
+    
+    <div class="col-start-1 col-span-2 p-2 underline rounded-t-lg text-sm active font-bold text-right">
+        <%= link_to "Print Wash Sheet PDF", print_washsheet_pdf_path(:id => wash), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
+       </div>
+    
+    <div class="col-end-5 col-span-1">
+      <%= form.submit class: tight_fill_button_class %>   
+    </div>
+      <% end %>
+  
+ </div>

@@ -1,20 +1,7 @@
 class MakesheetsController < ApplicationController
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
 
-  # customer page for Dairy logon Start
-  def dairy_home
-    @makesheets = Makesheet.order('make_date DESC')
-  #  @makesheets = @makesheets.last(7)
-  end
-  
-  def nursery_home
-    @makesheets = Makesheet.where(grade: "").order('make_date DESC')
-   
-  end
-  
   def makesheet_search
-   # @makesheets = Makesheet.all
-    
        if params[:search_by_batch] && params[:search_by_batch] != ""
          @makesheets = Makesheet.where(batch: params[:search_by_batch])
        end 
@@ -23,15 +10,16 @@ class MakesheetsController < ApplicationController
   
   def batch_turns
     @turns = @makesheet.turns.ordered
-    
     @batch_turns_graph_data = get_data(@makesheet)
   end
   
   # GET /makesheets or /makesheets.json
   def index
-   # @makesheets = Makesheet.all.order(:make_date)
-     @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
-    
+     if params[:column].present?
+         @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
+       else
+         @makesheets = Makesheet.all.ordered
+       end
   end
 
   # GET /makesheets/1 or /makesheets/1.json

@@ -1,5 +1,6 @@
 
-<% content_for(:page_title, "SALE & SHIP : PICKING SHEET")%>
+<% content_for(:page_title, "SALE & SHIP - PICKING SHEET")%>
+<% content_for(:page_button, "picksheets/new")%>
 
 <div class="mx-auto md:w-2/3 w-full flex">
 <div class="border border-double border-4 border-green-800 p-2 rounded-lg">
@@ -16,31 +17,31 @@
          <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
              <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                  <tr>
-                     <th scope="col" class="px-6 py-3">
+                     <th scope="col" class="px-2 py-3">
                          Product
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right">
+                     <th scope="col" class="px-2 py-3 text-right">
                          Size
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
+                     <th scope="col" class="px-2 py-3 text-right ">
                         Count
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
-                        Weight
+                     <th scope="col" class="px-2 py-3 text-right ">
+                        Weight (calc)
                      </th>
-                     <th scope="col" class="px-6 py-3 ">
+                     <th scope="col" class="px-2 py-3 text-center ">
                         Code
                      </th>
-                     <th scope="col" class="px-6 py-3 ">
+                     <th scope="col" class="px-2 py-3 ">
                          Sp_Price
                      </th>
-                     <th scope="col" class="px-6 py-3 ">
+                     <th scope="col" class="px-2 py-3 ">
                          B/B Date
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
+                     <th scope="col" class="px-2 py-3 text-right ">
                      
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
+                     <th scope="col" class="px-2 py-3 text-right ">
                   
                      </th>
                  </tr>
@@ -48,7 +49,7 @@
             <tbody>
             <tr>
               <td colspan="3">
-                <div class="mt-4">
+                <div class="mt-4 mb-4">
                  <%= link_to " Add New Line Item ",
                                  new_picksheet_picksheet_item_path(@picksheet),
                                 data: { turbo_frame: dom_id(PicksheetItem.new) },

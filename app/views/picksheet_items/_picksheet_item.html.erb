@@ -2,38 +2,38 @@
   <div class="picksheet_item">
     
     <div class="picksheet_item__header">
-  <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <table class="w-full table-fixed text-left rtl:text-right text-gray-500 dark:text-gray-400">
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="text-sm p-2 whitespace-nowrap">
            <%= picksheet_item.product %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
+        <td scope="row" class="p-2 whitespace-nowrap text-right">
            <%= picksheet_item.size %>
         </td>
     
-        <td scope="row" class="px-6 py-4 text-right ">
+        <td scope="row" class="p-2 text-right ">
            <%= picksheet_item.count %>
         </td>
     
-        <td scope="row" class="px-6 py-4 text-right ">
-           <%= picksheet_item.weight %>
+        <td scope="row" class="p-2 text-right italic text-green-600">
+          <%= (picksheet_item.get_weight) unless picksheet_item.count.to_s.empty? %> kg<br>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="p-2 whitespace-nowrap text-center">
            <%= picksheet_item.code %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="p-2 whitespace-nowrap">
            <%= picksheet_item.sp_price %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap">
+        <td scope="row" class="p-2 whitespace-nowrap">
            <%= picksheet_item.bb_date.to_formatted_s(:uk_time) unless picksheet_item.bb_date.to_s.empty? %>
         </td>
     </div>
   <div class="picksheet_item__actions">
-        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
+        <td scope="row" class="p-2 whitespace-nowrap text-center">
          <%= button_to "Delete",
                          [@picksheet, picksheet_item],
                          method: :delete,
@@ -41,7 +41,7 @@
                          class: "text-red-500" %>
         </td>
     
-        <td scope="row" class="px-6 py-4 whitespace-nowrap text-right">
+        <td scope="row" class="p-2 whitespace-nowrap text-center">
         <%= link_to "Edit",
                          [:edit, @picksheet, picksheet_item],
                          class: "btn btn--light" %>

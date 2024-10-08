@@ -12,24 +12,26 @@
   <% end %>
 
   <div class="my-2">
-    <%= form.label :group %>
-    <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"  %>
+    <%= form.label :group, class:label_class  %>
+    <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_flex %>
      </div>
 
 
   <div class="my-2">
-    <%= form.label :value %>
-    <%= form.text_field :value, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :value, class:label_class  %>
+    <%= form.text_field :value, class:field_class_flex %>
   </div>
 
   <div class="my-2">
-    <%= form.label :description %>
-    <%= form.text_field :description, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <%= form.label :description, class:label_class  %>
+    <%= form.text_field :description, class: field_class_flex%>
   </div>
 
-  <div class="my-2 text-center">
-    <%= form.label :active %>
-    <%= form.check_box :active, class: "text-center block mt-2 h-5 w-5 checked:bg-green-500" %>
+  <div class="my-2 items-center ">
+    <%= form.label :active, class:label_class  %>
+    <div class="hover:bg-gray-100">
+    <%= form.check_box :active, class: "m-2 h-5 w-5 checked:bg-green-500" %>
+    </div>
   </div>
 
   <div class="inline">

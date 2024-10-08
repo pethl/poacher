@@ -1,49 +1,61 @@
-<div class="flex items-center p-3 bg-white text-green-800 space-x-6 border border-gray-200 rounded text-sm">
+<div class="items-center rounded text-sm">
+<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+<div class="sticky top-0 font-normal text-left text-sm m-2">
+<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
+</div>
 
 
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3 w-30">
-                    Make Date
+
+<div class="flex flex-col h-screen">
+    <div class="flex-grow overflow-auto">
+      <table class="relative w-full border text-sm text-left text-gray-500  ">
+       <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-200 sticky top-0">
+                <th scope="col" class="sticky top-0 px-6 py-3 w-30  underline underline-offset-2">
+                   <%= show_sort_indicator_for("make_date") %>
+                   <%= sort_link(column: "make_date", label: "Make Date") %>
                 </th>
-                <th scope="col" class="px-6 py-3 text-right w-28">
-                    Batch
+                <th id="batch" class="sticky top-0 px-6 py-3 text-left w-28  underline underline-offset-2">
+                   <%= show_sort_indicator_for("batch") %>
+                   <%= sort_link(column: "batch", label: "Batch") %>
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Age (D / W / M)
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
+                     <%= show_sort_indicator_for("age_in_days") %>
+                     <%= sort_link(column: "age_in_days", label: "Age (D / W / M)") %>
                 </th>
-                <th scope="col" class="px-6 py-3 text-right whitespace-nowrap">
-                    Milk Used (l)
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right w-20 whitespace-nowrap underline underline-offset-2">
+                    <%= show_sort_indicator_for("milk_used") %>
+                     <%= sort_link(column: "milk_used", label: "Milk Used (l)") %>
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
-                    Total Weight(kg)
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right underline underline-offset-2">
+                      <%= show_sort_indicator_for("total_weight") %>
+                     <%= sort_link(column: "total_weight", label: " Total Weight(kg)") %>
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
                 ??
                 </th>
-                <th scope="col" class="px-6 py-3 text-right">
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
                     Cheese Count
                 </th>
-                <th scope="col" class="px-6 py-3 text-center">
+                <th scope="col" class="sticky top-0 px-6 py-3 text-center">
                     Grade
                 </th>
-                <th scope="col" class="px-6 py-3  text-center">
+                <th scope="col" class="sticky top-0 px-6 py-3  text-center">
                     Weight Type
                 </th>
-                <th scope="col" class="px-6 py-3  text-center whitespace-nowrap">
+                <th scope="col" class="sticky top-0 px-6 py-3  text-center whitespace-nowrap">
                     Turns #
                 </th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="overflow-contain">
          <% @makesheets.each do |makesheet| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr class="border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
                 <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
                    <%= link_to makesheet.make_date.to_formatted_s(:uk_time), makesheet %>
                 </td>
-                <td class="px-6 py-4 text-right  underline underline-offset-2">
+                <td class="px-6 py-4 text-left  underline underline-offset-2">
                   <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
                 </td>
                 <td class="px-6 py-4 text-right whitespace-nowrap">
@@ -77,3 +89,5 @@
         </tbody>
     </table>
 </div>
+
+

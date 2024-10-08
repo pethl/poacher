@@ -1,9 +1,23 @@
 module MakesheetsHelper
   
-  def direction
-     params[:direction] == "asc" ? "desc" : "asc"
+  def sort_link(column:, label:)
+    direction = column == params[:column] ? next_direction : 'asc'
+    link_to(label, makesheets_path(column: column, direction: direction), data: { turbo_action: 'replace' })
+  end
+  
+  def next_direction
+     params[:direction] == 'asc' ? 'desc' : 'asc'
+   end
+   
+   def sort_indicator
+     tag.span(class: "sort sort-#{params[:direction]}")
    end
 
+   def show_sort_indicator_for(column)
+     sort_indicator if params[:column] == column
+   end
+
+   #NOT CURRENTLY IN USED
    def filter_arrow(column)
      if params[:column] == column
        if params[:direction] == "asc"
@@ -13,4 +27,6 @@ module MakesheetsHelper
        end
      end
    end
+   
+  
 end

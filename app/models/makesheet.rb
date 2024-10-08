@@ -3,7 +3,8 @@ class Makesheet < ApplicationRecord
   
   validates :make_date, presence: true
   
- 
+  scope :ordered, -> { order(make_date: :asc) }
+   
   def yield
     self.milk_used/self.total_weight #THIS IS NOT THE RIGHT CALC
   end

@@ -11,47 +11,48 @@
     </div>
   <% end %>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :date_order_placed, class: label_class %>
-    <%= form.date_field :date_order_placed, :value => Time.now.strftime('%Y-%m-%d'), class: field_class %>
+    <%= form.date_field :date_order_placed, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :delivery_required_by, class: label_class  %>
-    <%= form.datetime_field :delivery_required_by,  class: field_class%>
+    <%= form.datetime_field :delivery_required_by,  class: field_class_flex%>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :order_number, class: label_class  %>
-    <%= form.text_field :order_number, class: field_class %>
+    <%= form.text_field :order_number, class: field_class_flex %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :contact_telephone_number, class: label_class  %>
-    <%= form.text_field :contact_telephone_number, class: field_class %>
+    <%= form.text_field :contact_telephone_number, class: field_class_flex %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :invoice_number, class: label_class  %>
-    <%= form.text_field :invoice_number,  class: field_class %>
+    <%= form.text_field :invoice_number,  class: field_class_flex %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :carrier, class: label_class  %>
-    <%= form.text_field :carrier,  class: field_class%>
+    <%= form.text_field :carrier,  class: field_class_flex%>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :carrier_delivery_date, class: label_class  %>
-    <%= form.datetime_field :carrier_delivery_date,  class: field_class%>
+    <%= form.datetime_field :carrier_delivery_date,  class: field_class_flex%>
   </div>
 
-  <div class="my-5">
+  <div class="mb-4">
     <%= form.label :number_of_boxes, class: label_class  %>
-    <%= form.number_field :number_of_boxes,  class: field_class%>
+    <%= form.number_field :number_of_boxes,  class: field_class_flex%>
   </div>
 
   <div class="inline">
     <%= form.submit class: "rounded-lg py-3 px-5 bg-green-800 text-white inline-block font-medium cursor-pointer" %>
+    <%= link_to "Back to picksheets", picksheets_path, class: gray_button %>
   </div>
 <% end %>

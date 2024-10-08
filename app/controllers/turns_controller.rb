@@ -1,12 +1,6 @@
 class TurnsController < ApplicationController
   before_action :set_turn, only: %i[ show edit update destroy ]
 
-  # customer page for Dairy logon Start
-  def store_home
-    @turns = Turn.order('turn_date DESC')
- 
-  end
-  
   # GET /turns or /turns.json
   def index
     @turns = Turn.all

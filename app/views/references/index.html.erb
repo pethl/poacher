@@ -1,29 +1,32 @@
 
 <% content_for(:page_title, "Reference Data")%>
 
+ <div class="mx-auto md:w-2/3 w-full">
  <div id="references"> 
-  <div class="grid grid-cols-3 gap-4">
+ 
+ <div class="grid grid-cols-3 gap-4 mb-4">
+    
     <div class="col-span-2">
       <p class="text-base text-left font-light">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
       <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
       </p>
     </div>
-    <div class="mt-2">
+    <div class="mt-2 text-right">
       <%= link_to "Add New Reference", new_reference_path, class: clear_button_class %>
       <br>
     </div>
 
-    <div>
-    </div>
-
-    <div class="col-span-2 text-left">
-    <% @references_by_group.each do |group, references| %>
-      <div class="text-xl font-bold pt-10 pb-4">
+  </div>
+  
+  <div class="w-2/3 place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
+  <div class="mt-2">
+   <% @references_by_group.each do |group, references| %>
+      <div class="text-xl font-bold pt-2">
           <%= group %>
       </div>
    
-      <div class="relative">
-        <table class="table-auto place-content-center text-left rtl:text-right pl-20">
+      <div class="justify-center">
+        <table class="table-auto place-content-center text-left rtl:text-right">
             <thead class="bg-white border-b-3 text-gray-300 font-light text-xs ">
                 <tr>
                     <th scope="col" class="px-6 py-3 w-52 ">
@@ -61,12 +64,6 @@
         <% end %>
      </div>
   </div>
+  
   <div>
-  </div>
 </div>
-
-    
-
-
-
-

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-4">
+<div class="mx-auto text-center">
 <%= form_with(model: makesheet) do |form| %>
   <% if makesheet.errors.any? %>
     <div style="color: red">
@@ -14,36 +14,37 @@
 
   <div>
     <%= form.label :make_date, class: label_class %>
-    <%= form.datetime_field :make_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_no_block %>
+    <%= form.datetime_field :make_date, :value => Time.now.strftime('%Y-%m-%d'), placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :milk_used,  class: label_class %>
-    <%= form.number_field :milk_used, placeholder: "litres", class: field_class_no_block %>
+    <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :total_weight,  class: label_class %>
-    <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_no_block %>
+    <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :number_of_cheeses,  class: label_class %>
-    <%= form.number_field :number_of_cheeses, class: field_class_no_block %>
+    <%= form.number_field :number_of_cheeses, class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :grade,  class: label_class %>
-    <%=  form.select :grade, options_for_select(grade, :selected => makesheet.grade),{:prompt=>true}, class: field_class_no_block %>
+    <%=  form.select :grade, options_for_select(grade, :selected => makesheet.grade),{:prompt=>true}, class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :weight_type,  class: label_class %>
-    <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class_no_block%>
+    <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class_flex%>
   </div>
 
   <div class="m-2">
-    <%= form.submit "Save Make Sheet", class:clear_button_class %>
+    <%= form.submit "Save Make Sheet", class:fill_button_class %>
+      <%= link_to "Back to makesheets", makesheets_path, class:gray_button %>
   </div>
 <% end %>
   </div>

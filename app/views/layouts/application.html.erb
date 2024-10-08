@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="scroll-smooth">
   <head>
     <title>Poacher</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -16,49 +16,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
     <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
+    
+    <% if content_for? :head %>
+      <%= yield :head %>
+    <% end %>
   </head>
 
-  <body class="text-green-800">
-  <div class="container">
-   <div class="h-dvh w-dvw">
-    <div class="m-6 border border-green-800 rounded-lg">
-     <div class="my-4">
+  <body class="text-green-800 max-h-1273 × max-w-695">
+  <div>
+  
+     <header class="sticky top-0 z-9999 bg-white overscroll-none">
     
-      <div class="flex w-full justify-between">
-        <div class="flex-none w-64 ml-4">
-         <%= link_to root_path do %>
-                    <i data-tooltip-target="tooltip-home" class="fa-solid fa-house text-green-800"> </i>
-                  <% end %>
-        </div>
-        
-        <div class="flex-initial w-1/2 text-center">
-         <header class="text-2xl font-bold">LINCOLNSHIRE POACHER</header>
-          <h2 class="text-xl font-normal">Production System</h2>
-            <div class="text-center">
-             <%= render "layouts/departments" %>
-            </div>
-          </div>
-        
-        <div class="flex-initial w-64 mr-4 text-right">
-        <span class="mr-4"> <%= Time.now.to_formatted_s(:time_24) %></span>
-         <span class="mr-4"> <%= Date.today.to_formatted_s(:uk) %></span>
-          <%= link_to makesheets_path do %>
-           <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
-            <% end %>
-        </div>
-      </div>
-      
-          <%= render "layouts/title_bar" %>
-      
-      </div>
-       <div class="m-4 text-center">
-          <div id="flash" class="flash">
+       <div class="flex w-full justify-between">
+     
+         <div class="flex-none w-64 ml-8 mt-4">
+          <%= link_to root_path do %>
+                     <i data-tooltip-target="tooltip-home" class="fa-solid fa-house text-green-800"> </i>
+                   <% end %>
+         </div>
+     
+         <div class="flex-initial w-1/2 text-center mt-4">
+          <header class="text-2xl font-bold">LINCOLNSHIRE POACHER</header>
+           <h2 class="text-xl font-normal">Production System</h2>
+             <div class="text-center">
+              <%= render "layouts/departments" %>
+             </div>
+         </div>
+     
+         <div class="flex-initial w-64 mr-8 text-right mt-4">
+           <span class="mr-4 text-sm"> <%= Time.now.to_formatted_s(:time_24) %></span>
+            <span class="mr-4 text-sm"> <%= Date.today.to_formatted_s(:uk) %></span>
+             <%= link_to makesheets_path do %>
+              <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
+               <% end %>
+         </div>
+       </div>
+   
+           <%= render "layouts/title_bar" %>
+ 
+     </header>
+     
+     <main class="">
+     
+       <div class="m-4 max-h-4/5 ">
+
+          <div id="flash" class="flash text-center text-gray-600">
              <%= render "layouts/flash" %>
           </div>
+          <div class="">
            <%= yield %>
-       </div>  
-    </div>  
-   </div>
+           </div>
+       </div> 
+       
+     </main>
+     
+     <footer>
+     </footer>
+  
   </div>
   </body>
+
 </html>

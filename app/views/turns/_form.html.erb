@@ -1,3 +1,4 @@
+
 <%= form_with(model: turn, class: "contents") do |form| %>
   <% if turn.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -13,21 +14,21 @@
 
   <div>
     <%= form.label :turn_date, class: label_class %>
-    <%= form.date_field :turn_date, :input_html => { :value => Date.today }, class: field_class %>
+    <%= form.date_field :turn_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex %>
   </div>
 
   <div>
     <%= form.label :makesheet_id, "Batch", class: label_class %>
-    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class
-         }) %>
+    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex}) %>
   </div>
 
   <div>
     <%= form.label :turned_by, class: label_class %>
-    <%=  form.select :turned_by, options_for_select(turned_by, :selected => turn.turned_by),{:prompt=>true}, class: field_class%>
+    <%=  form.select :turned_by, options_for_select(turned_by, :selected => turn.turned_by),{:prompt=>true}, class: field_class_flex %>
   </div>
 
   <div>
-    <%= form.submit class: clear_button_class %>
+    <%= form.submit class: fill_button_class %>
+     <%= link_to "Back to All Turns", turns_path, class: gray_button %>
   </div>
 <% end %>

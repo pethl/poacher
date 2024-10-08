@@ -1,7 +1,4 @@
-<div class="mx-auto justify-center m-8">
-  <div class="border border-double border-4 border-green-800 p-2 rounded-lg">
-
-      <%= form_with(model: wash, class: "contents") do |form| %>
+     <%= form_with(model: wash, class: "contents") do |form| %>
         <% if wash.errors.any? %>
           <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
             <h2><%= pluralize(wash.errors.count, "error") %> prohibited this wash from being saved:</h2>
@@ -13,24 +10,18 @@
             </ul>
           </div>
         <% end %>
+        
+        <div>
+          <%= form.label :action_date, class: label_class %>
+          <%= form.date_field :action_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex %>
+        </div>
   
-        <div class="grid grid-cols-1 md:grid-cols-2  gap-x-6 gap-y-2">
-  
-            <div class="font-semibold self-center">
-              <%= form.label :action_date %>
-            </div>
-            <div class="">
-              <%= form.date_field :action_date, :value => Time.now.strftime('%Y-%m-%d'), class: "border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-50" %>
-            </div>
+        <div class="mb-6">
+          <%= form.label :wash_status, "Status", class: label_class %>
+          <%= form.text_field :wash_status, :value => "Created", class: "border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-50"%>
+         </div>
 
-           <div class="font-semibold self-center">
-              <%= form.label :wash_status %>
-            </div>
-            <div class="">
-              <%= form.text_field :wash_status, :value => "Created", class: "border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-50"%>
-            </div>
-    </div>
-    <br>
+         
             <div class="mb-6">
                  <p class="block text-sm font-medium text-gray-700" %>Picksheets (check box to assign to wash)</p>
                  <div class="mt-1">
@@ -44,7 +35,8 @@
              <div>
   
           <div class="inline">
-            <%= form.submit class: clear_button_class %>
+            <%= form.submit class: fill_button_class %>
+            <%= link_to "Back to washes", washes_path, class: gray_button %>
           </div>
       <% end %>
       </div>

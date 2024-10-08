@@ -1,17 +1,23 @@
 <% content_for(:page_title, "CALCULATIONS")%>
-<div id="calculations">
+
  
 <div class="mx-auto md:w-2/3 w-full">
-<p class="text-base text-left font-light">IMPORTANT: These values are used to convert Picklist weight options to grams for the wash list calculations.
-<br>Update with care. All weights are in <strong>grams</strong> only.
-</p>
 
-
-  <div class="m-4 block">
-    <%= link_to "Add New Calculation", new_calculation_path, class: clear_button_class %>
+<div id="calculations">
+ <div class="grid grid-cols-3 gap-4 mb-4">
+   <div class="col-span-2">
+     <p class="text-base text-left font-light">IMPORTANT: These values are used to convert Picklist weight options to grams for the wash list calculations.
+     Update with care. All weights are in <strong>grams</strong> only.
+     </p>
+   </div>
+   <div class="mt-2 text-right">
+     <%= link_to "Add New Calculation", new_calculation_path, class: clear_button_class %>
+     <br>
+   </div>
   </div>
 
-    <div class="flex items-center p-3 bg-whitespace-x-6 border border-gray-200 rounded text-sm">
+
+    <div class="flex items-center p-3 bg-whitespace-x-6 border border-gray-200 rounded rounded-lg text-sm">
     <div class="relative overflow-x-auto">
         <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -37,7 +43,7 @@
             </thead>
             <tbody>
              <% @calculations.each do |calculation| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
                     <td scope="row" class="px-6 py-4 whitespace-nowrap">
                        <%= link_to calculation.product %>
                     </td>
