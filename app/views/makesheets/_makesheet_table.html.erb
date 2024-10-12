@@ -5,32 +5,30 @@
 <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
 </div>
 
-
-
 <div class="flex flex-col h-screen">
     <div class="flex-grow overflow-auto">
       <table class="relative w-full border text-sm text-left text-gray-500  ">
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
         <tr class="bg-gray-200 sticky top-0">
                 <th scope="col" class="sticky top-0 px-6 py-3 w-30  underline underline-offset-2">
-                   <%= show_sort_indicator_for("make_date") %>
-                   <%= sort_link(column: "make_date", label: "Make Date") %>
+                   <%= makesheets_show_sort_indicator_for("make_date") %>
+                   <%= make_sheets_sort_link(column: "make_date", label: "Make Date") %>
                 </th>
                 <th id="batch" class="sticky top-0 px-6 py-3 text-left w-28  underline underline-offset-2">
-                   <%= show_sort_indicator_for("batch") %>
-                   <%= sort_link(column: "batch", label: "Batch") %>
+                   <%= makesheets_show_sort_indicator_for("batch") %>
+                   <%= make_sheets_sort_link(column: "batch", label: "Batch") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                     <%= show_sort_indicator_for("age_in_days") %>
-                     <%= sort_link(column: "age_in_days", label: "Age (D / W / M)") %>
+                     <%= makesheets_show_sort_indicator_for("age_in_days") %>
+                     <%= make_sheets_sort_link(column: "age_in_days", label: "Age (D / W / M)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right w-20 whitespace-nowrap underline underline-offset-2">
-                    <%= show_sort_indicator_for("milk_used") %>
-                     <%= sort_link(column: "milk_used", label: "Milk Used (l)") %>
+                    <%= makesheets_show_sort_indicator_for("milk_used") %>
+                     <%= make_sheets_sort_link(column: "milk_used", label: "Milk Used (l)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right underline underline-offset-2">
-                      <%= show_sort_indicator_for("total_weight") %>
-                     <%= sort_link(column: "total_weight", label: " Total Weight(kg)") %>
+                      <%= makesheets_show_sort_indicator_for("total_weight") %>
+                     <%= make_sheets_sort_link(column: "total_weight", label: " Total Weight(kg)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
                 ??
@@ -82,9 +80,7 @@
                 <td class="px-6 py-4  text-center">
                   <%=  makesheet.turns.count %>
                 </td>
-                
             </tr>
-           
               <% end %>
         </tbody>
     </table>

@@ -21,17 +21,14 @@ class WashesController < ApplicationController
     @picksheets_already_assigned_to_a_wash = (WashPicksheet.all.pluck(:picksheet_id))
     @picksheets_subset = @picksheets.reject {|n| @picksheets_already_assigned_to_a_wash.include? n}
     @picksheets_subset = Picksheet.find(@picksheets_subset)
-  #  @picksheets_subset = @picksheets_subset.order(delivery_required_by: :asc)
+    @picksheets_subset = @picksheets_subset.sort_by { |picksheet| [picksheet.delivery_required_by] }
     
   end
 
   # GET /washes/1/edit
   def edit
     @picksheets = Picksheet.where("delivery_required_by>= ?", Date.today)
-   # @picksheets_already_assigned_to_a_wash = (WashPicksheet.all.pluck(:picksheet_id))
-  #  @picksheets_subset = @picksheets.reject {|n| @picksheets_already_assigned_to_a_wash.include? n}
-  #  @picksheets_subset = Picksheet.find(@picksheets_subset)
-   @picksheets_subset = @picksheets
+    @picksheets_subset = @picksheets.sort_by { |picksheet| [picksheet.delivery_required_by] }
   end
 
   # POST /washes or /washes.json

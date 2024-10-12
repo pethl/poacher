@@ -7,7 +7,6 @@ class MakesheetsController < ApplicationController
        end 
   end
   
-  
   def batch_turns
     @turns = @makesheet.turns.ordered
     @batch_turns_graph_data = get_data(@makesheet)

@@ -14,10 +14,15 @@ Rails.application.routes.draw do
   get "pages/nursery_home"
   get "pages/store_home"
   get "pages/sales_home"
+   get "pages/search"
+ 
 
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
+   get "/makesheets_print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
+  
   get "/print_washsheet_pdf" => "washes#print_washsheet_pdf"
+ 
 
   get "makesheets/makesheet_search"
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
