@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name ="viewport">
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
@@ -22,37 +22,36 @@
     <% end %>
   </head>
 
-  <body class="text-green-800 max-h-1273 × max-w-695">
-  <div>
-  
-     <header class="sticky top-0 z-9999 bg-white overscroll-none">
-    
-       <div class="flex w-full justify-between">
+  <body class="min-h-screen bg-white text-green-800">
+    <section class= "max-w-4xl mx-auto p-2 flex justify-between items-center">
      
-         <div class="flex-none w-64 ml-8 mt-4">
+         <div class="flex-none w-30 ml-8">
           <%= link_to root_path do %>
                      <i data-tooltip-target="tooltip-home" class="fa-solid fa-house text-green-800"> </i>
-                   <% end %>
+                   <% end %><br>
+                   <span class="text-xs"> <%= Time.now.to_formatted_s(:time_24) %></span>
+            
          </div>
      
-         <div class="flex-initial w-1/2 text-center mt-4">
-          <header class="text-2xl font-bold">LINCOLNSHIRE POACHER</header>
-           <h2 class="text-xl font-normal">Production System</h2>
-             <div class="text-center">
-              <%= render "layouts/departments" %>
-             </div>
+         <div class="flex-initial w-1/2 text-center">
+          <header class="text-1xl font-bold">LINCOLNSHIRE POACHER</header>
+           <h2 class="text-base font-light">Production System</h2>
          </div>
      
-         <div class="flex-initial w-64 mr-8 text-right mt-4">
-           <span class="mr-4 text-sm"> <%= Time.now.to_formatted_s(:time_24) %></span>
-            <span class="mr-4 text-sm"> <%= Date.today.to_formatted_s(:uk) %></span>
+         <div class="flex-none w-30 mr-8 text-right">
              <%= link_to makesheets_path do %>
               <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
-               <% end %>
+               <% end %><br>
+               <span class="text-xs"> <%= Date.today.to_formatted_s(:uk) %></span>
          </div>
-       </div>
-   
-           <%= render "layouts/title_bar" %>
+          </section>
+
+         <section class= "max-w-4xl mx-auto flex justify-between items-center">
+          <%= render "layouts/departments" %>
+        </section>
+     
+          <%= render "layouts/title_bar" %>
+          
  
      </header>
      

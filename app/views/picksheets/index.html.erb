@@ -4,16 +4,14 @@
 
 <div id="picksheets">
 
-<body class="bg-gray-200 min-h-screen">
-
-  <div class="font-normal text-left text-sm m-2">
+  <div class="text-left text-sm m-2">
     <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
   </div>
 
-    <div class="container mx-auto my-6">
+    <div class=" m-4">
       <div class="h-96 border-separate overflow-clip rounded-lg border border-solid flex flex-col">
-        <table class="w-full table-auto">
-          <thead class="sticky top-0 text-xs text-gray-600 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full table-fixed">
+          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
           <tr class="bg-gray-200 sticky top-0">
              <th scope="col" class="sticky top-0 px-6 pl-4 py-3 w-30  underline underline-offset-2">
                 <%= show_sort_indicator_for("date_order_placed") %>
@@ -21,7 +19,7 @@
              </th>
              <th scope="col" class="sticky top-0 px-6 pl-4 py-3 w-30  underline underline-offset-2">
                 <%= show_sort_indicator_for("delivery_required_by") %>
-                <%= sort_link(column: "delivery_required_by", label: "Delivery Required By") %>
+                <%= sort_link(column: "delivery_required_by", label: "Delivery Req'd By") %>
              </th>
              <th scope="col" class="sticky top-0 px-6 py-3 w-30  underline underline-offset-2">
                 <%= show_sort_indicator_for("order_number") %>
@@ -50,26 +48,26 @@
           </thead>
         </table>
         <div class="flex-1 overflow-y-auto">
-          <table class="w-full table-auto text-sm">
+          <table class="w-full table-fixed text-sm">
             <tbody>
               <% @picksheets.each do |picksheet| %>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                    <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2 ">
+                    <td scope="row" class=" w-30 px-6 py-4 whitespace-nowrap underline underline-offset-2 ">
                        <%= link_to picksheet.date_order_placed.to_formatted_s(:uk_time), picksheet %>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class=" w-30 px-6 py-4">
                       <%= picksheet.delivery_required_by.to_formatted_s(:uk_time) unless picksheet.delivery_required_by.to_s.empty? %>
                     </td>
-                    <td class="px-6 py-4 ">
+                    <td class=" w-30 px-6 py-4 text-center">
                       <%=  picksheet.order_number %>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class=" w-30 px-6 py-4 text-center">
                       <%=  picksheet.invoice_number %>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 truncate">
                       <%=  picksheet.contact_telephone_number %>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4  text-center">
                       <%=  picksheet.carrier %>
                     </td>
                     <td class="px-6 py-4 text-center ">

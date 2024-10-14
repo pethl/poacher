@@ -11,6 +11,10 @@ module ApplicationHelper
    def link_class
      "text-md font-medium hover:italic hover:text-green-600 hover:underline hover:underline-offset-4"
    end
+
+   def departments_link_class
+    "text-xs font-medium hover:opacity-50 hover:underline hover:underline-offset-4"
+  end
    
    def label_class
     "block font-semibold pt-4 pb-1"
@@ -57,7 +61,7 @@ module ApplicationHelper
     end
     
     def header_bar_button_class
-      "text-sm text-right hover:bg-green-600 p-1 font-base border border-gray-100 rounded-lg"
+      "text-xs text-right hover:bg-green-600 p-1 font-base border border-gray-100 rounded-md"
     end
    
    def dropdown_list_class

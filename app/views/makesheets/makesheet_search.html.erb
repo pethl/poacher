@@ -8,7 +8,7 @@
     <strong>Search by Batch</strong>
     <%= form_tag "/makesheets_search", method: "GET" do %>
      
-        <%= text_field_tag :search_by_batch, params[:search_by_batch] %>
+        <%= text_field_tag :search_by_batch, params[:search_by_batch], class: field_class_flex %>
         <%= submit_tag "Search", class: "rounded-lg bg-green-800 border-green-500 text-white p-2 w-30" %>
         <% end %>
    

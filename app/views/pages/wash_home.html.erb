@@ -3,18 +3,22 @@
     <div class="flex flex-wrap w-full justify-center gap-6 lg:gap-20">
    
       <div class="">
-        <p class="mt-10 text-xl font-strong mb-9">New Wash Sheet </p>
+        <p class="mt-10 text-lg font-strong mb-9">New Wash Sheet </p>
         <%= link_to "New Wash Sheet", new_wash_path, class: clear_button_class %>
       </div>
    
       <div class="">
-        <p class="mt-10 text-xl font-strong mb-7">Edit Latest Wash Sheet<br> </p>
+        <p class="mt-10 text-lg font-strong mb-7">Edit Latest Wash Sheet<br> </p>
       
         <!-- Dropdown menu -->
         <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <li>
-                <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %></a>
+                <%
+=begin%>
+ <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %></a> 
+<%
+=end%>
               </li>
              
             </ul>
@@ -27,7 +31,7 @@
        </div>
   
     <div class="">
-      <p class="mt-10 text-xl font-strong mb-7">Print Wash Sheet </p>
+      <p class="mt-10 text-lg font-strong mb-7">Print Wash Sheet </p>
       <div class="relative max-w-sm">
         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
         
@@ -37,7 +41,7 @@
     </div>
   
     <div class="">
-      <p class="mt-10 text-xl font-strong mb-9">View All </p>
+      <p class="mt-10 text-lg font-strong mb-9">View All </p>
        <%= link_to "View All", washes_path, class: clear_button_class %>
     </div>
  
