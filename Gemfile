@@ -87,3 +87,6 @@ gem "groupdate"
 # PDF generator
 gem 'prawn', '~> 2.5'
 gem 'prawn-table', '~> 0.1.0'
+
+# for prettier
+gem 'solargraph'
