@@ -124,4 +124,9 @@ module ApplicationHelper
      wash_status = Reference.where(active: "TRUE", group: 'wash_status')
      wash_status = wash_status.pluck(:value)       
    end
+
+   def carrier
+    carrier = Reference.where(active: "TRUE", group: 'carrier')
+    carrier = carrier.pluck(:value)       
+  end
 end

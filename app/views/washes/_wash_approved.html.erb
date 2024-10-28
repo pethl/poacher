@@ -1,0 +1,40 @@
+ <div class="grid grid-cols-4 gap-x-6 gap-y-2 pb-4">
+
+    <div class="text-gray-100 font-semibold text-right self-center">
+     Action date:
+    </div>
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= wash.action_date.to_formatted_s(:uk_day) unless wash.action_date.to_s.empty?  %>
+    </div>
+  
+    <div class="text-gray-100 font-semibold text-right self-center">
+      Wash Status:
+    </div> 
+   
+    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= wash.wash_status %>
+    </div>
+
+ </div>
+
+<div class="mt-2">
+    <div class="border border-green-800 rounded-lg pl-4 bg-white">
+    
+           <table class="w-full table-auto p-4" >
+           <tr class="text-left m-2">
+              <th class="py-2">Type</td>
+               <th class="py-2 text-center">Total Weight (kg)</td>
+               <th class="py-2 text-center">Cheeses</td>
+           </tr>
+            <% @picksheetitems_by_product.each do |product, picksheetitems| %>
+            <tr class="pb-6">
+              <td> <%= product %></td>
+              <td class=" text-center"> <%= get_weight_of_group(picksheetitems) %>Kg</td>
+              <td class=" text-center"><%= how_many_cheeses_do_i_need(product, picksheetitems) %> </td>
+           </th>
+   <% end %>       
+ </table>
+ </div>
+  </div>
+

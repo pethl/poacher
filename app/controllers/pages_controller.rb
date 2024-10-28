@@ -4,12 +4,7 @@ class PagesController < ApplicationController
   end
   
   def overview
-  end
-  
-  def wash_home
-      @todays_wash = Wash.last
-      @wash_approved =  Wash.where(wash_status: "Approved").last
-  end
+  end  
   
   def dairy_home
     @makesheets = Makesheet.order('make_date DESC')

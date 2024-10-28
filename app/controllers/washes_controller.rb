@@ -1,6 +1,14 @@
 class WashesController < ApplicationController
   before_action :set_wash, only: %i[ show edit update destroy ]
 
+  def wash_home
+    @wash = Wash.where(wash_status: "Approved").first
+    @todays_wash = Wash.last
+    @wash_approved =  Wash.where(wash_status: "Approved").last
+    @picksheetitems = PicksheetItem.where(picksheet_id: WashPicksheet.where(wash_id: @wash).pluck(:picksheet_id))
+    @picksheetitems_by_product = @picksheetitems.group_by { |t| t.product }
+  end
+  
   # GET /washes or /washes.json
   def index
     @washes = Wash.all

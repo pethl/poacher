@@ -4,7 +4,6 @@
 <div class="border border-double border-4 border-green-800 p-2 rounded-lg">
   <div class="mx-auto">
     
-    
      <div class="header">
       <%= render "wash_mgmt", wash: @wash  %>
      </div>
@@ -53,10 +52,8 @@
              </tbody>
              <% end %>
           </table>  
-     
         
           <br><hr>
-          
           
           <% @picksheetitems_by_product.each do |product, picksheetitems| %>
             <div class="flex justify-between bg-green-100">
