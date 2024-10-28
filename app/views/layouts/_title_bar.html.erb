@@ -1,10 +1,15 @@
 <% if content_for(:page_title)%>
   
   <div class="grid grid-cols-3 bg-green-800 text-lg font-strong text-white rounded-lg mt-2 mx-4">
-    <div class="">
+    <div class="text-xs p-1 pl-2 font-thin ">
+    
+    <% if user_signed_in? %> 
+    Signed In As: 
+        <span class="text-base font-semibold">  <%= current_user.username %> </span> 
+         <% end %>
     </div>
     
-    <div class="text-center content-center ">
+    <div class="text-center content-center pt-1">
        <%= yield(:page_title)%>
     </div>
     

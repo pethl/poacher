@@ -75,6 +75,9 @@ group :test do
 
 end
 
+# for devise
+gem "devise" 
+
 # required after 3.3.4 upgrade, may be able to remove eventuallybu
 gem 'bigdecimal', '~> 3.1', '>= 3.1.8'
 gem 'mutex_m', '~> 0.2.0'

@@ -34,21 +34,55 @@
          </div>
      
          <div class="flex-initial w-1/2 text-center">
-          <header class="text-1xl font-bold">LINCOLNSHIRE POACHER</header>
-           <h2 class="text-base font-light">Production System</h2>
+          <header class="text-1xl font-bold text-center">LINCOLNSHIRE POACHER</header>
+           <h2 class="text-base font-light text-center">Production System</h2>
          </div>
      
-         <div class="flex-none w-30 mr-8 text-right">
-             <%= link_to makesheets_path do %>
-              <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
-               <% end %><br>
+         <div class="flex-none w-30 text-right">
+
+ <% if user_signed_in? %> 
+             <div class="grid grid-cols-2 justify-items-center">
+              <div>
+                  <%= link_to edit_user_registration_path do %>
+                    <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-green-800"> </i>
+                  <% end %>
+                  <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block  text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip ">
+                      Edit Profile
+                      <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+              </div>
+
+              <div class="">
+                  <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+                    <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-blue-800"> </i>
+                  <% end %>
+                  <div id="tooltip-logout" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip">
+                      Logout
+                      <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+              </div>
+                </div>
+
+                <% else %>
+                <div class="pt-2 pb-2">
+                <%= link_to  "Sign In", new_user_session_path, class:clear_button_class %>
+                </div>
+                       <% end %>
+
                <span class="text-xs"> <%= Date.today.to_formatted_s(:uk) %></span>
          </div>
+
+          
+           
+         
+
           </section>
 
+        <% if user_signed_in? %> 
          <section class= "max-w-4xl mx-auto flex justify-between items-center">
           <%= render "layouts/departments" %>
         </section>
+        <% end %>
      
           <%= render "layouts/title_bar" %>
           
@@ -60,7 +94,9 @@
        <div class="m-4 max-h-4/5 ">
 
           <div id="flash" class="flash text-center text-gray-600">
-             <%= render "layouts/flash" %>
+             <%# <%= render "layouts/flash" %> 
+                <p class="notice"><%= notice %></p>
+                <p class="alert"><%= alert %></p>
           </div>
           <div class="">
            <%= yield %>

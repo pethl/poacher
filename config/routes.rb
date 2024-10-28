@@ -1,15 +1,16 @@
 Rails.application.routes.draw do
+  devise_for :users
+
+  root "pages#home"
   resources :calculations
   resources :references
   resources :wash_picksheets
-  get "washes/wash_home"
   
+  get "washes/wash_home"
   resources :washes
-  root "pages#home"
-
+  
   get "pages/admin_home"
   get "pages/home"
-  
   get "pages/overview"
   get "pages/cutting_home"
   get "pages/dairy_home"
@@ -18,14 +19,12 @@ Rails.application.routes.draw do
   get "pages/sales_home"
   get "pages/search"
  
-
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
   get "/makesheets_print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
   get "makesheets_search" => "makesheets#makesheet_search" 
   get "/print_washsheet_pdf" => "washes#print_washsheet_pdf"
  
-
   get "makesheets/makesheet_search"
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
 # get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"

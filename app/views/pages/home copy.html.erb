@@ -1,0 +1,43 @@
+<% content_for(:page_title, "Stock Position")%>
+
+
+<div class="my-4 text-center text-green-800 mt-8">
+<br>
+<div class="font-semibold">
+  <%=  link_to "See My Cheeses", pages_overview_path %>
+</div>
+<div class="flex flex-row">
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+       Stock by %
+   
+    <%= pie_chart Makesheet.group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'percentage'}, legend: "bottom"  %>
+     </div>
+  </div>
+  
+  
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+       Stock Count
+   
+    <%= pie_chart Makesheet.group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'value', legend: "bottom" }  %>
+     </div>
+  </div>
+  </div>
+
+
+<br><br>
+<div class="flex flex-row">
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+      Poacher Count by Age
+    <%= line_chart Makesheet.where(grade: "Poacher").group_by_week(:make_date).sum(:number_of_cheeses) %>
+  </div>
+</div>
+  <div class="basis-1/2">
+    <div class="text-center text-lg">
+      Vintage Count by Age
+    <%= line_chart Makesheet.where(grade: "Vintage").group_by_week(:make_date).sum(:number_of_cheeses) %>
+  </div>
+</div>
+</div>
