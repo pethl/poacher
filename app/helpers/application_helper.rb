@@ -25,7 +25,7 @@ module ApplicationHelper
    end
    
    def field_class_unsized
-    "block shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3"
+    "w-full outline:none shadow rounded-lg border border-green-800 bg-green-100 outline-none font-green-800 px-3"
    end
  
    def field_class_flex
@@ -33,7 +33,7 @@ module ApplicationHelper
    end
    
    def field_class_fit
-    "bg-gray-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    "bg-gray-50 border border-green-800 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "
    end
    
    def field_class_no_block
