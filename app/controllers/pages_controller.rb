@@ -18,6 +18,9 @@ class PagesController < ApplicationController
   
   def sales_home
     @picksheets = Picksheet.all.order(:date_order_placed)
+    @open_orders = Picksheet.where(status: "Open")
+    @assigned_orders = Picksheet.where(status: "Assigned")
+    @shipped_orders = Picksheet.where(status: "Shipped")
   end
   
   def store_home

@@ -13,24 +13,24 @@
 
   <div class="my-2">
     <%= form.label :group, class:label_class  %>
-    <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_flex %>
+    <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_unsized %>
      </div>
 
 
   <div class="my-2">
     <%= form.label :value, class:label_class  %>
-    <%= form.text_field :value, class:field_class_flex %>
+    <%= form.text_field :value, class:field_class_unsized %>
   </div>
 
   <div class="my-2">
     <%= form.label :description, class:label_class  %>
-    <%= form.text_field :description, class: field_class_flex%>
+    <%= form.text_field :description, class: field_class_unsized %>
   </div>
 
   <div class="my-2 items-center ">
     <%= form.label :active, class:label_class  %>
     <div class="hover:bg-gray-100">
-    <%= form.check_box :active, class: "m-2 h-5 w-5 checked:bg-green-500" %>
+    <%= form.check_box :active, class: "outline:none m-2 h-5 w-5 checked:bg-green-500" %>
     </div>
   </div>
 

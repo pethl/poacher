@@ -22,7 +22,8 @@
     <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
      <%= picksheet.delivery_required_by.to_formatted_s(:uk_day) unless picksheet.delivery_required_by.to_s.empty? %>
     </div>
-  
+
+     
     <div class="font-semibold mb-1 text-right self-center">
       Contact Telephone No.:
     </div>
@@ -35,7 +36,7 @@
     Order Number:
     </div>
  
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="border border-green-800 rounded-lg h-10 text-left p-2 bg-gray-100">
      <%= picksheet.order_number %>
     </div>
    
@@ -43,7 +44,7 @@
      Invoice Number:
     </div>
  
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="border border-green-800 rounded-lg text-left h-10 p-2 bg-gray-100">
      <%= picksheet.invoice_number %>
     </div>
   
@@ -51,7 +52,7 @@
      No of Boxes:
     </div>
 
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="border border-green-800 rounded-lg text-left h-10 p-2 bg-gray-100">
       <%= picksheet.number_of_boxes %>
     </div>
     
@@ -59,7 +60,7 @@
     Carrier:
     </div>
 
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="border border-green-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
      <%= picksheet.carrier %>
     </div>
 
@@ -72,7 +73,7 @@
           Carrier delivery date:
         </div>
   
-        <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+        <div class="border border-green-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
           <%= picksheet.carrier_delivery_date.to_formatted_s(:uk_day) unless picksheet.carrier_delivery_date.to_s.empty? %>
         </div>
  

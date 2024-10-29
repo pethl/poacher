@@ -1,7 +1,7 @@
 class PicksheetsController < ApplicationController
   require 'prawn'
   require 'prawn/table'
- 
+  before_action :authenticate_user!
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
   
   # GET /picksheets or /picksheets.json
@@ -21,15 +21,19 @@ class PicksheetsController < ApplicationController
   # GET /picksheets/new
   def new
     @picksheet = Picksheet.new
+    
+    @contacts = Contact.all.ordered
   end
 
   # GET /picksheets/1/edit
   def edit
+    @contacts = Contact.all.ordered
   end
 
   # POST /picksheets or /picksheets.json
   def create
     @picksheet = Picksheet.new(picksheet_params)
+    @picksheet.status = "Open"
 
     respond_to do |format|
       if @picksheet.save
@@ -93,11 +97,11 @@ class PicksheetsController < ApplicationController
        pdf.text "\n", size: 8  
 
        picksheet_header_table_data = Array.new
-       picksheet_header_table_data << ["Date Order Placed:", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer:", "Fake Name"]
+       picksheet_header_table_data << ["Date Order Placed:", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer:", @picksheet.contact.business_name+"\n"+@picksheet.contact.contact_name]
        picksheet_header_table_data << ["Delivery Required By:", @picksheet.delivery_required_by.to_datetime.strftime('%b %d, %Y'), "Contact Telephone:", @picksheet.contact_telephone_number.to_s]
        picksheet_header_table_data << ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number]
        picksheet_header_table_data << ["","","Carrier:", @picksheet.carrier]
-       picksheet_header_table_data << ["No of Boxes:", @picksheet.number_of_boxes.to_s, "Carrier Delivery Date:", @picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y')]
+       picksheet_header_table_data << ["No of Boxes:", (@picksheet.number_of_boxes.to_s unless @picksheet.number_of_boxes.to_s.empty?), "Carrier Delivery Date:", (@picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y') unless @picksheet.carrier_delivery_date.to_s.empty?)]
       
               pdf.table(picksheet_header_table_data) do 
                 self.width = 460
@@ -125,7 +129,7 @@ class PicksheetsController < ApplicationController
           picksheet_item_table_data = Array.new
           picksheet_item_table_data << ["Product", "Size", "Count", "Weight(kg)", "Code", "Sp Price", "B/B Date"]
           @picksheet_items.each do |item|
-             picksheet_item_table_data << [item.product, item.size, item.count, item.get_weight, item.code, item.sp_price, item.bb_date.to_datetime.strftime('%b %d, %Y')]
+             picksheet_item_table_data << [item.product, item.size, item.count, item.get_weight, item.code, item.sp_price, (item.bb_date.to_datetime.strftime('%b %d, %Y') unless item.bb_date.to_s.empty?)]
           end
           pdf.table(picksheet_item_table_data) do 
              self.width = 460
@@ -160,6 +164,6 @@ class PicksheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_params
-      params.require(:picksheet).permit(:date_order_placed, :delivery_required_by, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes)
+      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id)
     end
 end

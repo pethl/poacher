@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "pages/store_home"
   get "pages/sales_home"
   get "pages/search"
+  get "pages/mgmt_home"
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 

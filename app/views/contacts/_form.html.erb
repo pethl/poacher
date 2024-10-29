@@ -11,52 +11,54 @@
     </div>
   <% end %>
 
-  <div class="my-5">
+<div class="grid grid-cols-2 gap-4">
+  <div class="">
     <%= form.label :business_name, class: label_class %>
     <%= form.text_field :business_name, class: field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :contact_name, class: label_class %>
     <%= form.text_field :contact_name, class: field_class_unsized%>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :reference, class: label_class %>
     <%= form.text_field :reference, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :email, class: label_class %>
     <%= form.text_field :email, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :mobile, class: label_class %>
     <%= form.text_field :mobile, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :phone, class: label_class %>
     <%= form.text_field :phone, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :country, class: label_class %>
     <%= form.text_field :country, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :address, class: label_class %>
     <%= form.text_field :address, class:field_class_unsized %>
   </div>
 
-  <div class="my-5">
+  <div class="">
     <%= form.label :notes, class: label_class %>
     <%= form.text_area :notes, rows: 4, class:field_class_unsized %>
   </div>
 
-  <div class="inline">
+  <div class="inline mt-8">
     <%= form.submit class: fill_button_class %>
   </div>
 <% end %>
+  </div>

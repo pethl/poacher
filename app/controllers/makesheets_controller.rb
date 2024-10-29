@@ -1,4 +1,5 @@
 class MakesheetsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
 
   def makesheet_search

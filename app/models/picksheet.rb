@@ -2,6 +2,7 @@ class Picksheet < ApplicationRecord
   has_many :picksheet_items, dependent: :destroy
   has_many :wash_picksheets
   has_many :washes, through: :wash_picksheets
+  belongs_to :contact
   
   validates :date_order_placed, presence: true
    

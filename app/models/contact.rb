@@ -1,2 +1,5 @@
 class Contact < ApplicationRecord
-end
+  has_many :picksheet
+
+  scope :ordered, -> { order(business_name: :asc) }
+end 

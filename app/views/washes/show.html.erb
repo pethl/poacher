@@ -16,16 +16,16 @@
          <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
              <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                  <tr>
-                     <th scope="col" class="px-6 py-3 text-right">
+                     <th scope="col" class="px-6 py-3 text-left">
                          Delivery Due By
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right">
-                        Order No.
+                     <th scope="col" class="px-6 py-3 text-left">
+                        Invoice No.
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
+                     <th scope="col" class="px-6 py-3 text-left ">
                        Customer
                      </th>
-                     <th scope="col" class="px-6 py-3 text-right ">
+                     <th scope="col" class="px-6 py-3 text-left ">
                         Total Products
                      </th>
                  </tr>
@@ -35,16 +35,16 @@
             <tbody>
            
               <tr>
-                <td class="px-6 py-3 text-right">
-                  <%= picksheet.delivery_required_by.to_formatted_s(:uk_day) unless picksheet.delivery_required_by.to_s.empty?  %>
+                <td class="px-6 py-3 text-left  underline underline-offset-2">
+                  <%= (link_to (picksheet.delivery_required_by.to_formatted_s(:uk_day)), picksheet_path(picksheet) ) unless picksheet.delivery_required_by.to_s.empty?  %>
                  </td>
-                  <td class="px-6 py-3 text-right underline underline-offset-2">
-                   <%= link_to picksheet.order_number, picksheet_path(picksheet) %>
+                  <td class="px-6 py-3 text-left">
+                   <%= picksheet.invoice_number %>
                 </td>
-                <td>
-                    <%=  %>
+                 <td class="px-6 py-3 text-left">
+                    <%= picksheet.contact.business_name %>
                  </td>
-                 <td class="px-6 py-3 text-right">
+                 <td class="px-6 py-3 text-left">
                    <%= picksheet.picksheet_items.count %>
                 </td>
               </tr>

@@ -1,4 +1,5 @@
 class ReferencesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_reference, only: %i[ show edit update destroy ]
 
   # GET /references or /references.json

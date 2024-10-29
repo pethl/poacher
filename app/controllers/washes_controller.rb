@@ -1,11 +1,12 @@
 class WashesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_wash, only: %i[ show edit update destroy ]
 
   def wash_home
-    @wash = Wash.where(wash_status: "Approved").first
-    @todays_wash = Wash.last
-    @wash_approved =  Wash.where(wash_status: "Approved").last
-    @picksheetitems = PicksheetItem.where(picksheet_id: WashPicksheet.where(wash_id: @wash).pluck(:picksheet_id))
+    @wash_created = Wash.where(wash_status: "Created").ordered.first
+    @todays_wash = Wash.ordered.last
+    @wash_approved =  Wash.where(wash_status: "Approved").ordered.last
+    @picksheetitems = PicksheetItem.where(picksheet_id: WashPicksheet.where(wash_id: @wash_approved).pluck(:picksheet_id))
     @picksheetitems_by_product = @picksheetitems.group_by { |t| t.product }
   end
   
@@ -124,7 +125,7 @@ class WashesController < ApplicationController
         washsheet_detail_table_data = Array.new
         washsheet_detail_table_data << ["Product", "Whole Cheese Count", "Cheeses Washed", "Notes"]
           @picksheetitems_by_product.each do |product, picksheetitems|
-            washsheet_detail_table_data  << [product, how_many_cheeses_do_i_need(product, picksheetitems).round(0), "", ""]
+            washsheet_detail_table_data  << [product, how_many_cheeses_do_i_need(product, picksheetitems).round(1), "", ""]
         end
         
         pdf.table(washsheet_detail_table_data) do 

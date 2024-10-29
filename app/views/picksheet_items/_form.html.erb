@@ -18,23 +18,23 @@
   <div>
       <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
       <div class="m-2">
-        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'Poacher'%> Poacher</p>
-        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'Vintage' %> Vintage</p>
-        <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :product, 'P50' %> P50</p>
-        <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :product, 'Smoked' %> Smoked</p>
-        <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :product, 'Red' %> Smoked</p>
-        <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :product, 'Double Barrel' %> Double Barrel</p>
+        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'Poacher'%> Poacher</p>
+        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'Vintage' %> Vintage</p>
+        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'P50' %> P50</p>
+        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Smoked' %> Smoked</p>
+        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Red' %> Red</p>
+        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Double Barrel' %> Double Barrel</p>
       </div>
     </div>
     <div>
-     <%= form.label :size, class:"font-semibold text-sm pl-4" %><br>
-     <div class="m-2">
-       <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :size, 'Whole'%> Whole</p>
-       <p class="m-2 p-2 hover:bg-gray-100">  <%= form.radio_button :size, '1/2' %> 1/2</p>
-       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '1/4' %> 1/4</p>
-       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '1/8' %> 1/4</p>
-       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
-       <p class="m-2 p-2 hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
+     <%= form.label :size, class:"font-semibold text-sm" %><br>
+     <div class="w-20">
+       <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :size, 'Whole'%> Whole</p>
+       <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :size, '1/2' %> 1/2</p>
+       <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :size, '1/4' %> 1/4</p>
+       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '1/8' %> 1/4</p>
+       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
+       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
      </div>
      </div>
    <div>
@@ -42,15 +42,15 @@
       <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
    </div>
    <div>
-     <%= form.label :weight, "Weight (kgs)",class:"font-semibold  text-sm pl-4" %><br>
+     <%= form.label :weight, "Weight (kgs)",class:"font-semibold text-sm pl-4 w-20" %><br>
       <%= form.text_field :weight, value: (number_with_delimiter(picksheet_item.get_weight/1000) unless picksheet_item.product.to_s.empty?), readonly: true, class: "bg-green-800 rounded-lg" %>
    </div>
    <div>
-     <%= form.label :code, class:"font-semibold  text-sm pl-4" %><br>
-      <%= form.text_field :code, class: field_class_fit %>
+     <%= form.label :code, class:"font-semibold text-sm w-20" %><br>
+      <%= form.text_field :code, class: field_class_unsized %>
    </div>
    <div>
-     <%= form.label :sp_price, class:"font-semibold text-sm pl-4" %><br>
+     <%= form.label :sp_price, "Price", class:"font-semibold text-sm pl-4" %><br>
       <%= form.number_field :sp_price, class: "text-green-800 rounded-lg w-16" %>
    </div>
    <div>

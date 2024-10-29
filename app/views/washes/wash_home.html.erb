@@ -14,11 +14,8 @@
         <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <li>
-                <%
-=begin%>
- <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %></a> 
-<%
-=end%>
+                
+          <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %>
               </li>
              
             </ul>
@@ -31,13 +28,13 @@
        </div>
   
     <div class="">
-      <p class="mt-10 text-lg font-strong mb-7">Print Wash Sheet </p>
+      <p class="mt-10 text-lg font-strong mb-8">Print Wash Sheet </p>
       <div class="relative max-w-sm">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+        <div class="absolute mt-2 inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
         
         </div>
-        <input datepicker datepicker-autohide id="default-datepicker" type="text" class="bg-gray-50 border border-green-800 font-semibold text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Select date">
-      </div>
+        <%= link_to "Print Today's Wash Sheet PDF", print_washsheet_pdf_path(:id => @todays_wash), class:clear_button_class %>
+        </div>
     </div>
   
     <div class="">
@@ -47,9 +44,13 @@
   
      </div>
 
+    <% unless @wash_approved.blank? %>
       <div class="w-1/2 mx-auto text-sm mt-8 border border-green-800 rounded-lg p-4  bg-green-800">
-        <%= render "washes/wash_approved", wash:  @wash %>
+        <%= render "washes/wash_approved", wash:  @wash_approved %>
       </div>
+    <% end %>
+
+    
    
 
 

@@ -72,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_28_122351) do
     t.string "carrier"
     t.datetime "carrier_delivery_date"
     t.integer "number_of_boxes"
+    t.integer "contact_id"
+    t.string "status", default: "Open", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
