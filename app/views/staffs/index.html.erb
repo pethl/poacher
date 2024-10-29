@@ -1,0 +1,77 @@
+<div class="overscroll-none">
+<% content_for(:page_title, "ADMIN: STAFF")%>
+<div id="contacts">
+
+<div class="w-full"> 
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+    </div>
+
+<div class="mx-2 text-right">
+    <%= link_to "New staff", new_staff_path, class: fill_button_class %>
+ </div>
+
+  <div class="items-center rounded text-sm">
+<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+<div class="sticky top-0 font-normal text-left text-sm m-2">
+<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
+</div>
+
+<div class="flex flex-col h-screen">
+    <div class="flex-grow overflow-auto">
+      <table class="relative w-4/5 mx-auto table-auto border text-sm text-left text-gray-600  ">
+       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+        <tr class="bg-gray-200 sticky top-0">
+                <th scope="col" class="sticky top-0 px-4 py-2  underline underline-offset-2">
+                   <%= staff_show_sort_indicator_for("employment_status") %>
+                   <%= staff_sort_link(column: "employment_status", label: "Employment Status") %>
+                </th>
+                <th id="batch" class="sticky top-0 px-4 py-2  text-left underline underline-offset-2">
+                   <%= staff_show_sort_indicator_for("first_name") %>
+                   <%= staff_sort_link(column: "first_name", label: "First Name") %>
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
+                     <%= staff_show_sort_indicator_for("last_name") %>
+                     <%= staff_sort_link(column: "last_name", label: "Last Name") %>
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left whitespace-nowrap underline underline-offset-2">
+                    <%= staff_show_sort_indicator_for("dept") %>
+                     <%= staff_sort_link(column: "dept", label: "Department") %>
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
+                      <%= staff_show_sort_indicator_for("role") %>
+                     <%= staff_sort_link(column: "role", label: "Role") %>
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody class="overflow-contain">
+      <% @staffs.each do |staff| %>
+            <tr class="border-b  hover:bg-gray-100">
+                <td scope="row" class="px-6 py-4 whitespace-nowrap">
+                   <%= staff.employment_status %>
+                </td>
+                <td class="px-4 py-3 text-left underline underline-offset-2">
+                  <%=  link_to staff.first_name, (staff) %>
+                </td>
+                <td class="px-4 py-3 text-left whitespace-nowrap underline underline-offset-2">
+                  <%=  link_to staff.last_name, (staff) %>
+                </td>
+                <td class="px-4 py-3 text-left">
+                  <%=  staff.dept %>
+                </td>
+                <td class="px-4 py-3 text-left">
+                  <%=  staff.role %>
+                </td>
+                
+            </tr>
+              <% end %>
+        </tbody>
+    </table>
+</div>
+  
+  </div>
+</div>
+

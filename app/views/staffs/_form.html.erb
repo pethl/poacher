@@ -1,0 +1,43 @@
+<%= form_with(model: staff, class: "contents") do |form| %>
+  <% if staff.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(staff.errors.count, "error") %> prohibited this staff from being saved:</h2>
+
+      <ul>
+        <% staff.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ 
+ <div class="my-3">
+    <%= form.label :employment_status, class: label_class %>
+    <%=  form.select :employment_status, options_for_select(employment_status, :selected => staff.employment_status),{:prompt=>true}, class: field_class_flex %>
+  </div>
+
+  <div class="my-3">
+    <%= form.label :first_name, class: label_class %>
+    <%= form.text_field :first_name, class: field_class_flex %>
+  </div>
+
+  <div class="my-3">
+    <%= form.label :last_name, class: label_class %>
+    <%= form.text_field :last_name, class: field_class_flex %>
+  </div>
+
+ <div class="my-3">
+    <%= form.label :dept, class: label_class %>
+    <%=  form.select :dept, options_for_select(department, :selected => staff.dept),{:prompt=>true}, class: field_class_flex %>
+  </div>
+
+  <div class="my-3">
+    <%= form.label :role, class: label_class %>
+    <%= form.text_field :role, class: field_class_flex %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: fill_button_class %>
+  </div>
+<% end %>

@@ -134,4 +134,14 @@ module ApplicationHelper
     pick_status = Reference.where(active: "TRUE", group: 'pick_status')
     pick_status = pick_status.pluck(:value)       
   end
+
+  def department
+    department = Reference.where(active: "TRUE", group: 'department')
+    department = department.pluck(:value)       
+  end
+
+  def employment_status
+    employment_status = Reference.where(active: "TRUE", group: 'employment_status')
+    employment_status = employment_status.pluck(:value)       
+  end
 end

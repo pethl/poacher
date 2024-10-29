@@ -21,39 +21,39 @@
 
 <div class="flex flex-col h-screen">
     <div class="flex-grow overflow-auto">
-      <table class="relative w-full border text-sm text-left text-gray-500  ">
+      <table class="relative w-full border text-sm text-left text-gray-600  ">
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
         <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-6 py-3   underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-4 py-2   underline underline-offset-2">
                    <%= contacts_show_sort_indicator_for("business_name") %>
                    <%= contacts_sort_link(column: "business_name", label: "Business Name") %>
                 </th>
-                <th id="batch" class="sticky top-0 px-6 py-3 w-50 text-left underline underline-offset-2">
+                <th id="batch" class="sticky top-0 px-4 py-2 w-50 text-left underline underline-offset-2">
                    <%= contacts_show_sort_indicator_for("contact_name") %>
                    <%= contacts_sort_link(column: "contact_name", label: "Contact Name") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                      <%= contacts_show_sort_indicator_for("email") %>
                      <%= contacts_sort_link(column: "email", label: "Email") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left w-20 whitespace-nowrap underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left w-20 whitespace-nowrap underline underline-offset-2">
                     <%= contacts_show_sort_indicator_for("mobile") %>
                      <%= contacts_sort_link(column: "mobile", label: "Mobile") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
                       <%= contacts_show_sort_indicator_for("phone") %>
                      <%= contacts_sort_link(column: "phone", label: "Other Phone") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                 Country
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                    Address
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Ref
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3  text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2  text-left">
                     Notes
                 </th>
                 
@@ -62,31 +62,31 @@
         <tbody class="overflow-contain">
       <% @contacts.each do |contact| %>
             <tr class="border-b  hover:bg-gray-100">
-                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
+                <td scope="row" class="px-4 py-2 whitespace-nowrap underline underline-offset-2">
                    <%= link_to contact.business_name, contact %>
                 </td>
-                <td class="px-6 py-4 text-left underline underline-offset-2">
+                <td class="px-4 py-3 text-left underline underline-offset-2">
                   <%=  link_to contact.contact_name, (contact) %>
                 </td>
-                <td class="px-6 py-4 text-left whitespace-nowrap">
+                <td class="px-4 py-3 text-left whitespace-nowrap">
                   <%= contact.email %>
                 </td>
-                <td class="px-6 py-4 text-left">
+                <td class="px-4 py-3 text-left">
                   <%=  contact.mobile %>
                 </td>
-                <td class="px-6 py-4 text-left">
+                <td class="px-4 py-3 text-left">
                   <%=  contact.phone %>
                 </td>
-                <td class="px-6 py-4 text-left">
+                <td class="px-4 py-3 text-left">
                   <%=  contact.country %>
                 </td>
-                <td class="px-6 py-4 text-left">
+                <td class="px-4 py-3 text-left">
                   <%=  contact.address %>
                 </td>
-                <td class="px-6 py-4  text-left truncate">
+                <td class="px-4 py-3  text-left truncate">
                    <%=  contact.reference %>
                 </td>
-                <td class="px-6 py-4  text-left truncate">
+                <td class="px-4 py-3  text-left truncate">
                   <%=  contact.notes %>
                 </td>
                 
