@@ -81,6 +81,8 @@ gem "devise"
 # required after 3.3.4 upgrade, may be able to remove eventuallybu
 gem 'bigdecimal', '~> 3.1', '>= 3.1.8'
 gem 'mutex_m', '~> 0.2.0'
+gem 'base64', '~> 0.2.0'
+
 
 gem "tailwindcss-rails", "~> 2.6"
 gem "chartkick"
@@ -93,3 +95,5 @@ gem 'prawn-table', '~> 0.1.0'
 
 # for prettier
 gem 'solargraph'
+
+# required after 3.3.4 upgrade, may be able to remove eventuallybu
