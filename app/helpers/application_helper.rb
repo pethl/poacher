@@ -45,7 +45,7 @@ module ApplicationHelper
    end 
  
    def clear_button_class
-     "min-w-40 bg-transparent text-sm hover:bg-green-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-green-900 hover:border-transparent rounded-lg"
+     "bg-transparent text-sm hover:bg-green-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-green-900 hover:border-transparent rounded-lg"
    end
    
    def tight_clear_button_class

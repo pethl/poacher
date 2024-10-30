@@ -41,7 +41,7 @@ gem "jbuilder"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
@@ -54,7 +54,7 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: %i[mri mingw x64_mingw]
 end
 
 group :development do
@@ -72,17 +72,15 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-
 end
 
 # for devise
-gem "devise" 
+gem "devise"
 
 # required after 3.3.4 upgrade, may be able to remove eventuallybu
-gem 'bigdecimal', '~> 3.1', '>= 3.1.8'
-gem 'mutex_m', '~> 0.2.0'
-gem 'base64', '~> 0.2.0'
-
+gem "bigdecimal", "~> 3.1", ">= 3.1.8"
+gem "mutex_m", "~> 0.2.0"
+gem "base64", "~> 0.2.0"
 
 gem "tailwindcss-rails", "~> 2.6"
 gem "chartkick"
@@ -90,10 +88,8 @@ gem "highcharts-rails"
 gem "groupdate"
 
 # PDF generator
-gem 'prawn', '~> 2.5'
-gem 'prawn-table', '~> 0.1.0'
+gem "prawn", "~> 2.5"
+gem "prawn-table", "~> 0.1.0"
 
 # for prettier
-gem 'solargraph'
-
-# required after 3.3.4 upgrade, may be able to remove eventuallybu
+gem "solargraph"
