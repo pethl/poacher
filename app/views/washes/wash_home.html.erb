@@ -15,7 +15,9 @@
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <li>
                 
-          <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %>
+                <% unless @todays_wash.blank? %>
+                  <%= link_to @todays_wash.action_date.to_formatted_s(:uk_day), edit_wash_path(@todays_wash), class: dropdown_list_class %>
+                <% end %>
               </li>
              
             </ul>
