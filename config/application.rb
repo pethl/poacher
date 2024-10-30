@@ -10,7 +10,7 @@ module Poacher
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
-    #config.autoload_paths << Rails.root.join('app/pdfs')
+    config.autoload_paths << Rails.root.join('app/pdfs')
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -18,7 +18,10 @@ module Poacher
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    # config.eager_load_paths << Rails.root.join("extras")
+    config.eager_load_paths << Rails.root.join("extras")
+    #config.autoload_paths << "#{Rails.root}/extras"
+    #config.eager_load_paths << "#{Rails.root}/extras"
+    
     
   end
 end
