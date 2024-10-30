@@ -1,4 +1,4 @@
-class PdfGeneratorService < Prawn:: Document
+class PdfGeneratorService < Prawn::Document
   
  
 end
