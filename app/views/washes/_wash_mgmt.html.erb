@@ -13,7 +13,7 @@
     </div>
     <%= form_with(model: @wash, class: "contents") do |form| %>
     <div>
-      <%=  form.select :wash_status, options_for_select(wash_status, :selected => wash.wash_status),{:prompt=>true}, class:  "shadow rounded-lg border border-green-800 bg-white outline-none text-green-800 font-semibold px-3 w-60" %>
+      <%=  form.select :wash_status, options_for_select(wash_status, :selected => wash.wash_status),{:prompt=>true}, class:  "border border-green-800 rounded-lg text-left p-2 bg-white" %>
     </div>
   
     
