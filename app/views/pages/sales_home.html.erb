@@ -1,14 +1,13 @@
 <% content_for(:page_title, "SALE & SHIP")%>
 
-
-  <div class="flex flex-wrap w-full justify-center gap-6 lg:gap-20">
+  <div class="w-full mx-auto grid grid-cols-3 sm:grid-cols-1-reverse justify-center gap-6 lg:gap-10 border ">
    
-    <div class="">
-      <p class="mt-10 text-xl font-strong mb-9">New Pick Sheet </p>
+    <div class=" text-center">
+      <p class="mt-10 text-xl  font-strong mb-9">New Pick Sheet </p>
        <%= link_to "Create Pick Sheet", new_picksheet_path, class: clear_button_class %>
     </div>
    
-    <div class="">
+    <div class=" text-center">
       <p class="mt-10 text-xl font-strong">Edit Pick Sheet<br><span class="text-sm"> (last 7 only)</span> </p>
       
       <!-- Dropdown menu -->
@@ -40,52 +39,37 @@
           <% end %>
       </div>
      
-  <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-semibold bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Select Pick Sheet <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-  </svg>
-  </button>
+        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-semibold bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Select Pick Sheet <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+        </button>
      </div>
   
-  <div class="">
-    <p class="mt-10 text-xl font-strong mb-7">Print Pick Sheet </p>
-    <div class="relative max-w-sm">
-      <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-     
-      </div>
-      <input datepicker datepicker-autohide id="default-datepicker" type="text" class="bg-gray-50 border border-green-800 font-semibold text-green-800 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Select date">
-    </div>
-   
-  </div>
-  
-  <div class="">
+  <div class="text-center ">
     <p class="mt-10 text-xl font-strong mb-9">View All </p>
      <%= link_to "View All", picksheets_path, class: clear_button_class %>
   </div>
  
-   </div>
 
-    <div class="w-1/2 mx-auto mt-8">
-
-    <div class="grid grid-cols-3 gap-4 lg:gap-10">
-      <div class="bg-green-100 p-4 m-4 text-center">
+    <div class="bg-green-100 p-4 m-4 text-center">
       <span class="text-2xl font-bold"><%= @open_orders.count %>
       <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
       Open Orders
-      </div>
+    </div>
 
-       <div class="bg-green-100 p-4 m-4 text-center">
+    <div class="bg-green-100 p-4 m-4 text-center">
       <span class="text-2xl font-bold"><%= @assigned_orders.count %>
       <i class="fa-solid fa-cube ml-4"></i></span><br>
       Assigned to Pack
-      </div>
+    </div>
 
-       <div class="bg-green-100 p-4 m-4 text-center">
+    <div class="bg-green-100 p-4 m-4 text-center">
       <span class="text-2xl font-bold"><%= @shipped_orders.count %>
       <i class="fa-solid fa-truck-fast ml-4"></i></span><br>
       Shipped 
-      </div>
     </div>
-     </div>
+
+  </div>
    
 
 
