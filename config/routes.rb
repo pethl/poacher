@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   resources :references
   resources :wash_picksheets
   
+  get "picksheets/index_open"
+  get "picksheets/index_assigned"
+  get "picksheets/index_shipped"
   get "washes/wash_home"
   resources :washes
-  
+  get "pages/admin_home"
   get "pages/admin_home"
   get "pages/home"
   get "pages/overview"

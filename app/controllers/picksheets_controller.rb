@@ -5,6 +5,31 @@ class PicksheetsController < ApplicationController
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
   
   # GET /picksheets or /picksheets.json
+
+  def index_open
+    if params[:column].present?
+        @picksheets = Picksheet.where(status: "Open").order("#{params[:column]} #{params[:direction]}")
+      else
+        @picksheets = Picksheet.where(status: "Open").ordered
+      end
+  end
+
+  def index_assigned
+    if params[:column].present?
+        @picksheets = Picksheet.where(status: "Assigned").order("#{params[:column]} #{params[:direction]}")
+      else
+        @picksheets = Picksheet.where(status: "Assigned").ordered
+      end
+  end
+
+  def index_shipped
+    if params[:column].present?
+        @picksheets = Picksheet.where(status: "Shipped").order("#{params[:column]} #{params[:direction]}")
+      else
+        @picksheets = Picksheet.where(status: "Shipped").ordered
+      end
+  end
+
   def index
     if params[:column].present?
         @picksheets = Picksheet.order("#{params[:column]} #{params[:direction]}")

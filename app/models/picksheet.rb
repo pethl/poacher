@@ -5,6 +5,7 @@ class Picksheet < ApplicationRecord
   belongs_to :contact
   
   validates :date_order_placed, presence: true
+  validates :contact_id, presence: true
    
   scope :ordered, -> { order(delivery_required_by: :desc) }
    

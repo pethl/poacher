@@ -1,74 +1,46 @@
 <% content_for(:page_title, "SALE & SHIP")%>
 
-  <div class="w-full mx-auto grid grid-cols-3 sm:grid-cols-1-reverse justify-center gap-6 lg:gap-10 border ">
-   
-    <div class=" text-center">
-      <p class="mt-10 text-xl  font-strong mb-9">New Pick Sheet </p>
-       <%= link_to "Create Pick Sheet", new_picksheet_path, class: clear_button_class %>
-    </div>
-   
-    <div class=" text-center">
-      <p class="mt-10 text-xl font-strong">Edit Pick Sheet<br><span class="text-sm"> (last 7 only)</span> </p>
-      
-      <!-- Dropdown menu -->
-      <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700">
-      <% if @picksheets.count>6%>
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-            <li>
-              <%= link_to @picksheets[0].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[0]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[1].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[1]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[2].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[2]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[3].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[3]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[4].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[4]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[5].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[5]), class: dropdown_list_class %></a>
-            </li>
-            <li>
-              <%= link_to @picksheets[6].date_order_placed.to_formatted_s(:uk_day), edit_picksheet_path(@picksheets[6]), class: dropdown_list_class %></a>
-            </li>
-          </ul>
-          <% end %>
-      </div>
-     
-        <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-semibold bg-green-800 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="button">Select Pick Sheet <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-        </svg>
-        </button>
-     </div>
-  
-  <div class="text-center ">
-    <p class="mt-10 text-xl font-strong mb-9">View All </p>
-     <%= link_to "View All", picksheets_path, class: clear_button_class %>
-  </div>
- 
+  <div class="w-full mx-auto grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 justify-center gap-2  ">
 
+<a href="/picksheets/new" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
     <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-2xl font-bold"><%= @open_orders.count %>
+      <span class="text-xl md:text-2xl font-bold">>
       <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
-      Open Orders
+      New  <br><br>
     </div>
+   </a>
 
+ <a href="/picksheets/index_open" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
     <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-2xl font-bold"><%= @assigned_orders.count %>
+      <span class="text-xl md:text-2xl font-bold"><%= @open_orders.count %>
+      <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
+      Open  <br><br>
+    </div>
+   </a>
+
+ <a href="/picksheets/index_assigned" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
+    <div class="bg-green-100 p-4 m-4 text-center">
+      <span class="text-xl md:text-2xl font-bold"><%= @assigned_orders.count %>
       <i class="fa-solid fa-cube ml-4"></i></span><br>
       Assigned to Pack
     </div>
-
-    <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-2xl font-bold"><%= @shipped_orders.count %>
+</a>
+   
+<a href="/picksheets/index_shipped" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
+   <div class="bg-green-100 p-4 m-4 text-center">
+      <span class="text-xl md:text-2xl font-bold"><%= @shipped_orders.count %>
       <i class="fa-solid fa-truck-fast ml-4"></i></span><br>
-      Shipped 
+      Shipped <br><br>
     </div>
-
+</a>
+    <a href="/picksheets" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
+      <div class="bg-green-100 p-4 m-4 text-center">
+      <span class="text-xl md:text-2xl font-bold"><%= Picksheet.all.count %>
+      <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
+       All  <br><br>
+    </div>
+    </a>
+    
   </div>
    
 
