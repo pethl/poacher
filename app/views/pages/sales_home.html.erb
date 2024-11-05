@@ -4,40 +4,40 @@
 
 <a href="/picksheets/new" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
     <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-xl md:text-2xl font-bold">>
+      <span class="text-lg md:text-2xl font-bold">>
       <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
-      New  <br><br>
+      New Pick Sheet
     </div>
    </a>
 
  <a href="/picksheets/index_open" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
     <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-xl md:text-2xl font-bold"><%= @open_orders.count %>
+      <span class="text-lg md:text-2xl font-bold"><%= @open_orders.count %>
       <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
-      Open  <br><br>
+      Open  <br><br><br>
     </div>
    </a>
 
  <a href="/picksheets/index_assigned" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
     <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-xl md:text-2xl font-bold"><%= @assigned_orders.count %>
+      <span class="text-lg md:text-2xl font-bold"><%= @assigned_orders.count %>
       <i class="fa-solid fa-cube ml-4"></i></span><br>
-      Assigned to Pack
+      Assigned to Pack<br><br>
     </div>
 </a>
    
 <a href="/picksheets/index_shipped" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
    <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-xl md:text-2xl font-bold"><%= @shipped_orders.count %>
+      <span class="text-lg md:text-2xl font-bold"><%= @shipped_orders.count %>
       <i class="fa-solid fa-truck-fast ml-4"></i></span><br>
-      Shipped <br><br>
+      Shipped <br><br><br>
     </div>
 </a>
     <a href="/picksheets" class="group block max-w-32 mx-auto rounded-lg  bg-gray-50 ring-1 ring-slate-900/5 shadow-lg space-y-3 hover:bg-green-800 hover:ring-green-80">
       <div class="bg-green-100 p-4 m-4 text-center">
-      <span class="text-xl md:text-2xl font-bold"><%= Picksheet.all.count %>
+      <span class="text-lg md:text-2xl font-bold"><%= Picksheet.all.count %>
       <i class="fa-regular fa-rectangle-list ml-4"></i></span><br>
-       All  <br><br>
+       All  <br><br><br>
     </div>
     </a>
     

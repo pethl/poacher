@@ -20,21 +20,21 @@
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
                      <%= makesheets_show_sort_indicator_for("age_in_days") %>
-                     <%= make_sheets_sort_link(column: "age_in_days", label: "Age (D / W / M)") %>
+                     <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-right w-20 whitespace-nowrap underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-6 py-3 text-right w-30 whitespace-nowrap underline underline-offset-2">
                     <%= makesheets_show_sort_indicator_for("milk_used") %>
-                     <%= make_sheets_sort_link(column: "milk_used", label: "Milk Used (l)") %>
+                     <%= make_sheets_sort_link(column: "milk_used", label: "Milk (l)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right underline underline-offset-2">
                       <%= makesheets_show_sort_indicator_for("total_weight") %>
-                     <%= make_sheets_sort_link(column: "total_weight", label: " Total Weight(kg)") %>
+                     <%= make_sheets_sort_link(column: "total_weight", label: " Total (kg)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                ??
+                    Count
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                    Cheese Count
+                    Yield
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-center">
                     Grade
@@ -57,19 +57,19 @@
                   <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
                 </td>
                 <td class="px-6 py-4 text-right whitespace-nowrap">
-                  <%= makesheet.age_in_days %>d /  <%= makesheet.age_in_weeks %>w /  <%= makesheet.age_in_months %>m
+                  <%= makesheet.age_in_months %>m
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <%=  makesheet.milk_used %>
+                  <%=  makesheet.milk_used %> ltrs
                 </td>
                 <td class="px-6 py-4 text-right">
-                  <%=  makesheet.total_weight %>
-                </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  makesheet.number_of_cheeses %>
+                  <%=  makesheet.total_weight %> kg
                 </td>
                 <td class="px-6 py-4 text-right">
                   <%=  makesheet.number_of_cheeses %>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <%=  makesheet.yield.round(2)%> %
                 </td>
                 <td class="px-6 py-4  text-center">
                    <%= link_to makesheet.grade, edit_makesheet_path(makesheet) %>

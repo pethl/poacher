@@ -1,23 +1,23 @@
 
-<% content_for(:page_title, "DAIRY : MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk_day)}")%>
+<% content_for(:page_title, "MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk_clean_date)}")%>
 
 
-<div class="mx-auto md:w-1/3 w-full grid  justify-center">
-<div class="m-2 font-semibold underline ">
-  <%= link_to "Print Make Sheet PDF", print_makesheet_pdf_path(:id => @makesheet), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
-</div>
+<div class="mx-auto md:w-1/3 w-full">
+    <div class="text-left">
+    <%= render @makesheet %>
+    </div>
 
-<div class="mx-auto md:w-1/3 w-full flex justify-center">
-<div class="text-left">
-<%= render @makesheet %>
-</div>
-</div>
-<div class="m-4">
-  <%= link_to "Edit this Make Sheet", edit_makesheet_path(@makesheet), class: gray_button %> 
-  <%= link_to "Back to Make Sheets", makesheets_path, class: gray_button %>
-  <%= button_to "Delete Make Sheet",
-                  @makesheet,
-                  method: :delete,
-                  form: { data: { turbo_confirm: "Are you sure?" } },
-                  class: gray_button %>
+
+  <div class="mt-4">
+    <%= link_to "Edit this Make Sheet", edit_makesheet_path(@makesheet), class: fill_button_class %> <br><br>
+    <%= link_to "Back to Make Sheets", makesheets_path, class: clear_button_class %>
+
+    <% if is_admin? %>
+        <%= button_to "Delete Make Sheet",
+            @makesheet,
+            method: :delete,
+            form: { data: { turbo_confirm: "Are you sure?" } },
+            class: gray_button %>
+  <% end %>
+  </div>
  </div>

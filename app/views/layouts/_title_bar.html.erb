@@ -1,24 +1,23 @@
 <% if content_for(:page_title)%>
-  
-  <div class="grid grid-cols-3 bg-green-800 text-lg font-strong text-white rounded-lg mt-2 mx-4">
-    <div class="text-xs p-1 pl-2 font-thin ">
+ 
+   <div class="max-w-screen-4xl h-12">
+    <div class="w-full flex justify-between bg-gray-200 pl-4 font-strong text-black shadow-md">
+      <div class="p-1 pl-2 text-xl  ">
     
-    <% if user_signed_in? %> 
-    Signed In As: 
-        <span class="text-base font-semibold">  <%= current_user.username %> </span> 
-         <% end %>
-    </div>
+        <div class="text-left  ">
+          <%= yield(:page_title)%>
+        </div>
+        
+        <div class="mr-8 pb-1">
+        <% if content_for(:page_button)%>
+          <div class="text-right content-center "> <%= link_to "Add New", yield(:page_button), class:header_bar_button_class %> 
+          </div>
+        <% end %>
+        </div>
+
+      </div>
     
-    <div class="text-center content-center pt-1">
-       <%= yield(:page_title)%>
-    </div>
-    
-    <div class="mr-8 pb-1">
-    <% if content_for(:page_button)%>
-       <div class="text-right content-center "> <%= link_to "Add New", yield(:page_button), class:header_bar_button_class %> </div>
-    <% end %>
-    </div>
-  </div>
+</div>
 <% end %>
 
 

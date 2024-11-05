@@ -14,16 +14,17 @@
 
   <div>
     <%= form.label :make_date, class: label_class %>
-    <%= form.datetime_field :make_date, :value => Time.now.strftime('%Y-%m-%d'), placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex %>
+    <%= form.date_field :make_date, :value => Time.now.strftime("%Y-%m-%d") , class: field_class_flex %>
+   
   </div>
 
   <div>
-    <%= form.label :milk_used,  class: label_class %>
+    <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
     <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex %>
   </div>
 
   <div>
-    <%= form.label :total_weight,  class: label_class %>
+    <%= form.label :total_weight, "Weight (kgs)", class: label_class %>
     <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_flex %>
   </div>
 

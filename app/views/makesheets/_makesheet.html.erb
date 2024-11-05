@@ -1,7 +1,7 @@
 <div id="<%= dom_id makesheet %>">
   <p>
     <strong>Make date:</strong>
-    <%= makesheet.make_date.to_formatted_s(:uk_time)%>
+    <%= makesheet.make_date.to_formatted_s(:uk_clean_date)%>
   </p>
 
   <p>
@@ -28,5 +28,9 @@
     <strong>Weight type:</strong>
     <%= makesheet.weight_type %>
   </p>
+
+   <div class="my-4 font-semibold underline ">
+      <%= link_to "Print Make Sheet PDF", print_makesheet_pdf_path(:id => @makesheet), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
+    </div>
 
 </div>

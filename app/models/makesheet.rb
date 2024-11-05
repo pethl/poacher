@@ -6,7 +6,7 @@ class Makesheet < ApplicationRecord
   scope :ordered, -> { order(make_date: :asc) }
    
   def yield
-    self.milk_used/self.total_weight #THIS IS NOT THE RIGHT CALC
+    (self.total_weight.to_f/(self.milk_used.to_f)*100)
   end
   
   def age_in_days

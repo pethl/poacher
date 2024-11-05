@@ -1,0 +1,56 @@
+ <header class="sticky top-0 z-50 border border-gray-100 bg-gray-800 text-gray-100">
+   
+    <div class="mx-auto max-w-screen-xl relative flex h-10 items-center justify-between gap-2">
+     
+       <a href="/pages/home">
+          <div class="inline-flex text-sm">
+            <span class="font-medium ml-2 text-gray-100">Lincolnshire Poacher</span>
+            <span aria-hidden="true" role="img">🧀</span>
+          </div>
+        </a>
+    
+       <nav class="text-center md:block">
+        <ul class="flex gap-4">
+          <li><a class="inline-flex items-center gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/dairy_home">Dairy</a></li>
+          <li><a class="inline-flex items-center gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/store_home">Store</a></li>
+          <li><a class="inline-flex items-center gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/cutting_home">Cutting</a></li>
+          <li><a class="inline-flex items-center gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/admin_home">Office</a></li>
+        </ul>
+      </nav>
+
+
+      <% if user_signed_in? %> 
+         <section class= "inline-flex">
+          <div class="grid inline-grid grid-cols-2 justify-items-center my-4 ">
+            <div>
+              <%= link_to edit_user_registration_path do %>
+              <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
+              <% end %>
+            
+              <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip ">
+                Edit Profile
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+          </div>
+
+          <div class="">
+            <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+              <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100 "> </i>
+            <% end %>
+            <div id="tooltip-logout" role="tooltip" class="absolute z-10 invisible inline-block mx-4 text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip">
+                Logout
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+        </div>
+    </div>
+
+        <% else %>
+        <div class="pt-2 pb-2">
+        <%= link_to  "Sign In", new_user_session_path, class:clear_button_class %>
+        </div>
+    <% end %>
+        </section>
+
+  
+   </div>
+</header>
