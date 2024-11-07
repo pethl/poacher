@@ -1,10 +1,11 @@
 class CreateSamples < ActiveRecord::Migration[7.0]
   def change
     create_table :samples do |t|
+      t.string :indicator
       t.string :sample_no
       t.datetime :received_date
       t.string :sample_description
-      t.string :make_date
+      t.datetime :make_date
       t.string :suite
       t.string :classification
       t.string :schedule

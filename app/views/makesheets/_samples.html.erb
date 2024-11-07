@@ -1,0 +1,20 @@
+<div class="my-4 border border-gray-400 my-2 p-2 rounded">
+  <p class="font-bold my-2">Samples Taken
+  <ul>
+    <% @samples.each do |sample| %>
+    <li>
+       <%  if sample.indicator=="Green" %>
+           <i class="fa-solid fa-square text-green-400 text-xl"></i>
+             <% elsif  sample.indicator=="Yellow" %>
+            <i class="fa-solid fa-square text-yellow-400 text-xl"></i>
+              <% elsif  sample.indicator=="Red" %>
+            <i class="fa-solid fa-square text-red-400 text-xl"></i>
+              <% else %>
+            <i class="fa-regular fa-square text-black text-xl"></i>
+        <% end %>
+
+          <%= link_to sample.sample_no, sample_path(sample), class: link_class %> : <%= sample.suite %>
+    <li>
+           <% end %>
+    </ul>
+  </div>

@@ -1,5 +1,6 @@
 
 <% content_for(:page_title, "Reference Data")%>
+   <% content_for(:page_button, "references/new")%>
 
  <div class="mx-auto md:w-2/3 w-full">
  <div id="references"> 
@@ -11,10 +12,7 @@
       <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
       </p>
     </div>
-    <div class="mt-2 text-right">
-      <%= link_to "Add New Reference", new_reference_path, class: clear_button_class %>
-      <br>
-    </div>
+   
 
   </div>
   

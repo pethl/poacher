@@ -24,6 +24,7 @@ class MakesheetsController < ApplicationController
 
   # GET /makesheets/1 or /makesheets/1.json
   def show
+    @samples = Sample.where(make_date: @makesheet.make_date.to_s.split(' ').first)
   end
 
   # GET /makesheets/new

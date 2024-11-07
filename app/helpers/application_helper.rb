@@ -17,11 +17,11 @@ module ApplicationHelper
   end
    
    def label_class
-    "block font-semibold pt-4 pb-1"
+    " font-semibold pt-4 pb-1"
    end
 
    def field_class
-    "block shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
+    " shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
    end
    
    def field_class_unsized
@@ -53,7 +53,7 @@ module ApplicationHelper
    end
    
    def fill_button_class
-      "bg-gray-800 text-white hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
+      "bg-gray-800 text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
     end
     
     def tight_fill_button_class
@@ -61,7 +61,7 @@ module ApplicationHelper
     end
     
     def header_bar_button_class
-      "text-xs text-right hover:bg-gray-600 p-1 font-base border border-gray-100 rounded-md"
+      "text-xs text-right hover:bg-grey-600 bg-grey-800 p-1 text-grey-100 font-base border border-gray-200 rounded-md"
     end
    
    def dropdown_list_class
@@ -143,5 +143,10 @@ module ApplicationHelper
   def employment_status
     employment_status = Reference.where(active: "TRUE", group: 'employment_status')
     employment_status = employment_status.pluck(:value)       
+  end
+
+  def trafficlights
+    trafficlights = Reference.where(active: "TRUE", group: 'trafficlights')
+    trafficlights = trafficlights.pluck(:value)       
   end
 end

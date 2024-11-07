@@ -32,11 +32,12 @@
      
        <div class="m-4 max-h-4/5 ">
 
-          <div id="flash" class="flash text-center text-gray-600">
-             <%# <%= render "layouts/flash" %> 
-                <p class="notice"><%= notice %></p>
-                <p class="alert"><%= alert %></p>
+       <% if flash.present? %>
+          <div id="flash">
+              <%= render "layouts/flash" %> 
           </div>
+          
+          <% end %>
           <div class="">
            <%= yield %>
           </div>

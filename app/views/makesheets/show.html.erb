@@ -7,6 +7,10 @@
     <%= render @makesheet %>
     </div>
 
+     <div class="text-left">
+    <%= render "samples", makesheet: @makesheet %>
+    </div>
+
 
   <div class="mt-4">
     <%= link_to "Edit this Make Sheet", edit_makesheet_path(@makesheet), class: fill_button_class %> <br><br>

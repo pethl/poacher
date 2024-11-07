@@ -1,11 +1,6 @@
 <div class="w-full">
   <% content_for(:page_title, "SAMPLES")%>
-
-  <div class="flex justify-between items-center">
-
-    <%= link_to "New sample", new_sample_path, class: fill_button_class %>
-  </div>
-
+    <% content_for(:page_button, "samples/new")%>
 
 <div class="items-center rounded text-sm">
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
@@ -19,53 +14,89 @@
       <table class="relative w-full border text-sm text-left text-gray-500  ">
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
         <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-6 py-3 w-30  underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                    Indicator
+                </th>
+                <th scope="col" class="sticky top-0 px-6 py-2 w-30  underline underline-offset-2">
                    <%= samples_show_sort_indicator_for("sample_no") %>
-                   <%= samples_sort_link(column: "sample_no", label: "Sample No") %>
+                   <%= samples_sort_link(column: "sample_no", label: "Number") %>
                 </th>
-                <th id="batch" class="sticky top-0 px-6 py-3 text-left w-28  underline underline-offset-2">
+                <th id="batch" class="sticky top-0 px-6 py-2 text-left w-32  underline underline-offset-2">
                    <%= samples_show_sort_indicator_for("received_date") %>
-                   <%= samples_sort_link(column: "received_date", label: "Received Date") %>
+                   <%= samples_sort_link(column: "received_date", label: "Received") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                    Sample Desc
+                <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                    Description
                 </th>
-                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
+                <th scope="col" class="sticky top-0 px-6 py-2 text-left  w-28  ">
+                    Make Date
+                </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2 text-left">
                     Suite
                 </th>
-                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                    Classification
+                 <th scope="col" class="sticky top-0 px-6 py-2 text-left w-52">
+                    Classification 
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                    Count
+                <th scope="col" class="sticky top-0 px-6 py-2 text-right w-52">
+                    Schedule
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-right">
-                    Yield
+                <th scope="col" class="sticky top-0 px-6 py-2 text-right w-52">
+                    Barcode Count
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3 text-center">
-                    Grade
+                <th scope="col" class="sticky top-0 px-6 py-2 text-right w-52">
+                    Coagulase positive Staphylococcus 37°C (UMQV9) (cfu/g)
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3  text-center">
-                    Weight Type
+                <th scope="col" class="sticky top-0 px-6 py-2  text-right w-52">
+                    Coagulase positive Staphylococcus 37°C (UMQZW) (cfu/g)
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-3  text-center whitespace-nowrap">
-                    Turns #
+                <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Escherichia coli B-Glucuronidase+ (cfu/g)
                 </th>
+                <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Listeria Species (/25 g)
+                </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Listeria species 37°C (cfu/g)
+                </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Presumptive Coliforms 37°C (cfu/g)
+                </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Salmonella (/25 g)
+                </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2  text-right ">
+                    Staphylococcus aureus enterotoxins (/10  g)
+                </th>
+                 
             </tr>
         </thead>
         <tbody class="overflow-contain">
            <% @samples.each do |sample| %>
             <tr class="border-b  hover:bg-gray-100">
+               <td class="px-6 py-4 text-left whitespace-nowrap">
+                  <%  if sample.indicator=="Green" %>
+                  <i class="fa-solid fa-square text-green-400 text-xl"></i>
+                  <% elsif  sample.indicator=="Yellow" %>
+                    <i class="fa-solid fa-square text-yellow-400 text-xl"></i>
+                     <% elsif  sample.indicator=="Red" %>
+                    <i class="fa-solid fa-square text-red-400 text-xl"></i>
+                    <% else %>
+                    <i class="fa-regular fa-square text-black text-xl"></i>
+                   <% end %>
+                </td>
                 <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
                    <%= link_to sample.sample_no, sample %>
                 </td>
-                <td class="px-6 py-4 text-left  underline underline-offset-2">
+                <td class="px-6 py-4 text-left underline underline-offset-2">
                   <%= link_to sample.received_date.to_formatted_s(:uk_clean_date), sample %>
                 </td>
-                <td class="px-6 py-4 text-right whitespace-nowrap">
-                  <%= sample.sample_description %>m
+                <td class="px-6 py-4 text-left whitespace-nowrap">
+                  <%= sample.sample_description %>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-4 text-left whitespace-nowrap">
+                  <%= sample.make_date %>
+                </td>
+                <td class="px-6 py-4 text-left whitespace-nowrap">
                   <%=  sample.suite %>
                 </td>
                 <td class="px-6 py-4 text-right">
@@ -77,28 +108,28 @@
                 <td class="px-6 py-4 text-right">
                   <%=  sample.barcode_count %> 
                 </td>
-                <td class="px-6 py-4  text-center">
-                   <%=  sample.coagulase_positive_staphylococcus_37C_UMQV9 %>
+                <td class="px-6 py-4 text-right">
+                   <%=  sample.coagulase_positive_staphylococcus_37c_umqv9 %>
                 </td>
-                <td class="px-6 py-4  text-center">
-                  <%=  sample.coagulase_positive_staphylococcus_37C_UMQZW %>
+                <td class="px-6 py-4 text-right">
+                  <%=  sample.coagulase_positive_staphylococcus_37c_umqzw %>
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-4 text-right">
                   <%=  sample.escherichia_coli_b_glucuronidase %>
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%=  sample.listeria_species %>
                 </td>
-                 <td class="px-6 py-4  text-center">
+                 <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%=  sample.listeria_species_37 %>
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%=  sample.presumptive_coliforms %>
                 </td>
-                 <td class="px-6 py-4  text-center">
+                 <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%=  sample.salmonella %>
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%=  sample.staphylococcus_aureus_enterotoxins %>
                 </td>
                 

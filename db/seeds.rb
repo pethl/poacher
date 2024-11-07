@@ -271,3 +271,6 @@ Reference.create(group:	'department', value:	'Cutting Room', description:	'');
 Reference.create(group:	'employment_status', value:	'Working', description:	'');
 Reference.create(group:	'employment_status', value:	'Trainee', description:	'');
 Reference.create(group:	'employment_status', value:	'Terminated', description:	'');
+Reference.create(group:	'trafficlights', value:	'Green', description:	'');
+Reference.create(group:	'trafficlights', value:	'Yellow', description:	'');
+Reference.create(group:	'trafficlights', value:	'Red', description:	'');

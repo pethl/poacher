@@ -1,4 +1,6 @@
-<div id="<%= dom_id sample %>">
+<div id="<%= dom_id sample %>" >
+<div class="border border-gray-800 rounded-lg p-4">
+<div class="grid md:grid-cols-3 lg:grid-cols-5">
   <p class="my-5">
     <strong class="block font-medium mb-1">Sample no:</strong>
     <%= sample.sample_no %>
@@ -12,6 +14,11 @@
   <p class="my-5">
     <strong class="block font-medium mb-1">Sample description:</strong>
     <%= sample.sample_description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Sample description:</strong>
+    <%= sample.make_date %>
   </p>
 
   <p class="my-5">
@@ -36,42 +43,43 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Coagulase positive staphylococcus 37c umqv9:</strong>
-    <%= sample.Coagulase_positive_Staphylococcus_37C_UMQV9 %>
+    <%= sample.coagulase_positive_staphylococcus_37c_umqv9 %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Coagulase positive staphylococcus 37c umqzw:</strong>
-    <%= sample.Coagulase_positive_Staphylococcus_37C_UMQZW %>
+    <%= sample.coagulase_positive_staphylococcus_37c_umqzw %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Escherichia coli b-glucuronidase:</strong>
-    <%= sample.Escherichia_coli_B_Glucuronidase %>
+    <%= sample.escherichia_coli_b_glucuronidase %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Listeria species:</strong>
-    <%= sample.Listeria_Species %>
+    <%= sample.listeria_species %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Listeria species 37:</strong>
-    <%= sample.Listeria_species_37 %>
+    <%= sample.listeria_species_37 %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Presumptive coliforms:</strong>
-    <%= sample.Presumptive_Coliforms %>
+    <%= sample.presumptive_coliforms %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Salmonella:</strong>
-    <%= sample.Salmonella %>
+    <%= sample.salmonella %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Staphylococcus aureus enterotoxins:</strong>
-    <%= sample.Staphylococcus_aureus_enterotoxins %>
+    <%= sample.staphylococcus_aureus_enterotoxins %>
   </p>
-
+</div>
+</div>
 </div>

@@ -88,10 +88,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_05_172554) do
   end
 
   create_table "samples", force: :cascade do |t|
+    t.string "indicator"
     t.string "sample_no"
     t.datetime "received_date"
     t.string "sample_description"
-    t.string "make_date"
+    t.datetime "make_date"
     t.string "suite"
     t.string "classification"
     t.string "schedule"

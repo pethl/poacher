@@ -2,13 +2,12 @@
  
    <div class="max-w-screen-4xl h-12">
     <div class="w-full flex justify-between bg-gray-200 pl-4 font-strong text-black shadow-md">
-      <div class="p-1 pl-2 text-xl  ">
-    
-        <div class="text-left  ">
+      
+        <div class="text-left text-xl ">
           <%= yield(:page_title)%>
         </div>
         
-        <div class="mr-8 pb-1">
+        <div class="inline mr-8 pb-1">
         <% if content_for(:page_button)%>
           <div class="text-right content-center "> <%= link_to "Add New", yield(:page_button), class:header_bar_button_class %> 
           </div>
