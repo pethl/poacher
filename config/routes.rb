@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :samples
   resources :staffs
   resources :contacts
   devise_for :users

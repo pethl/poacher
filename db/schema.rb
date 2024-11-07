@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_29_072455) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_05_172554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_29_072455) do
     t.string "value"
     t.string "description"
     t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "samples", force: :cascade do |t|
+    t.string "sample_no"
+    t.datetime "received_date"
+    t.string "sample_description"
+    t.string "make_date"
+    t.string "suite"
+    t.string "classification"
+    t.string "schedule"
+    t.string "barcode_count"
+    t.string "coagulase_positive_staphylococcus_37c_umqv9"
+    t.string "coagulase_positive_staphylococcus_37c_umqzw"
+    t.string "escherichia_coli_b_glucuronidase"
+    t.string "listeria_species"
+    t.string "listeria_species_37"
+    t.string "presumptive_coliforms"
+    t.string "salmonella"
+    t.string "staphylococcus_aureus_enterotoxins"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

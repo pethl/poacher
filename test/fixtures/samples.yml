@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sample_no: MyString
+  received_date: 2024-11-05 17:25:54
+  sample_description: MyString
+  suite: MyString
+  classification: MyString
+  schedule: MyString
+  barcode_count: MyString
+  Coagulase_positive_Staphylococcus_37C_UMQV9: MyString
+  Coagulase_positive_Staphylococcus_37C_UMQZW: MyString
+  Escherichia_coli_B-Glucuronidase: MyString
+  Listeria_Species: MyString
+  Listeria_species_37: MyString
+  Presumptive_Coliforms: MyString
+  Salmonella: MyString
+  Staphylococcus_aureus_enterotoxins: MyString
+
+two:
+  sample_no: MyString
+  received_date: 2024-11-05 17:25:54
+  sample_description: MyString
+  suite: MyString
+  classification: MyString
+  schedule: MyString
+  barcode_count: MyString
+  Coagulase_positive_Staphylococcus_37C_UMQV9: MyString
+  Coagulase_positive_Staphylococcus_37C_UMQZW: MyString
+  Escherichia_coli_B-Glucuronidase: MyString
+  Listeria_Species: MyString
+  Listeria_species_37: MyString
+  Presumptive_Coliforms: MyString
+  Salmonella: MyString
+  Staphylococcus_aureus_enterotoxins: MyString

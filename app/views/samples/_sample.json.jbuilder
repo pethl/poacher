@@ -1,0 +1,2 @@
+json.extract! sample, :id, :sample_no, :received_date, :sample_description, :suite, :classification, :schedule, :barcode_count, :Coagulase_positive_Staphylococcus_37C_UMQV9, :Coagulase_positive_Staphylococcus_37C_UMQZW, :Escherichia_coli_B-Glucuronidase, :Listeria_Species, :Listeria_species_37, :Presumptive_Coliforms, :Salmonella, :Staphylococcus_aureus_enterotoxins, :created_at, :updated_at
+json.url sample_url(sample, format: :json)
