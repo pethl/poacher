@@ -1,0 +1,12 @@
+ <% content_for(:page_title, "BUTTER - #{@butter_stock.make_date.to_formatted_s(:uk_clean_date)}")%>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+   
+    <%= render @butter_stock %>  
+<br>
+    <%= link_to "Edit this butter stock", edit_butter_stock_path(@butter_stock), class: fill_button_class %><br><br>
+    <%= link_to "All Butter Stock", butter_stocks_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="inline-block ml-2">
+     </div>
+</div>
+

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :butter_stocks
   resources :samples
   resources :staffs
   resources :contacts

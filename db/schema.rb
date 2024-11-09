@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_05_172554) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "butter_stocks", force: :cascade do |t|
+    t.datetime "make_date"
+    t.integer "todays_make"
+    t.integer "fresh_spare_for_sale"
+    t.integer "market_returns_salted"
+    t.integer "market_returns_hm2"
+    t.integer "market_returns_unsalted"
+    t.integer "freezer_stock_salted"
+    t.integer "freezer_stock_hm2"
+    t.integer "freezer_stock_unsalted"
+    t.integer "family_butter_salted"
+    t.integer "family_butter_hm2"
+    t.integer "family_butter_unsalted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "calculations", force: :cascade do |t|
     t.string "product"
@@ -92,7 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_05_172554) do
     t.string "sample_no"
     t.datetime "received_date"
     t.string "sample_description"
-    t.datetime "make_date"
+    t.string "make_date"
     t.string "suite"
     t.string "classification"
     t.string "schedule"

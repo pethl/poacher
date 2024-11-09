@@ -7,6 +7,10 @@ module ApplicationHelper
    def information_text_class
      "text-base text-left font-normal"
    end
+
+   def title_two
+    "text-lg font-bold"
+  end
   
    def link_class
      "text-md font-medium hover:italic hover:text-gray-600 hover:underline hover:underline-offset-4"
@@ -61,7 +65,7 @@ module ApplicationHelper
     end
     
     def header_bar_button_class
-      "text-xs text-right hover:bg-grey-600 bg-grey-800 p-1 text-grey-100 font-base border border-gray-200 rounded-md"
+      "text-xs text-right hover:bg-grey-600 bg-gray-800 p-1 text-gray-100 font-base border border-gray-200 rounded-md"
     end
    
    def dropdown_list_class

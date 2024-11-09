@@ -1,0 +1,2 @@
+module ButterStocksHelper
+end

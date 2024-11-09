@@ -1,0 +1,88 @@
+<%= form_with(model: butter_stock, class: "contents") do |form| %>
+  <% if butter_stock.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(butter_stock.errors.count, "error") %> prohibited this butter_stock from being saved:</h2>
+
+      <ul>
+        <% butter_stock.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :make_date %>
+     <%= form.date_field :make_date, :value => Time.now.strftime("%Y-%m-%d") , class: field_class_flex %>
+  </div> 
+
+  <div class="my-5">
+    <%= form.label :todays_make %>
+    <%= form.number_field :todays_make, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :fresh_spare_for_sale %>
+    <%= form.number_field :fresh_spare_for_sale, class: field_class_flex %>
+  </div>
+
+  <div class="title_two">
+    Market Returns
+    </div>
+
+  <div class="my-5">
+    <%= form.label :market_returns_salted, "Salted" %>
+    <%= form.number_field :market_returns_salted, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :market_returns_hm2, "HM 2%" %>
+    <%= form.number_field :market_returns_hm2, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :market_returns_unsalted, "Unsalted" %>
+    <%= form.number_field :market_returns_unsalted, class: field_class_flex %>
+  </div>
+
+    <div class="title_two">
+   Freezer Stock
+    </div>
+
+  <div class="my-5">
+    <%= form.label :freezer_stock_salted, "Salted"  %>
+    <%= form.number_field :freezer_stock_salted, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :freezer_stock_hm2, "HM 2%" %>
+    <%= form.number_field :freezer_stock_hm2, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :freezer_stock_unsalted, "Unsalted" %>
+    <%= form.number_field :freezer_stock_unsalted, class: field_class_flex %>
+  </div>
+
+    <div class="title_two">
+   Family Butter
+    </div>
+
+  <div class="my-5">
+    <%= form.label :family_butter_salted, "Salted"  %>
+    <%= form.number_field :family_butter_salted, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :family_butter_hm2, "HM 2%" %>
+    <%= form.number_field :family_butter_hm2, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :family_butter_unsalted, "Unsalted" %>
+    <%= form.number_field :family_butter_unsalted, class: field_class_flex %>
+  </div>
+
+  <div class="inline">
+       <%= form.submit "Save", class: fill_button_class %> </div>
+<% end %>

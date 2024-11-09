@@ -1,0 +1,104 @@
+<div id="<%= dom_id butter_stock %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Make date:</strong>
+    <%= butter_stock.make_date.to_formatted_s(:uk_clean_date) %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Todays make:</strong>
+    <%= butter_stock.todays_make %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Fresh spare for sale:</strong>
+    <%= butter_stock.fresh_spare_for_sale %>
+  </p>
+
+   <div class="title_two">
+    Market Returns
+    </div>
+
+    <table>
+      <tr class="bg-gray-200 sticky top-0">
+        <th scope="col" class=" px-4 py-2 text-right">
+            Salted
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            HM 2%
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            Unsalted
+        </th>
+      </th>
+      <tr>
+        <td class="px-4 py-3 text-right">
+          <%= butter_stock.market_returns_salted %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.market_returns_hm2 %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.market_returns_unsalted %>
+        </td>
+      </tr>
+    </table>
+
+ <div class="title_two">
+   Freezer Stock
+    </div>
+
+    <table>
+      <tr class="bg-gray-200 sticky top-0">
+        <th scope="col" class=" px-4 py-2 text-right">
+            Salted
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            HM 2%
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            Unsalted
+        </th>
+      </th>
+      <tr>
+        <td class="px-4 py-3 text-right">
+          <%= butter_stock.freezer_stock_salted %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.freezer_stock_hm2 %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.freezer_stock_unsalted %>
+        </td>
+      </tr>
+    </table>
+
+  <div class="title_two">
+    Family
+    </div>
+
+    <table>
+      <tr class="bg-gray-200 sticky top-0">
+        <th scope="col" class=" px-4 py-2 text-right">
+            Salted
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            HM 2%
+        </th>
+        <th scope="col" class=" px-4 py-2 text-right">
+            Unsalted
+        </th>
+      </th>
+      <tr>
+        <td class="px-4 py-3 text-right">
+          <%= butter_stock.family_butter_salted %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.family_butter_hm2 %>
+        </td>
+         <td class="px-4 py-3 text-right">
+          <%= butter_stock.family_butter_unsalted %>
+        </td>
+      </tr>
+    </table>
+
+</div>

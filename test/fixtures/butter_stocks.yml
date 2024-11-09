@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  make_date: 2024-11-09 12:09:28
+  todays_make: 1
+  fresh_spare_for_sale: 1
+  market_returns_salted: 1
+  market_returns_hm2: 1
+  market_returns_unsalted: 1
+  freezer_stock_salted: 1
+  freezer_stock_hm2: 1
+  freezer_stock_unsalted: 1
+  family_butter_salted: 1
+  family_butter_hm2: 1
+  family_butter_unsalted: 1
+
+two:
+  make_date: 2024-11-09 12:09:28
+  todays_make: 1
+  fresh_spare_for_sale: 1
+  market_returns_salted: 1
+  market_returns_hm2: 1
+  market_returns_unsalted: 1
+  freezer_stock_salted: 1
+  freezer_stock_hm2: 1
+  freezer_stock_unsalted: 1
+  family_butter_salted: 1
+  family_butter_hm2: 1
+  family_butter_unsalted: 1

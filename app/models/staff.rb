@@ -1,4 +1,9 @@
 class Staff < ApplicationRecord
+    
+  validates :employment_status, presence: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  
   scope :ordered, -> { order(last_name: :asc) }
 
   def full_name

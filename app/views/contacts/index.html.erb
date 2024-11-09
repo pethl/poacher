@@ -1,5 +1,6 @@
 <div class="overscroll-none">
 <% content_for(:page_title, "ADMIN: CONTACTS")%>
+<% content_for(:page_button, "contacts/new")%>
 <div id="contacts">
 
 <div class="w-full"> 
@@ -8,9 +9,6 @@
   <% end %>
     </div>
 
-<div class="mx-2 text-right">
-    <%= link_to "New contact", new_contact_path, class: fill_button_class %>
-  </div>
 
   <div class="items-center rounded text-sm">
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
