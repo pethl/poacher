@@ -520,7 +520,7 @@ class MakesheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def makesheet_params
-      params.require(:makesheet).permit(:make_date, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
+      params.require(:makesheet).permit(:status, :make_date, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
     end
     
 

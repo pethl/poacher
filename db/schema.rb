@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_18_173129) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
   end
 
   create_table "makesheets", force: :cascade do |t|
+    t.string "status", default: "Created"
     t.datetime "make_date"
     t.integer "milk_used"
     t.integer "total_weight"
@@ -109,7 +110,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
     t.string "sample_no"
     t.datetime "received_date"
     t.string "sample_description"
-    t.string "make_date"
+    t.datetime "make_date"
     t.string "suite"
     t.string "classification"
     t.string "schedule"
@@ -134,6 +135,52 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "traceability_records", force: :cascade do |t|
+    t.bigint "makesheet_id"
+    t.datetime "date_started_batch"
+    t.datetime "date_finished_batch"
+    t.integer "total_weight_of_batch"
+    t.integer "confirmed_number_of_cheeses"
+    t.decimal "individual_cheese_weight_1", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_2", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_3", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_4", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_5", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_6", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_7", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_8", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_9", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_10", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_11", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_12", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_13", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_14", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_15", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_16", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_17", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_18", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_19", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_20", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_21", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_22", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_23", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_24", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_25", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_26", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_27", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_28", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_29", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_30", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_31", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_32", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_33", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_34", precision: 7, scale: 2
+    t.decimal "individual_cheese_weight_35", precision: 7, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_traceability_records_on_makesheet_id"
   end
 
   create_table "turns", force: :cascade do |t|
@@ -177,8 +224,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_09_120928) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "waste_records", force: :cascade do |t|
+    t.bigint "traceability_record_id", null: false
+    t.date "waste_date", null: false
+    t.decimal "wedges", precision: 7, scale: 2
+    t.decimal "cooking", precision: 7, scale: 2
+    t.decimal "blue", precision: 7, scale: 2
+    t.decimal "t_and_bs", precision: 7, scale: 2
+    t.decimal "waste", precision: 7, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"
+  end
+
   add_foreign_key "picksheet_items", "picksheets"
+  add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"
   add_foreign_key "wash_picksheets", "picksheets"
   add_foreign_key "wash_picksheets", "washes"
+  add_foreign_key "waste_records", "traceability_records"
 end

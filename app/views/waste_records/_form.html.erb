@@ -1,0 +1,50 @@
+
+<%= form_for [traceability_record, waste_record] do |form| %>
+
+  <% if waste_record.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(waste_record.errors.count, "error") %> prohibited this waste_record from being saved:</h2>
+
+      <ul>
+        <% waste_record.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :waste_date %>
+    <%= form.date_field :waste_date, :value => Time.now.strftime("%Y-%m-%d") , class: field_class_flex %>
+   </div>
+
+  <div class="my-5">
+    <%= form.label :wedges %>
+     <%= form.number_field :wedges, step: :any, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cooking %>
+     <%= form.number_field :cooking, step: :any, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :blue %>
+     <%= form.number_field :blue, step: :any, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :t_and_bs %>
+     <%= form.number_field :t_and_bs, step: :any, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :waste %>
+     <%= form.number_field :waste, step: :any, class: field_class_flex_small %>
+     </div>
+
+ <% form.hidden_field :tracebility_record_id, :value =>@tracebility_record_id %>
+  <div class="inline">
+    <%= form.submit class: fill_button_class %>
+  </div>
+<% end %>

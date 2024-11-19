@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  waste_date: 2024-11-18
+  wedges: 9.99
+  cooking: 9.99
+  blue: 9.99
+  t_and_bs: 9.99
+  waste: 9.99
+
+two:
+  waste_date: 2024-11-18
+  wedges: 9.99
+  cooking: 9.99
+  blue: 9.99
+  t_and_bs: 9.99
+  waste: 9.99

@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :waste_records
+  resources :traceability_records do
+    resources :waste_records, except: [:index, :show]
+  end
   resources :butter_stocks
   resources :samples
   resources :staffs

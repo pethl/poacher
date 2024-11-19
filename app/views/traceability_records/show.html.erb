@@ -1,0 +1,49 @@
+ <% content_for(:page_title, "TRACEABILITY INDIVIDUAL BATCH  #{@traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date)}")%>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+   
+    <%= render @traceability_record %>  
+  
+  
+
+   <div class= "text-base font-bold text-left underline underline-offset-2 ">
+    Waste Record (Weights in Kg)
+  </div>
+  <div class="my-1">
+      <%= link_to "New Waste Record",
+          new_traceability_record_waste_record_path(@traceability_record),
+          class: header_bar_button_class %>
+  </div>
+
+  <div class="grid grid-rows-1 grid-cols-7">
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      Date:
+    </p>
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      Wedges:
+    </p>
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      Cooking:
+    </p>
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      Blue:
+    </p>
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      T's and B's:
+    </p>
+    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
+      Waste:
+    </p>    
+  </div>
+
+    <% if @traceability_record.waste_records.any? %>
+     <%= render @waste_records, traceability_record: @traceability_record %>
+   <% end %>
+  <br>
+    <%= link_to "Edit this record", edit_traceability_record_path(@traceability_record), class: fill_button_class %>
+    <%= link_to "All Batch Traceability Records", traceability_records_path, class:clear_button_class %>
+   
+  </div>
+</div>
+
+

@@ -1,0 +1,2 @@
+module WasteRecordsHelper
+end

@@ -29,11 +29,15 @@ module ApplicationHelper
    end
    
    def field_class_unsized
-    "w-full outline:none shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 focus:border-gray-800 "
+    "w-full outline:none shadow rounded-lg border border-gray-800 bg-gray-100 font-gray-800 px-3 focus:border-gray-800 "
    end
  
    def field_class_flex
-    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 outline-none text-gray-800 px-3 w-60 focus:border-gray-800 "
+    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-60 focus:border-gray-800 "
+   end
+
+   def field_class_flex_small
+    "max-w-24 shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
    
    def field_class_fit
@@ -41,7 +45,7 @@ module ApplicationHelper
    end
    
    def field_class_no_block
-    "block outline:none shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
+    "block outline:none shadow rounded-lg border border-gray-800 bg-gray-100 font-gray-800 px-3 w-60"
    end
    
    def gray_button
@@ -153,4 +157,11 @@ module ApplicationHelper
     trafficlights = Reference.where(active: "TRUE", group: 'trafficlights')
     trafficlights = trafficlights.pluck(:value)       
   end
+
+  def batch_status
+    batch_status = Reference.where(active: "TRUE", group: 'batch_status')
+    batch_status = batch_status.pluck(:value)       
+  end
+
+  
 end

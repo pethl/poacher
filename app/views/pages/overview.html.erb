@@ -22,16 +22,14 @@
                       Nursery
                   </th>
                   <th scope="col" class="px-6 py-3 text-right">
-                      Shelves
+                      Store
                   </th>
                   <th scope="col" class="px-6 py-3 text-right">
                       Wash
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right">
-                      Todays Cutting
-                  </th>
+                 
                   <th scope="col" class="px-6 py-3 text-center">
-                      Shipped Yesterday
+                      Finished
                   </th>
                 </tr>
           </thead>
@@ -42,21 +40,19 @@
                     Ungraded
                 </th>
                 <td class="border-r-2 border-gray-800 px-6 py-4 text-right text-gray-800">
-                    <%= Makesheet.where('make_date BETWEEN ? AND ?', DateTime.now.beginning_of_day, DateTime.now.end_of_day).sum(:number_of_cheeses) %>
+                    <%= Makesheet.where(status: "Created").sum(:number_of_cheeses) %>
                 </td>
                 <td class="border-r-2 border-gray-800 px-6 py-4 text-right text-gray-800">
-                    <%= Makesheet.where(grade: "").sum(:number_of_cheeses) %>
+                    <%= Makesheet.where(status: "Nursery").sum(:number_of_cheeses) %>
                 </td>
                 <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                    <%= Makesheet.where(status: "Store", grade: "").sum(:number_of_cheeses) %>
                 </td>
                 <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                  
+                   <%= Makesheet.where(status: "Wash", grade: "").sum(:number_of_cheeses) %>
                 </td>
-                <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                </td>
-                <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-          
+                 <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                   <%= Makesheet.where(status: "Finished", grade: "").sum(:number_of_cheeses) %>
                 </td>
               </tr>
               <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-100">
@@ -70,16 +66,13 @@
                  
                   </td>
                   <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                     <%= Makesheet.where(grade: "Poacher").sum(:number_of_cheeses) %>
+                     <%= Makesheet.where(status: "Store", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
                   <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                  5
+                     <%= Makesheet.where(status: "Wash", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
-                  <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                  </td>
-                  <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-            
+                  <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                     <%= Makesheet.where(status: "Finished", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
                 </tr>
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-100">
@@ -93,16 +86,13 @@
                  
                     </td>
                     <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                       <%= Makesheet.where(grade: "Vintage").sum(:number_of_cheeses) %>
+                       <%= Makesheet.where(status: "Store", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
                     <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                    1
+                     <%= Makesheet.where(status: "Wash", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
-                    <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                    </td>
-                    <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-              
+                    <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                     <%= Makesheet.where(status: "Finished", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
                   </tr>
                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
@@ -116,16 +106,13 @@
                  
                       </td>
                       <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                         <%= Makesheet.where(grade: "Knuckle Duster").sum(:number_of_cheeses) %>
+                          <%= Makesheet.where(status: "Store", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
                       <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                      2
+                        <%= Makesheet.where(status: "Wash", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
-                      <td class="border-r-2 border-gray-800 px-6 py-4 text-center">
-                  
-                      </td>
-                      <td class="border-r-2 border-gray-800 px-6 py-4 text-center">
-                
+                       <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                        <%= Makesheet.where(status: "Finished", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
                     </tr>
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
@@ -139,16 +126,13 @@
                  
                         </td>
                         <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                           <%= Makesheet.where(grade: "P50").sum(:number_of_cheeses) %>
+                           <%= Makesheet.where(status: "Store", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
                         <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                        1
+                             <%= Makesheet.where(status: "Wash", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
-                        <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                        </td>
-                        <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
+                         <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                             <%= Makesheet.where(status: "Finished", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
                       </tr>
                       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
@@ -162,16 +146,13 @@
                  
                           </td>
                           <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                             <%= Makesheet.where(grade: "Smoked").sum(:number_of_cheeses) %>
+                             <%= Makesheet.where(status: "Store", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
                           <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                          2
+                           <%= Makesheet.where(status: "Wash", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
-                          <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                          </td>
-                          <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
+                          <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                           <%= Makesheet.where(status: "Finished", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
@@ -185,17 +166,14 @@
                  
                             </td>
                             <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                               <%= Makesheet.where(grade: "Special").sum(:number_of_cheeses) %>
+                              <%= Makesheet.where(status: "Store", grade: "Special").sum(:number_of_cheeses) %>
                             </td>
                             <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
-                  
-                            </td>
-                            <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                            </td>
-                            <td class="border-r-2 border-gray-800 px-6 py-4  text-center">
-                  
-                            </td>
+                              <%= Makesheet.where(status: "Wash", grade: "Special").sum(:number_of_cheeses) %>
+                           </td>
+                             <td class="border-r-2 border-gray-800 px-6 py-4 text-right">
+                              <%= Makesheet.where(status: "Finished", grade: "Special").sum(:number_of_cheeses) %>
+                           </td>
                           </tr>
           </tbody>
     </table>

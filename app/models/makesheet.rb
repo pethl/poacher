@@ -1,10 +1,19 @@
 class Makesheet < ApplicationRecord
   has_many :turns
+  has_many :traceability_records
   
   validates :make_date, presence: true
   
   scope :ordered, -> { order(make_date: :asc) }
    
+  def make_date_formatted
+    self.make_date.to_formatted_s(:uk_clean_date)
+  end
+
+  def make_date_formatted_batch_grade
+    self.make_date.to_formatted_s(:uk_clean_date) + " ["+self.batch_and_grade+"]"
+  end
+
   def yield
     (self.total_weight.to_f/(self.milk_used.to_f)*100)
   end

@@ -18,5 +18,6 @@ module.exports = {
       charts: true
     })
   ],
-  content: ["./node_modules/flowbite/**/*.js"]
+  content: ["./node_modules/flowbite/**/*.js"],
+  autoprefixer: {}
 }
