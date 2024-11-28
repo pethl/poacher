@@ -7,8 +7,8 @@
  
  <div class="grid grid-cols-3 gap-4 mb-4">
     
-    <div class="col-span-2">
-      <p class="text-base text-left font-light">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
+    <div class="col-span-3 md:col-span-2">
+      <p class="text-sm md:text-base text-left font-light ">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
       <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
       </p>
     </div>
@@ -16,7 +16,7 @@
 
   </div>
   
-  <div class="w-2/3 place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
+  <div class=" md:w-2/3 w-full place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
   <div class="mt-2">
    <% @references_by_group.each do |group, references| %>
       <div class="text-xl font-bold pt-2">

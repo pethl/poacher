@@ -97,7 +97,7 @@
                   <%= sample.sample_description %>
                 </td>
                 <td class="px-6 py-4 text-left whitespace-nowrap">
-                  <%= sample.make_date %>
+                  <%= sample.make_date.to_formatted_s(:uk_clean_date) unless sample.make_date.to_s.empty? %>
                 </td>
                 <td class="px-6 py-4 text-left whitespace-nowrap">
                   <%=  sample.suite %>

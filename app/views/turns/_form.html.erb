@@ -12,22 +12,22 @@
     </div>
   <% end %>
 
-  <div>
+  <div class="my-2">
     <%= form.label :turn_date, class: label_class %>
     <%= form.date_field :turn_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex %>
   </div>
 
-  <div>
+  <div class="my-2">
     <%= form.label :makesheet_id, "Batch", class: label_class %>
     <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex}) %>
   </div>
 
-  <div>
+  <div class="my-2">
     <%= form.label :turned_by, class: label_class %>
     <%=  form.select :turned_by, options_for_select(turned_by, :selected => turn.turned_by),{:prompt=>true}, class: field_class_flex %>
   </div>
 
-  <div>
+ <div class="my-2">
     <%= form.submit class: fill_button_class %>
      <%= link_to "Back to All Turns", turns_path, class: gray_button %>
   </div>

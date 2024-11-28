@@ -16,28 +16,29 @@
   </div>
 
   <div class="grid grid-rows-1 grid-cols-7">
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      Date:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      Date
     </p>
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      Wedges:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      Wedges
     </p>
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      Cooking:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      Cooking
     </p>
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      Blue:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      Blue
     </p>
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      T's and B's:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      T's and B's
     </p>
-    <p class=" border border-gray-400 text-center p-2 bg-gray-200">
-      Waste:
+    <p class=" border border-gray-400 text-center p-1 bg-gray-200">
+      Waste
     </p>    
   </div>
 
     <% if @traceability_record.waste_records.any? %>
      <%= render @waste_records, traceability_record: @traceability_record %>
+     <%= render 'waste_record_totals' %>
    <% end %>
   <br>
     <%= link_to "Edit this record", edit_traceability_record_path(@traceability_record), class: fill_button_class %>

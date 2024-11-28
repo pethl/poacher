@@ -157,17 +157,20 @@
 
       <p class="pl-4 pt-2 my-2 col-span-2">
         <span class="font-bold mb-1">Total No. of Cheeses of Batch:</span>
+        
         <%= traceability_record.confirmed_number_of_cheeses %>
+       <%= traceability_record.calculated_batch_cheese_count %>
       </p>
 
       <p class="pl-4 col-span-2 border-b-2 border-l-2 border-r-2 border-gray-800">
         <span class="font-bold mb-1">Total Weight of Batch:</span>
         <%= traceability_record.makesheet.total_weight %>
-      </p>
+       </p>
 
       <p class="pl-4 my-2 col-span-2">
         <span class="font-bold mb-1">Total Weight of Batch(Kg):</span>
         <%= traceability_record.total_weight_of_batch %>
+         <%= traceability_record.calculated_batch_cheese_weight_total %>
       </p>
     </div>
 <hr class="mb-2 mt-2">

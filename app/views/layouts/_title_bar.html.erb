@@ -1,15 +1,15 @@
 <% if content_for(:page_title)%>
  
    <div class="max-w-screen-4xl h-12">
-    <div class="w-full flex justify-between bg-gray-200 pl-4 font-strong text-black shadow-md">
+    <div class="fixed top-10 z-50 w-full flex justify-between bg-gray-200 pl-4 font-strong text-black shadow-md">
       
         <div class="text-left text-xl py-1">
           <%= yield(:page_title)%>
         </div>
         
-        <div class="inline mr-8 pb-1">
+        <div class="inline mr-8 mt-1">
         <% if content_for(:page_button)%>
-          <div class="text-right content-center "> <%= link_to "Add New", yield(:page_button), class:header_bar_button_class %> 
+          <div class="text-right content-center"> <%= link_to " Add New ", yield(:page_button), class:header_bar_button_class %> 
           </div>
         <% end %>
         </div>

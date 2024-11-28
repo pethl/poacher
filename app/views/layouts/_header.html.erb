@@ -1,18 +1,17 @@
  <header class="sticky top-0 z-50 border border-gray-100 bg-gray-800 text-gray-100">
    
-    <div class="mx-auto max-w-screen-xl relative flex h-10 items-center justify-between gap-2">
+    <div class="mx-auto max-w-screen-xl flex h-10 items-center justify-between gap-2">
      
        <a href="/pages/home">
-          <div class="inline-flex text-sm">
-            <span class="font-medium ml-2 text-gray-100">Lincolnshire Poacher</span>
-            <span aria-hidden="true" role="img">🧀</span>
+          <div class="inline-flex text-sm pr-8">
+            <span class="font-medium ml-2 text-gray-100"></span>
+           
           </div>
         </a>
     
        <nav class="text-center md:block">
         <ul class="flex gap-4">
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/dairy_home">Dairy</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/store_home">Store</a></li>
+          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/dairy_home">Dairy & Store</a></li>
           <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/cutting_home">Cutting</a></li>
           <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/admin_home">Office</a></li>
         </ul>
@@ -21,7 +20,7 @@
 
       <% if user_signed_in? %> 
          <section class= "inline-flex">
-          <div class="grid inline-grid grid-cols-2 justify-items-center my-4 ">
+          <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4 ">
             <div>
               <%= link_to edit_user_registration_path do %>
               <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
@@ -50,7 +49,6 @@
         </div>
     <% end %>
         </section>
-
   
    </div>
 </header>
