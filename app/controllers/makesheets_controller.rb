@@ -7,11 +7,40 @@ class MakesheetsController < ApplicationController
          @makesheets = Makesheet.where(batch: params[:search_by_batch])
        end 
   end
+
+  def overview
+  end  
+  
   
   def batch_turns
     @turns = @makesheet.turns.ordered
     @batch_turns_graph_data = get_data(@makesheet)
   end
+
+  def graded_blackboard
+    @makesheets = Makesheet.where("status NOT IN (?)", "Finished").where("grade <> ''").order("grade ASC, make_date ASC")
+    @makesheets_by_grade = @makesheets.group_by { |t| t.grade }
+  end
+
+  def monthly_summary
+    @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
+   
+      @total_monthly_milk_litres =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).pluck(:milk_used).compact.sum
+
+      @large_poacher_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
+      @large_poacher_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
+
+     # @red_poacher_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
+     # @red_poacher_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
+
+      @medium_cheese_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
+      @medium_cheese_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
+
+      @small_cheese_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
+      @small_cheese_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
+
+  end
+  
   
   # GET /makesheets or /makesheets.json
   def index
@@ -511,6 +540,8 @@ class MakesheetsController < ApplicationController
         #   pdf.image logo_img_path, :at => [482,742], :width => 80 
            send_data pdf.render, filename: 'make_sheet.pdf', type: 'application/pdf', :disposition => 'inline'
   end
+   
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.

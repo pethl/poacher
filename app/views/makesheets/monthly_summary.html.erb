@@ -1,0 +1,159 @@
+<% content_for(:page_title, "Monthly Cheese Making Summary ")%>
+ <% content_for(:print_button, "browser-print")%>
+  <% title "Monthly Cheese Making Summary" %>
+
+ <div class="mx-auto w-full place-content-center p-4  text-sm">
+     
+  <div class="flex flex-col h-screen">
+    <div class="flex-grow overflow-auto">
+      <table class="relative table-auto w-full text-xs text-left text-gray-500 ">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+          <tr class="sticky top-0">
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center bg-white text-xl">
+              <%= Date.today.strftime("%B %Y") %>
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border border-gray-400">
+                  POACHER LARGE
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border border-gray-400">
+                  RED LARGE
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border border-gray-400">
+                  MEDIUM
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border border-gray-400">
+                  SMALL
+            </th>
+          </tr>
+          <tr class="bg-gray-200 sticky top-10 border-b border-gray-400">
+            <th scope="col" class="sticky top-0 px-6 py-2 text-center  border border-gray-400">
+                Date
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right border border-gray-400">
+                Litres
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                No. Made
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right  border-r border-gray-400 ">
+                Weight (kg)
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                No. Made
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right  border-r border-gray-400 ">
+                Weight (kg)
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                No. Made
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right  border-r border-gray-400  ">
+                Weight (kg)
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                No. Made
+            </th>
+            <th scope="col" class="sticky top-0 px-6 py-2 text-right  border-r border-gray-400  ">
+                Weight (kg)
+            </th>
+          </tr>
+        </thead>  
+        <tbody class="overflow-contain">
+          <% if @makesheets.any? %>
+            <% @makesheets.each do |makesheet| %> 
+           
+            <tr class="border-b border-gray-400 hover:bg-gray-100">
+               <td class="px-6 py-2 text-right whitespace-nowrap underline underline-offset-2 border-r border-l border-gray-400">
+                 <% unless makesheet.make_date.to_s.empty? %>
+                  <%= link_to makesheet.make_date.to_formatted_s(:uk_clean_date), makesheet %>
+                  <% end %>
+                </td>
+                <td class="px-6 py-2 text-right border-r border-gray-400">
+                  <%=  number_with_delimiter(makesheet.milk_used)  %>
+                </td>
+                <td class="px-6 py-2 text-right">
+                  <% if makesheet.weight_type == "Standard (20 kgs)"%>
+                    <%=  makesheet.number_of_cheeses  %>
+                  <% end %>
+                </td>
+                 <td class="px-6 py-2 text-right border-r border-gray-400">
+                  <% if makesheet.weight_type == "Standard (20 kgs)"%>
+                    <%=  makesheet.total_weight  %>
+                  <% end %>
+                </td>
+                <td class="px-6 py-2 text-right">
+                  TBD red
+                </td>
+                 <td class="px-6 py-2 text-right border-r border-gray-400">
+                 TBD red
+                </td>
+                <td class="px-6 py-2 text-right">
+                 <% if makesheet.weight_type == "Midi (8 kgs)"%>
+                    <%=  makesheet.number_of_cheeses  %>
+                  <% end %>
+                </td>
+                 <td class="px-6 py-2 text-right border-r border-gray-400">
+                   <% if makesheet.weight_type == "Midi (8 kgs)"%>
+                    <%=  makesheet.total_weight  %>
+                  <% end %>
+                </td>
+                <td class="px-6 py-2 text-right">
+                  <% if makesheet.weight_type == "2.5kg"%>
+                    <%=  makesheet.number_of_cheeses  %>
+                  <% end %>
+                </td>
+                <td class="px-6 py-2 text-right border-r border-gray-400">
+                   <% if makesheet.weight_type == "2.5kg"%>
+                    <%=  makesheet.total_weight  %>
+                  <% end %>
+                </td>
+            </tr>
+            <% end %>
+       
+        <tr class="text-right font-bold border-b bg-gray-200 hover:bg-gray-100">
+          <td class="px-6 py-2 text-xs text-gray-700 uppercase bg-gray-200 border-b border-r border-gray-400 ">
+            Totals:
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
+            <%= number_with_delimiter(@total_monthly_milk_litres) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-gray-400  ">
+            <%= number_with_delimiter(@large_poacher_count) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
+            <%= number_with_delimiter(@large_poacher_weight) %>
+          </td>
+           <td class="px-6 py-2 text-right border-b  border-gray-400  ">
+            TBD
+          </td>
+           <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
+            TBD
+          </td>
+           <td class="px-6 py-2 text-right border-b border-gray-400  ">
+            <%= number_with_delimiter(@medium_cheese_count) %>
+          </td>
+           <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
+            <%= number_with_delimiter(@medium_cheese_weight) %>
+          </td>
+           <td class="px-6 py-2 text-right border-b border-gray-400  ">
+            <%= number_with_delimiter(@small_cheese_count) %>
+          </td>
+           <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
+            <%= number_with_delimiter(@small_cheese_weight) %>
+          </td>
+
+          </tr>
+      </tbody>  
+     </div>
+</div>
+
+    </table>
+
+      <% else %>
+      No makesheet records to Show
+        <% end %>
+</div>
+  </div>
+
+
+</div>

@@ -37,5 +37,7 @@ class Makesheet < ApplicationRecord
       self.batch
     end 
   end
+
+  
  
 end

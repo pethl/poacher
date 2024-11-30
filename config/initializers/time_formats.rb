@@ -11,6 +11,7 @@ Time::DATE_FORMATS[:uk_m_y] = '%b %Y'
 Date::DATE_FORMATS[:usa_dt] = '%b %d, %Y %H:%M'
 Time::DATE_FORMATS[:hour_clock_12] = '%I:%M %p'
 Date::DATE_FORMATS[:custom] = "%Y-%m-%d"
+Date::DATE_FORMATS[:long_day] = "%A"
 
 #%A Monday
 #%a Mon

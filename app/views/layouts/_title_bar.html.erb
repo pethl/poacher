@@ -8,8 +8,21 @@
         </div>
         
         <div class="inline mr-8 mt-1">
-        <% if content_for(:page_button)%>
+       <% if content_for(:page_button)%>
           <div class="text-right content-center"> <%= link_to " Add New ", yield(:page_button), class:header_bar_button_class %> 
+          </div>
+        <% end %>
+
+        <% if content_for(:print_button)%>
+           <% if content_for(:print_button)=="browser-print"%>
+             <div class="text-right content-center"> 
+              <%= link_to "Print", '#', class: header_bar_button_class, 
+                onclick: 'window.print();return false;' %>
+               </div>
+            <% end %>
+         
+          <div class="text-right content-center"> 
+            <%= link_to "Print ", yield(:print_button), class:header_bar_button_class %> 
           </div>
         <% end %>
         </div>

@@ -1,0 +1,67 @@
+<div class="overscroll-none">
+<% content_for :title, "Poacher: Butter Make" %>
+<% content_for(:page_title, "BUTTER MAKE SCHEDULE")%>
+<% content_for(:page_button, "butter_makes/new")%>
+<div id="butter_makes">
+
+<div class="items-center rounded text-sm">
+<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+
+<div class="mx-auto relative w-2/3 sticky top-0 font-normal text-left text-sm m-2">
+<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
+</div>
+
+<div class="flex flex-col h-screen">
+    <div class="flex-grow overflow-auto">
+      <table class="mx-auto relative w-2/3 border text-sm text-center text-gray-500  ">
+       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+        <tr class="bg-gray-200 sticky top-0 text-right">
+                <th scope="col" class="sticky top-0 px-6 py-2 ">
+                   Day
+                </th>
+                <th scope="col" class="sticky top-0 px-6 py-2underline underline-offset-2">
+                   Date
+                </th>
+                <th id="batch" class="sticky top-0 px-6 py-2">
+                   Cream
+                </th>
+                <th scope="col" class="sticky top-0 px-6 py-2">
+                    Make
+                </th>
+                <th scope="col" class="sticky top-0 px-6 py-2">
+                   Stock
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody class="overflow-contain">
+         <% @butter_makes.each do |butter_make| %>
+         <% if Date.today == butter_make.date %>
+          <tr class="border-b  bg-green-100 hover:bg-gray-100 text-right">
+            <% else %>
+            <tr class="border-b  hover:bg-gray-100 text-right">
+              <% end %>
+                <td scope="row" class="px-6 py-2 whitespace-nowrap">
+                   <%= butter_make.date.to_formatted_s(:long_day) %>
+                </td>
+                <td class="px-6 py-2 underline underline-offset-2">
+                  <%=  link_to butter_make.date.to_formatted_s(:uk_clean_date), butter_make_path(butter_make) %>
+                </td>
+                <td class="px-6 py-2 whitespace-nowrap">
+                  <%= butter_make.cream %>
+                </td>
+                <td class="px-6 py-2 ">
+                  <%=  butter_make.make %>
+                </td>
+                <td class="px-6 py-2 ">
+                  <%=  butter_make.stock %>
+                </td>
+                
+            </tr>
+              <% end %>
+        </tbody>
+    </table>
+</div>
+
+
+

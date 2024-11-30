@@ -3,9 +3,6 @@ class PagesController < ApplicationController
     @makesheets = Makesheet.all
   end
   
-  def overview
-  end  
-  
   def dairy_home
     @makesheets = Makesheet.order('make_date DESC')
   #  @makesheets = @makesheets.last(7)

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :butter_makes
   resources :waste_records
   resources :traceability_records do
     resources :waste_records, except: [:index, :show]
@@ -22,7 +23,7 @@ Rails.application.routes.draw do
   get "pages/admin_home"
   get "pages/admin_home"
   get "pages/home"
-  get "pages/overview"
+  
   get "pages/cutting_home"
   get "pages/dairy_home"
   get "pages/nursery_home"
@@ -38,6 +39,10 @@ Rails.application.routes.draw do
   get "/print_washsheet_pdf" => "washes#print_washsheet_pdf"
  
   get "makesheets/makesheet_search"
+  get "makesheets/graded_blackboard"
+  get "makesheets/monthly_summary"
+  get "makesheets/overview"
+  
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
 # get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"
   

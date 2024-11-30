@@ -3,6 +3,10 @@ module ApplicationHelper
   def render_turbo_stream_flash_messages
      turbo_stream.prepend "flash", partial: "layouts/flash"
    end
+
+   def title(page_title)
+    content_for :title, page_title.to_s
+  end
    
    def information_text_class
      "text-base text-left font-normal"
@@ -69,7 +73,7 @@ module ApplicationHelper
     end
     
     def header_bar_button_class
-      "text-xs text-right hover:bg-grey-600 bg-gray-800 p-1 text-gray-100 font-base border border-gray-200 rounded-md"
+      "text-xs text-center font-base hover:bg-grey-600 bg-gray-800 p-1 pl-2 pr-2 text-gray-100 border border-gray-200 rounded-md"
     end
    
    def dropdown_list_class

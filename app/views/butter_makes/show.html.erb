@@ -1,0 +1,16 @@
+<% content_for :title, "Poacher: Butter Make Schedule" %>
+<% content_for(:page_title, "BUTTER MAKE SCHEDULE")%>
+<div class="mx-auto md:w-2/3 text-right w-full flex">
+
+  <div class="mx-auto">
+    
+    <%= render @butter_make %>
+
+    <%= link_to "Edit Butter Schedule", edit_butter_make_path(@butter_make), class: fill_button_class %>
+    <br>
+    <%= link_to "See Butter Schedule", butter_makes_path, class:clear_button_class %>
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy this butter make record", @butter_make, method: :delete, class: clear_button_class %>
+    </div>
+  </div>
+</div>
