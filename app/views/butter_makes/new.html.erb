@@ -1,7 +1,11 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New butter make</h1>
+<% content_for(:page_title, "New: BUTTER MAKE SCHEDULE")%>
+<div class="mx-auto md:w-1/3 text-right w-full">
 
-  <%= render "form", butter_make: @butter_make %>
-
+ 
+  <%= turbo_frame_tag "second_frame" do %>
+    <%= render "form", butter_make: @butter_make %>
+  <% end %>
+ 
+<br>
   <%= link_to "Back to butter makes", butter_makes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

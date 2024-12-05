@@ -1,6 +1,6 @@
- <header class="sticky top-0 z-50 border border-gray-100 bg-gray-800 text-gray-100">
+ <header class="sticky top-0 z-50 border border-gray-100  text-gray-100">
    
-    <div class="mx-auto max-w-screen-xl flex h-10 items-center justify-between gap-2">
+    <div class="mx-auto max-w-screen-xl flex h-10 items-center justify-between gap-2 bg-gray-800">
      
        <a href="/pages/home">
           <div class="inline-flex text-sm pr-8">
@@ -11,21 +11,21 @@
     
        <nav class="text-center md:block">
         <ul class="flex gap-4">
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/dairy_home">Dairy & Store</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/cutting_home">Cutting</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/admin_home">Office</a></li>
-         <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-200 hover:opacity-75" href="/pages/mgmt_home">Mgmt</a></li>
+          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/dairy_home">Dairy & Store</a></li>
+          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/cutting_home">Cutting</a></li>
+          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/admin_home">Office</a></li>
+          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/mgmt_home">Mgmt</a></li>
         </ul>
       </nav>
 
 
       <% if user_signed_in? %> 
          <section class= "inline-flex">
-          <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4 ">
+          <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4 mr-6">
             <div>
               <%= link_to edit_user_registration_path do %>
               <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
-              <% end %>
+              <% end %> 
             
               <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip ">
                 Edit Profile
@@ -52,4 +52,8 @@
         </section>
   
    </div>
+
+    <section>
+      <%= render "layouts/title_bar" %>
+    </section>
 </header>

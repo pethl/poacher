@@ -1,22 +1,31 @@
-<div id="<%= dom_id butter_make %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Date:</strong>
-    <%= butter_make.date %>
-  </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Cream:</strong>
-    <%= butter_make.cream %>
-  </p>
+          <% if Date.today == butter_make.date %>
+            <tr class="border-b  bg-green-100 hover:bg-gray-100 text-right">
+            <% else %>
+            <tr class="border-b hover:bg-gray-100 text-right">
+          <% end %>
+                <td scope="row" class="px-4 py-2  whitespace-nowrap">
+                   <%= butter_make.date.to_formatted_s(:short_day) %>
+                </td>
+                <td class="px-4 py-2 underline underline-offset-2">
+                  <%=  link_to butter_make.date.to_formatted_s(:uk_clean_date), butter_make_path(butter_make) %>
+                </td>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Make:</strong>
-    <%= butter_make.make %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Stock:</strong>
-    <%= butter_make.stock %>
-  </p>
+               <%= turbo_frame_tag :cream do %>
+                  <td class="px-4 py-2 ">
+                  <%= link_to butter_make.cream, [:edit, butter_make] %>
+                  </td>
+               <% end %>
+     
+                <td class="px-4 py-2 ">
+                  <%=  butter_make.make %>
+                </td>
+                <td class="px-4 py-2 ">
+                  <%=  butter_make.stock %>
+                </td>
+                <td class="px-4 py-2 ">
+                  <%=  butter_make.stock_calc %>
+                </td>
+            </tr>
 
 </div>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+   get "butter_makes/create_month"
   resources :butter_makes
   resources :waste_records
   resources :traceability_records do

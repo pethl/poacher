@@ -29,7 +29,7 @@ module ApplicationHelper
    end
 
    def field_class
-    " shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
+    "outline:none shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
    end
    
    def field_class_unsized

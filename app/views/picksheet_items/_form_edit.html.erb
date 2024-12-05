@@ -39,11 +39,11 @@
      </div>
    <div>
      <%= form.label :count, class:"font-semibold text-sm pl-4" %><br>
-      <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
+      <%= form.number_field :count, class: "rounded-lg w-16" %>
    </div>
    <div>
-     <%= form.label :weight, "Weight (kgs)",class:"font-semibold text-sm pl-4 w-20" %><br>
-      <%= form.text_field :weight, value: (number_with_delimiter(picksheet_item.get_weight/1000) unless picksheet_item.product.to_s.empty?), readonly: true, class: "bg-green-800 rounded-lg" %>
+     <%= form.label :weight, "Weight (kgs)",class:"font-semibold text-sm pl-4" %><br>
+      <%= form.text_field :weight, class: "rounded-lg" %>
    </div>
    <div>
      <%= form.label :code, class:"font-semibold text-sm w-20" %><br>
@@ -51,11 +51,11 @@
    </div>
    <div>
      <%= form.label :sp_price, "Price", class:"font-semibold text-sm pl-4" %><br>
-      <%= form.number_field :sp_price, class: "text-green-800 rounded-lg w-16" %>
+      <%= form.number_field :sp_price, class: "rounded-lg w-16" %>
    </div>
    <div>
      <%= form.label :bb_date,"B/b Date:", class:"font-semibold text-sm pl-4" %><br>
-      <%= form.date_field :bb_date, class: "text-green-800 rounded-lg w-32" %>
+      <%= form.date_field :bb_date, class: "rounded-lg w-32" %>
    </div>
       </div>
       

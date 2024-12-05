@@ -29,6 +29,10 @@ class Makesheet < ApplicationRecord
   def age_in_months
     ((Date.today - self.make_date.to_date)/30).to_i
   end
+
+  def make_month
+    self.make_date.strftime("%B %Y")
+  end
   
   def batch_and_grade
     if self.grade?
@@ -38,6 +42,5 @@ class Makesheet < ApplicationRecord
     end 
   end
 
-  
  
 end

@@ -2,28 +2,28 @@
  <% content_for(:print_button, "browser-print")%>
  <% title "Stock Position" %>
 
-<div class="mx-auto w-full place-content-center p-4 text-sm">
+<div class="mx-auto w-full md:w-2/3 place-content-center p-4 text-sm">
   
   <div class="relative overflow-x-auto ">
-      <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
+      <table class="w-full table-fixed   text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
           <thead class="text-xs uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                  <th scope="col" class="px-6 py-3 text-right  bg-white">
+                  <th scope="col" class="px-4 py-3 text-right  bg-white">
                       <span class="text-xs text-italic font-light"># of cheese units</span>
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right border border-gray-400">
+                  <th scope="col" class="px-4 py-3 text-right border border-gray-400">
                       Dairy
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right border border-gray-400">
+                  <th scope="col" class="px-4 py-3 text-right border border-gray-400">
                       Nursery
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right border border-gray-400">
+                  <th scope="col" class="px-4 py-3 text-right border border-gray-400">
                       Store
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right border border-gray-400">
+                  <th scope="col" class="px-4 py-3 text-right border border-gray-400">
                       Wash
                   </th>
-                  <th scope="col" class="px-6 py-3 text-right border border-gray-400">
+                  <th scope="col" class="px-4 py-3 text-right border border-gray-400">
                       Finished
                   </th>
                 </tr>
@@ -31,142 +31,142 @@
           <tbody>
           
             <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                <th scope="row" class="border-l border-r border-t border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th scope="row" class="border-l border-r border-t border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     Ungraded
                 </th>
-                <td class="border-r border-gray-400 px-6 py-2 text-right">
+                <td class="border-r border-gray-400 px-4 py-2 text-right">
                     <%= Makesheet.where(status: "Created").sum(:number_of_cheeses) %>
                 </td>
-                <td class="border-r border-gray-400 px-6 py-2 text-right">
+                <td class="border-r border-gray-400 px-4 py-2 text-right">
                     <%= Makesheet.where(status: "Nursery").sum(:number_of_cheeses) %>
                 </td>
-                <td class="border-r border-gray-400 px-6 py-2 text-right">
+                <td class="border-r border-gray-400 px-4 py-2 text-right">
                     <%= Makesheet.where(status: "Store", grade: "").sum(:number_of_cheeses) %>
                 </td>
-                <td class="border-r border-gray-400 px-6 py-2 text-right">
+                <td class="border-r border-gray-400 px-4 py-2 text-right">
                    <%= Makesheet.where(status: "Wash", grade: "").sum(:number_of_cheeses) %>
                 </td>
-                 <td class="border-r border-gray-400 px-6 py-2 text-right">
+                 <td class="border-r border-gray-400 px-4 py-2 text-right">
                    <%= Makesheet.where(status: "Finished", grade: "").sum(:number_of_cheeses) %>
                 </td>
               </tr>
               <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-100">
-                  <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   Poacher
                   </th>
-                  <td class="border-r border-gray-400 px-6 py-2 text-right">
+                  <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                   </td>
-                  <td class="border-r border-gray-400 px-6 py-2 text-right">
+                  <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                   </td>
-                  <td class="border-r border-gray-400 px-6 py-2 text-right">
+                  <td class="border-r border-gray-400 px-4 py-2 text-right">
                      <%= Makesheet.where(status: "Store", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
-                  <td class="border-r border-gray-400 px-6 py-2 text-right">
+                  <td class="border-r border-gray-400 px-4 py-2 text-right">
                      <%= Makesheet.where(status: "Wash", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
-                  <td class="border-r border-gray-400 px-6 py-2 text-right">
+                  <td class="border-r border-gray-400 px-4 py-2 text-right">
                      <%= Makesheet.where(status: "Finished", grade: "Poacher").sum(:number_of_cheeses) %>
                   </td>
                 </tr>
                 <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700  hover:bg-gray-100">
-                    <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     Vintage
                     </th>
-                    <td class="border-r border-gray-400 px-6 py-2 text-right">
+                    <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                     </td>
-                    <td class="border-r border-gray-400 px-6 py-2 text-right">
+                    <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                     </td>
-                    <td class="border-r border-gray-400 px-6 py-2 text-right">
+                    <td class="border-r border-gray-400 px-4 py-2 text-right">
                        <%= Makesheet.where(status: "Store", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
-                    <td class="border-r border-gray-400 px-6 py-2 text-right">
+                    <td class="border-r border-gray-400 px-4 py-2 text-right">
                      <%= Makesheet.where(status: "Wash", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
-                    <td class="border-r border-gray-400 px-6 py-2 text-right">
+                    <td class="border-r border-gray-400 px-4 py-2 text-right">
                      <%= Makesheet.where(status: "Finished", grade: "Vintage").sum(:number_of_cheeses) %>
                     </td>
                   </tr>
                   <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                      <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       K Duster
                       </th>
-                      <td class="border-r border-gray-400 px-6 py-2 text-right">
+                      <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                       </td>
-                      <td class="border-r border-gray-400 px-6 py-2 text-right">
+                      <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                       </td>
-                      <td class="border-r border-gray-400 px-6 py-2 text-right">
+                      <td class="border-r border-gray-400 px-4 py-2 text-right">
                           <%= Makesheet.where(status: "Store", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
-                      <td class="border-r border-gray-400 px-6 py-2 text-right">
+                      <td class="border-r border-gray-400 px-4 py-2 text-right">
                         <%= Makesheet.where(status: "Wash", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
-                       <td class="border-r border-gray-400 px-6 py-2 text-right">
+                       <td class="border-r border-gray-400 px-4 py-2 text-right">
                         <%= Makesheet.where(status: "Finished", grade: "Knuckle Duster").sum(:number_of_cheeses) %>
                       </td>
                     </tr>
                     <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                        <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         P50
                         </th>
-                        <td class="border-r border-gray-400 px-6 py-2 text-right">
+                        <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                         </td>
-                        <td class="border-r border-gray-400 px-6 py-2 text-right">
+                        <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                         </td>
-                        <td class="border-r border-gray-400 px-6 py-2 text-right">
+                        <td class="border-r border-gray-400 px-4 py-2 text-right">
                            <%= Makesheet.where(status: "Store", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
-                        <td class="border-r border-gray-400 px-6 py-2 text-right">
+                        <td class="border-r border-gray-400 px-4 py-2 text-right">
                              <%= Makesheet.where(status: "Wash", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
-                         <td class="border-r border-gray-400 px-6 py-2 text-right">
+                         <td class="border-r border-gray-400 px-4 py-2 text-right">
                              <%= Makesheet.where(status: "Finished", grade: "P50").sum(:number_of_cheeses) %>
                         </td>
                       </tr>
                       <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                          <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                          <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                           Smoked
                           </th>
-                          <td class="border-r border-gray-400 px-6 py-2 text-right">
+                          <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                           </td>
-                          <td class="border-r border-gray-400 px-6 py-2 text-right">
+                          <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                           </td>
-                          <td class="border-r border-gray-400 px-6 py-2 text-right">
+                          <td class="border-r border-gray-400 px-4 py-2 text-right">
                              <%= Makesheet.where(status: "Store", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
-                          <td class="border-r border-gray-400 px-6 py-2 text-right">
+                          <td class="border-r border-gray-400 px-4 py-2 text-right">
                            <%= Makesheet.where(status: "Wash", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
-                          <td class="border-r border-gray-400 px-6 py-2 text-right">
+                          <td class="border-r border-gray-400 px-4 py-2 text-right">
                            <%= Makesheet.where(status: "Finished", grade: "Smoked").sum(:number_of_cheeses) %>
                           </td>
                         </tr>
                         <tr class="bg-white border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
-                            <th scope="row" class="border-l border-r border-gray-400 px-6 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <th scope="row" class="border-l border-r border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             Special
                             </th>
-                            <td class="border-r border-gray-400 px-6 py-2 text-right">
+                            <td class="border-r border-gray-400 px-4 py-2 text-right">
                 
                             </td>
-                            <td class="border-r border-gray-400 px-6 py-2 text-right">
+                            <td class="border-r border-gray-400 px-4 py-2 text-right">
                  
                             </td>
-                            <td class="border-r border-gray-400 px-6 py-2 text-right">
+                            <td class="border-r border-gray-400 px-4 py-2 text-right">
                               <%= Makesheet.where(status: "Store", grade: "Special").sum(:number_of_cheeses) %>
                             </td>
-                            <td class="border-r border-gray-400 px-6 py-2 text-right">
+                            <td class="border-r border-gray-400 px-4 py-2 text-right">
                               <%= Makesheet.where(status: "Wash", grade: "Special").sum(:number_of_cheeses) %>
                            </td>
-                             <td class="border-r border-gray-400 px-6 py-2 text-right">
+                             <td class="border-r border-gray-400 px-4 py-2 text-right">
                               <%= Makesheet.where(status: "Finished", grade: "Special").sum(:number_of_cheeses) %>
                            </td>
                           </tr>

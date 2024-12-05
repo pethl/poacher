@@ -23,21 +23,22 @@ class MakesheetsController < ApplicationController
   end
 
   def monthly_summary
-    @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
-   
-      @total_monthly_milk_litres =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).pluck(:milk_used).compact.sum
+    
+      @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
+      
+      @total_monthly_milk_litres =  @makesheets.pluck(:milk_used).compact.sum
 
-      @large_poacher_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
-      @large_poacher_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
+      @large_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
+      @large_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
 
      # @red_poacher_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
      # @red_poacher_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
 
-      @medium_cheese_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
-      @medium_cheese_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
+      @medium_cheese_count =  @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
+      @medium_cheese_weight = @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
 
-      @small_cheese_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
-      @small_cheese_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
+      @small_cheese_count =  @makesheets.where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
+      @small_cheese_weight = @makesheets.where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
 
   end
   

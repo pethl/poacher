@@ -93,3 +93,4 @@ gem "prawn-table", "~> 0.1.0"
 
 # for prettier
 gem "solargraph"
+

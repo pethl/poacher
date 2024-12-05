@@ -1,3 +1,4 @@
+<%= turbo_frame_tag butter_make do %>
 <%= form_with(model: butter_make, class: "contents") do |form| %>
   <% if butter_make.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -8,7 +9,7 @@
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
-    </div> 
+    </div>
   <% end %>
 
   <div class="my-5">
@@ -16,10 +17,12 @@
     <%= form.date_field :date, class: field_class_flex %>
   </div>
 
+
   <div class="my-5">
     <%= form.label :cream %>
     <%= form.number_field :cream, class: field_class_flex %>
   </div>
+
 
   <div class="my-5">
     <%= form.label :make %>
@@ -34,4 +37,5 @@
   <div class="inline">
     <%= form.submit "Save", class: fill_button_class %>
   </div>
+<% end %>
 <% end %>

@@ -1,9 +1,25 @@
 class ButterMakesController < ApplicationController
   before_action :set_butter_make, only: %i[ show edit update destroy ]
 
+
+  def create_month
+    get_latest_date = ButterMake.all.ordered.last.date
+    i = 31
+    
+    while i >0
+      @butter_make = ButterMake.new
+      @butter_make.date = get_latest_date
+      @butter_make.save
+      i = i-1
+      get_latest_date = get_latest_date+1.day
+    end
+    redirect_to butter_makes_path, notice: "One months records have been added." 
+  end
+
   # GET /butter_makes or /butter_makes.json
   def index
-    @butter_makes = ButterMake.all.ordered
+    start_date = Date.today-1.week
+    @butter_makes = ButterMake.where("date > ?", start_date).ordered
   end
 
   # GET /butter_makes/1 or /butter_makes/1.json
