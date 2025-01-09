@@ -1,0 +1,35 @@
+<div id="<%= dom_id chiller %>">
+  <% if Date.today == chiller.date %>
+            <tr class="border-b  bg-green-100 hover:bg-gray-100 text-right">
+            <% else %>
+            <tr class="border-b hover:bg-gray-100 text-right"> 
+          <% end %>
+
+  <td class="px-4 py-2 ">
+    <%= link_to chiller.date.to_formatted_s(:uk), edit_chiller_path(chiller) %>
+  </td>
+
+  <td class="px-4 py-2 ">
+     <% if chiller.chiller_1? %>
+      <%= chiller.chiller_1 %> °C
+    <% end %>
+  </td>
+  
+  <td class="px-4 py-2 ">
+    <% if chiller.chiller_2? %>
+      <%= chiller.chiller_2 %> °C
+    <% end %>
+  </td>
+  
+  <td class="px-4 py-2 ">
+    <%= chiller.action_taken %>
+  </td>
+  
+  <td class="px-4 py-2 ">
+    <% if chiller.staff_id? %>
+      <%= chiller.staff.full_name %>
+    <% end %>
+  </td>
+  
+  </tr>
+</div>

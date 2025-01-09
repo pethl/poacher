@@ -2,7 +2,7 @@
           <% if Date.today == butter_make.date %>
             <tr class="border-b  bg-green-100 hover:bg-gray-100 text-right">
             <% else %>
-            <tr class="border-b hover:bg-gray-100 text-right">
+            <tr class="border-b hover:bg-gray-100 text-right"> 
           <% end %>
                 <td scope="row" class="px-4 py-2  whitespace-nowrap">
                    <%= butter_make.date.to_formatted_s(:short_day) %>
@@ -13,7 +13,9 @@
 
                <%= turbo_frame_tag :cream do %>
                   <td class="px-4 py-2 ">
+                    <% if butter_make.cream? %>
                   <%= link_to butter_make.cream, [:edit, butter_make] %>
+                  <% end %>
                   </td>
                <% end %>
      

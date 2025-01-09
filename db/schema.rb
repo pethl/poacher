@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_30_081541) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_08_131825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,6 +47,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_081541) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chillers", force: :cascade do |t|
+    t.date "date"
+    t.decimal "chiller_1", precision: 5, scale: 2
+    t.decimal "chiller_2", precision: 5, scale: 2
+    t.string "action_taken"
+    t.bigint "staff_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_chillers_on_staff_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -246,6 +257,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_30_081541) do
     t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"
   end
 
+  add_foreign_key "chillers", "staffs"
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"

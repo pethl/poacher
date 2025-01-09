@@ -1,0 +1,42 @@
+<%= form_with(model: chiller, class: "contents") do |form| %>
+  <% if chiller.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(chiller.errors.count, "error") %> prohibited this chiller from being saved:</h2>
+
+      <ul>
+        <% chiller.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.date_field :date, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :chiller_1 %>
+    <%= form.number_field :chiller_1, step: 0.1, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :chiller_2 %>
+     <%= form.number_field :chiller_2, step: 0.1, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :action_taken, class:"inline-block align-middle this is not working" %>
+    <%= form.text_area :action_taken, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :staff_id %>
+    <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "Update Record", class: clear_button_class %>
+  </div>
+<% end %>

@@ -25,7 +25,7 @@
 
        <div class="my-2">
         <%= form.label :batch_code %>
-        <%= form.text_field :batch_code, :value => traceability_record.makesheet.batch, class: field_class_flex, disabled: true %>
+        <%= form.text_field :batch_code,  class: field_class_flex, disabled: true %>
       </div>
 
       <div class="my-2">
@@ -192,12 +192,12 @@
 
       <p class="p-2 col-span-2 border-t-2 border-l-2 border-r-2 border-gray-800">
         <span class="mb-1 text-sm">Number in Batch:</span>
-        <%= form.text_field :number_of_cheeses, :value => traceability_record.makesheet.number_of_cheeses, class: field_class_flex_small, readonly: true %>
+        <%= form.text_field :number_of_cheeses, class: field_class_flex_small, readonly: true %>
       </p>
 
       <p class="p-2 col-span-2">
         <span class="mb-1 text-sm">Total No. of Cheeses of Batch:</span>
-        <%= form.text_field :number_of_cheeses, :value=> traceability_record.calculated_batch_cheese_count, class: field_class_flex_small, readonly: true %>
+        <%= form.text_field :number_of_cheeses, class: field_class_flex_small, readonly: true %>
       </p>
 
       <p class="p-2 col-span-2 border-b-2 border-l-2 border-r-2 border-gray-800">
