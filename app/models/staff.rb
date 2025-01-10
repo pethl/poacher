@@ -1,5 +1,6 @@
 class Staff < ApplicationRecord
   has_many :chillers
+  has_many :breakages
  
     
   validates :employment_status, presence: true
@@ -10,6 +11,11 @@ class Staff < ApplicationRecord
 
   def full_name
     "#{self.first_name} #{self.last_name}"
+
+  end
+  
+  def initials
+    "#{self.first_name.chr}." + " " + "#{self.last_name.chr}"
 
   end
 end 

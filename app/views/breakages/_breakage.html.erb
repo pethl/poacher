@@ -1,0 +1,68 @@
+<div id="<%= dom_id breakage %>">
+ <% if Date.today == breakage.date %>
+            <tr class="border border-r-2 border-gray-400 bg-green-100 hover:bg-gray-100">
+            <% else %>
+            <tr class="border hover:bg-gray-100"> 
+          <% end %>
+
+  <td class="px-2 py-2 border-r-2 border-gray-400 text-center whitespace-nowrap text-xs">
+    <%= link_to breakage.date.to_formatted_s(:uk_clean_date), edit_breakage_path(breakage) %>
+  </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200  text-centre">
+    <% if breakage.breakage_occured==true %><i class="fa-solid fa-circle"></i><% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-400  text-center">
+    <% if breakage.breakage_occured==false %><i class="fa-solid fa-circle"></i><% end %>
+  
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <% if breakage.knife==true %><i class="fa-solid fa-check font-bold  "></i></i><% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <% if breakage.cutting_board_cutting_wire==true %><i class="fa-solid fa-check font-bold"></i></i><% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <% if breakage.ringing_machine_cutting_wire==true %><i class="fa-solid fa-check font-bold"></i></i><% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-400 text-center">
+    <% if breakage.cutting_spring==true %><i class="fa-solid fa-check font-bold"></i></i><% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <%= breakage.wire_broken_into_2 %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <%= breakage.wire_unwound %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-center">
+    <%= breakage.other_number %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-400 text-center">
+    <%= breakage.other_desc %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-400 text-center font-bold">
+    <% if breakage.product_contaminated==true %>YES<% end %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-200 text-left">
+    <%= breakage.action_taken %>
+   </td>
+
+   <td class="px-4 py-2 border-r-2 border-gray-400 text-center truncate">
+    <% if breakage.staff_id? %>
+      <%= breakage.staff.initials %>
+    <% end %>
+   </td>
+ </tr>
+
+</div>

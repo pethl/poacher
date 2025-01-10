@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  
+  get "breakages/create_month"
+  resources :breakages
+  
   get "chillers/create_month"
   resources :chillers
   

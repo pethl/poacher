@@ -1,0 +1,83 @@
+<%= form_with(model: breakage, class: "contents") do |form| %>
+  <% if breakage.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(breakage.errors.count, "error") %> prohibited this breakage from being saved:</h2>
+
+      <ul>
+        <% breakage.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.date_field :date, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :breakage_occured %>
+    <%= form.select :breakage_occured, [["Yes", true], ["No", false]], :include_blank => true %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :knife %>
+    <%= form.check_box :knife, class: "h-5 w-5" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cutting_board_cutting_wire %>
+    <%= form.check_box :cutting_board_cutting_wire, class: "h-5 w-5" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :ringing_machine_cutting_wire %>
+    <%= form.check_box :ringing_machine_cutting_wire, class: "h-5 w-5" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cutting_spring %>
+    <%= form.check_box :cutting_spring, class: "h-5 w-5" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :wire_broken_into_2  %>
+    <%= form.number_field :wire_broken_into_2, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :wire_unwound %>
+    <%= form.number_field :wire_unwound, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :other_number %>
+    <%= form.number_field :other_number, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :other_desc %>
+    <%= form.text_field :other_desc, class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :product_contaminated %>
+    <%= form.select :product_contaminated, [["Yes", true], ["No", false]], :include_blank => true, class:"rounded" %>
+ 
+  </div>
+
+  <div class="my-5">
+    <%= form.label :action_taken %>
+    <%= form.text_field :action_taken, class: field_class_flex %>
+  </div>
+
+ <div class="my-5">
+    <%= form.label :staff_id %>
+    <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

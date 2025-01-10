@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_08_131825) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "breakages", force: :cascade do |t|
+    t.date "date"
+    t.boolean "breakage_occured"
+    t.boolean "knife"
+    t.boolean "cutting_board_cutting_wire"
+    t.boolean "ringing_machine_cutting_wire"
+    t.boolean "cutting_spring"
+    t.integer "wire_broken_into_2"
+    t.integer "wire_unwound"
+    t.integer "other_number"
+    t.string "other_desc"
+    t.boolean "product_contaminated"
+    t.string "action_taken"
+    t.bigint "staff_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_breakages_on_staff_id"
+  end
 
   create_table "butter_makes", force: :cascade do |t|
     t.date "date"
@@ -257,6 +276,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_08_131825) do
     t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"
   end
 
+  add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "traceability_records", "makesheets"
