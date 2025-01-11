@@ -7,7 +7,7 @@ class SamplesController < ApplicationController
     if params[:column].present?
       @samples = Sample.order("#{params[:column]} #{params[:direction]}")
     else
-      @samples = Sample.all
+      @samples = Sample.all.ordered
     end
   end
 
@@ -22,6 +22,7 @@ class SamplesController < ApplicationController
 
   # GET /samples/1/edit
   def edit
+    @makesheets = Makesheet.not_finished
   end
 
   # POST /samples or /samples.json
@@ -62,6 +63,59 @@ class SamplesController < ApplicationController
     end
   end
 
+  def import
+    Sample.import(params[:file])
+    redirect_to samples_path, notice: "New Sample records imported"  
+  end
+
+  def import_data(xlsx_path)
+   # xlsx = Roo::Spreadsheet.open(path[:xlsx_path])
+    xlsx = Roo::Spreadsheet.open('lib/data.xlsx')
+
+   # data = Roo::Spreadsheet.open('lib/data.xlsx') # open spreadsheet
+    xlsx.sheet(0).each_with_index(
+      indicator: 'Indicator', 
+      sample_no: 'Sample No.', 
+      received_date: 'Received', 
+      sample_description: 'Sample Description', 
+      suite: 'Suite',
+      classification: 'Classification',
+      schedule: 'Schedule',
+      barcode_count: 'Barcode Count',
+      coagulase_positive_staphylococcus_37c_umqv9: 'Coagulase positive Staphylococcus 37°C (UMQV9) (cfu/g)',
+      coagulase_positive_staphylococcus_37c_umqzw: 'Coagulase positive Staphylococcus 37°C (UMQZW) (cfu/g)',
+      escherichia_coli_b_glucuronidase: 'Escherichia coli B-Glucuronidase+ (cfu/g)',
+      listeria_species: 'Listeria Species (/25 g)',
+      listeria_species_37: 'Listeria species 37°C (cfu/g)',
+      presumptive_coliforms: 'Presumptive Coliforms 37°C (cfu/g)',
+      salmonella: 'Salmonella (/25 g)',
+      staphylococcus_aureus_enterotoxins: 'Staphylococcus aureus enterotoxins (/10  g)'
+      ) do |row, row_index|
+                                  
+        next if row_index == 0 || Sample.find_by(sample_no: row[:sample_no]).present?
+
+        Sample.create(
+            indicator: row[:indicator],
+            sample_no: row[:sample_no],
+            received_date: row[:received_date],
+            sample_description: row[:sample_description],
+            suite: row[:suite],
+            classification: row[:classification],
+            schedule: row[:schedule],
+            barcode_count: row[:barcode_count],
+            coagulase_positive_staphylococcus_37c_umqv9: row[:coagulase_positive_staphylococcus_37c_umqv9],
+            coagulase_positive_staphylococcus_37c_umqzw: row[:coagulase_positive_staphylococcus_37c_umqzw],
+            escherichia_coli_b_glucuronidase: row[:escherichia_coli_b_glucuronidase],
+            listeria_species: row[:listeria_species],
+            listeria_species_37: row[:listeria_species_37],
+            presumptive_coliforms: row[:presumptive_coliforms],
+            salmonella: row[:salmonella],
+            staphylococcus_aureus_enterotoxins: row[:staphylococcus_aureus_enterotoxins],
+
+        )
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_sample
@@ -70,6 +124,6 @@ class SamplesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sample_params
-      params.require(:sample).permit(:sample_no, :received_date, :sample_description, :make_date, :suite, :classification, :schedule, :barcode_count, :coagulase_positive_staphylococcus_37c_umqv9, :coagulase_positive_staphylococcus_37c_umqzw, :escherichia_coli_b_glucuronidase, :Listeria_species, :Listeria_species_37, :presumptive_coliforms, :salmonella, :staphylococcus_aureus_enterotoxins)
+      params.require(:sample).permit(:sample_no, :received_date, :sample_description, :makesheet_id, :suite, :classification, :schedule, :barcode_count, :coagulase_positive_staphylococcus_37c_umqv9, :coagulase_positive_staphylococcus_37c_umqzw, :escherichia_coli_b_glucuronidase, :Listeria_species, :Listeria_species_37, :presumptive_coliforms, :salmonella, :staphylococcus_aureus_enterotoxins)
     end
 end

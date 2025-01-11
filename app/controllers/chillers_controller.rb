@@ -2,8 +2,12 @@ class ChillersController < ApplicationController
   before_action :set_chiller, only: %i[ show edit update destroy ]
 
   def create_month
-    get_latest_date = Chiller.all.ordered.last.date
-    puts get_latest_date
+   
+    if Chiller.all.count ==0   
+     get_latest_date = Date.today.beginning_of_month-1.day
+    else
+      get_latest_date = Chiller.all.ordered.last.date
+    end
     i = 31
     
     while i >0

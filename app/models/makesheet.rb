@@ -1,10 +1,13 @@
 class Makesheet < ApplicationRecord
   has_many :turns
   has_many :traceability_records
+  has_many :samples  
   
   validates :make_date, presence: true
   
   scope :ordered, -> { order(make_date: :asc) }
+  # Scope to filter out "Finished" status
+  scope :not_finished, -> { where.not(status: "Finished") }
    
   def make_date_formatted
     self.make_date.to_formatted_s(:uk_clean_date)

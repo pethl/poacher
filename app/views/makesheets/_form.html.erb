@@ -17,10 +17,6 @@
     <%=  form.select :status, options_for_select(batch_status, :selected => makesheet.status),{:prompt=>true}, :disabled => true, class: field_class_flex %>
   </div>
  
-    <div class="my-5">
-    <%= form.label :make_date, class: label_class %>
-    <%= form.date_field :make_date, :value => Time.now.strftime("%Y-%m-%d") , class: field_class_flex %>
-  </div>
 
     <div class="my-5">
     <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>

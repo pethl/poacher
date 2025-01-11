@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+  #resources :users, except: [:edit, :show, :new]
   get "breakages/create_month"
   resources :breakages
   
@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     resources :waste_records, except: [:index, :show]
   end
   resources :butter_stocks
-  resources :samples
+  resources :samples do 
+    collection { post :import }
+  end
   resources :staffs
   resources :contacts
   devise_for :users
@@ -64,5 +66,6 @@ Rails.application.routes.draw do
   resources :picksheets do
     resources :picksheet_items, except: [:index, :show]
   end
+   match '/users',   to: 'users#index',   via: 'get'
  
 end

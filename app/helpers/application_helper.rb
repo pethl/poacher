@@ -167,5 +167,11 @@ module ApplicationHelper
     batch_status = batch_status.pluck(:value)       
   end
 
+  def yes_no
+    #yes_no = Reference.where(active: "TRUE", group: 'yes_no')
+    #yes_no = yes_no.pluck(:value)    
+       yes_no =  [["Yes", true], ["No", false]]
+  end
+
   
 end

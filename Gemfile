@@ -94,3 +94,7 @@ gem "prawn-table", "~> 0.1.0"
 # for prettier
 gem "solargraph"
 
+# for Excel imports
+gem "roo", "~> 2.10.1"
+gem "csv", "~> 3.3.2"
+

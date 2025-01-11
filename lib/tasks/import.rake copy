@@ -1,0 +1,25 @@
+require 'roo'
+namespace :import do
+  desc 'Uploads data from xlsx'
+
+  desc "Import data from spreadsheet"
+  task data: :environment do
+    puts 'Importing Data' # add this line
+    data = Roo::Spreadsheet.open('lib/data.xlsx') # open spreadsheet
+    headers = data.row(1) # get header row
+
+    data.each_with_index do |row, idx|
+      next if idx == 0 # skip header
+      # create hash from headers and cells
+      sample_data = Hash[[headers, row].transpose]
+      if Sample.exists?(sample_no: sample_data['sample_no'])
+        puts "Sample with this number '#{sample_data['sample_no']}' already exists"
+        next
+      end
+      
+      sample = Sample.new(sample_data)
+      puts "Saving Sample with sample number #{sample.sample_no}"
+      sample.save!
+  end
+ end
+end

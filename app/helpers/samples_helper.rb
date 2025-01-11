@@ -1,5 +1,4 @@
 module SamplesHelper
-
    
   def samples_sort_link(column:, label:)
     direction = column == params[:column] ? next_direction : 'asc'

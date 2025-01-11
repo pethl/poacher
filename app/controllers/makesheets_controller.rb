@@ -24,8 +24,9 @@ class MakesheetsController < ApplicationController
 
   def monthly_summary
     
-      @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
-      
+     # @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
+      @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month-2.months).ordered
+
       @total_monthly_milk_litres =  @makesheets.pluck(:milk_used).compact.sum
 
       @large_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
@@ -54,7 +55,7 @@ class MakesheetsController < ApplicationController
 
   # GET /makesheets/1 or /makesheets/1.json
   def show
-    @samples = Sample.where(make_date: @makesheet.make_date.to_s.split(' ').first)
+    @samples = Sample.where(makesheet_id: @makesheet.id)
   end
 
   # GET /makesheets/new

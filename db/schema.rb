@@ -149,7 +149,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
     t.string "sample_no"
     t.datetime "received_date"
     t.string "sample_description"
-    t.datetime "make_date"
+    t.bigint "makesheet_id"
     t.string "suite"
     t.string "classification"
     t.string "schedule"
@@ -164,6 +164,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
     t.string "staphylococcus_aureus_enterotoxins"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_samples_on_makesheet_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -279,6 +280,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
   add_foreign_key "picksheet_items", "picksheets"
+  add_foreign_key "samples", "makesheets"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"
   add_foreign_key "wash_picksheets", "picksheets"

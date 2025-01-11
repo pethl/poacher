@@ -1,6 +1,7 @@
 <div class="my-4 border border-gray-400 my-2 p-2 rounded">
   <p class="font-bold my-2">Samples Taken
   <ul>
+    <% if @samples.any?%>
     <% @samples.each do |sample| %>
     <li>
        <%  if sample.indicator=="Green" %>
@@ -16,5 +17,6 @@
           <%= link_to sample.sample_no, sample_path(sample), class: link_class %> : <%= sample.suite %>
     <li>
            <% end %>
+      <% end %>
     </ul>
   </div>

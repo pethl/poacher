@@ -18,7 +18,7 @@
 
   <div class="my-5">
     <%= form.label :breakage_occured %>
-    <%= form.select :breakage_occured, [["Yes", true], ["No", false]], :include_blank => true %>
+    <%= form.select :breakage_occured, options_for_select(yes_no, :selected => breakage.breakage_occured),{:include_blank => true}, class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
@@ -63,8 +63,7 @@
 
   <div class="my-5">
     <%= form.label :product_contaminated %>
-    <%= form.select :product_contaminated, [["Yes", true], ["No", false]], :include_blank => true, class:"rounded" %>
- 
+    <%= form.select :product_contaminated, options_for_select(yes_no, :selected => breakage.product_contaminated),{:include_blank => true}, class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
@@ -72,12 +71,12 @@
     <%= form.text_field :action_taken, class: field_class_flex %>
   </div>
 
- <div class="my-5">
+ <div class="mt-5">
     <%= form.label :staff_id %>
     <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
 
   <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit class:clear_button_class %>
   </div>
 <% end %>

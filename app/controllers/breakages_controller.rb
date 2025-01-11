@@ -2,8 +2,12 @@ class BreakagesController < ApplicationController
   before_action :set_breakage, only: %i[ show edit update destroy ]
 
   def create_month
-    get_latest_date = Breakage.all.ordered.last.date
-    puts get_latest_date
+   
+    if Breakage.all.count ==0   
+      get_latest_date = Date.today.beginning_of_month-1.day
+     else
+       get_latest_date = Breakage.all.ordered.last.date
+     end
     i = 31
     
     while i >0

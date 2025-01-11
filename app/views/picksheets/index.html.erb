@@ -1,5 +1,5 @@
 
-<% content_for(:page_title, "ALl - PICK SHEETS")%>
+<% content_for(:page_title, "ALL - PICK SHEETS")%>
 <% content_for(:page_button, "picksheets/new")%>
 
 <div id="picksheets">
@@ -58,10 +58,10 @@
                     <td class="px-6 py-4 text-center">
                       <%=  picksheet.status %>
                     </td>
-                    <td scope="row" class="px-6 py-4 underline underline-offset-2 ">
+                    <td scope="row" class="px-6 py-4 underline underline-offset-2  whitespace-nowrap">
                        <%= link_to picksheet.date_order_placed.to_formatted_s(:uk_time), picksheet %>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 whitespace-nowrap">
                       <%= picksheet.delivery_required_by.to_formatted_s(:uk_time) unless picksheet.delivery_required_by.to_s.empty? %>
                     </td>
                     <td class="px-6 py-4 text-center">
