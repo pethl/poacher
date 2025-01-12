@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :batch_weights
   #resources :users, except: [:edit, :show, :new]
   get "breakages/create_month"
   resources :breakages

@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_12_165801) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "batch_weights", force: :cascade do |t|
+    t.date "date"
+    t.bigint "makesheet_id"
+    t.decimal "washed_batch_weight", precision: 7, scale: 2
+    t.string "all_rinds_visually_clean"
+    t.string "comments"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_batch_weights_on_makesheet_id"
+  end
 
   create_table "breakages", force: :cascade do |t|
     t.date "date"
@@ -278,6 +289,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
     t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"
   end
 
+  add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
   add_foreign_key "picksheet_items", "picksheets"

@@ -1,0 +1,42 @@
+<%= form_with(model: batch_weight, class: "contents") do |form| %>
+  <% if batch_weight.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(batch_weight.errors.count, "error") %> prohibited this batch_weight from being saved:</h2>
+
+      <ul>
+        <% batch_weight.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.date_field :date, value: @batch_weight.date || Date.today, placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :makesheet_id, "Production Date/Batch" %>
+    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex_med}) %>
+  </div>
+
+  <div class="my-5 text-right">
+    <%= form.label :washed_batch_weight, "Washed Batch Weight" %>
+    <%= form.number_field :washed_batch_weight, step: :any, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :all_rinds_visually_clean %>
+    <%= form.text_field :all_rinds_visually_clean, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :comments %>
+    <%= form.text_area :comments, class: field_class_flex_med %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "Save Batch Weight Record", class: fill_button_class %>
+  </div>
+<% end %>
