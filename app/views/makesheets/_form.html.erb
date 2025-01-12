@@ -12,40 +12,50 @@
     </div>
   <% end %>
 
-    <div class="my-5">
+  <div class="my-5">
     <%= form.label :status,  class: label_class %>
     <%=  form.select :status, options_for_select(batch_status, :selected => makesheet.status),{:prompt=>true}, :disabled => true, class: field_class_flex %>
   </div>
- 
 
-    <div class="my-5">
+   <div class="my-5">
+    <%= form.label :make_type,  class: label_class %>
+    <%=  form.select :make_type, options_for_select(make_type, :selected => makesheet.make_type),{:prompt=>true}, class: field_class_flex %>
+  </div>
+
+   <div>
+    <%= form.label :make_date, class: label_class %>
+    <%= form.datetime_field :make_date, value: @makesheet.make_date || Date.today, placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex %>
+  </div>
+
+  <div class="my-5">
     <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
     <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex %>
   </div>
 
-    <div class="my-5">
+  <div class="my-5">
     <%= form.label :total_weight, "Weight (kgs)", class: label_class %>
     <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_flex %>
   </div>
 
-    <div class="my-5">
+  <div class="my-5">
     <%= form.label :number_of_cheeses,  class: label_class %>
     <%= form.number_field :number_of_cheeses, class: field_class_flex %>
   </div>
 
-    <div class="my-5">
+  <div class="my-5">
     <%= form.label :grade,  class: label_class %>
     <%=  form.select :grade, options_for_select(grade, :selected => makesheet.grade),{:prompt=>true}, class: field_class_flex %>
   </div>
 
-    <div class="my-5">
+  <div class="my-5">
     <%= form.label :weight_type,  class: label_class %>
     <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class_flex%>
   </div>
 
   <div class="m-2">
     <%= form.submit "Save Make Sheet", class:fill_button_class %>
-      <%= link_to "All Makesheets", makesheets_path, class:gray_button %>
+    <%= link_to "All Makesheets", makesheets_path, class:gray_button %>
   </div>
 <% end %>
-  </div>
+
+</div>

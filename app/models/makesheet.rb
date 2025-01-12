@@ -6,8 +6,13 @@ class Makesheet < ApplicationRecord
   validates :make_date, presence: true
   
   scope :ordered, -> { order(make_date: :asc) }
+
   # Scope to filter out "Finished" status
   scope :not_finished, -> { where.not(status: "Finished") }
+
+  scope :filter_by_month_and_year, ->(month, year) {
+    where('EXTRACT(MONTH FROM make_date) = ? AND EXTRACT(YEAR FROM make_date) = ?', month, year)
+  }
    
   def make_date_formatted
     self.make_date.to_formatted_s(:uk_clean_date)

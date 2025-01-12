@@ -66,14 +66,18 @@ module ApplicationHelper
    
    def fill_button_class
       "bg-gray-800 text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
-    end
+   end
+
+   def fill_button_small_class
+      "bg-gray-800 text-xs text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-2 py-1 px-2 border border-gray-900 hover:border-transparent rounded-lg"
+   end
     
     def tight_fill_button_class
       "bg-gray-800 hover:bg-gray-600 text-white font-semibold hover:text-white mt-2 mb-2 p-2 border border-gray-900 hover:border-transparent rounded-lg"
     end
     
     def header_bar_button_class
-      "text-xs text-center font-base hover:bg-grey-600 bg-gray-800 p-1 pl-2 pr-2 text-gray-100 border border-gray-200 rounded-md"
+      "text-xs text-center font-semibold hover:bg-grey-600 bg-gray-800 p-1 pl-4 pr-4 text-gray-100 border border-gray-200 rounded-lg"
     end
    
    def dropdown_list_class
@@ -165,6 +169,11 @@ module ApplicationHelper
   def batch_status
     batch_status = Reference.where(active: "TRUE", group: 'batch_status')
     batch_status = batch_status.pluck(:value)       
+  end
+
+  def make_type
+    make_type = Reference.where(active: "TRUE", group: 'make_type')
+    make_type = make_type.pluck(:value)       
   end
 
   def yes_no

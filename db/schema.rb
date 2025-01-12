@@ -96,6 +96,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_10_121321) do
   create_table "makesheets", force: :cascade do |t|
     t.string "status", default: "Created"
     t.datetime "make_date"
+    t.string "make_type"
     t.integer "milk_used"
     t.integer "total_weight"
     t.integer "number_of_cheeses"

@@ -2,20 +2,15 @@ class BreakagesController < ApplicationController
   before_action :set_breakage, only: %i[ show edit update destroy ]
 
   def create_month
-   
-    if Breakage.all.count ==0   
-      get_latest_date = Date.today.beginning_of_month-1.day
-     else
-       get_latest_date = Breakage.all.ordered.last.date
-     end
+    get_latest_date = Breakage.exists? ? Breakage.all.ordered.last.date : Date.today.beginning_of_month - 1.day
     i = 31
     
     while i >0
       puts i
       get_latest_date = get_latest_date+1.day
-      @chiller = Breakage.new
-      @chiller.date = get_latest_date
-      @chiller.save
+      @breakage = Breakage.new
+      @breakage.date = get_latest_date
+      @breakage.save
       i = i-1
       
     end
@@ -24,7 +19,12 @@ class BreakagesController < ApplicationController
 
   # GET /breakages or /breakages.json
   def index
-    @breakages = Breakage.where('date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
+    if params[:month].present? && params[:year].present?
+      @breakages = Breakage.filter_by_month_and_year(params[:month], params[:year])
+    else
+      #@breakages = Breakage.all
+      @breakages = Breakage.where('date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
+    end  
   end
 
   # GET /breakages/1 or /breakages/1.json

@@ -3,6 +3,7 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
     create_table :makesheets do |t|
       t.string :status, :default => 'Created'
       t.datetime :make_date
+      t.string :make_type
       t.integer :milk_used
       t.integer :total_weight
       t.integer :number_of_cheeses

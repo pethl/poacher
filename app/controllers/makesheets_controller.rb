@@ -11,7 +11,6 @@ class MakesheetsController < ApplicationController
   def overview
   end  
   
-  
   def batch_turns
     @turns = @makesheet.turns.ordered
     @batch_turns_graph_data = get_data(@makesheet)
@@ -22,18 +21,22 @@ class MakesheetsController < ApplicationController
     @makesheets_by_grade = @makesheets.group_by { |t| t.grade }
   end
 
-  def monthly_summary
+  def monthly_summary 
     
-     # @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month).ordered
-      @makesheets = Makesheet.where("make_date >= ?", Date.today.at_beginning_of_month-2.months).ordered
+    if params[:month].present? && params[:year].present?
+      @makesheets = Makesheet.filter_by_month_and_year(params[:month], params[:year])
+     
+    else
+      @makesheets = Makesheet.where('make_date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
+    end 
 
       @total_monthly_milk_litres =  @makesheets.pluck(:milk_used).compact.sum
 
-      @large_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
-      @large_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
+      @large_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Normal").pluck(:number_of_cheeses).compact.sum
+      @large_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Normal").pluck(:total_weight).compact.sum
 
-     # @red_poacher_count =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:number_of_cheeses).compact.sum
-     # @red_poacher_weight =  Makesheet.where("make_date >= (?)", Date.today.at_beginning_of_month).where(weight_type: "Standard (20 kgs)").pluck(:total_weight).compact.sum
+      @red_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Red").pluck(:number_of_cheeses).compact.sum
+      @red_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Red").pluck(:total_weight).compact.sum
 
       @medium_cheese_count =  @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
       @medium_cheese_weight = @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
@@ -553,7 +556,7 @@ class MakesheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def makesheet_params
-      params.require(:makesheet).permit(:status, :make_date, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
+      params.require(:makesheet).permit(:status, :make_date, :make_type, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
     end
     
 

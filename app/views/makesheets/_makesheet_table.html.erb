@@ -54,7 +54,9 @@
                    <%= link_to makesheet.make_date.to_formatted_s(:uk_time), makesheet %>
                 </td>
                 <td class="px-6 py-4 text-left  underline underline-offset-2">
+                  <% if makesheet.batch? %>
                   <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
+                  <% end %>
                 </td>
                 <td class="px-6 py-4 text-right whitespace-nowrap">
                   <%= makesheet.age_in_months %>m

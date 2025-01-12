@@ -1,13 +1,9 @@
 class ChillersController < ApplicationController
   before_action :set_chiller, only: %i[ show edit update destroy ]
 
+  #button on index to create a month of blank records at a time
   def create_month
-   
-    if Chiller.all.count ==0   
-     get_latest_date = Date.today.beginning_of_month-1.day
-    else
-      get_latest_date = Chiller.all.ordered.last.date
-    end
+    get_latest_date = Chiller.exists? ? Chiller.all.ordered.last.date : Date.today.beginning_of_month - 1.day
     i = 31
     
     while i >0
@@ -24,7 +20,12 @@ class ChillersController < ApplicationController
 
   # GET /chillers or /chillers.json
   def index
-    @chillers = Chiller.where('date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
+    if params[:month].present? && params[:year].present?
+      @chillers = Chiller.filter_by_month_and_year(params[:month], params[:year])
+    else
+      #@chillers = Chiller.all
+      @chillers = Chiller.where('date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
+    end
   end
 
   # GET /chillers/1 or /chillers/1.json

@@ -1,7 +1,6 @@
 <div class="overscroll-none">
 <% content_for :title, "Poacher: Daily Record of Metal Breakages" %>
 <% content_for(:page_title, "DAILY RECORD of METAL BREAKAGES")%>
-<% content_for(:page_button, "breakages/new")%>
 <% content_for(:print_button, "browser-print")%>
 <div id="breakages">
 
@@ -9,11 +8,29 @@
     <div class="relative pt-4 pb-2">
       <a class="bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg" href="breakages/create_month">Add a Month</a>
     </div>
-    <div class= "col-span-2 text-center">
-     <br>
-      <span class="text-xs md:text-sm font-extrabold">
-        
+
+    <div class= "col-span-2 mt-4 text-center text-xs md:text-sm font-extrabold">
         Knives inc tips, Cutting Springs & Wire Breakages
+    </div>
+
+    <div class="mb-4">
+      <%= form_with(url: breakages_path, method: :get, local: true, class: "flex gap-2") do %>
+      <div>
+        <label for="month" class="block text-xs font-medium text-gray-700">Month</label>
+        <%= select_tag :month, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, params[:month]), 
+                     include_blank: "Select ", class: "mt-1 block text-xs w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div>
+        <label for="year" class="block text-xs font-medium text-gray-700">Year</label>
+        <%= select_tag :year, options_for_select((2022..Date.today.year).to_a.reverse, params[:year]), 
+                     include_blank: "Select ", class: "mt-1 block text-xs w-full border-gray-300 rounded-md shadow-sm" %>
+      </div>
+
+      <div class="flex place-items-center">
+        <%= submit_tag "Filter", class: fill_button_small_class %>
+      </div>
+     <% end %>
     </div>
   </div>
 
@@ -33,7 +50,7 @@
             </th>
              <th scope="col" colspan="4" class="sticky top-0 px-4 py-2 bg-white border border-gray-400 text-center">
                <span class="text-2xl font-strong">
-                <%= Date.today.strftime("%B %Y") %><br>
+                <%= @breakages.any? ? @breakages.first.date.strftime("%B %Y") : "No Records" %> 
               </span>
             </th>
 
