@@ -1,7 +1,7 @@
 <div id="<%= dom_id batch_weight %>">
   <tr class="border hover:bg-gray-100"> 
     <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs underline underline-offset-2">
-     <%= link_to batch_weight.date.to_formatted_s(:uk_clean_date), edit_batch_weight_path(batch_weight) %>
+     <%= batch_weight.date? ? (link_to batch_weight.date.to_formatted_s(:uk_clean_date), edit_batch_weight_path(batch_weight)) : "" %>
     </td>
 
    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">

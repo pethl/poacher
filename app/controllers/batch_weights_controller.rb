@@ -29,7 +29,7 @@ class BatchWeightsController < ApplicationController
 
     respond_to do |format|
       if @batch_weight.save
-        format.html { redirect_to @batch_weight, notice: "Batch weight was successfully created." }
+        format.html { redirect_to batch_weights_path, notice: "Batch weight was successfully created." }
         format.json { render :show, status: :created, location: @batch_weight }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -43,7 +43,7 @@ class BatchWeightsController < ApplicationController
     @makesheets = Makesheet.not_finished
     respond_to do |format|
       if @batch_weight.update(batch_weight_params)
-        format.html { redirect_to @batch_weight, notice: "Batch weight was successfully updated." }
+        format.html { redirect_to batch_weights_path, notice: "Batch weight was successfully updated." }
         format.json { render :show, status: :ok, location: @batch_weight }
       else
         format.html { render :edit, status: :unprocessable_entity }
