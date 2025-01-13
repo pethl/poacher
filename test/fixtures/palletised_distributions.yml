@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2025-01-13
+  company_name: MyString
+  registration: MyString
+  trailer_number_type: MyString
+  temperature: 1.5
+  vehicle_clean: false
+  destination: MyString
+  number_of_pallets: 1
+  staff_id: MyString
+  drivers_signature: MyString
+
+two:
+  date: 2025-01-13
+  company_name: MyString
+  registration: MyString
+  trailer_number_type: MyString
+  temperature: 1.5
+  vehicle_clean: false
+  destination: MyString
+  number_of_pallets: 1
+  staff_id: MyString
+  drivers_signature: MyString

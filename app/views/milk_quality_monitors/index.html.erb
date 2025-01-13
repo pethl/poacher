@@ -1,8 +1,8 @@
 <div class="overscroll-none">
-<% content_for :title, "Poacher: Cheese Batch Weights" %>
-<% content_for(:page_title, "CHEESE BATCH WEIGHTS")%>
+<% content_for :title, "Poacher: Milk Quality Monitor Results" %>
+<% content_for(:page_title, "MILK QUALITY MONITOR")%>
 <% content_for(:print_button, "browser-print")%>
-<% content_for(:page_button, "batch_weights/new")%>
+<% content_for(:page_button, "milk_quality_monitors/new")%>
 <br> 
 
 <div class="flex flex-col h-screen pr-2">
@@ -12,38 +12,49 @@
        
         <tr class="bg-gray-200 sticky top-0 border border-gray-400">
               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Date
+                Sample Date
               </th>
               <th scope="col" class="sticky top-0 px-4 py-2 pr-2 border border-gray-400 text-center">
                 Production Date/Batch
               </th>
               <th id="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Number in Batch
+                Cell count, Scc(x1000/mL)
               </th>
               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Washed Batch Weight
+                Bactoscan (×1000/mL)
               </th>
-             
               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Recorded Weight at Make
+                Butterfat (%)
               </th>
                 <th id="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Grade
+                Lactose (%)
               </th>
               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                All rinds visually clean from mould/debris (*)
+                Protein (%)
               </th>
               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
-                Comments
+                Casein (%)
+              </th>
+               <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
+                Urea (%)
+              </th>
+              <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
+                Total Viable Colonies (cfu/ml)
+              </th>
+              <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
+                Therms (cfu/ml)
+              </th> 
+              <th scope="col" class="sticky top-0 px-4 py-2 border border-gray-400 text-center">
+                Coliforms (cfu/ml)
               </th>
                 
             </tr>
             
         </thead>
         <tbody class="overflow-contain">
-         
-           <%= render @batch_weights %>
+          <%= render @milk_quality_monitors %>
         </tbody>
     </table>
 </div> 
 <br><br>
+

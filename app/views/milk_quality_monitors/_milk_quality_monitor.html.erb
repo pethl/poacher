@@ -1,0 +1,51 @@
+<div id="<%= dom_id milk_quality_monitor %>">
+<tr class="border hover:bg-gray-100"> 
+  <td class="px-4 py-2 border border-gray-400 text-center whitespace-nowrap underline underline-offset-2">
+    <%= milk_quality_monitor.sample_date? ? (link_to milk_quality_monitor.sample_date.to_formatted_s(:uk_clean_date), edit_milk_quality_monitor_path(milk_quality_monitor)) : "" %>
+  </p>
+
+ <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.makesheet_id? ? milk_quality_monitor.makesheet.make_date.to_formatted_s(:uk_clean_date) : ""  %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.cell_count %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.bactoscan %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.butterfat %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.lactose %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.protein %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.casein %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.urea %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.total_viable_colonies %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.therms %>
+  </p>
+
+  <td class="px-4 py-2 border border-gray-400 text-center">
+    <%= milk_quality_monitor.coliforms %>
+  </p>
+</tr>
+</div> 

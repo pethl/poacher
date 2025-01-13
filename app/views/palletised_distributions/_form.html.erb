@@ -1,0 +1,67 @@
+<%= form_with(model: palletised_distribution, class: "contents") do |form| %>
+  <% if palletised_distribution.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(palletised_distribution.errors.count, "error") %> prohibited this palletised_distribution from being saved:</h2>
+
+      <ul>
+        <% palletised_distribution.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.date_field :date, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :company_name %>
+    <%= form.text_field :company_name, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :registration %>
+    <%= form.text_field :registration, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :trailer_number_type %>
+    <%= form.text_field :trailer_number_type, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :temperature %>
+    <%= form.text_field :temperature, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :vehicle_clean %>
+    <%= form.select :vehicle_clean, options_for_select(yes_no, :selected => palletised_distribution.vehicle_clean),{:include_blank => true}, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :destination %>
+    <%= form.text_field :destination, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :number_of_pallets %>
+    <%= form.number_field :number_of_pallets, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :staff_id %>
+    <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_med }) %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :drivers_signature %>
+    <%= form.text_field :drivers_signature, class: field_class_flex %>
+  </div>
+ 
+  <div class="inline">
+    <%= form.submit "Update Record", class: fill_button_class %>
+  </div>
+<% end %>

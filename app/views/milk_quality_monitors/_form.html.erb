@@ -1,0 +1,77 @@
+<%= form_with(model: milk_quality_monitor, class: "contents") do |form| %>
+  <% if milk_quality_monitor.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(milk_quality_monitor.errors.count, "error") %> prohibited this milk_quality_monitor from being saved:</h2>
+
+      <ul>
+        <% milk_quality_monitor.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :sample_date %>
+    <%= form.date_field :sample_date, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :makesheet_id, "Production Date/Batch" %>
+    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex_med}) %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cell_count %>
+    <%= form.number_field :cell_count, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :bactoscan %>
+    <%= form.number_field :bactoscan, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :butterfat %>
+    <%= form.text_field :butterfat, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :lactose %>
+    <%= form.text_field :lactose, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :protein %>
+    <%= form.text_field :protein, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :casein %>
+    <%= form.text_field :casein, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :urea %>
+    <%= form.text_field :urea, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :total_viable_colonies %>
+    <%= form.text_field :total_viable_colonies, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :therms %>
+    <%= form.text_field :therms, class: field_class_flex_med %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :coliforms %>
+    <%= form.text_field :coliforms, class: field_class_flex_med %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

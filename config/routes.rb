@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :palletised_distributions
+  resources :milk_quality_monitors
   resources :batch_weights
   #resources :users, except: [:edit, :show, :new]
   get "breakages/create_month"
@@ -31,8 +33,8 @@ Rails.application.routes.draw do
   get "picksheets/index_shipped"
   get "washes/wash_home"
   resources :washes
-  get "pages/admin_home"
-  get "pages/admin_home"
+  
+  get "pages/office_home"
   get "pages/home"
   
   get "pages/cutting_home"

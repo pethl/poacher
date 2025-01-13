@@ -1,0 +1,45 @@
+<div id="<%= dom_id palletised_distribution %>">
+<tr class="border border-gray-400 hover:bg-gray-100"> 
+   <td class="px-4 py-2 text-right underline underline-offset-2">
+    <%= palletised_distribution.date? ? (link_to palletised_distribution.date.to_formatted_s(:uk_clean_date), edit_palletised_distribution_path(palletised_distribution)) : "" %>
+  </td>
+
+   <td class="px-4 py-2 text-left ">
+    <%= palletised_distribution.company_name %>
+  </td> 
+
+   <td class="px-4 py-2 text-left ">
+    <%= palletised_distribution.registration %>
+  </td>
+
+   <td class="px-4 py-2 text-left ">
+    <%= palletised_distribution.trailer_number_type %>
+  </td>
+
+   <td class="px-4 py-2 text-right ">
+    <%= palletised_distribution.temperature %>
+  </td>
+
+   <td class="px-4 py-2 text-center ">
+    <% if palletised_distribution.vehicle_clean==true %>YES<% end %>
+  </td>
+
+   <td class="px-4 py-2 text-left ">
+    <%= palletised_distribution.destination %>
+  </td>
+
+   <td class="px-4 py-2 text-right ">
+    <%= palletised_distribution.number_of_pallets %>
+  </td>
+
+   <td class="px-4 py-2 text-right ">
+     <% if palletised_distribution.staff_id? %>
+      <%= palletised_distribution.staff.full_name %>
+    <% end %>
+  </td>
+
+   <td class="px-4 py-2 text-right ">
+    <%= palletised_distribution.drivers_signature %>
+  </td>
+</tr>
+</div>

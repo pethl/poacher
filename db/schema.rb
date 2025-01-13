@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_12_165801) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,6 +116,40 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_12_165801) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "batch"
+  end
+
+  create_table "milk_quality_monitors", force: :cascade do |t|
+    t.date "sample_date"
+    t.bigint "makesheet_id"
+    t.integer "cell_count"
+    t.integer "bactoscan"
+    t.float "butterfat"
+    t.float "lactose"
+    t.float "protein"
+    t.float "casein"
+    t.float "urea"
+    t.float "total_viable_colonies"
+    t.float "therms"
+    t.float "coliforms"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_milk_quality_monitors_on_makesheet_id"
+  end
+
+  create_table "palletised_distributions", force: :cascade do |t|
+    t.date "date"
+    t.string "company_name"
+    t.string "registration"
+    t.string "trailer_number_type"
+    t.float "temperature"
+    t.boolean "vehicle_clean"
+    t.string "destination"
+    t.integer "number_of_pallets"
+    t.bigint "staff_id"
+    t.string "drivers_signature"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_palletised_distributions_on_staff_id"
   end
 
   create_table "picksheet_items", force: :cascade do |t|
@@ -292,6 +326,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_12_165801) do
   add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
+  add_foreign_key "milk_quality_monitors", "makesheets"
+  add_foreign_key "palletised_distributions", "staffs"
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "samples", "makesheets"
   add_foreign_key "traceability_records", "makesheets"

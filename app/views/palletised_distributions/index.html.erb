@@ -1,0 +1,51 @@
+<div class="overscroll-none">
+<% content_for :title, "Poacher: Palletised Distribution Vehicle Details" %>
+<% content_for(:page_title, "PALLETISED DISTRIBUTION VEHICLE DETAILS")%>
+<% content_for(:page_button, "palletised_distributions/new")%>
+<div id="palletised_distributions">
+<br>
+<div class="h-screen">
+    <div class="overscroll-none">
+      <table class="mx-auto table-fixed relative w-full border border-gray-400 text-sm text-gray-500">
+       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+        <tr class="bg-gray-200 sticky top-0">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Date
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 pr-2 text-left">
+                  Company
+                </th>
+                <th id="col" class="sticky top-0 px-4 py-2 text-left">
+                  Registration
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
+                  Trailer Reg/Type
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Temperature °C
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-center">
+                  Vehicle Clean and Free from Taint<br>YES / NO
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
+                  Destination
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  No. of pallets/cases
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  FWR Signature
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Driver Signature
+                </th> 
+            </tr>
+        </thead>
+        <tbody class="overflow-contain">
+         
+            <%= render @palletised_distributions %>
+
+        </tbody>
+    </table>
+</div> 
+<br><br>
