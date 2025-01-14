@@ -1,36 +1,120 @@
 <div id="<%= dom_id makesheet %>">
-  <p>
-    <strong>Make date:</strong>
-    <%= makesheet.make_date.to_formatted_s(:uk_clean_date)%>
-  </p>
+  <div class="grid grid-cols-2 text-right">
+    <p><strong>Status:</strong></p>
+    <p><%= makesheet.status %></p>
+    
+    <p><strong>Make type:</strong></p>
+    <p><%= makesheet.make_type %></p>
+    
+    <p><strong>Make date:</strong></p>
+    <p><%= makesheet.make_date.to_formatted_s(:uk_clean_date)%></p>
+    
+    <p><strong>Milk used:</strong></p>
+    <p><%= makesheet.milk_used %></p>
+  
+    <p><strong>Total weight:</strong></p>
+    <p><%= makesheet.total_weight %></p>
+  
+    <p><strong>Number of cheeses:</strong></p>
+    <p><%= makesheet.number_of_cheeses %></p>
+  
+    <p><strong>Weight type:</strong></p>
+    <p><%=  makesheet.weight_type %></p>
+  
+  <hr><hr>
+  
+    <p><strong>Grade:</strong></p>
+    <p><%= makesheet.grade %></p>
+  
+  <hr><hr>
+  
+    <p><strong>Boiler ON time:</strong></p>
+    <p><%= makesheet.boiler_on_time&.strftime("%I:%M %p") %></p>
+  
+    <p><strong>Steam/Hot Water ON time:</strong></p>
+    <p><%= makesheet.steam_hot_water_on_time&.strftime("%I:%M %p") %></p>
 
-  <p>
-    <strong>Milk used:</strong>
-    <%= makesheet.milk_used %>
-  </p>
+    <p><strong>Cold Milk IN Time:</strong></p>
+    <p><%= makesheet.cold_milk_in_time&.strftime("%I:%M %p") %></p>
+  
+    <p><strong>Cold Milk IN Temp State:</strong></p>
+    <p><%= makesheet.cold_milk_in_state %></p>
+    
+    <p><strong>Warm Milk Finish Time:</strong></p>
+    <p><%= makesheet.warm_milk_finish_time&.strftime("%I:%M %p") %></p>
 
-  <p>
-    <strong>Total weight:</strong>
-    <%= makesheet.total_weight %>
-  </p>
+    <p><strong>Warm Milk Finish Temp:</strong></p>
+    <p><%= makesheet.warm_milk_finish_titration %></p>
 
-  <p>
-    <strong>Number of cheeses:</strong>
-    <%= makesheet.number_of_cheeses %>
-  </p>
+    <p><strong>Starter IN Time:</strong></p>
+    <p><%= makesheet.starter_in_time&.strftime("%I:%M %p") %></p>
 
-  <p>
-    <strong>Grade:</strong>
-    <%= makesheet.grade %>
-  </p>
+    <p><strong>Starter IN Temp:</strong></p>
+    <p><%= makesheet.starter_in_temp %></p>
 
-  <p>
-    <strong>Weight type:</strong>
-    <%= makesheet.weight_type %>
-  </p>
+    <p><strong>Heat OFF Time:</strong></p>
+    <p><%= makesheet.heat_off_1_time&.strftime("%I:%M %p") %></p>
 
-   <div class="my-4 font-semibold underline ">
-      <%= link_to "Print Make Sheet PDF", print_makesheet_pdf_path(:id => @makesheet), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
-    </div>
+    <p><strong>Heat OFF Temp:</strong></p>
+    <p><%= makesheet.heat_off_1_temp %></p>
+
+    <p><strong>Rennet Time:</strong></p>
+    <p><%= makesheet.rennet_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Rennet Temp:</strong></p>
+    <p><%= makesheet.rennet_temp %></p>
+
+    <p><strong>Cut Time:</strong></p>
+    <p><%= makesheet.cut_start_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Cut Time:</strong></p>
+    <p><%= makesheet.cut_end_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Heat ON Time:</strong></p>
+    <p><%= makesheet.heat_on_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Heat OFF Time:</strong></p>
+    <p><%= makesheet.heat_off_2_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Heat OFF Temp:</strong></p>
+    <p><%= makesheet.heat_off_2_temp %></p>
+
+    <p><strong>Pitch Time:</strong></p>
+    <p><%= makesheet.pitch_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Whey Time:</strong></p>
+    <p><%= makesheet.whey_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>Whey Titration:</strong></p>
+    <p><%= makesheet.whey_titration %></p>
+
+    <p><strong>1st Cut Time:</strong></p>
+    <p><%= makesheet.first_cut_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>1st Cut Titration:</strong></p>
+    <p><%= makesheet.first_cut_titration %></p>
+
+     <p><strong>2nd Cut Time:</strong></p>
+    <p><%= makesheet.second_cut_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>2nd Cut Titration:</strong></p>
+    <p><%= makesheet.second_cut_titration %></p>
+
+     <p><strong>3rd Cut Time:</strong></p>
+    <p><%= makesheet.third_cut_time&.strftime("%I:%M %p") %></p>
+
+    <p><strong>3rd Cut Titration:</strong></p>
+    <p><%= makesheet.third_cut_titration %></p>
+
+    <p><strong>Mill Used:</strong></p>
+    <p><%= makesheet.identify_mill_used %></p>
+
+    
+    
+
+
+  <hr>
+
+  </div>
 
 </div>

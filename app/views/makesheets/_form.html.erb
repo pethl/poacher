@@ -14,7 +14,7 @@
 
   <div class="my-5">
     <%= form.label :status,  class: label_class %>
-    <%=  form.select :status, options_for_select(batch_status, :selected => makesheet.status),{:prompt=>true}, :disabled => true, class: field_class_flex %>
+    <%=  form.select :status, options_for_select(batch_status, :selected => makesheet.status),{:prompt=>true}, :disabled => true, class: field_class_flex_disabled %>
   </div>
 
    <div class="my-5">
@@ -24,22 +24,31 @@
 
    <div>
     <%= form.label :make_date, class: label_class %>
-    <%= form.datetime_field :make_date, value: @makesheet.make_date || Date.today, placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex %>
+    <%= form.date_field :make_date, 
+        disabled: makesheet.make_date.present?, 
+        class: field_class_flex %>
   </div>
 
   <div class="my-5">
     <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
-    <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex %>
+    <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :total_weight, "Weight (kgs)", class: label_class %>
-    <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_flex %>
+    <%= form.number_field :total_weight, placeholder: "kgs",class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :number_of_cheeses,  class: label_class %>
-    <%= form.number_field :number_of_cheeses, class: field_class_flex %>
+    <%= form.number_field :number_of_cheeses, class: field_class_flex_small %>
+  </div>
+
+  
+
+  <div class="my-5">
+    <%= form.label :weight_type,  class: label_class %>
+    <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class_flex%>
   </div>
 
   <div class="my-5">
@@ -47,15 +56,109 @@
     <%=  form.select :grade, options_for_select(grade, :selected => makesheet.grade),{:prompt=>true}, class: field_class_flex %>
   </div>
 
+   <hr>
+
   <div class="my-5">
-    <%= form.label :weight_type,  class: label_class %>
-    <%=  form.select :weight_type, options_for_select(weight_type, :selected => makesheet.weight_type),{:prompt=>true}, class: field_class_flex%>
+    <%= form.label :boiler_on_time, "Boiler On", class: label_class %>
+    <%= form.time_field :boiler_on_time, class: field_class_flex_small %>
   </div>
+
+  <div class="my-5">
+    <%= form.label :steam_hot_water_on_time, "Steam / Hot Water On", class: label_class %>
+    <%= form.time_field :boiler_on_time, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cold_milk_in_time, "Cold Milk In", class: label_class %>
+    <%= form.time_field :cold_milk_in_time,class: field_class_flex_small %>
+    <%= form.text_field :cold_milk_in_state,class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :warm_milk_finish_time, "Warm Milk Finish", class: label_class %>
+    <%= form.time_field :warm_milk_finish_time,class: field_class_flex_small %>
+    <%= form.text_field :warm_milk_finish_titration,class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :starter_in_time, "Starter IN", class: label_class %>
+    <%= form.time_field :starter_in_time, class: field_class_flex_small %>
+    <%= form.text_field :starter_in_temp, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :heat_off_1_time, "Heat OFF", class: label_class %>
+    <%= form.time_field :heat_off_1_time, class: field_class_flex_small %>
+    <%= form.text_field :heat_off_1_temp, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :rennet_time, "Rennet", class: label_class %>
+    <%= form.time_field :rennet_time, class: field_class_flex_small %>
+    <%= form.text_field :rennet_temp, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cut_start_time, "Cut", class: label_class %>
+    <%= form.time_field :cut_start_time, class: field_class_flex_small %>
+    <%= form.time_field :cut_end_time, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :heat_on_time, "Heat ON", class: label_class %>
+    <%= form.time_field :heat_on_time, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :heat_off_2_time, "Heat OFF ", class: label_class %>
+    <%= form.time_field :heat_off_2_time, class: field_class_flex_small %>
+    <%= form.text_field :heat_off_2_temp, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :pitch_time, "Pitch", class: label_class %>
+    <%= form.time_field :pitch_time, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :whey_time, "Whey", class: label_class %>
+    <%= form.time_field :whey_time, class: field_class_flex_small %>
+    <%= form.text_field :whey_titration, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :first_cut_time, "1st Cut", class: label_class %>
+    <%= form.time_field :first_cut_time, class: field_class_flex_small %>
+    <%= form.text_field :first_cut_titration, class: field_class_flex_small %>
+  </div>
+
+   <div class="my-5">
+    <%= form.label :second_cut_time, "2nd Cut", class: label_class %>
+    <%= form.time_field :second_cut_time, class: field_class_flex_small %>
+    <%= form.text_field :second_cut_titration, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :third_cut_time, "3rd Cut", class: label_class %>
+    <%= form.time_field :third_cut_time, class: field_class_flex_small %>
+    <%= form.text_field :third_cut_titration, class: field_class_flex_small %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :identify_mill_used, "Identify Mill Used", class: label_class %>
+    <%= form.text_field :identify_mill_used, class: field_class_flex_small %>
+  </div>
+
+
+
+  
+  <hr>
 
   <div class="m-2">
     <%= form.submit "Save Make Sheet", class:fill_button_class %>
     <%= link_to "All Makesheets", makesheets_path, class:gray_button %>
   </div>
+
 <% end %>
 
 </div>

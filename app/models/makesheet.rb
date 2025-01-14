@@ -4,8 +4,10 @@ class Makesheet < ApplicationRecord
   has_many :samples  
   
   validates :make_date, presence: true
+  validates :make_type, presence: true
   
   scope :ordered, -> { order(make_date: :asc) }
+  scope :ordered_reverse, -> { order(make_date: :desc) }
 
   # Scope to filter out "Finished" status
   scope :not_finished, -> { where.not(status: "Finished") }

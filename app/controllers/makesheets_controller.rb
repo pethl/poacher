@@ -52,7 +52,7 @@ class MakesheetsController < ApplicationController
      if params[:column].present?
          @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
        else
-         @makesheets = Makesheet.all.ordered
+         @makesheets = Makesheet.all.ordered_reverse
        end
   end
 
@@ -556,7 +556,12 @@ class MakesheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def makesheet_params
-      params.require(:makesheet).permit(:status, :make_date, :make_type, :milk_used, :total_weight, :number_of_cheeses, :grade, :weight_type)
+      params.require(:makesheet).permit(:status, :make_date, :make_type, 
+      :milk_used, :total_weight, :number_of_cheeses, :weight_type, :grade,
+      :boiler_on_time, :steam_hot_water_on_time, :cold_milk_in_time, :cold_milk_in_state, :warm_milk_finish_time, :warm_milk_finish_titration, 
+      :starter_in_time, :starter_in_temp, :heat_off_1_time, :heat_off_1_temp, :milk_titration_time, :milk_titration_temp, :rennet_time, :rennet_temp, 
+      :cut_start_time, :cut_end_time, :heat_on_time, :heat_off_2_time, :heat_off_2_temp, :pitch_time, :whey_time, :whey_titration, 
+      :first_cut_time, :first_cut_titration, :second_cut_time, :second_cut_titration, :third_cut_time, :third_cut_titration, :identify_mill_used, )
     end
     
 

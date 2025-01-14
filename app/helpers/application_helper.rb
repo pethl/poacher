@@ -40,6 +40,10 @@ module ApplicationHelper
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-60 focus:border-gray-800 "
    end
 
+   def field_class_flex_disabled
+    "shadow outline:none rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-60 focus:border-gray-800 "
+   end
+
    def field_class_flex_med
     "max-w-44 text-right shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
