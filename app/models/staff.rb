@@ -1,6 +1,7 @@
 class Staff < ApplicationRecord
   has_many :chillers
   has_many :breakages
+  has_many :makesheets
  
     
   validates :employment_status, presence: true

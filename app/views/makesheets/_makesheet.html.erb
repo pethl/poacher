@@ -1,5 +1,7 @@
 <div id="<%= dom_id makesheet %>">
+
   <div class="grid grid-cols-2 text-right">
+
     <p><strong>Status:</strong></p>
     <p><%= makesheet.status %></p>
     
@@ -43,31 +45,31 @@
     <p><strong>Warm Milk Finish Time:</strong></p>
     <p><%= makesheet.warm_milk_finish_time&.strftime("%I:%M %p") %></p>
 
-    <p><strong>Warm Milk Finish Temp:</strong></p>
+    <p><strong>Warm Milk Finish Titration:</strong></p>
     <p><%= makesheet.warm_milk_finish_titration %></p>
 
     <p><strong>Starter IN Time:</strong></p>
     <p><%= makesheet.starter_in_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Starter IN Temp:</strong></p>
-    <p><%= makesheet.starter_in_temp %></p>
+    <p><%= makesheet.starter_in_temp %>°C</p>
 
     <p><strong>Heat OFF Time:</strong></p>
     <p><%= makesheet.heat_off_1_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Heat OFF Temp:</strong></p>
-    <p><%= makesheet.heat_off_1_temp %></p>
+    <p><%= makesheet.heat_off_1_temp %>°C</p>
 
     <p><strong>Rennet Time:</strong></p>
     <p><%= makesheet.rennet_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Rennet Temp:</strong></p>
-    <p><%= makesheet.rennet_temp %></p>
+    <p><%= makesheet.rennet_temp %>°C</p>
 
-    <p><strong>Cut Time:</strong></p>
+    <p><strong>Cut Start Time:</strong></p>
     <p><%= makesheet.cut_start_time&.strftime("%I:%M %p") %></p>
 
-    <p><strong>Cut Time:</strong></p>
+    <p><strong>Cut End Time:</strong></p>
     <p><%= makesheet.cut_end_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Heat ON Time:</strong></p>
@@ -77,7 +79,7 @@
     <p><%= makesheet.heat_off_2_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Heat OFF Temp:</strong></p>
-    <p><%= makesheet.heat_off_2_temp %></p>
+    <p><%= makesheet.heat_off_2_temp %>°C</p>
 
     <p><strong>Pitch Time:</strong></p>
     <p><%= makesheet.pitch_time&.strftime("%I:%M %p") %></p>
@@ -109,12 +111,110 @@
     <p><strong>Mill Used:</strong></p>
     <p><%= makesheet.identify_mill_used %></p>
 
+  <hr><hr>
+
+    <p><strong>Warm AM:</strong></p>
+    <p><%= makesheet.warm_am %></p>
+
+    <p><strong>12 Hour PM:</strong></p>
+    <p><%= makesheet.twelve_hr_pm %></p>
+
+    <p><strong>Unusal Smell or Appearance:</strong></p>
+    <p><%= makesheet.unusual_smell_appearance %></p>
+
+    <p><strong>Number of Bottles:</strong></p>
+    <p><%= makesheet.number_of_bottles_from_fm %></p>
+
+    <p><strong>Use By Date:</strong></p>
+    <p><%= makesheet.use_by_date_milk_from_fm %></p>
+
+  <hr><hr>
+
+    <p><strong>Starter Used:</strong></p>
+    <p><%= makesheet.type_of_starter_culture_used %></p>
+
+    <p><strong>Qty Used:</strong></p>
+    <p><%= makesheet.qty_of_starter_used %></p>
+
+    <hr><hr>
+
+    <p><strong>Pre Start Inspection:</strong><br>
+    All high risk glass/brittle material and metal items inspected prior to use - are they in good condition?</p>
+
+    <p><%= makesheet.pre_start_inspection_of_high_risk_items ? "YES" : "NO" %></p>
+
+    <p><strong>By:</strong></p>
+    <p><%= makesheet.pre_start_inspection_by_staff&.full_name || "Not Given" %></p>
+
+    <hr><hr>
     
-    
+    <p><strong>Ingredient Batch Change:</strong></p>
+    <p><%= makesheet.ingredient_batch_change ? "YES" : "NO" %></p>
+
+    <p><strong>Thermometer Change:</strong></p>
+    <p><%= makesheet.thermometer_change ? "YES" : "NO" %></p>
+
+    <p><strong>Scale Change:</strong></p>
+    <p><%= makesheet.scale_change ? "YES" : "NO" %></p>
+
+    <hr><hr>
+
+    <%# WHAT FORMAT SHOULD THIS TAKE? %>
+    <p><strong>Batch Dipped:</strong></p>
+    <p><%= makesheet.batch_dipped ? "YES" : "NO" %></p>
+
+    <p><strong>Post Make Notes:</strong></p>
+    <p><%= makesheet.post_make_notes %></p>
+
+    <p><strong>Cheese Made By:</strong></p>
+    <p><%= makesheet.cheese_made_by_staff&.full_name || "Not Given" %></p>
 
 
-  <hr>
+    <p><strong>Milling Help:</strong></p>
+    <p><%= makesheet.milling_help %></p>
+
+    <hr><hr>
+
+    <p><strong>Sale Weight Net:</strong></p>
+    <p><%= makesheet.salt_weight_net %></p>
+
+    <p><strong>Salt Weight Gross:</strong></p>
+    <p><%= makesheet.salt_weight_gross %></p>
+
+    <hr><hr>
+
+    <p><strong>Weather Today:</strong></p>
+    <p><%= makesheet.weather_today %></p>
+
+    <p><strong>Temperature:</strong></p>
+    <p><%= makesheet.weather_temp %></p>
+
+    <p><strong>Humidity:</strong></p>
+    <p><%= makesheet.weather_humidity %></p>
+
+    <hr><hr>
+
+    <p><strong>Glass Breakage:</strong></p>
+    <p><%= makesheet.glass_breakage ? "YES" : "NO" %></p>
+
+    <p><strong>Glass Contamination:</strong></p>
+    <p><%= makesheet.glass_contamination ? "YES" : "NO" %></p>
+
+    <p><strong>Comments/Actions:</strong></p>
+    <p><%= makesheet.glass_comments %></p>
+
+    <hr><hr>
+
+    <p><strong>Metal Breakage:</strong></p>
+    <p><%= makesheet.metal_breakage ? "YES" : "NO" %></p>
+
+    <p><strong>Metal Contamination:</strong></p>
+    <p><%= makesheet.metal_contamination ? "YES" : "NO" %></p>
+
+    <p><strong>Comments/Actions:</strong></p>
+    <p><%= makesheet.metal_comments %></p>
+
+    <hr><hr>
 
   </div>
-
 </div>

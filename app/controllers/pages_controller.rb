@@ -11,7 +11,6 @@ class PagesController < ApplicationController
   def office_home
   end
   
-  
   def nursery_home
     @makesheets = Makesheet.where(grade: "").order('make_date DESC')
   end

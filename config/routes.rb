@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get "pages/home"
   
   get "pages/cutting_home"
+  get "pages/credits"
   get "pages/dairy_home"
   get "pages/nursery_home"
   get "pages/store_home"

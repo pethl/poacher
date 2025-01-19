@@ -2,6 +2,9 @@ class Makesheet < ApplicationRecord
   has_many :turns
   has_many :traceability_records
   has_many :samples  
+  belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
+  belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
+  has_many :staffs  
   
   validates :make_date, presence: true
   validates :make_type, presence: true

@@ -27,17 +27,17 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :trailer_number_type %>
+    <%= form.label :trailer_number_type, "Trailer Number / Type" %>
     <%= form.text_field :trailer_number_type, class: field_class_flex_med %>
   </div>
 
   <div class="my-5">
-    <%= form.label :temperature %>
+    <%= form.label :temperature, "Temperature °C" %>
     <%= form.text_field :temperature, class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
-    <%= form.label :vehicle_clean %>
+    <%= form.label :vehicle_clean, "Vehicle Clean, free of taint?" %>
     <%= form.select :vehicle_clean, options_for_select(yes_no, :selected => palletised_distribution.vehicle_clean),{:include_blank => true}, class: field_class_flex_small %>
   </div>
 
@@ -52,7 +52,7 @@
   </div>
 
   <div class="my-5">
-    <%= form.label :staff_id %>
+    <%= form.label :staff_id, "Check By (staff member)" %>
     <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_med }) %>
   </div>
 

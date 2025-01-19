@@ -5,7 +5,7 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.datetime :make_date
       t.string :make_type
       t.integer :milk_used
-      t.integer :total_weight
+      t.float :total_weight, precision: 6, scale: 3
       t.integer :number_of_cheeses
       t.string :weight_type
       t.string :grade
@@ -38,6 +38,33 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.time  :third_cut_time
       t.float  :third_cut_titration, precision: 6, scale: 3
       t.string  :identify_mill_used
+      t.boolean  :warm_am 
+      t.boolean  :twelve_hr_pm
+      t.string  :unusual_smell_appearance
+      t.integer  :number_of_bottles_from_fm
+      t.datetime :use_by_date_milk_from_fm
+      t.string  :type_of_starter_culture_used
+      t.float  :qty_of_starter_used, precision: 6, scale: 4
+      t.boolean  :pre_start_inspection_of_high_risk_items
+      t.integer :pre_start_inspection_by_staff_id
+      t.text  :ingredient_batch_change
+      t.string  :thermometer_change
+      t.string  :scale_change
+      t.boolean  :batch_dipped
+      t.text  :post_make_notes
+      t.integer :cheese_made_by_staff_id
+      t.string  :milling_help
+      t.float  :salt_weight_net, precision: 6, scale: 3
+      t.float  :salt_weight_gross, precision: 6, scale: 3
+      t.string  :weather_today
+      t.float  :weather_temp, precision: 6, scale: 3
+      t.float  :weather_humidity, precision: 6, scale: 3
+      t.boolean  :glass_breakage
+      t.boolean  :glass_contamination
+      t.text  :glass_comments
+      t.boolean  :metal_breakage
+      t.boolean  :metal_contamination
+      t.text  :metal_comments
 
       t.timestamps
     end

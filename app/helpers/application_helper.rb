@@ -39,9 +39,16 @@ module ApplicationHelper
    def field_class_flex
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-60 focus:border-gray-800 "
    end
+   def field_class_flex_full
+    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-full focus:border-gray-800 "
+   end
 
    def field_class_flex_disabled
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-60 focus:border-gray-800 "
+   end
+
+   def field_class_flex_full_disabled
+    "shadow outline:none rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-full focus:border-gray-800 "
    end
 
    def field_class_flex_med
@@ -49,7 +56,7 @@ module ApplicationHelper
    end
 
    def field_class_flex_small
-    "max-w-24 shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
+    "max-w-20 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
    
    def field_class_fit
@@ -184,10 +191,15 @@ module ApplicationHelper
     make_type = make_type.pluck(:value)       
   end
 
+  def weather
+    weather = Reference.where(active: "TRUE", group: 'weather')
+    weather = weather.pluck(:value) 
+  end
+
   def yes_no
     #yes_no = Reference.where(active: "TRUE", group: 'yes_no')
     #yes_no = yes_no.pluck(:value)    
-       yes_no =  [["Yes", true], ["No", false]]
+    yes_no =  [["Yes", true], ["No", false]]
   end
 
   

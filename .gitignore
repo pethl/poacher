@@ -9,6 +9,7 @@
 /node_modules
 package.json
 package-lock.json
+.env
 
 # Ignore the default SQLite database.
 /db/*.pg

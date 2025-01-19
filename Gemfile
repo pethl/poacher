@@ -55,6 +55,7 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -66,6 +67,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+
+  #for weather app env management
+
 end
 
 group :test do
@@ -97,5 +101,8 @@ gem "solargraph"
 # for Excel imports
 gem "roo", "~> 2.10.1"
 gem "csv", "~> 3.3.2"
+
+#for weather
+gem 'httparty'
 
 

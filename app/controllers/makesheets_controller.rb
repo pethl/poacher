@@ -1,11 +1,12 @@
 class MakesheetsController < ApplicationController
+  require_relative Rails.root.join('services/weather_service')
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
 
   def makesheet_search
-       if params[:search_by_batch] && params[:search_by_batch] != ""
-         @makesheets = Makesheet.where(batch: params[:search_by_batch])
-       end 
+    if params[:search_by_batch] && params[:search_by_batch] != ""
+      @makesheets = Makesheet.where(batch: params[:search_by_batch])
+    end 
   end
 
   def overview
@@ -44,6 +45,11 @@ class MakesheetsController < ApplicationController
       @small_cheese_count =  @makesheets.where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
       @small_cheese_weight = @makesheets.where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
 
+      @data = @makesheets.ordered.pluck(:make_date, :milk_used, :weather_today).map do |make_date, milk_used, weather_today|
+        [make_date.strftime("%-d"), milk_used, weather_today] if make_date.present?
+      end.compact
+
+     
   end
   
   
@@ -64,15 +70,32 @@ class MakesheetsController < ApplicationController
   # GET /makesheets/new
   def new
     @makesheet = Makesheet.new
+    @staffs = Staff.ordered
+
+     #no need to define location as its hard coded in service
+     service = WeatherService.new
+     @weather = service.fetch_daily_weather
+ 
+     if @weather[:error]
+       flash[:alert] = @weather[:error]
+       @weather = nil
+     end
+     @makesheet.weather_today = @weather[:conditions]
+     @makesheet.weather_temp = @weather[:temperature]
+     @makesheet.weather_humidity = @weather[:humidity]
+     
+ 
   end
 
   # GET /makesheets/1/edit
   def edit
+    @staffs = Staff.ordered
   end
 
   # POST /makesheets or /makesheets.json
   def create
     @makesheet = Makesheet.new(makesheet_params)
+    @staffs = Staff.ordered
 
     respond_to do |format|
       if @makesheet.save
@@ -87,6 +110,7 @@ class MakesheetsController < ApplicationController
 
   # PATCH/PUT /makesheets/1 or /makesheets/1.json
   def update
+    @staffs = Staff.ordered
     respond_to do |format|
       if @makesheet.update(makesheet_params)
         format.html { redirect_to makesheet_url(@makesheet), notice: "Makesheet was successfully updated." }
@@ -130,7 +154,7 @@ class MakesheetsController < ApplicationController
        pdf.define_grid(columns: 3, rows: 1, gutter: 6)
        pdf.grid(0, 0).bounding_box do
          date_box = Array.new
-         date_box << ["Date: #{@makesheet.make_date.strftime('%b %d, %Y')}"]
+         date_box << ["Date:", "<b>#{@makesheet.make_date.strftime('%b %d, %Y')}</b>"]
       
                 pdf.table(date_box) do 
                   self.width = 210
@@ -138,31 +162,36 @@ class MakesheetsController < ApplicationController
                    {:borders => [:top, :left, :bottom, :right],
                    :border_width => 1,
                    :border_color => "B2BEB5",}
-                   columns(0).width = 210
+                   columns(0).background_color = "D3D3D3"
+                   columns(0).width = 50
+                   columns(1).width = 160
                    rows(0).align = :left
-                   columns(0).size = 7
+                   rows(0).align = :center
+                   columns(0).size = 8
+                   columns(1).size = 12
+              
                  end
                  pdf.text "\n", size: 8  
          
                  first_column = Array.new 
                  first_column << ["", "<b>TIME</b>", "<b>TEMP (°C)</b>"]
-                 first_column << ["BOILER ON", "", ""]
-                 first_column << ["STEAM / HOT WATER ON", "", ""]
-                 first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "", ""]
-                 first_column << ["WARM MILK FINISH", "", "<sup>Titration</sup>"]
-                 first_column << ["STARTER IN", "", ""]
-                 first_column << ["HEAT OFF", "", ""]
-                 first_column << ["MILK TITRATION", "", ""]
-                 first_column << ["RENNET", "", ""]
-                 first_column << ["CUT", "", ""]
-                 first_column << ["HEAT ON", "", ""]
-                 first_column << ["HEAT OFF", "", ""]
-                 first_column << ["PITCH", "", "<sup>Titration</sup>"]
-                 first_column << ["WHEY", "", ""]
-                 first_column << ["1ST CUT", "", ""]
-                 first_column << ["2ND CUT", "", ""]
-                 first_column << ["3RD CUT", "", ""]
-                 first_column << ["MILL\nXXXXXX MILL USED", "", ""]
+                 first_column << ["BOILER ON",  "#{@makesheet.boiler_on_time&.strftime('%I:%M %p')}", ""]
+                 first_column << ["STEAM / HOT WATER ON", "#{@makesheet.steam_hot_water_on_time&.strftime('%I:%M %p')}", ""]
+                 first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "#{@makesheet.cold_milk_in_time&.strftime('%I:%M %p')}", "#{@makesheet.cold_milk_in_state}"]
+                 first_column << ["WARM MILK FINISH",  "#{@makesheet.warm_milk_finish_time&.strftime('%I:%M %p')}", "#{@makesheet.warm_milk_finish_titration}"]
+                 first_column << ["STARTER IN",  "#{@makesheet.starter_in_time&.strftime('%I:%M %p')}", "#{@makesheet.starter_in_temp}"]
+                 first_column << ["HEAT OFF", "#{@makesheet.heat_off_1_time&.strftime('%I:%M %p')}", "#{@makesheet.heat_off_1_temp}"]
+                 first_column << ["MILK TITRATION", "#{@makesheet.milk_titration_time&.strftime('%I:%M %p')}", "#{@makesheet.milk_titration_temp}"]
+                 first_column << ["RENNET", "#{@makesheet.rennet_time&.strftime('%I:%M %p')}", "#{@makesheet.rennet_temp}"]
+                 first_column << ["CUT", "#{@makesheet.cut_start_time&.strftime('%I:%M %p')}", "#{@makesheet.cut_end_time&.strftime('%I:%M %p')}"]
+                 first_column << ["HEAT ON", "#{@makesheet.heat_on_time&.strftime('%I:%M %p')}", ""]
+                 first_column << ["HEAT OFF", "#{@makesheet.heat_off_2_time&.strftime('%I:%M %p')}", "#{@makesheet.heat_off_2_temp}"]
+                 first_column << ["PITCH", "#{@makesheet.pitch_time&.strftime('%I:%M %p')}", "<sup>Titration</sup>"]
+                 first_column << ["WHEY", "#{@makesheet.whey_time&.strftime('%I:%M %p')}", "#{@makesheet.whey_titration}"]
+                 first_column << ["1ST CUT","#{@makesheet.first_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.first_cut_titration}"]
+                 first_column << ["2ND CUT", "#{@makesheet.second_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.second_cut_titration}"]
+                 first_column << ["3RD CUT","#{@makesheet.third_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.third_cut_titration}"]
+                 first_column << ["MILL\nXXXXXX MILL USED", "#{@makesheet.identify_mill_used}", ""]
         
                       pdf.table(first_column) do 
                         self.width = 210
@@ -179,15 +208,17 @@ class MakesheetsController < ApplicationController
                          columns(1..2).align = :center
                         
                          columns(0).size = 7
-                         columns(2).size = 7
+                         columns(2).size = 9
                        end
        end
        
        pdf.grid(0, 1).bounding_box do
+        pdf.text "\n", size: 14
+
          milk_box = Array.new
          milk_box << ["<b>MILK USED</b>","", "","","Bottles (back from F/Mkts)"]
          milk_box << ["Warm am","12 hr pm", "Record unusual smell or visual appearance","Number","U/B Date"]
-         milk_box << ["","", "","",""]
+         milk_box << ["#{@makesheet.warm_am}","#{@makesheet.twelve_hr_pm}", "#{@makesheet.unusual_smell_appearance}","#{@makesheet.number_of_bottles_from_fm}","#{@makesheet.use_by_date_milk_from_fm.strftime('%d-%m-%y')}"]
         
                 pdf.table(milk_box)  do 
                   self.width = 250
@@ -200,6 +231,8 @@ class MakesheetsController < ApplicationController
                    columns(3..4).width = 50
                    row(0).background_color = "D3D3D3"
                    rows(0).align = :center
+                   rows(1).align = :center
+                   rows(2).align = :center
                    rows(1).size = 6
                    rows(2).size = 12
                    columns(0..4).size = 7
@@ -210,7 +243,7 @@ class MakesheetsController < ApplicationController
            starter_box = Array.new
            starter_box << ["<b>STARTER CULTURE USED</b>",""]
            starter_box << ["Type of Starter Culture Used","Qty Used"]
-          # starter_box << ["",""]
+           starter_box << ["#{@makesheet.type_of_starter_culture_used}","#{@makesheet.qty_of_starter_used}"]
   
                   pdf.table(starter_box)  do 
                     self.width = 200
@@ -221,35 +254,38 @@ class MakesheetsController < ApplicationController
                      columns(0).width = 120
                      columns(1).width = 80
                      row(0).background_color = "D3D3D3"
-                     rows(0).align = :center
-                     rows(1).align = :center
+                     rows(0..2).align = :center
                      rows(0).size = 7
                      rows(1).size = 6
-                     rows(1).height = 40
+                     rows(2).size = 12
+                     rows(2).height = 30
                    end      
              
-             pdf.text "\n", size: 8         
+             pdf.text "\n", size: 8
+                     
              weather_box = Array.new
-             weather_box << ["<b>WEATHER TODAY</b>"]
-             weather_box << [""]
-
-                    pdf.table(weather_box)  do 
+             weather_box << ["<b>WEATHER TODAY</b>", "<b>Temp oC</b>", "<b>Humidity</b>"]
+             weather_box << ["#{@makesheet.weather_today}","#{@makesheet.weather_temp}","#{@makesheet.weather_humidity}"]
+             
+             pdf.table(weather_box)  do 
                       self.width = 200
                        self.cell_style = { :inline_format => true } 
                        {:borders => [:top, :left, :bottom, :right],
                        :border_width => 1,
                        :border_color => "B2BEB5",}
-                       columns(0).width = 200
+                       columns(0).width = 100
+                       columns(1..2).width = 50
                        row(0).background_color = "D3D3D3"
-                       rows(0).align = :center
+                       rows(0..1).align = :center
                        rows(0).size = 7
-                       rows(1).height = 36
+                       rows(1).size = 12 
+                       
                      end  
                      
                pdf.text "\n", size: 8         
                ib_change_box = Array.new
                ib_change_box << ["<b>INGREDIENT BATCH CHANGE</b>"]
-               ib_change_box << [""]
+               ib_change_box << ["#{@makesheet.ingredient_batch_change ? "YES" : "NO"}"]
 
                       pdf.table(ib_change_box)  do 
                         self.width = 200
@@ -259,15 +295,15 @@ class MakesheetsController < ApplicationController
                          :border_color => "B2BEB5",}
                          columns(0).width = 200
                          row(0).background_color = "D3D3D3"
-                         rows(0).align = :center
+                         rows(0..1).align = :center
                          rows(0).size = 7
-                         rows(1).height = 36
+                         rows(1).size = 12
                        end  
                        
                  pdf.text "\n", size: 8         
                  thermo_box = Array.new
                  thermo_box << ["<b>THERMOMETER CHANGE</b>", "<b>SCALE CHANGE</b>"]
-                 thermo_box << ["", ""]
+                 thermo_box << ["#{@makesheet.thermometer_change ? "YES" : "NO"}", "#{@makesheet.scale_change ? "YES" : "NO"}"]
 
                         pdf.table(thermo_box)  do 
                           self.width = 200
@@ -277,15 +313,15 @@ class MakesheetsController < ApplicationController
                            :border_color => "B2BEB5",}
                            columns(0).width = 100
                            row(0).background_color = "D3D3D3"
-                           rows(0).align = :center
+                           rows(0..1).align = :center
                            rows(0).size = 7
-                           rows(1).height = 30
+                           rows(1).size = 12
                           end   
                           
                 pdf.text "\n", size: 8         
                 notes_box = Array.new
                 notes_box << ["<b>POST MAKE NOTES</b>"]
-                notes_box << [""]
+                notes_box << ["#{@makesheet.post_make_notes}"]
 
                        pdf.table(notes_box)  do 
                          self.width = 200
@@ -297,57 +333,60 @@ class MakesheetsController < ApplicationController
                           row(0).background_color = "D3D3D3"
                           rows(0).align = :center
                           rows(0).size = 7
+                          rows(1).size = 10
                           rows(1).height = 80
                          end   
                          
                  pdf.text "\n", size: 8         
                  sign_box = Array.new
-                 sign_box << ["<b>CHEESE MADE BY:</b>", "", "<b>MILLING HELP</b>"]
-                
+                 sign_box << ["<b>CHEESE MADE BY:</b>", "<b>MILLING HELP</b>"]
+                 sign_box << ["#{@makesheet.cheese_made_by_staff&.full_name || ""}", "#{@makesheet.milling_help}"]
+
                         pdf.table(sign_box)  do 
                           self.width = 200
                            self.cell_style = { :inline_format => true, size: 10, :height => 70 } 
                            {:borders => [:top, :left, :bottom, :right],
                            :border_width => 1,
                            :border_color => "B2BEB5",}
-                           columns(0).width = 40
-                           columns(1).width = 100
-                           columns(2).width = 60
-                           columns(0).background_color = "D3D3D3"
-                           rows(0).align = :center
-                           columns(0..2).size = 7
+                           columns(0).width = 140
+                           columns(1).width = 60
+                           rows(0).background_color = "D3D3D3"
+                           rows(0).height = 20
+                           rows(1).height = 50
+                           rows(0..1).align = :center
+                           rows(0).size = 7
+                           row(1).size = 12
+                           
                           end  
-        
-        
        end
        
        pdf.grid(0, 2).bounding_box do
         
-         pdf.text "\n", size: 14        
+         pdf.text "\n", size: 14       
          weight_box = Array.new
          weight_box << ["<b>WEIGHT</b>", "<b>YIELD (%)</b>"]
-         weight_box << ["", ""]
+         weight_box << ["#{@makesheet.total_weight}", "#{@makesheet.yield.round(2)}"]
 
                 pdf.table(weight_box)  do 
-                  self.width = 200
+                  self.width = 252
                    self.cell_style = { :inline_format => true} 
                    {:borders => [:top, :left, :bottom, :right],
                    :border_width => 1,
                    :border_color => "B2BEB5",}
-                   columns(0).width = 100
-                   columns(1).width = 100
+                   columns(0).width = 126
+                   columns(1).width = 126
                    rows(0).background_color = "D3D3D3"
-                   rows(0).align = :center
+                   rows(0..1).align = :center
                    rows(0).size = 7
-                   rows(1).height = 26
+                   rows(1).size = 12
                     end    
                     
-          pdf.text "\n", size: 8         
+          pdf.text "\n", size: 6         
           number_header_box = Array.new
           number_header_box << ["<b>NUMBER / SIZE & WEIGHT OF CHEESES MADE</b>"]
           
                  pdf.table(number_header_box)  do 
-                   self.width = 200
+                   self.width = 252
                     self.cell_style = { :inline_format => true} 
                     {:borders => [:top, :left, :bottom, :right],
                     :border_width => 1,
@@ -363,7 +402,7 @@ class MakesheetsController < ApplicationController
            number_box << ["Weight", "Weight", "Weight"]
 
                   pdf.table(number_box)  do 
-                    self.width = 200
+                    self.width = 252
                      self.cell_style = { :inline_format => true} 
                      {:borders => [:top, :left, :bottom, :right],
                      :border_width => 1,
@@ -378,12 +417,12 @@ class MakesheetsController < ApplicationController
                      
               end     
               
-              pdf.text "\n", size: 8        
+              pdf.text "\n", size: 6        
               salt_header_box = Array.new
               salt_header_box << ["<b>SALT ADDITION </b>- 2% EXPECTED CURD WEIGHT"]
           
                      pdf.table(salt_header_box)  do 
-                       self.width = 200
+                       self.width = 252
                         self.cell_style = { :inline_format => true, :size => 10, :height => 20 } 
                         {:borders => [:top, :left, :bottom, :right],
                         :border_width => 1,
@@ -394,23 +433,23 @@ class MakesheetsController < ApplicationController
                          end    
                      
                salt_box = Array.new
-               salt_box << ["LITRES OF MILK (00's)", "EXPECTED YIELD (%)", "SALT WEIGHT (KG)\n NET     GROSS"]
-               salt_box << ["  ", "  ", "  "]
+               salt_box << ["MILK (Ltrs,00's)", "EXPECTED YIELD (%)", "SALT(KG)(NET/GROSS)"]
+               salt_box << ["#{@makesheet.milk_used}", "#{@makesheet.yield.round(2)}", "#{@makesheet.salt_weight_net} / #{@makesheet.salt_weight_gross}"]
              
                       pdf.table(salt_box)  do 
-                        self.width = 200
+                        self.width = 252
                          self.cell_style = { :inline_format => true, :size => 10, :height => 22 } 
                          {:borders => [:top, :left, :bottom, :right],
                          :border_width => 1,
                          :border_color => "B2BEB5",}
                          rows(0).background_color = "D3D3D3"
-                         rows(0).align = :center
+                         rows(0..1).align = :center
                          rows(0).size = 7
-                         rows(1).size = 5
+                         rows(1).size = 10
                          rows(2).size = 20 
                      end     
                   
-                  pdf.text "\n", size: 8         
+                  pdf.text "\n", size: 6         
                   glass_breakage_box = Array.new
                   glass_breakage_box << ["<b>ANY GLASS AND/OR BRITTLE MATERIAL BREAKAGES DURING MAKE?</b>"]
                   glass_breakage_box << ["<b>HIGH RISK ITEMS INCLUDE:</b> BURETTE, SIEVES, LIGHTS OVER VAT AND PRESS PRESSURE GUAGE DIALS"]
@@ -427,7 +466,7 @@ class MakesheetsController < ApplicationController
                              end    
                           
                           glass_details_line = Array.new
-                          glass_details_line <<[" YES ", "RECORD ACTIONS TAKEN BELOW", " NO "]
+                          glass_details_line <<["<b>#{@makesheet.glass_breakage ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.glass_breakage ? " " : "NO"}</b>"]
                             
                                pdf.table(glass_details_line)  do 
                                    self.width = 252
@@ -435,8 +474,13 @@ class MakesheetsController < ApplicationController
                                     {:borders => [:top, :left, :bottom, :right],
                                     :border_width => 1,
                                     :border_color => "B2BEB5",}
-                                    rows(0).size = 7
+                                    columns(0).size = 8
+                                    columns(1).size = 7
+                                    columns(2).size = 8
                                     rows(0).align = :center
+                                    columns(0).width = 30
+                                    columns(1).width = 192
+                                    columns(2).width = 30
                                end
                           
                                contamination_title_box = Array.new
@@ -454,7 +498,7 @@ class MakesheetsController < ApplicationController
                                 end    
                                 
                                 contamination_details_box = Array.new
-                                contamination_details_box <<[" YES ", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", " NO "]
+                                contamination_details_box <<["<b>#{@makesheet.glass_contamination ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.glass_contamination ? " " : "NO"}</b>"]
                             
                                      pdf.table(contamination_details_box)  do 
                                          self.width = 252
@@ -462,8 +506,13 @@ class MakesheetsController < ApplicationController
                                           {:borders => [:top, :left, :bottom, :right],
                                           :border_width => 1,
                                           :border_color => "B2BEB5",}
-                                          rows(0).size = 7
+                                          columns(0).size = 8
+                                          columns(1).size = 7
+                                          columns(2).size = 8
                                           rows(0).align = :center
+                                          columns(0).width = 30
+                                          columns(1).width = 192
+                                          columns(2).width = 30
                                  end
                                  
                                  pdf.text "\n", size: 8         
@@ -471,75 +520,85 @@ class MakesheetsController < ApplicationController
                                  metal_breakage_box << ["<b>ANY METAL BREAKAGES DURING MAKE?</b>"]
                                  metal_breakage_box << ["<b>HIGH RISK ITEMS INCLUDE:</b> MILL, MILL BLADES AND KNIFE TIPS"]
                  
-                                        pdf.table(metal_breakage_box)  do 
-                                          self.width = 252
-                                           self.cell_style = { :inline_format => true, :size => 7 } 
-                                           {:borders => [:top, :left, :bottom, :right],
-                                           :border_width => 1,
-                                           :border_color => "B2BEB5",}
-                                           rows(0).background_color = "D3D3D3"
-                                           rows(0).align = :center
-                                           rows(0).size = 7
-                                            end    
-                          
-                                         metal_details_line = Array.new
-                                         metal_details_line <<[" YES ", "RECORD ACTIONS TAKEN BELOW", " NO "]
-                            
-                                              pdf.table(metal_details_line)  do 
-                                                  self.width = 252
-                                                    self.cell_style = { :inline_format => true, :size => 7, :height => 24 } 
-                                                   {:borders => [:top, :left, :bottom, :right],
-                                                   :border_width => 1,
-                                                   :border_color => "B2BEB5",}
-                                                   rows(0).size = 7
-                                                   rows(0).align = :center
-                                              end
-                          
-                                              contamination_title_box = Array.new
-                                              contamination_title_box << ["<b>HAS PRODUCT BEEN CONTAMINATED?</b>"]
-                              
-                                                     pdf.table(contamination_title_box)  do 
-                                                       self.width = 252
-                                                        self.cell_style = { :inline_format => true, :size => 6 } 
-                                                        {:borders => [:top, :left, :bottom, :right],
-                                                        :border_width => 1,
-                                                        :border_color => "B2BEB5",}
-                                                        rows(0).background_color = "D3D3D3"
-                                                        rows(0).align = :center
-                                                         rows(0).size = 7
-                                               end    
-                                
-                                               contamination_details_box = Array.new
-                                               contamination_details_box <<[" YES ", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", " NO "]
-                            
-                                                    pdf.table(contamination_details_box)  do 
-                                                        self.width = 252
-                                                          self.cell_style = { :inline_format => true, :size => 7, :height => 30 } 
-                                                         {:borders => [:top, :left, :bottom, :right],
-                                                         :border_width => 1,
-                                                         :border_color => "B2BEB5",}
-                                                         rows(0).size = 7
-                                                         rows(0).align = :center
-                                   
-                                                    end
-                                                    
-                                                    pdf.text "\n", size: 8         
-                                                    comments_box = Array.new
-                                                    comments_box << ["<b>COMMENTS AND CORRECTIVE ACTIONS</b>"]
-                                                    comments_box << [""]
+          pdf.table(metal_breakage_box)  do 
+            self.width = 252
+              self.cell_style = { :inline_format => true, :size => 7 } 
+              {:borders => [:top, :left, :bottom, :right],
+              :border_width => 1,
+              :border_color => "B2BEB5",}
+              rows(0).background_color = "D3D3D3"
+              rows(0).align = :center
+              rows(0).size = 7
+              end    
 
-                                                           pdf.table(comments_box)  do 
-                                                             self.width = 252
-                                                              self.cell_style = { :inline_format => true } 
-                                                              {:borders => [:top, :left, :bottom, :right],
-                                                              :border_width => 1,
-                                                              :border_color => "B2BEB5",}
-                                                              columns(0).width = 252
-                                                              row(0).background_color = "D3D3D3"
-                                                              rows(0).align = :center
-                                                              rows(0).size = 7
-                                                              rows(1).height = 30
-                                                             end   
+            metal_details_line = Array.new
+            metal_details_line <<["<b>#{@makesheet.metal_breakage ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.metal_breakage ? " " : "NO"}</b>"]
+
+                pdf.table(metal_details_line)  do 
+                    self.width = 252
+                      self.cell_style = { :inline_format => true, :size => 7, :height => 24 } 
+                      {:borders => [:top, :left, :bottom, :right],
+                      :border_width => 1,
+                      :border_color => "B2BEB5",}
+                      columns(0).size = 8
+                      columns(1).size = 7
+                      columns(2).size = 8
+                      rows(0).align = :center
+                      columns(0).width = 30
+                      columns(1).width = 192
+                      columns(2).width = 30
+                          end
+
+                contamination_title_box = Array.new
+                contamination_title_box << ["<b>HAS PRODUCT BEEN CONTAMINATED?</b>"]
+
+                    pdf.table(contamination_title_box)  do 
+                      self.width = 252
+                      self.cell_style = { :inline_format => true, :size => 6 } 
+                      {:borders => [:top, :left, :bottom, :right],
+                      :border_width => 1,
+                      :border_color => "B2BEB5",}
+                      rows(0).background_color = "D3D3D3"
+                      rows(0).align = :center
+                        rows(0).size = 7
+                  end    
+  
+                  contamination_details_box = Array.new
+                  contamination_details_box <<["<b>#{@makesheet.metal_contamination ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.metal_contamination ? " " : "NO"}</b>"]
+
+                      pdf.table(contamination_details_box)  do 
+                          self.width = 252
+                            self.cell_style = { :inline_format => true, :size => 7, :height => 30 } 
+                            {:borders => [:top, :left, :bottom, :right],
+                            :border_width => 1,
+                            :border_color => "B2BEB5",}
+                            columns(0).size = 8
+                          columns(1).size = 7
+                          columns(2).size = 8
+                          rows(0).align = :center
+                          columns(0).width = 30
+                          columns(1).width = 192
+                          columns(2).width = 30
+      
+                      end
+                      
+                      pdf.text "\n", size: 6         
+                      comments_box = Array.new
+                      comments_box << ["<b>COMMENTS AND CORRECTIVE ACTIONS</b>"]
+                      comments_box << ["#{@makesheet.metal_comments}""\n""#{@makesheet.glass_comments}"]
+
+                        pdf.table(comments_box)  do 
+                          self.width = 252
+                          self.cell_style = { :inline_format => true } 
+                          {:borders => [:top, :left, :bottom, :right],
+                          :border_width => 1,
+                          :border_color => "B2BEB5",}
+                          columns(0).width = 252
+                          row(0).background_color = "D3D3D3"
+                          rows(0).align = :center
+                          rows(0).size = 7
+                          rows(1).size = 9
+                          end   
        end
                        
         #   pdf.image logo_img_path, :at => [482,742], :width => 80 
@@ -561,7 +620,11 @@ class MakesheetsController < ApplicationController
       :boiler_on_time, :steam_hot_water_on_time, :cold_milk_in_time, :cold_milk_in_state, :warm_milk_finish_time, :warm_milk_finish_titration, 
       :starter_in_time, :starter_in_temp, :heat_off_1_time, :heat_off_1_temp, :milk_titration_time, :milk_titration_temp, :rennet_time, :rennet_temp, 
       :cut_start_time, :cut_end_time, :heat_on_time, :heat_off_2_time, :heat_off_2_temp, :pitch_time, :whey_time, :whey_titration, 
-      :first_cut_time, :first_cut_titration, :second_cut_time, :second_cut_titration, :third_cut_time, :third_cut_titration, :identify_mill_used, )
+      :first_cut_time, :first_cut_titration, :second_cut_time, :second_cut_titration, :third_cut_time, :third_cut_titration, :identify_mill_used, 
+      :warm_am, :twelve_hr_pm, :unusual_smell_appearance, :number_of_bottles_from_fm, :use_by_date_milk_from_fm, 
+      :type_of_starter_culture_used, :qty_of_starter_used, :pre_start_inspection_of_high_risk_items, :pre_start_inspection_by_staff_id, 
+      :ingredient_batch_change, :thermometer_change, :scale_change, :batch_dipped, :post_make_notes, :milling_help, :cheese_made_by_staff_id, :salt_weight_net, :salt_weight_gross, 
+      :weather_today, :weather_temp, :weather_humidity, :glass_breakage, :glass_contamination, :glass_comments, :metal_breakage, :metal_contamination, :metal_comments)
     end
     
 
@@ -578,5 +641,38 @@ class MakesheetsController < ApplicationController
       end
       # logger.debug "++++++++++count: #{@batch_turns_graph_data.inspect}"
       return @batch_turns_graph_data
+    end
+
+
+    def WeatherService
+      include HTTParty
+      base_uri 'http://api.weatherapi.com'
+    
+      def initialize
+       
+       # raise "Missing OpenWeather API Key" unless api_key
+      end
+    
+      def fetch_weather
+         @location = "LN130HE"
+         @api_key = ENV.fetch['openweather_api_key'] # Store your API key in the environment
+        options = { query: { q: @location, appid: @api_key, units: 'metric' } }
+        response = self.class.get('/weather', options)
+        parse_response(response)
+      end
+    
+      private
+    
+      def parse_response(response)
+        if response.success?
+          {
+            conditions: response['weather'].first['description'],
+            temperature: response['main']['temp_c'],
+            humidity: response['main']['humidity']
+          }
+        else
+          { error: response['message'] }
+        end
+      end
     end
 end
