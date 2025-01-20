@@ -70,13 +70,13 @@
   <div class="col-span-2 self-center"><%= form.label :heat_off_1_time, "Heat OFF", class: label_class %></div>
   <div class="text-left display:inline">
     <%= form.time_field :heat_off_1_time, class: field_class_flex_small %>
-    <%= form.text_field :heat_off_1_temp, placeholder: "temp", class: field_class_flex_small %></div>
+    <%= form.number_field :heat_off_1_temp, placeholder: "temp",step: :any,  class: field_class_flex_small %></div>
 
 
   <div class="col-span-2 self-center"><%= form.label :rennet_time, "Rennet", class: label_class %></div>
   <div class="text-left display:inline">
     <%= form.time_field :rennet_time, class: field_class_flex_small %>
-    <%= form.text_field :rennet_temp, placeholder: "temp", class: field_class_flex_small %></div>
+    <%= form.number_field :rennet_temp, placeholder: "temp", step: :any, class: field_class_flex_small %></div>
 
   <div class="col-span-4">  <hr>  </div>
 
@@ -91,7 +91,7 @@
   <div class="col-span-2 self-center"><%= form.label :heat_off_2_time, "Heat OFF ", class: label_class %></div>
     <div class="text-left display:inline">
       <%= form.time_field :heat_off_2_time, class: field_class_flex_small %>
-      <%= form.text_field :heat_off_2_temp, placeholder: "temp", class: field_class_flex_small %></div>
+      <%= form.number_field :heat_off_2_temp, placeholder: "temp",step: :any,  class: field_class_flex_small %></div>
 
   <div class="col-span-2 self-center"><%= form.label :pitch_time, "Pitch", class: label_class %></div>
  <div class="text-left"><%= form.time_field :pitch_time, class: field_class_flex_small %></div>
@@ -99,25 +99,25 @@
    <div class="col-span-2 self-center"><%= form.label :whey_time, "Whey", class: label_class %></div>
    <div class="text-left display:inline">
     <%= form.time_field :whey_time, class: field_class_flex_small %>
-    <%= form.text_field :whey_titration, class: field_class_flex_small %></div>
+    <%= form.number_field :whey_titration,step: :any,  class: field_class_flex_small %></div>
 
 
    <div class="col-span-2 self-center"><%= form.label :first_cut_time, "1st Cut", class: label_class %></div>
    <div class="text-left display:inline">
     <%= form.time_field :first_cut_time, class: field_class_flex_small %>
-    <%= form.text_field :first_cut_titration, class: field_class_flex_small %></div>
+    <%= form.number_field :first_cut_titration, step: :any, class: field_class_flex_small %></div>
 
 
    <div class="col-span-2 self-center"><%= form.label :second_cut_time, "2nd Cut", class: label_class %></div>
    <div class="text-left display:inline">
     <%= form.time_field :second_cut_time, class: field_class_flex_small %>
-    <%= form.text_field :second_cut_titration, class: field_class_flex_small %></div>
+    <%= form.number_field :second_cut_titration, step: :any, class: field_class_flex_small %></div>
 
 
   <div class="col-span-2 self-center"><%= form.label :third_cut_time, "3rd Cut", class: label_class %></div>
   <div class="text-left display:inline">
     <%= form.time_field :third_cut_time, class: field_class_flex_small %>
-    <%= form.text_field :third_cut_titration, class: field_class_flex_small %></div>
+    <%= form.number_field :third_cut_titration, step: :any, class: field_class_flex_small %></div>
   
   <div class="col-span-2 self-center"><%= form.label :identify_mill_used, "Identify Mill Used", class: label_class %></div>
   <div class="text-left"><%= form.text_field :identify_mill_used, class: field_class_flex_full %></div>
@@ -162,13 +162,13 @@
   <div class="col-span-4 text-center"><hr></div>
 
   <div class="col-span-2 self-center"><%= form.label :ingredient_batch_change, class: label_class %></div>
-  <div class="text-left"><%= form.select :ingredient_batch_change, options_for_select(yes_no, :selected => makesheet.ingredient_batch_change),{:include_blank => true}, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.text_field :ingredient_batch_change, class: field_class_flex_full %></div>
 
   <div class="col-span-2 self-center"><%= form.label :thermometer_change, class: label_class %></div>
-  <div class="text-left"><%= form.select :thermometer_change, options_for_select(yes_no, :selected => makesheet.thermometer_change),{:include_blank => true}, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.text_field :thermometer_change, class: field_class_flex_full %></div>
 
   <div class="col-span-2 self-center"><%= form.label :scale_change, class: label_class %></div>
-  <div class="text-left"><%= form.select :scale_change, options_for_select(yes_no, :selected => makesheet.scale_change),{:include_blank => true}, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.text_field :scale_change, class: field_class_flex_full %></div>
 
   
   <div class="col-span-4">  <hr>  </div>
@@ -205,10 +205,10 @@
   <div class="text-left"><%= form.select :weather_today, options_for_select(weather, :selected => makesheet.weather_today),{:prompt=>true}, class: field_class_flex_disabled %></div>
 
   <div class="col-span-2 self-center"><%= form.label :weather_temp, "Temperature °C", class: label_class %></div>
-  <div class="text-left"><%= form.number_field :weather_temp, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.number_field :weather_temp,step: :any,  class: field_class_flex_small %></div>
 
    <div class="col-span-2 self-center"><%= form.label :weather_humidity, "Humidity %", class: label_class %></div>
-  <div class="text-left"><%= form.number_field :weather_humidity, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.number_field :weather_humidity, step: :any, class: field_class_flex_small %></div>
 
   <div class="col-span-4">  <hr>  </div>
   <div class="col-span-4 text-center font-light"> GLASS BREAKAGES</div>

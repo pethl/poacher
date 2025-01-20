@@ -1,18 +1,19 @@
- <% content_for(:page_title, "TRACEABILITY INDIVIDUAL BATCH  #{@traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date)}")%>
+<% content_for(:page_title, "TRACEABILITY INDIVIDUAL BATCH  #{@traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date)}")%>
+<% content_for :title, "Poacher: Individual Batch Traveability Report" %>
+<% content_for(:print_button, "browser-print")%>
+
 <div class="mx-auto md:w-2/3 w-full flex">
   <div class="mx-auto">
    
     <%= render @traceability_record %>  
   
-  
-
    <div class= "text-base font-bold text-left underline underline-offset-2 ">
-    Waste Record (Weights in Kg)
-  </div>
-  <div class="my-1">
-      <%= link_to "New Waste Record",
-          new_traceability_record_waste_record_path(@traceability_record),
-          class: header_bar_button_class %>
+     Waste Record (Weights in Kg)
+   </div>
+   <div class="my-1">
+     <%= link_to "New Waste Record",
+        new_traceability_record_waste_record_path(@traceability_record),
+        class: header_bar_button_class %>
   </div>
 
   <div class="grid grid-rows-1 grid-cols-7">
@@ -36,15 +37,13 @@
     </p>    
   </div>
 
-    <% if @traceability_record.waste_records.any? %>
+   <% if @traceability_record.waste_records.any? %>
      <%= render @waste_records, traceability_record: @traceability_record %>
      <%= render 'waste_record_totals' %>
    <% end %>
   <br>
     <%= link_to "Edit this record", edit_traceability_record_path(@traceability_record), class: fill_button_class %>
     <%= link_to "All Batch Traceability Records", traceability_records_path, class:clear_button_class %>
-   
+   <br><br>
   </div>
 </div>
-
-

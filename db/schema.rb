@@ -154,7 +154,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
     t.text "ingredient_batch_change"
     t.string "thermometer_change"
     t.string "scale_change"
-    t.string "batch_dipped"
+    t.boolean "batch_dipped"
     t.text "post_make_notes"
     t.integer "cheese_made_by_staff_id"
     t.string "milling_help"

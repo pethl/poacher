@@ -5,6 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+#User.destroy_all
 WashPicksheet.destroy_all;
 TraceabilityRecord.destroy_all;
 PicksheetItem.destroy_all;
@@ -17,6 +18,7 @@ Wash.destroy_all;
 Contact.destroy_all;
 PalletisedDistribution.destroy_all;
 Staff.destroy_all;
+#User.create(username:"LisaPethick", encrypted_password:"$2a$12$1AUJnNk3txhOTBrytYuSfuTCwQeHjzo6E3d7nKvPyQ/aL.XiD099y", admin:"TRUE", account_active:"TRUE");
 saleone = Picksheet.create(date_order_placed:'08/11/2024', delivery_required_by: '24/11/2024', order_number: 'PD123455', contact_telephone_number: '07803 293 552', invoice_number: '6674876', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
 saletwo = Picksheet.create(date_order_placed:'09/11/2024', delivery_required_by: '24/11/2024', order_number: 'PD123455', contact_telephone_number: '07803 293 552', invoice_number: '6674876', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
 salethree = Picksheet.create(date_order_placed:'10/11/2024', delivery_required_by: '14/11/2024', order_number: 'PD123456', contact_telephone_number: '07803 293 552', invoice_number: '6674877', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);

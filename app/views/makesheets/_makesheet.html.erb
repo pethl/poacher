@@ -11,6 +11,11 @@
     <p><strong>Make date:</strong></p>
     <p><%= makesheet.make_date.to_formatted_s(:uk_clean_date)%></p>
     
+    <p><strong>Batch:</strong></p>
+    <p><%= makesheet.batch %></p>
+
+    <hr><hr>
+
     <p><strong>Milk used:</strong></p>
     <p><%= makesheet.milk_used %></p>
   
@@ -66,11 +71,15 @@
     <p><strong>Rennet Temp:</strong></p>
     <p><%= makesheet.rennet_temp %>°C</p>
 
+    <hr><hr>
+
     <p><strong>Cut Start Time:</strong></p>
     <p><%= makesheet.cut_start_time&.strftime("%I:%M %p") %></p>
 
     <p><strong>Cut End Time:</strong></p>
     <p><%= makesheet.cut_end_time&.strftime("%I:%M %p") %></p>
+
+    <hr><hr>
 
     <p><strong>Heat ON Time:</strong></p>
     <p><%= makesheet.heat_on_time&.strftime("%I:%M %p") %></p>
@@ -89,6 +98,8 @@
 
     <p><strong>Whey Titration:</strong></p>
     <p><%= makesheet.whey_titration %></p>
+
+    <hr><hr>
 
     <p><strong>1st Cut Time:</strong></p>
     <p><%= makesheet.first_cut_time&.strftime("%I:%M %p") %></p>
@@ -114,13 +125,17 @@
   <hr><hr>
 
     <p><strong>Warm AM:</strong></p>
-    <p><%= makesheet.warm_am %></p>
+    <p><%= boolean_label(makesheet.warm_am) %></p>
 
     <p><strong>12 Hour PM:</strong></p>
-    <p><%= makesheet.twelve_hr_pm %></p>
+    <p><%= boolean_label(makesheet.twelve_hr_pm) %></p>
 
     <p><strong>Unusal Smell or Appearance:</strong></p>
     <p><%= makesheet.unusual_smell_appearance %></p>
+
+    <hr><hr>
+        <p><strong>Bottles back from FMs</strong><br>
+        <p></p>
 
     <p><strong>Number of Bottles:</strong></p>
     <p><%= makesheet.number_of_bottles_from_fm %></p>
@@ -141,7 +156,7 @@
     <p><strong>Pre Start Inspection:</strong><br>
     All high risk glass/brittle material and metal items inspected prior to use - are they in good condition?</p>
 
-    <p><%= makesheet.pre_start_inspection_of_high_risk_items ? "YES" : "NO" %></p>
+    <p><%= boolean_label(makesheet.pre_start_inspection_of_high_risk_items) %></p>
 
     <p><strong>By:</strong></p>
     <p><%= makesheet.pre_start_inspection_by_staff&.full_name || "Not Given" %></p>
@@ -149,19 +164,20 @@
     <hr><hr>
     
     <p><strong>Ingredient Batch Change:</strong></p>
-    <p><%= makesheet.ingredient_batch_change ? "YES" : "NO" %></p>
+    <p><%= makesheet.ingredient_batch_change  %></p>
 
     <p><strong>Thermometer Change:</strong></p>
-    <p><%= makesheet.thermometer_change ? "YES" : "NO" %></p>
+    <p><%= makesheet.thermometer_change %></p>
 
     <p><strong>Scale Change:</strong></p>
-    <p><%= makesheet.scale_change ? "YES" : "NO" %></p>
+    <p><%= makesheet.scale_change  %></p>
 
     <hr><hr>
 
     <%# WHAT FORMAT SHOULD THIS TAKE? %>
     <p><strong>Batch Dipped:</strong></p>
-    <p><%= makesheet.batch_dipped ? "YES" : "NO" %></p>
+     <p><%= boolean_label(makesheet.batch_dipped) %></p>
+
 
     <p><strong>Post Make Notes:</strong></p>
     <p><%= makesheet.post_make_notes %></p>
@@ -195,10 +211,11 @@
     <hr><hr>
 
     <p><strong>Glass Breakage:</strong></p>
-    <p><%= makesheet.glass_breakage ? "YES" : "NO" %></p>
+    <p><%= boolean_label(makesheet.glass_breakage)  %></p>
 
     <p><strong>Glass Contamination:</strong></p>
-    <p><%= makesheet.glass_contamination ? "YES" : "NO" %></p>
+    <p><%= boolean_label(makesheet.glass_contamination) %></p>
+
 
     <p><strong>Comments/Actions:</strong></p>
     <p><%= makesheet.glass_comments %></p>
@@ -206,10 +223,10 @@
     <hr><hr>
 
     <p><strong>Metal Breakage:</strong></p>
-    <p><%= makesheet.metal_breakage ? "YES" : "NO" %></p>
+    <p><%= boolean_label(makesheet.metal_breakage) %></p>
 
     <p><strong>Metal Contamination:</strong></p>
-    <p><%= makesheet.metal_contamination ? "YES" : "NO" %></p>
+    <p><%= boolean_label(makesheet.metal_contamination)  %></p>
 
     <p><strong>Comments/Actions:</strong></p>
     <p><%= makesheet.metal_comments %></p>

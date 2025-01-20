@@ -123,6 +123,19 @@ module ApplicationHelper
     
     (weight_of_cheese_ordered_in_g.to_f/weight_of_one_whole_cheese.to_f).round(1) 
    end
+
+   #handle booleans for display
+   def boolean_label(value)
+    if value.nil?
+      return ""
+       elsif value.blank? == true
+      return ""
+    elsif value == true
+      return "YES"
+    else
+      return "NO"
+    end
+  end
    
    #REFERENECE DATA ONLY
     def reference_group

@@ -11,64 +11,81 @@
     </div>
   <% end %> 
 
-  <div class="my-5">
+
+  <div class="my-4">
     <%= form.label :date %>
-    <%= form.date_field :date, class: field_class_flex %>
+    <%= form.date_field :date, class: field_class_flex_med %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :breakage_occured %>
-    <%= form.select :breakage_occured, options_for_select(yes_no, :selected => breakage.breakage_occured),{:include_blank => true}, class: field_class_flex_small %>
+  <div class="my-4 flex justify-end space-x-4">
+    <%= form.label :breakage_occured, "Breakage Occurred?" %>
+    <label class="flex items-center space-x-2">
+      <%= form.radio_button :breakage_occured, true, id: "breakage_occured", class: "form-radio text-blue-600" %>
+      <span class="text-gray-700">Yes</span>
+    </label>
+
+    <label class="flex items-center space-x-2">
+      <%= form.radio_button :breakage_occured, false, id: "breakage_occured", class: "form-radio text-blue-600" %>
+      <span class="text-gray-700">No</span>
+    </label>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :knife %>
     <%= form.check_box :knife, class: "h-5 w-5" %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :cutting_board_cutting_wire %>
     <%= form.check_box :cutting_board_cutting_wire, class: "h-5 w-5" %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :ringing_machine_cutting_wire %>
     <%= form.check_box :ringing_machine_cutting_wire, class: "h-5 w-5" %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :cutting_spring %>
     <%= form.check_box :cutting_spring, class: "h-5 w-5" %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :wire_broken_into_2  %>
     <%= form.number_field :wire_broken_into_2, class: field_class_flex_small %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :wire_unwound %>
     <%= form.number_field :wire_unwound, class: field_class_flex_small %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :other_number %>
     <%= form.number_field :other_number, class: field_class_flex_small %>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :other_desc %>
     <%= form.text_field :other_desc, class: field_class_flex %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :product_contaminated %>
-    <%= form.select :product_contaminated, options_for_select(yes_no, :selected => breakage.product_contaminated),{:include_blank => true}, class: field_class_flex_small %>
+  <div class="my-4 flex justify-end space-x-4">
+    <%= form.label :product_contaminated, "Product Contaminated?" %>
+    <label class="flex items-center space-x-2">
+      <%= form.radio_button :product_contaminated, true, id: "product_contaminated", class: "form-radio text-blue-600" %>
+      <span class="text-gray-700">Yes</span>
+    </label>
+
+    <label class="flex items-center space-x-2">
+      <%= form.radio_button :product_contaminated, false, id: "product_contaminated", class: "form-radio text-blue-600" %>
+      <span class="text-gray-700">No</span>
+    </label>
   </div>
 
-  <div class="my-5">
+  <div class="my-4">
     <%= form.label :action_taken %>
-    <%= form.text_field :action_taken, class: field_class_flex %>
+    <%= form.text_area :action_taken, rows: 2, class: field_class_flex %>
   </div>
 
  <div class="mt-5">
@@ -77,6 +94,8 @@
   </div>
 
   <div class="inline">
-    <%= form.submit class:clear_button_class %>
+    <%= form.submit class:fill_button_class %>
   </div>
 <% end %>
+
+

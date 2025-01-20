@@ -5,27 +5,19 @@
       Individual Batch Traceability Report
     </div>
 
-    <div class="grid md:grid-cols-4 lg:grid-cols-4 gap-2 mb-2">
+    <div class="grid grid-cols-4 gap-2 mb-2">
 
-      <p class="col-span-2">
-        <span class="font-bold mb-1">Make Date:</span>
-        <%= traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date) %>
-      </p>
+      <p class="font-bold mb-1">Make Date:</p>
+      <p class=""><%= traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date) %></p>
 
-      <p class="col-span-2">
-        <span class="font-bold mb-1">Date Started Batch:</span>
-        <%= traceability_record.date_started_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_started_batch.to_s.empty? %>
-      </p>
+      <p class="font-bold mb-1">Date Started Batch:</p>
+      <p><%= traceability_record.date_started_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_started_batch.to_s.empty? %></p>
 
-      <p class="col-span-2">
-        <span class="font-bold mb-1">Batch Code:</span>
-        <%= traceability_record.makesheet.batch %>
-      </p>
+      <p class="font-bold mb-1">Batch Code:</p>
+      <p><%= traceability_record.makesheet.batch %></p>
 
-      <p class="col-span-2">
-        <span class="font-bold mb-1">Date Finished Batch:</span>
-        <%= traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %>
-      </p>
+      <p class="font-bold mb-1">Date Finished Batch:</p>
+      <p><%= traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %></p>
 
     </div>
     <hr class="mb-2">
@@ -148,30 +140,17 @@
     From Batch Ticket:
    </div>
  
-   <div class="grid md:grid-cols-4 lg:grid-cols-4">
+ <div class="grid md:grid-cols-4 ">
+  <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Number in Batch:</span></div>
+  <div class="text-right pt-2 pr-10 border-t-2 border-r-2 border-gray-800"> <%= traceability_record.makesheet.number_of_cheeses %></div>
+  <div class="text-left pl-4 pt-2 "> <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span></div>
+  <div class="text-right pt-2 pr-10 "> <%= traceability_record.calculated_batch_cheese_count %></div>
+ 
+  <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Total Weight of Batch:</span></div>
+  <div class="text-right pt-2 pr-10 border-b-2 border-r-2 border-gray-800"> <%= traceability_record.makesheet.total_weight %></div>
+  <div class="text-left pl-4 pt-2"> <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span></div>
+  <div class="text-right pt-2 pr-10">  <%= traceability_record.calculated_batch_cheese_weight_total %></div>
+</div>
 
-      <p class="pl-4 pt-2 col-span-2 border-t-2 border-l-2 border-r-2 border-gray-800">
-        <span class="font-bold mb-1">Number in Batch:</span>
-        <%= traceability_record.makesheet.number_of_cheeses %>
-      </p>
-
-      <p class="pl-4 pt-2 my-2 col-span-2">
-        <span class="font-bold mb-1">Total No. of Cheeses of Batch:</span>
-        
-        <%= traceability_record.confirmed_number_of_cheeses %>
-       <%= traceability_record.calculated_batch_cheese_count %>
-      </p>
-
-      <p class="pl-4 col-span-2 border-b-2 border-l-2 border-r-2 border-gray-800">
-        <span class="font-bold mb-1">Total Weight of Batch:</span>
-        <%= traceability_record.makesheet.total_weight %>
-       </p>
-
-      <p class="pl-4 my-2 col-span-2">
-        <span class="font-bold mb-1">Total Weight of Batch(Kg):</span>
-        <%= traceability_record.total_weight_of_batch %>
-         <%= traceability_record.calculated_batch_cheese_weight_total %>
-      </p>
-    </div>
 <hr class="mb-2 mt-2">
 

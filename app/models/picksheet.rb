@@ -10,11 +10,10 @@ class Picksheet < ApplicationRecord
   scope :ordered, -> { order(delivery_required_by: :desc) }
    
    def picksheet_title_detail
-       "- #{self.id}- #{self.delivery_required_by.strftime('%b %d, %Y')} - #{self.contact_telephone_number} - Products #{self.number_of_products}"
-       #THIS NEED CUSTOMER NAME ADDING, NOT YET THERE
-     end
+    "Due: #{self.delivery_required_by.strftime('%b %d, %Y')} - #{self.contact.business_name}, Products: #{self.number_of_products}"
+   end
      
-     def number_of_products
-       self.picksheet_items.count
-     end
+  def number_of_products
+    self.picksheet_items.count
+  end
 end

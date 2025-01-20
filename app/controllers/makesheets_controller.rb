@@ -46,7 +46,7 @@ class MakesheetsController < ApplicationController
       @small_cheese_weight = @makesheets.where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
 
       @data = @makesheets.ordered.pluck(:make_date, :milk_used, :weather_today).map do |make_date, milk_used, weather_today|
-        [make_date.strftime("%-d"), milk_used, weather_today] if make_date.present?
+        [make_date&.strftime("%-d"), milk_used, weather_today] if make_date.present?
       end.compact
 
      
@@ -96,6 +96,7 @@ class MakesheetsController < ApplicationController
   def create
     @makesheet = Makesheet.new(makesheet_params)
     @staffs = Staff.ordered
+    @makesheet.batch = (@makesheet.make_date + 6.years).to_formatted_s  .strftime("%d-%m-%y")
 
     respond_to do |format|
       if @makesheet.save
@@ -154,7 +155,7 @@ class MakesheetsController < ApplicationController
        pdf.define_grid(columns: 3, rows: 1, gutter: 6)
        pdf.grid(0, 0).bounding_box do
          date_box = Array.new
-         date_box << ["Date:", "<b>#{@makesheet.make_date.strftime('%b %d, %Y')}</b>"]
+         date_box << ["Date:", "<b>#{@makesheet.make_date&.strftime('%b %d, %Y')}</b>"]
       
                 pdf.table(date_box) do 
                   self.width = 210
@@ -199,6 +200,10 @@ class MakesheetsController < ApplicationController
                          {:borders => [:top, :left, :bottom, :right],
                          :border_width => 1,
                          :border_color => "B2BEB5",}
+                         cells[1, 2].background_color = 'D3D3D3' 
+                         cells[2, 2].background_color = 'D3D3D3' 
+                         cells[10, 2].background_color = 'D3D3D3' 
+                         cells[12, 2].background_color = 'D3D3D3' 
                          columns(0).width = 100
                          columns(1).width = 55
                          columns(2).width = 55
@@ -218,7 +223,7 @@ class MakesheetsController < ApplicationController
          milk_box = Array.new
          milk_box << ["<b>MILK USED</b>","", "","","Bottles (back from F/Mkts)"]
          milk_box << ["Warm am","12 hr pm", "Record unusual smell or visual appearance","Number","U/B Date"]
-         milk_box << ["#{@makesheet.warm_am}","#{@makesheet.twelve_hr_pm}", "#{@makesheet.unusual_smell_appearance}","#{@makesheet.number_of_bottles_from_fm}","#{@makesheet.use_by_date_milk_from_fm.strftime('%d-%m-%y')}"]
+         milk_box << ["<b>#{@makesheet.warm_am == true ? "YES":  (@makesheet.warm_am.nil? ? "" : "NO")}","<b>#{@makesheet.twelve_hr_pm == true ? "YES":  (@makesheet.twelve_hr_pm.nil? ? "" : "NO")}", "<b>#{@makesheet.unusual_smell_appearance}","<b>#{@makesheet.number_of_bottles_from_fm}","<b>#{@makesheet.use_by_date_milk_from_fm&.strftime('%d-%m-%y')}</b>"]
         
                 pdf.table(milk_box)  do 
                   self.width = 250
@@ -234,8 +239,8 @@ class MakesheetsController < ApplicationController
                    rows(1).align = :center
                    rows(2).align = :center
                    rows(1).size = 6
-                   rows(2).size = 12
-                   columns(0..4).size = 7
+                   rows(2).size = 9
+                   #columns(0..4).size = 7
                  end
                  
            pdf.text "\n", size: 8   
@@ -321,21 +326,23 @@ class MakesheetsController < ApplicationController
                 pdf.text "\n", size: 8         
                 notes_box = Array.new
                 notes_box << ["<b>POST MAKE NOTES</b>"]
+                notes_box << ["Batch Dipped?:       #{@makesheet.batch_dipped == true ? "YES":  (@makesheet.batch_dipped.nil? ? "" : "NO")}"]
                 notes_box << ["#{@makesheet.post_make_notes}"]
+                
 
-                       pdf.table(notes_box)  do 
-                         self.width = 200
-                          self.cell_style = { :inline_format => true } 
-                          {:borders => [:top, :left, :bottom, :right],
-                          :border_width => 1,
-                          :border_color => "B2BEB5",}
-                          columns(0).width = 200
-                          row(0).background_color = "D3D3D3"
-                          rows(0).align = :center
-                          rows(0).size = 7
-                          rows(1).size = 10
-                          rows(1).height = 80
-                         end   
+                pdf.table(notes_box)  do 
+                  self.width = 200
+                   self.cell_style = { :inline_format => true } 
+                   {:borders => [:top, :left, :bottom, :right],
+                   :border_width => 1,
+                   :border_color => "B2BEB5",}
+                   columns(0).width = 200
+                   row(0).background_color = "D3D3D3"
+                   rows(0).align = :center
+                   rows(0).size = 7
+                   rows(1).size = 10
+                   rows(2).height = 80
+                  end 
                          
                  pdf.text "\n", size: 8         
                  sign_box = Array.new
@@ -434,7 +441,7 @@ class MakesheetsController < ApplicationController
                      
                salt_box = Array.new
                salt_box << ["MILK (Ltrs,00's)", "EXPECTED YIELD (%)", "SALT(KG)(NET/GROSS)"]
-               salt_box << ["#{@makesheet.milk_used}", "#{@makesheet.yield.round(2)}", "#{@makesheet.salt_weight_net} / #{@makesheet.salt_weight_gross}"]
+               salt_box << ["#{@makesheet.milk_used}", "#{@makesheet.yield.round(1)}", "#{@makesheet.salt_weight_net} / #{@makesheet.salt_weight_gross}"]
              
                       pdf.table(salt_box)  do 
                         self.width = 252
@@ -466,7 +473,7 @@ class MakesheetsController < ApplicationController
                              end    
                           
                           glass_details_line = Array.new
-                          glass_details_line <<["<b>#{@makesheet.glass_breakage ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.glass_breakage ? " " : "NO"}</b>"]
+                          glass_details_line <<["<b>#{@makesheet.glass_breakage == true ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.glass_breakage == false ? "NO" : ""}</b>"]
                             
                                pdf.table(glass_details_line)  do 
                                    self.width = 252
@@ -498,7 +505,7 @@ class MakesheetsController < ApplicationController
                                 end    
                                 
                                 contamination_details_box = Array.new
-                                contamination_details_box <<["<b>#{@makesheet.glass_contamination ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.glass_contamination ? " " : "NO"}</b>"]
+                                contamination_details_box <<["<b>#{@makesheet.glass_contamination == true ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.glass_contamination == false ? "NO" : ""}</b>"]
                             
                                      pdf.table(contamination_details_box)  do 
                                          self.width = 252
@@ -532,7 +539,7 @@ class MakesheetsController < ApplicationController
               end    
 
             metal_details_line = Array.new
-            metal_details_line <<["<b>#{@makesheet.metal_breakage ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.metal_breakage ? " " : "NO"}</b>"]
+            metal_details_line <<["<b>#{@makesheet.metal_breakage== true ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{@makesheet.metal_breakage == false ? "NO" : ""}</b>"]
 
                 pdf.table(metal_details_line)  do 
                     self.width = 252
@@ -564,7 +571,7 @@ class MakesheetsController < ApplicationController
                   end    
   
                   contamination_details_box = Array.new
-                  contamination_details_box <<["<b>#{@makesheet.metal_contamination ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.metal_contamination ? " " : "NO"}</b>"]
+                  contamination_details_box <<["<b>#{@makesheet.metal_contamination == true ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{@makesheet.metal_contamination == false ? "NO" : ""}</b>"]
 
                       pdf.table(contamination_details_box)  do 
                           self.width = 252
