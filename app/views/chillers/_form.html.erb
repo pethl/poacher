@@ -1,4 +1,4 @@
-<%= form_with(model: chiller, class: "contents") do |form| %>
+<%= form_with(model: chiller, data: { action: "submit->signature#submit" }, local: true) do |form| %>
   <% if chiller.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(chiller.errors.count, "error") %> prohibited this chiller from being saved:</h2>
@@ -35,6 +35,20 @@
     <%= form.label :staff_id %>
     <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
+
+   <div>
+      <label for="signature" class="block text-sm font-medium text-gray-700">Signature</label>
+      <div class="p-4 border rounded shadow-md" data-controller="signature">
+        <canvas id="signature-canvas" class="w-full h-64 border rounded" data-signature-target="canvas"></canvas>
+        <div class="flex justify-end mt-4">
+          <button type="button" data-action="signature#clear" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600">
+            Clear
+          </button>
+        </div>
+      </div>
+      <!-- Hidden Field to Store Signature -->
+      <%= form.hidden_field :signature, id: "signature-input", data: { signature_target: "input" } %>
+    </div>
 
   <div class="inline">
     <%= form.submit "Update Record", class: fill_button_class %>

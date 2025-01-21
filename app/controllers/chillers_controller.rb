@@ -91,6 +91,6 @@ class ChillersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def chiller_params
-      params.require(:chiller).permit(:date, :chiller_1, :chiller_2, :action_taken, :staff_id)
+      params.require(:chiller).permit(:date, :chiller_1, :chiller_2, :action_taken, :signature, :staff_id)
     end
 end

@@ -85,6 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
     t.decimal "chiller_2", precision: 5, scale: 2
     t.string "action_taken"
     t.bigint "staff_id"
+    t.text "signature"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["staff_id"], name: "index_chillers_on_staff_id"
