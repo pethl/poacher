@@ -17,6 +17,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <%# <script src="js/animation.js" defer></script> %>
+    <%= javascript_include_tag "animation", defer: true %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
     <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
     
@@ -34,7 +36,7 @@
        <div class="ml-4 mt-2 mr-2 max-h-4/5 ">
 
        <% if flash.present? %>
-          <div id="flash">
+          <div id="flash" class="text-center">
               <%= render "layouts/flash" %> 
           </div>
           

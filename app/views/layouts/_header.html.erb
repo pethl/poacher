@@ -1,26 +1,29 @@
- <header class="sticky top-0 z-50 border border-gray-100  text-gray-100">
-   
-    <div class="mx-auto max-w-screen-xl flex h-10 items-center justify-between gap-2 bg-gray-800">
+ <header class="sticky top-0 z-50 border border-gray-100 bg-gray-800 ">
+   <section class="max-w-4xl mx-auto flex h-10 items-center justify-between gap-2 text-gray-100">
      
-       <a href="/pages/home">
-          <div class="inline-flex text-sm pr-8">
-            <span class="font-medium ml-2 text-gray-100"><i class="fa-solid fa-house"></i></span>
-           
-          </div>
-        </a>
-    
-       <nav class="text-center md:block">
-        <ul class="flex gap-4">
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/dairy_home">Dairy & Store</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/cutting_home">Cutting</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/office_home">Office</a></li>
-          <li><a class="inline-flex items-left gap-1 text-sm font-medium text-gray-100 hover:opacity-75" href="/pages/mgmt_home">Mgmt</a></li>
-        </ul>
+      <div class="text-sm pl-14">
+        <a href="/pages/home">
+          <span class="font-medium ml-2 text-gray-100"><i class="fa-solid fa-house"></i></span>
+        </a> 
+      </div>
+
+      <button id="hamburger-button" class="relative h-8 w-8 cursor-pointer text-xl md:hidden">
+        <!-- &#9776; -->
+        <%# <div class="absolute top-4 -mt-0.5 h-1 w-8 rounded bg-white transition-all duration-500 before:absolute before:h-1 before:w-8 before:-translate-x-4 before:-translate-y-3 before:rounded before:bg-white before:transition-all before:duration-500 before:content-[''] after:absolute after:h-1 after:w-8 after:-translate-x-4 after:translate-y-3 after:rounded after:bg-white after:transition-all after:duration-500 after:content-['']"> %>
+       <div class="pr-8">
+        MENU
+        </div>
+      </button>
+
+      <nav class="hidden md:block space-x-6 text-sm font-medium  text-gray-100" aria-label="main">
+          <a href="/pages/dairy_home" class="hover:opacity-90">Dairy & Store</a>
+          <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
+          <a href="/pages/office_home" class="hover:opacity-90">Office</a>
+          <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
       </nav>
 
-
-      <% if user_signed_in? %> 
-         <section class= "inline-flex">
+      <div>
+        <% if user_signed_in? %> 
           <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4 mr-6">
             <div>
               <%= link_to edit_user_registration_path do %>
@@ -29,31 +32,54 @@
             
               <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip ">
                 Edit Profile
-                <div class="tooltip-arrow" data-popper-arrow></div>
+              <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
           </div>
 
           <div class="">
             <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
               <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100 "> </i>
-            <% end %>
+        <% end %>
             <div id="tooltip-logout" role="tooltip" class="absolute z-10 invisible inline-block mx-4 text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip">
                 Logout
                 <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
-        </div>
-    </div>
+          </div>
 
         <% else %>
-        <div class="pt-2 pb-2">
-        <%= link_to  "Sign In", new_user_session_path, class:header_bar_button_class %>
-        </div>
-    <% end %>
-        </section>
-  
-   </div>
+          <div class="pt-2 pb-2">
+            <%= link_to  "Sign In", new_user_session_path, class:header_bar_button_class %>
+          </div>
+        <% end %>
+      </div>
+    </section>
 
-    <section>
+     <section id="mobile-menu"
+      class="top-68 justify-center absolute hidden w-full origin-top animate-open-menu flex-col bg-gray-800 text-5xl">
+      <!-- <button class="text-8xl self-end px-6">
+                &times;
+            </button> -->
+      <nav class="flex min-h-screen flex-col items-center bg-gray-800 text-gray-100 py-8" aria-label="mobile">
+        <a href="#hero" class="w-full py-6 text-center hover:opacity-90">Home</a>
+        <a href="/pages/dairy_home" class="w-full py-6 text-center hover:opacity-90">Dairy & Store</a>
+        <a href="/pages/cutting_home" class="w-full py-6 text-center hover:opacity-90">Cutting</a>
+        <a href="/pages/office_home" class="w-full py-6 text-center hover:opacity-90">Office</a>
+        <a href="/pages/mgmt_home" class="w-full py-6 text-center hover:opacity-90">Mgmt</a>
+      </nav>
+    </section>
+
+   
+  
+  <section>
       <%= render "layouts/title_bar" %>
     </section>
-</header>
+
+  </header>
+   
+   
+       
+      
+
+    
+
+    
