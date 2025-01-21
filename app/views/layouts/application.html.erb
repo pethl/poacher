@@ -12,13 +12,13 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
     <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
-  
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <%# <script src="js/animation.js" defer></script> %>
-    <%= javascript_include_tag "animation", defer: true %>
+   
+    <%# <%= javascript_include_tag "animation", defer: true %>  
+    <%= javascript_include_tag('animation') %>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
     <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
     
@@ -30,7 +30,7 @@
    <%= render "layouts/header" %>
    
    
-  <body class="min-h-screen bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+  <body class="min-h-screen bg-white text-gray-800">
      <%= javascript_include_tag "animation", defer: true %>
      <main class="">
      

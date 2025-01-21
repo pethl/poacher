@@ -7,11 +7,12 @@
         </a> 
       </div>
 
-      <button id="hamburger-button" class="relative h-8 w-8 cursor-pointer text-xl md:hidden">
-        <div class="pr-8">
-        MENU
-        </div>
-      </button>
+       <nav class=" md:hidden space-x-6 text-sm font-medium  text-gray-100" aria-label="main">
+          <a href="/pages/dairy_home" class="hover:opacity-90">Dairy</a>
+          <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
+          <a href="/pages/office_home" class="hover:opacity-90">Office</a>
+          <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
+      </nav>
 
       <nav class="hidden md:block space-x-6 text-sm font-medium  text-gray-100" aria-label="main">
           <a href="/pages/dairy_home" class="hover:opacity-90">Dairy & Store</a>
@@ -52,9 +53,8 @@
       </div>
     </section>
 
-     <section id="mobile-menu"
-      class="top-68 justify-center absolute hidden w-full origin-top animate-open-menu flex-col bg-gray-800 text-5xl">
-       <button class="text-8xl self-end px-6">
+     <section id="mobile-menu" class="absolute top-22 justify-center hidden w-full origin-top animate-open-menu flex-col bg-gray-800 text-5xl">
+       <button class="text-4xl self-end px-6">
                 &times;
             </button>
       <nav class="flex min-h-screen flex-col items-center bg-gray-800 text-gray-100 py-8" aria-label="mobile">
