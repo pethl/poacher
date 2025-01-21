@@ -14,6 +14,9 @@ module Poacher
     config.load_defaults 7.0
     config.autoload_paths << Rails.root.join('app/pdfs')
 
+    # Added to assit with loading animation.js
+    config.assets.paths << Rails.root.join("app", "assets", "builds")
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
