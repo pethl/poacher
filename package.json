@@ -1,6 +1,5 @@
 {
   "name": "poacher",
-  "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
