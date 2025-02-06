@@ -19,7 +19,7 @@
     <div class="container mx-auto my-6">
       <div class="h-96 border-separate overflow-clip flex flex-col">
         <table class="w-full lg:w-2/3 table-fixed">
-          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
           <tr class="bg-gray-200 sticky top-0">
                     <th scope="col" class="px-6 py-3 w-30 text-left">
                         Product
@@ -45,7 +45,7 @@
           <table class="w-full lg:w-2/3 table-fixed text-sm">
             <tbody>
              <% @calculations.each do |calculation| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
+                <tr class="bg-white border-b hover:bg-gray-100">
                     <td scope="row" class="px-6 py-4 whitespace-nowrap">
                        <%= link_to calculation.product %>
                     </td>

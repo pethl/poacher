@@ -11,7 +11,7 @@
     <div class=" m-4">
       <div class="h-96 border-separate overflow-clip rounded-lg border border-solid flex flex-col">
         <table class="w-full table-fixed">
-          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200 ">
           <tr class="bg-gray-200 sticky top-0">
             <th scope="col" class="px-6 py-3 text-centre ">
                Status
@@ -54,7 +54,7 @@
           <table class="w-full table-fixed text-sm">
             <tbody>
               <% @picksheets.each do |picksheet| %>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100">
+                <tr class="bg-white border-b  hover:bg-gray-100">
                     <td class="px-6 py-4 text-center">
                       <%=  picksheet.status %>
                     </td>

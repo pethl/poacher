@@ -5,8 +5,8 @@
 <div class="container mx-auto">
 <br>  
 <div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
             <tr>
                 <th scope="col" class="px-6 py-3">
                    Action Date
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
          <% @washes.each do |wash| %>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr class="bg-white border-b ">
                 <td scope="row" class="px-6 py-4 whitespace-nowrap">
                 <%= wash.action_date.to_formatted_s(:uk_time) unless wash.action_date.to_s.empty? %>
              
