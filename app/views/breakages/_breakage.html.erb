@@ -6,8 +6,13 @@
           <% end %>
 
   <td class="px-2 py-2 border-r-2 border-gray-400 text-center  underline underline-offset-2 whitespace-nowrap text-xs">
-    <%= link_to breakage.date.to_formatted_s(:uk_clean_date), edit_breakage_path(breakage) %>
-  </td>
+  
+  <!-- Small screens (sm, md) show mm-dd -->
+  <%= link_to breakage.date.strftime("%m-%d"), edit_breakage_path(breakage), class: "text-sm  lg:hidden" %>
+  
+  <!-- Large screens (lg and up) show yyyy-mm-dd -->
+  <%= link_to breakage.date.strftime("%Y-%m-%d"), edit_breakage_path(breakage), class: "hidden lg:inline text-sm lg:text-base" %>
+</td>
 
    <td class="px-4 py-2 border-r-2 border-gray-200  text-centre">
     <% if breakage.breakage_occured==true %><i class="fa-solid fa-circle"></i><% end %>

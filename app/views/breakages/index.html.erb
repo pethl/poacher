@@ -4,44 +4,49 @@
 <% content_for(:print_button, "browser-print")%>
 <div id="breakages">
  
- <div class="grid grid-cols-4"> 
+ <div class="w-full flex justify-between"> 
     <div class="relative pt-4 pb-2">
       <a class="bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg" href="breakages/create_month">Add a Month</a>
     </div>
 
-    <div class= "col-span-2 mt-4 text-center text-xs md:text-sm font-extrabold">
-        Knives inc tips, Cutting Springs & Wire Breakages
+    <div class= "">
+       
     </div>
 
-    <div class="mb-4 p-2 bg-gray-400 rounded-lg">
-      <%= form_with(url: breakages_path, method: :get, local: true, class: "flex gap-2") do %>
-      <div>
-        <label for="month" class="block text-xs font-bold text-white pl-2">Filter By:</label>
-        <%= select_tag :month, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, params[:month]), 
-                     include_blank: "Month ", class: "mt-1 block text-xs w-full border-gray-300 rounded-md shadow-sm" %>
-      </div>
+    
+  <!-- Right Section -->
+   <div class="flex-1 p-2 max-w-xs mx-auto text-right">
+     <%= form_with(url: breakages_path, method: :get, local: true, class: "flex gap-2") do %>
+    
+        <div class="w-32"> 
+          <label for="month" class="block mt-1 text-xs font-medium text-gray-700">Month</label>
+          <%= select_tag :month, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, params[:month]), 
+                        include_blank: "Select ", class: filter_drop_down %>
+        </div>
 
-      <div class="mt-4">
-        <%= select_tag :year, options_for_select((2022..Date.today.year).to_a.reverse, params[:year]), 
-                     include_blank: "Year ", class: "mt-1 block text-xs w-full border-gray-300 rounded-md shadow-sm" %>
-      </div>
+        <div class="w-32">
+          <label for="year" class="block mt-1 text-xs font-medium text-gray-700">Year</label>
+          <%= select_tag :year, options_for_select((2023..Date.today.year).to_a.reverse, params[:year]), 
+                        include_blank: "Select ", class: filter_drop_down%>
+        </div>
 
-      <div class="flex place-items-center mt-2">
-        <%= submit_tag "Filter", class: fill_button_small_class %>
-      </div>
-     <% end %>
+        <div class="pt-5 flex place-items-center">
+          <%= submit_tag "Filter", class: filter_button %>
+        </div>
+      <% end %>
     </div>
   </div>
-
+<br>
 <div class="flex flex-col h-screen">
     <div class="flex-grow overscroll-none">
-      <table class="mx-auto table-fixed relative w-full 2xllg:w-2/3 border text-sm text-center text-gray-500  ">
+      <table class="mx-auto table-fixed relative w-full 2xllg:w-2/3  text-sm text-center text-gray-500  ">
        <thead class="text-xs text-gray-700  bg-gray-200 ">
+       
         <tr class="bg-gray-200 sticky top-0 border-b-2 border-t-2 border-gray-400">
-          <th scope="col" colspan="3" class="sticky top-0 px-4 py-2 bg-white border-t-2 border-l-2 border-white text-right">
+          <th scope="col" colspan="3" class="sticky top-0 px-4 py-2 bg-white border-t-2 border-l-2 border-white text-left">
+            Knives inc tips, Cutting Springs & Wire Breakages
             </th>
-            <th scope="col" colspan="4" class="sticky top-0 px-4 py-2 border-r-2 border-l-2 border-gray-400
- text-right">
+            <th scope="col" colspan="4" class="sticky top-0 px-4 py-2 border-r-2 border-l-2 border-gray-400 text-right">
               Type of items BROKEN or DAMAGED during the day
             </th>
             <th scope="col" colspan="3" class="sticky top-0 px-4 py-2 border-r-2 border-gray-400 text-center">

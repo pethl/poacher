@@ -108,7 +108,7 @@ module ApplicationHelper
    end
    
    def table_head_class
-     "text-xs text-gray-700 uppercase bg-gray-200 "
+     "text-xs text-gray-700 uppercase bg-gray-200"
    end
    
   
