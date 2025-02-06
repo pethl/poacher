@@ -1,5 +1,6 @@
 {
-  "name": "app",
+  "name": "poacher",
+  "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
@@ -8,6 +9,9 @@
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.17"
   },
+  "description": "A Rails app with Node.js, Tailwind, Chartkick for the cheese industry",
+  "engines": {
+    "node": "22.13.1"
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
     "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
