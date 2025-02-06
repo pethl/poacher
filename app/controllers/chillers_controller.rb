@@ -47,6 +47,7 @@ class ChillersController < ApplicationController
   def create
     @chiller = Chiller.new(chiller_params)
     @staffs = Staff.all.ordered
+     Rails.logger.debug "Params: #{params.inspect}"
 
     respond_to do |format|
       if @chiller.save

@@ -1,4 +1,7 @@
-<%= form_with(model: chiller, data: { action: "submit->signature#submit" }, local: true) do |form| %>
+<%# <%= form_with(model: chiller, data: { action: "submit->signature#submit" }, local: true) do |form| %> %>
+  <%= form_with(model: @chiller, data: { turbo: "false" }) do |form| %>
+
+  
   <% if chiller.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(chiller.errors.count, "error") %> prohibited this chiller from being saved:</h2>
@@ -47,8 +50,18 @@
         </div>
       </div>
       <!-- Hidden Field to Store Signature -->
-      <%= form.hidden_field :signature, id: "signature-input", data: { signature_target: "input" } %>
+      <%# <%= form.hidden_field :signature, id: "signature-input", data: { signature_target: "input" } %> %>
+      <%= form.hidden_field :signature, data: { signature_target: "input" } %>
+
     </div>
+
+    <div data-controller="test">
+  <p>Test controller area</p>
+</div>
+<script>
+  console.log("Inline script working!");
+
+</script>
 
   <div class="inline">
     <%= form.submit "Update Record", class: fill_button_class %>
