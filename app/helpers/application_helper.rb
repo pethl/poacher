@@ -37,7 +37,7 @@ module ApplicationHelper
    end
  
    def field_class_flex
-    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-60 focus:border-gray-800 "
+    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-800 "
    end
    def field_class_flex_full
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-full focus:border-gray-800 "
@@ -66,6 +66,14 @@ module ApplicationHelper
    def field_class_no_block
     "block outline:none shadow rounded-lg border border-gray-800 bg-gray-100 font-gray-800 px-3 w-60"
    end
+
+   def filter_drop_down
+    "mt-1 block w-full px-4 py-1 text-sm border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+   end
+
+   def filter_button
+    "mt-1 block w-full px-4 py-1 text-sm text-white border border-gray-300 bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+   end
    
    def gray_button
      "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"
@@ -84,7 +92,7 @@ module ApplicationHelper
    end
 
    def fill_button_small_class
-      "bg-gray-800 text-xs text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-2 py-1 px-2 border border-gray-900 hover:border-transparent rounded-lg"
+      "bg-gray-800 text-xs text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-2 py-2 px-2 border border-gray-900 hover:border-transparent rounded-lg"
    end
     
     def tight_fill_button_class

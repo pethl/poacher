@@ -45,10 +45,13 @@ class MakesheetsController < ApplicationController
       @small_cheese_count =  @makesheets.where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
       @small_cheese_weight = @makesheets.where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
 
-      @data = @makesheets.ordered.pluck(:make_date, :milk_used, :weather_today).map do |make_date, milk_used, weather_today|
-        [make_date&.strftime("%-d"), milk_used, weather_today] if make_date.present?
-      end.compact
+      # @data = @makesheets.ordered.pluck(:make_date, :milk_used, :weather_today).map do |make_date, milk_used, weather_today|
+      #   [make_date&.strftime("%-d"), milk_used, weather_today] if make_date.present?
+      # end.compact
 
+       @data = @makesheets.ordered.pluck(:make_date, :milk_used).map do |make_date, milk_used|
+         [make_date&.strftime("%-d"), milk_used] if make_date.present?
+       end.compact.to_h
      
   end
   
