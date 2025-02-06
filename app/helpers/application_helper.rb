@@ -13,7 +13,7 @@ module ApplicationHelper
    end
 
    def title_two
-    "text-lg font-bold"
+    "text-lg font-extrabold"
   end
   
    def link_class
@@ -40,23 +40,23 @@ module ApplicationHelper
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-800 "
    end
    def field_class_flex_full
-    "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-full focus:border-gray-800 "
+    "shadow outline:none py-2 rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-full focus:border-gray-800 "
    end
 
    def field_class_flex_disabled
-    "shadow outline:none rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-60 focus:border-gray-800 "
+    "shadow outline:none py-2 rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-60 focus:border-gray-800 "
    end
 
    def field_class_flex_full_disabled
-    "shadow outline:none rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-full focus:border-gray-800 "
+    "shadow outline:none py-2 rounded-lg border border-gray-800 bg-gray-300 text-gray-800 px-3 w-full focus:border-gray-800 "
    end
 
    def field_class_flex_med
-    "max-w-44 text-right shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
+    "max-w-44 py-2 text-right shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
 
    def field_class_flex_small
-    "max-w-20 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
+    "max-w-20 py-2 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
    
    def field_class_fit

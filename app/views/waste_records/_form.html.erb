@@ -1,4 +1,6 @@
 
+<p class="font-bold">Weights in Kgs</p>
+
 <%= form_for [traceability_record, waste_record] do |form| %>
 
   <% if waste_record.errors.any? %>
@@ -20,27 +22,27 @@
 
   <div class="my-5">
     <%= form.label :wedges %>
-     <%= form.number_field :wedges, step: :any, class: field_class_flex_small %>
+     <%= form.number_field :wedges, step: :any, placeholder: "0.00", class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :cooking %>
-     <%= form.number_field :cooking, step: :any, class: field_class_flex_small %>
+     <%= form.number_field :cooking, step: :any, placeholder: "0.00", class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :blue %>
-     <%= form.number_field :blue, step: :any, class: field_class_flex_small %>
+     <%= form.number_field :blue, step: :any, placeholder: "0.00", class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :t_and_bs %>
-     <%= form.number_field :t_and_bs, step: :any, class: field_class_flex_small %>
+     <%= form.number_field :t_and_bs, step: :any, placeholder: "0.00", class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :waste %>
-     <%= form.number_field :waste, step: :any, class: field_class_flex_small %>
+     <%= form.number_field :waste, step: :any, placeholder: "0.00", class: field_class_flex_small %>
      </div>
 
  <% form.hidden_field :tracebility_record_id, :value =>@tracebility_record_id %>

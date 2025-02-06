@@ -1,24 +1,17 @@
+<div class="overscroll-none">
+<% content_for :title, "Poacher: System Calculations" %>
 <% content_for(:page_title, "CALCULATIONS")%>
- 
-<div class="mx-auto w-full md:w-2/3">
-
+<% content_for(:page_button, "calculations/new")%>
 <div id="calculations">
- <div class="grid grid-cols-3 gap-4 mb-4">
-   <div class="col-span-2">
-     <p class="text-base text-left font-light">IMPORTANT: These values are used to convert Picklist weight options to grams for the wash list calculations.
-     Update with care. All weights are in <strong>grams</strong> only.
-     </p>
-   </div>
-   <div class="mt-2 text-right">
-     <%= link_to "Add New Calculation", new_calculation_path, class: clear_button_class %>
-     <br>
-   </div> 
-  </div>
 
+  <div class="mx-auto w-full lg:w-2/3">
 
-    <div class="container mx-auto my-6">
-      <div class="h-96 border-separate overflow-clip flex flex-col">
-        <table class="w-full lg:w-2/3 table-fixed">
+     <p class="mx-auto mb-4 text-base text-center font-light">IMPORTANT: These values are used to convert Picklist weight options to grams for the wash list calculations.
+        <br>Update with care. All weights are in <strong>grams</strong> only.
+      </p>
+
+      <div class="border-separate overflow-clip flex flex-col">
+        <table class="mx-auto w-full lg:w-2/3 table-fixed ">
           <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
           <tr class="bg-gray-200 sticky top-0">
                     <th scope="col" class="px-6 py-3 w-30 text-left">
@@ -42,7 +35,7 @@
             </thead>
             </table>
         <div class="flex-1 overflow-y-auto">
-          <table class="w-full lg:w-2/3 table-fixed text-sm">
+          <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm">
             <tbody>
              <% @calculations.each do |calculation| %>
                 <tr class="bg-white border-b hover:bg-gray-100">
@@ -68,5 +61,8 @@
             </tbody>
         </table>
     </div>
-    </div>
+     
+
+
+  </div>
 </div>

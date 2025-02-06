@@ -1,52 +1,40 @@
 <div class="overscroll-none">
-<% content_for :title, "Poacher: Butter Make" %>
-<% content_for(:page_title, "BUTTER MAKE SCHEDULE")%>
-<div id="butter_makes">
+  <% content_for :title, "Poacher: Butter Make" %>
+  <% content_for(:page_title, "BUTTER MAKE SCHEDULE") %>
 
- <div class="grid grid-cols-4">
-    <div class="align-bottom pt-2 pb-2">
-      <a class="bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-2 border border-gray-900 hover:border-transparent rounded-lg" href="/butter_makes/create_month">Add a Month</a>
+  <div id="butter_makes">
+    <!-- Grid Section at the Top -->
+    <div class="grid grid-cols-4 items-center mb-4">
+      <div>
+        <a class="bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white py-2 px-2 border border-gray-900 hover:border-transparent rounded-lg" href="/butter_makes/create_month">
+          Add a Month
+        </a>
+      </div>
+      <div class="col-span-2 text-left text-sm">
+       
+      </div>
     </div>
-    <div class= "col-span-2 text-left pt-3 pb-3 text-sm">
-     <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
+
+
+    <!-- Table Wrapper (No Flexbox Stretching) -->
+    <div class="overflow-auto w-full">
+      <table class="mx-auto table-fixed w-full lg:w-2/3 border text-sm text-center text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+          <tr class="bg-gray-200 sticky top-0 text-right">
+            <th scope="col" class="px-4 py-2">Day</th>
+            <th scope="col" class="px-4 py-2 pr-4 whitespace-nowrap ">Date</th>
+            <th scope="col" class="px-4 py-2">Cream</th>
+            <th scope="col" class="px-4 py-2">Make</th>
+            <th scope="col" class="px-4 py-2">Stock<br>Confirmed</th>
+            <th scope="col" class="px-4 py-2">Stock<br>Projected</th>
+          </tr>
+        </thead>
+        <tbody>
+         
+            <%= render @butter_makes %>
+         
+        </tbody>
+      </table>
     </div>
   </div>
-
-<div class="flex flex-col h-screen">
-    <div class="flex-grow overflow-auto">
-      <table class="mx-auto table-fixed relative w-full lg:w-2/3 border text-sm text-center text-gray-500  ">
-       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr class="bg-gray-200 sticky top-0 text-right">
-                <th scope="col" class="sticky top-0 px-4 py-2 ">
-                  Day
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 pr-2 whitespace-nowrap underline underline-offset-2">
-                  Date
-                </th>
-                <th id="batch" class="sticky top-0 px-4 py-2">
-                  Cream
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2">
-                  Make
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2">
-                  Stock<br>Confirmed
-                </th>
-                 <th scope="col" class="sticky top-0 px-4 py-2">
-                  Stock<br>Projected
-                </th>
-            </tr>
-        </thead>
-        <tbody class="overflow-contain">
-         
-          <%= turbo_frame_tag "second_frame" do %>
-           <%= render @butter_makes %>
-           <% end %>
-        </tbody>
-    </table>
-</div> 
-
-
-
-
-
+</div>

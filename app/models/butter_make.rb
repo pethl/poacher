@@ -4,7 +4,7 @@ class ButterMake < ApplicationRecord
   scope :ordered, -> { order(date: :asc) }
 
   def stock_calc
-    #butter stock calculation, yesterdays stock level plus todays cream - todays make (if any)
+    #butter stock calculation: yesterdays stock level + todays cream( - todays make (if any))
     yesterdays_date = self.date-1.day
     yesterdays_stock = ButterMake.find_by(date: yesterdays_date)
     # need the if to manage the start point as start doesn't have a yesterday

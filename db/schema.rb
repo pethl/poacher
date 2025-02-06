@@ -372,11 +372,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
   create_table "waste_records", force: :cascade do |t|
     t.bigint "traceability_record_id", null: false
     t.date "waste_date", null: false
-    t.decimal "wedges", precision: 7, scale: 2
-    t.decimal "cooking", precision: 7, scale: 2
-    t.decimal "blue", precision: 7, scale: 2
-    t.decimal "t_and_bs", precision: 7, scale: 2
-    t.decimal "waste", precision: 7, scale: 2
+    t.decimal "wedges", precision: 6, scale: 3
+    t.decimal "cooking", precision: 6, scale: 3
+    t.decimal "blue", precision: 6, scale: 3
+    t.decimal "t_and_bs", precision: 6, scale: 3
+    t.decimal "waste", precision: 6, scale: 3
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"

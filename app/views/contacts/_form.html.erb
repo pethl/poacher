@@ -29,17 +29,17 @@
 
   <div class="">
     <%= form.label :email, class: label_class %>
-    <%= form.text_field :email, class:field_class_unsized %>
+    <%= form.text_field :email, type: 'email', class:field_class_unsized %>
   </div>
 
   <div class="">
     <%= form.label :mobile, class: label_class %>
-    <%= form.text_field :mobile, class:field_class_unsized %>
+    <%= form.text_field :mobile,  type: 'tel', class:field_class_unsized %>
   </div>
 
   <div class="">
     <%= form.label :phone, class: label_class %>
-    <%= form.text_field :phone, class:field_class_unsized %>
+    <%= form.text_field :phone,  type: 'tel', class:field_class_unsized %>
   </div>
 
   <div class="">

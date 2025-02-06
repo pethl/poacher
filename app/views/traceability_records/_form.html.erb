@@ -26,7 +26,11 @@
 
       <div class="my-2">
       <%= form.label :batch_code %>
-      <%= form.text_field :batch_code, :value => traceability_record.makesheet.batch, class: field_class_flex, disabled: true %>
+      <% if traceability_record.makesheet.present? %>
+        <p><%= traceability_record.makesheet.batch %></p>
+      <% else %>
+        <p>--</p>
+      <% end %>
     </div>
 
     <div class="my-2">
@@ -190,12 +194,24 @@
 
 <div class="grid md:grid-cols-4 ">
   <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Number in Batch:</span></div>
-  <div class="pt-2 pr-10 border-t-2 border-r-2 border-gray-800"> <%= traceability_record.makesheet.number_of_cheeses %></div>
+  <div class="pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
+      <% if traceability_record.makesheet.present? %>
+        <p><%= traceability_record.makesheet.number_of_cheeses %></p>
+      <% else %>
+        <p>--</p>
+      <% end %>
+      </div>
   <div class="text-left pl-4 pt-2 "> <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span></div>
   <div class="pt-2 pr-10 "> <%= traceability_record.calculated_batch_cheese_count %></div>
  
   <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Total Weight of Batch:</span></div>
-  <div class="pt-2 pr-10 border-b-2 border-r-2 border-gray-800"> <%= traceability_record.makesheet.total_weight %></div>
+  <div class="pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
+     <% if traceability_record.makesheet.present? %>
+        <p><%= traceability_record.makesheet.total_weight %></p>
+      <% else %>
+        <p>--</p>
+      <% end %>
+    </div>
   <div class="text-left pl-4 pt-2"> <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span></div>
   <div class="pt-2 pr-10">  <%= traceability_record.calculated_batch_cheese_weight_total %></div>
 </div>

@@ -3,7 +3,8 @@ class ButterMakesController < ApplicationController
 
 
   def create_month
-    get_latest_date = ButterMake.all.ordered.last.date
+    get_latest_date = ButterMake.exists? ? ButterMake.all.ordered.last.date : Date.today.beginning_of_month - 1.day
+
     i = 31
     
     while i >0
@@ -54,7 +55,7 @@ class ButterMakesController < ApplicationController
   def update
     respond_to do |format|
       if @butter_make.update(butter_make_params)
-        format.html { redirect_to @butter_make, notice: "Butter make was successfully updated." }
+        format.html { redirect_to butter_makes_path, notice: "Butter make was successfully updated." }
         format.json { render :show, status: :ok, location: @butter_make }
       else
         format.html { render :edit, status: :unprocessable_entity }
