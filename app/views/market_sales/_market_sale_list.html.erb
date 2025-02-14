@@ -1,0 +1,65 @@
+<div id="<%= dom_id market_sale %>">
+  <div class="mx-auto w-fill md:w-1/2 grid grid-cols-2 mt-8">
+  
+    <p class="px-4 py-2 text-right">
+      Who:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.who %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Market:</p>
+    <p class="px-4 py-2 pr-2 text-right">
+      <%= link_to market_sale.market, market_sale_path(market_sale), class:link_class %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Date:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.sale_date.to_formatted_s(:uk_clean_date) %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Cheese Sales:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.cheese_sales %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Butter Sales:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.butter_sales %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Plum Bread:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.plum_bread %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Milk:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.milk %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Other Cheese:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.other_cheese %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Total Sales:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.total_sales %>
+    </p>
+
+    <p class="px-4 py-2 text-right">
+      Weight:</p>
+    <p class="px-4 py-2 text-right">
+      <%= market_sale.weight %>
+    </p> 
+
+    </div>
+

@@ -74,6 +74,10 @@ module ApplicationHelper
    def filter_button
     "mt-1 block w-full px-4 py-1 text-sm text-white border border-gray-300 bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
    end
+
+   def clear_filter_button
+    "mt-1 block w-full px-4 py-1 text-sm text-gray-800 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+   end
    
    def gray_button
      "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"
@@ -221,6 +225,11 @@ module ApplicationHelper
     #yes_no = Reference.where(active: "TRUE", group: 'yes_no')
     #yes_no = yes_no.pluck(:value)    
     yes_no =  [["Yes", true], ["No", false]]
+  end
+
+  def farmers_markets
+    farmers_markets = Reference.where(active: "TRUE", group: 'farmers_markets')
+    farmers_markets = farmers_markets.pluck(:value) 
   end
 
   

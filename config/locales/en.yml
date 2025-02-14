@@ -28,8 +28,15 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
-
 en:
   date:
-     formats:
-       default: "%d-%m-%Y"
+    formats:
+      default: "%d-%m-%Y"
+
+  number:
+    currency:
+      format:
+        unit: "£"
+        delimiter: ","
+        separator: "."
+        format: "%u%n" # Ensures £ appears before the number

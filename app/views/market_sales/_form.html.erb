@@ -1,0 +1,78 @@
+<%= form_with(model: market_sale, class: "contents", data: { controller: "total" }) do |form| %>
+
+  <% if market_sale.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(market_sale.errors.count, "error") %> prohibited this market_sale from being saved:</h2>
+
+      <ul>
+        <% market_sale.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <div class="my-5">
+    <%= form.label :who %>
+    <%= form.text_field :who, 
+                    class: field_class_flex,
+                    list: "who-list",
+                    autocomplete: "off" %>
+        <datalist id="who-list">
+          <% @existing_names.each do |name| %>
+          <option value="<%= name %>">
+          <% end %>
+        </datalist>  
+  </div>
+
+  <div class="my-5">
+    <%= form.label :market %>
+    <%= form.select :market, options_for_select(farmers_markets, :selected => market_sale.market),{:prompt=>true}, class: field_class_flex %>
+  </div>
+  
+  <div class="my-5">
+    <%= form.label :sale_date %>
+    <%= form.date_field :sale_date, class: field_class_flex_med  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cheese_sales %>
+    <%= form.text_field :cheese_sales, data: { action: "input->total#calculate" }, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :butter_sales %>
+    <%= form.text_field :butter_sales, data: { action: "input->total#calculate" }, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :plum_bread %>
+    <%= form.text_field :plum_bread, data: { action: "input->total#calculate" }, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :milk %>
+    <%= form.text_field :milk, data: { action: "input->total#calculate" }, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :other_cheese %>
+    <%= form.text_field :other_cheese, data: { action: "input->total#calculate" }, class: field_class_flex_small  %>
+  </div>
+
+  <div>Running Total: <span data-total-target="sum">0</span></div>
+
+  <div class="my-5">
+    <strong><%= form.label :total_sales %></strong>
+    <%= form.text_field :total_sales, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :weight %>
+    <%= form.text_field :weight, class: field_class_flex_small  %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit "Update Record", class: fill_button_class %>
+  </div>
+<% end %>

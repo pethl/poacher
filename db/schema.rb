@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_13_105104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -175,6 +175,25 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_13_175914) do
     t.string "batch"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
     t.index ["status"], name: "index_makesheets_on_status"
+  end
+
+  create_table "market_sales", force: :cascade do |t|
+    t.string "who"
+    t.string "market"
+    t.date "sale_date"
+    t.decimal "cheese_sales", precision: 7, scale: 2
+    t.decimal "butter_sales", precision: 7, scale: 2
+    t.decimal "honey_sales", precision: 7, scale: 2
+    t.decimal "egg_sales", precision: 7, scale: 2
+    t.decimal "plum_bread", precision: 7, scale: 2
+    t.decimal "milk", precision: 7, scale: 2
+    t.decimal "other_cheese", precision: 7, scale: 2
+    t.decimal "total_sales", precision: 7, scale: 2
+    t.decimal "weight", precision: 7, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["market", "sale_date"], name: "index_market_sales_on_market_and_sale_date"
+    t.index ["sale_date"], name: "index_market_sales_on_sale_date"
   end
 
   create_table "milk_quality_monitors", force: :cascade do |t|

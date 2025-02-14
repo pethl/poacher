@@ -1,0 +1,14 @@
+  <% content_for(:page_title, "Market Sale: #{@market_sale.market} - #{@market_sale.sale_date.to_formatted_s(:uk_clean_date)}")%>
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto">
+    
+
+    <%= render "market_sale_list", market_sale:@market_sale %>
+
+    <%= link_to "Edit this market sale", edit_market_sale_path(@market_sale), class: fill_button_class %>
+    <%= link_to "Back to all sales", market_sales_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy this record", @market_sale, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+    </div>
+  </div>
+</div>

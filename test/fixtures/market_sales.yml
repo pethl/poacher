@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  who: MyString
+  market: MyString
+  sale_date: 2025-02-13
+  cheese_sales: 9.99
+  butter_sales: 9.99
+  honey_sales: 9.99
+  egg_sales: 9.99
+  plum_bread: 9.99
+  milk: 9.99
+  other_cheese: 9.99
+  total_sales: 9.99
+  weight: 9.99
+
+two:
+  who: MyString
+  market: MyString
+  sale_date: 2025-02-13
+  cheese_sales: 9.99
+  butter_sales: 9.99
+  honey_sales: 9.99
+  egg_sales: 9.99
+  plum_bread: 9.99
+  milk: 9.99
+  other_cheese: 9.99
+  total_sales: 9.99
+  weight: 9.99

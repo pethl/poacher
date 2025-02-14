@@ -1,5 +1,6 @@
+require 'logger'
+require 'active_support'
 require_relative "boot"
-
 require "rails/all"
 require "csv"
 require 'roo'

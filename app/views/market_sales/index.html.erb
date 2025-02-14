@@ -1,0 +1,102 @@
+<% content_for(:page_title, "Market Sales")%>
+<% content_for(:print_button, "browser-print")%>
+<% content_for(:page_button, "market_sales/new")%>
+<% title "Poacher: Market Sales" %>
+
+
+
+
+   <!-- Filter Section -->
+   <div class="mb-4 p-2 max-w-full text-right">
+     <%= form_with(url: market_sales_path, method: :get, local: true, class: "flex gap-2") do %>
+    
+        <div class="w-40"> 
+          <label for="month" class="block mt-1 text-xs font-medium text-gray-700">Month</label>
+          <%= select_tag :month, options_for_select((1..12).map { |m| [Date::MONTHNAMES[m], m] }, params[:month]), 
+                        include_blank: "Select ", class: filter_drop_down %>
+        </div>
+
+        <div class="w-40">
+          <label for="year" class="block mt-1 text-xs font-medium text-gray-700">Year</label>
+          <%= select_tag :year, options_for_select((2020..Date.today.year).to_a.reverse, params[:year]), 
+                        include_blank: "Select ", class: filter_drop_down%>
+        </div>
+
+        <div class="w-40">
+          <label for="market" class="block mt-1 text-xs font-medium text-gray-700">Market</label>
+          <%= select_tag :market, options_for_select(MarketSale.distinct.pluck(:market).sort, params[:market]), 
+                        include_blank: "Select ", class: filter_drop_down %>
+        </div>
+
+        <div class="w-40">
+          <label for="who" class="block mt-1 text-xs font-medium text-gray-700">Who</label>
+          <%= select_tag :who, options_for_select(MarketSale.distinct.pluck(:who).sort, params[:who]), 
+                        include_blank: "Select ", class: filter_drop_down %>
+        </div>
+
+        <div class="pt-5 flex place-items-center">
+          <%= submit_tag "Filter", class: filter_button %>
+        </div>
+
+        <div class="pt-5 flex place-items-center">
+          <%= link_to "Clear", market_sales_path, class: clear_filter_button %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= link_to "View Summary", summary_market_sales_path, class: filter_button %>
+
+
+<div class="w-full">
+    <div class="overscroll-none">
+      <table class="mx-auto table-auto relative w-full border border-gray-400 text-sm text-gray-500">
+       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+        <tr class="bg-gray-200 sticky top-0">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
+                  Who
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 pr-2 text-left">
+                  Market
+                </th>
+                <th id="col" class="sticky top-0 px-4 py-2 text-left">
+                  Date
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Cheese
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Butter
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Plum Bread
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Milk
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Other Cheese
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Total Sales
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
+                  Weight
+                </th> 
+            </tr>
+        </thead>
+        <tbody class="overflow-contain">
+         
+            <%= render @market_sales %>
+
+        </tbody>
+    </table>
+</div> 
+</div>
+
+
+
+
+
+
+
+

@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :market_sales do
+    collection do
+      get :summary
+    end
+  end
   resources :palletised_distributions
   resources :milk_quality_monitors
   resources :batch_weights
