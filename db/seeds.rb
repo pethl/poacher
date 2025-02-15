@@ -888,5 +888,5 @@ MarketSale.create(who: 'deb', market:'Notts Xmas', sale_date: Date.parse('2023/1
 end
 MarketSale.create(who: 'deb', market:'Notts Xmas', sale_date: Date.parse('2023/12/24'), cheese_sales:'337.05', butter_sales:'', plum_bread:'18.75', milk:'', other_cheese:'140', total_sales:'495.8');
 (1..12).each do |month|
-  MarketSale.create(who: 'deb', market:'Notts Xmas', sale_date: Date.new(2023, month, 08), cheese_sales:rand(99..490), butter_sales: rand(50..300), plum_bread:'15', milk:'50', other_cheese:'110', total_sales:'0');
+  MarketSale.create(who: 'deb', market:'Notts Xmas', sale_date: Date.new(2023, month, 11), cheese_sales:rand(99..490), butter_sales: rand(50..300), plum_bread:15, milk:50, other_cheese:110, total_sales:0);
 end
