@@ -1,50 +1,86 @@
 <% content_for(:page_title, "MARKET SALES SUMMARY")%>
 <div class="mx-auto w-full text-centre">
 
- <div class="mb-4 p-2 max-w-sm text-right">
-   <%= form_with(url: summary_market_sales_path, method: :get, local: true, class: "flex gap-2") do %>
-   <%= select_tag :year, options_for_select((2020..Date.today.year).to_a.reverse, params[:year]), include_blank: "Select Year", class: filter_drop_down %>
-   <%= submit_tag "Filter", class: filter_button %>
 
-  <% end %>
- </div>
 
-<div class="text-xl font-bold my-4 pl-4 text-center">
-  <p><%= params[:year] || Date.today.year %>
+
+      <hr><hr>
+<div class="mb-4">
+  <form method="get" action="<%= request.path %>">
+    <label for="year" class="mr-2 text-lg font-semibold">Select Year:</label>
+    <select name="year" id="year" class="border p-2 rounded-md">
+      <% @years.each do |y| %>
+        <option value="<%= y %>" <%= "selected" if y.to_s == @year.to_s %>><%= y %></option>
+      <% end %>
+    </select>
+    <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Filter</button>
+  </form>
 </div>
 
-<div class="mx-auto w-full place-content-center pl-2 pr-4 text-sm">
-  <div class="flex flex-col">
-    <div class="flex-grow overflow-auto">
-      <table class="relative table-auto w-full text-md text-right text-gray-900 p-4 border border-gray-200">
-        <tr class="sticky top-0 bg-gray-400 text-white">
-            <th>Category</th>
-            <% @months.each do |month| %>
-              <th><%= Date::MONTHNAMES[month] %></th>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <% [:cheese_sales, :butter_sales, :plum_bread, :milk, :other_cheese].each do |category| %>
-            <tr class="border-b border-gray-200 py-4">
-              <td class="font-bold py-4 px-2"><%= category.to_s.humanize %></td>
-              <% @months.each do |month| %>
-                <td class="hover:text-lg"><%= number_to_currency(@sales_data.dig(month, category) || 0, precision: 0) %></td>
-              <% end %>
-            </tr>
-            <% end %>
-       
-          <tr class="font-bold bg-gray-200">
-          <td>Total</td>
-          <% (1..12).each do |month| %>
-            <td class="text-right">
-              <%= number_to_currency(@monthly_totals[month] || 0, precision: 0) %>
-            </td>
-          <% end %>
-        </tr>
-   
-        </tbody>
-      </table>
+<table class="table-auto border-collapse border border-gray-300 w-full text-center">
+  <thead>
+    <tr class="bg-gray-200 text-gray-700">
+      <th class="border border-gray-300 px-4 py-2">Product</th>
+      <% 1.upto(12) do |month| %>
+        <th class="border border-gray-300 px-4 py-2"><%= Date::MONTHNAMES[month] %></th>
+      <% end %>
+      <th class="border border-gray-300 px-4 py-2 font-bold">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales_by_product.each do |product, sales| %>
+      <tr class="odd:bg-white even:bg-gray-100 text-gray-900">
+        <td class="border border-gray-300 px-4 py-2 font-semibold"><%= product %></td>
+        <% 1.upto(12) do |month| %>
+          <td class="border border-gray-300 px-4 py-2">
+            <%= number_to_currency(sales[month] || 0) %>
+          </td>
+        <% end %>
+        <td class="border border-gray-300 px-4 py-2 font-bold text-green-600">
+          <%= number_to_currency(sales.values.sum) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="mb-4">
+  <form method="get" action="<%= request.path %>">
+    <label for="year" class="mr-2 text-lg font-semibold">Select Year:</label>
+    <select name="year" id="year" class="border p-2 rounded-md">
+      <% @years.each do |y| %>
+        <option value="<%= y %>" <%= "selected" if y.to_s == @year.to_s %>><%= y %></option>
+      <% end %>
+    </select>
+    <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">Filter</button>
+  </form>
+</div>
+
+<table class="table-auto border-collapse border border-gray-300 w-full text-center">
+  <thead>
+    <tr class="bg-gray-200 text-gray-700">
+      <th class="border border-gray-300 px-4 py-2">Product</th>
+      <% 1.upto(12) do |month| %>
+        <th class="border border-gray-300 px-4 py-2"><%= Date::MONTHNAMES[month] %></th>
+      <% end %>
+      <th class="border border-gray-300 px-4 py-2 font-bold">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales_by_product.each do |product, sales| %>
+      <tr class="odd:bg-white even:bg-gray-100 text-gray-900">
+        <td class="border border-gray-300 px-4 py-2 font-semibold"><%= product %></td>
+        <% 1.upto(12) do |month| %>
+          <td class="border border-gray-300 px-4 py-2">
+            <%= number_to_currency(sales[month] || 0) %>
+          </td>
+        <% end %>
+        <td class="border border-gray-300 px-4 py-2 font-bold text-green-600">
+          <%= number_to_currency(sales.values.sum) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 
 

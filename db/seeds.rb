@@ -7,6 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 #User.destroy_all
 Chiller.destroy_all
+Breakage.destroy_all
 MarketSale.destroy_all
 WashPicksheet.destroy_all;
 TraceabilityRecord.destroy_all;

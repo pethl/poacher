@@ -30,26 +30,63 @@ class MarketSalesController < ApplicationController
     @market_sales = @market_sales.sorted_by_date_and_market
   end
 
-  def summary
-    #   # Get the year from params or default to the current year 
-    #   @year = params[:year] || Date.today.year 
-    #   @year = @year.to_i 
-      
-    #   # Fetch all MarketSales for the selected year 
-    #   @market_sales = MarketSale.where(sale_date: Date.new(@year, 1, 1)..Date.new(@year, 12, 31)) 
-      
-    #   # Group by month and calculate totals 
-    #   @summary_data = @market_sales.group_by {|sale| sale.sale_date.month }.transform_values do |sales| { cheesey_sales: sales.sum { |sale| sale.cheese_sales.to_d }, sales.sum { |sale| sale.butter_sales.to_d }
-      
-     
-    # end 
-    #   # Fill in missing months with zero values 
-    #   @summary_data = (1..12).each_with_object({}) do |month, hash| hash[month] = @summary_data.fetch(month, { cheesey_sales: 0, buttery_sales: 0 }) 
-    # end 
+def summary
 
-  year = params[:year] || Date.today.year
+    @year = params[:year] || Date.current.year # Default to current year if no year is selected
+  
+    # ✅ FIX: Wrap EXTRACT() in Arel.sql() to avoid the dangerous query warning
+    @monthly_sales = MarketSale
+      .select(Arel.sql("EXTRACT(MONTH FROM sale_date) as month, 
+                        SUM(cheese_sales) as cheese_total, 
+                        SUM(butter_sales) as butter_total, 
+                        SUM(honey_sales) as honey_total, 
+                        SUM(egg_sales) as egg_total, 
+                        SUM(plum_bread) as plum_bread_total, 
+                        SUM(milk) as milk_total, 
+                        SUM(other_cheese) as other_cheese_total, 
+                        SUM(total_sales) as total_sales"))
+      .where("EXTRACT(YEAR FROM sale_date) = ?", @year)
+      .group(Arel.sql("EXTRACT(MONTH FROM sale_date)"))
+      .order(Arel.sql("EXTRACT(MONTH FROM sale_date)"))
+  
+    # ✅ FIX: Wrap EXTRACT() in Arel.sql() to avoid the dangerous query warning
+    @years = MarketSale.pluck(Arel.sql("DISTINCT EXTRACT(YEAR FROM sale_date)")).sort.reverse
+  
+    # Check if there are no records, in case @monthly_sales is nil or empty
+    if @monthly_sales.present?
+      # Organizing sales by product
+      @sales_by_product = {
+        "Cheese" => Hash.new(0),
+        "Butter" => Hash.new(0),
+        "Honey" => Hash.new(0),
+        "Eggs" => Hash.new(0),
+        "Plum Bread" => Hash.new(0),
+        "Milk" => Hash.new(0),
+        "Other Cheese" => Hash.new(0),
+        "Total Sales" => Hash.new(0)
+      }
+  
+      @monthly_sales.each do |sale|
+        # Ensure that the sales values are converted to float, defaulting to 0 if nil
+        @sales_by_product["Cheese"][sale.month.to_i] = sale.cheese_total.to_f
+        @sales_by_product["Butter"][sale.month.to_i] = sale.butter_total.to_f
+        @sales_by_product["Honey"][sale.month.to_i] = sale.honey_total.to_f
+        @sales_by_product["Eggs"][sale.month.to_i] = sale.egg_total.to_f
+        @sales_by_product["Plum Bread"][sale.month.to_i] = sale.plum_bread_total.to_f
+        @sales_by_product["Milk"][sale.month.to_i] = sale.milk_total.to_f
+        @sales_by_product["Other Cheese"][sale.month.to_i] = sale.other_cheese_total.to_f
+        @sales_by_product["Total Sales"][sale.month.to_i] = sale.total_sales.to_f
+      end
+    else
+      # Handle the case when there are no monthly sales for the selected year
+      @sales_by_product = {}
+    end
+  end
 
-  sales_data = MarketSale.where("EXTRACT(YEAR FROM sale_date) = ?", year)
+  def summary_end
+    year = params[:year] || Date.today.year
+
+    sales_data = MarketSale.where("EXTRACT(YEAR FROM sale_date) = ?", year)
                          .group("EXTRACT(MONTH FROM sale_date)")
                          .pluck(
                            Arel.sql("EXTRACT(MONTH FROM sale_date)"),
@@ -73,8 +110,8 @@ class MarketSalesController < ApplicationController
     @months = (1..12).to_a
 
     @monthly_totals = MarketSale.where(sale_date: @year_range)
-  .group("EXTRACT(MONTH FROM sale_date)")
-  .sum("cheese_sales + butter_sales + honey_sales + egg_sales + plum_bread + milk + other_cheese")
+      .group("EXTRACT(MONTH FROM sale_date)")
+      .sum("cheese_sales + butter_sales + honey_sales + egg_sales + plum_bread + milk + other_cheese")
 
   end 
 
