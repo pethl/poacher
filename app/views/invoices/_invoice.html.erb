@@ -1,0 +1,24 @@
+<div id="<%= dom_id invoice %>">
+   <tr class="border-b border-gray-200">
+   
+   <td class="px-4 py-2 text-left font-bold">
+    <%= link_to invoice.number, edit_invoice_path(invoice) %>
+   </td>
+
+   <td class="px-4 py-2 text-left">
+    <%= invoice.account %>
+   </td>
+
+   <td class="px-4 py-2 text-left">
+    <%= invoice.date %>
+   </td>
+
+   <td class="px-4 py-2 text-right">
+    <%= invoice.amount %>
+   </td>
+
+   <td class="px-4 py-2 text-right">
+    <%= invoice.weight %>
+   </td>
+
+</div>

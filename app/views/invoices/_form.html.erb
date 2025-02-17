@@ -1,0 +1,52 @@
+<%= form_with(model: invoice, class: "contents", data: { controller: "total" }) do |form| %>
+
+  <% if invoice.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h2>
+
+      <ul>
+        <% invoice.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %> 
+
+  <div class="my-5">
+    <%= form.label :number %>
+    <%= form.text_field :number, class: field_class_flex_med  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :account %>
+      <%= form.text_field :account, 
+                    class: field_class_flex,
+                    list: "account-list",
+                    autocomplete: "off" %>
+        <datalist id="account-list">
+          <% @existing_names.each do |name| %>
+          <option value="<%= name %>">
+          <% end %>
+        </datalist>    </div>
+  
+  <div class="my-5">
+    <%= form.label :date %>
+    <%= form.date_field :date, class: field_class_flex_med  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :amount %>
+    <%= form.number_field :amount, class: field_class_flex_small  %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :weight %>
+    <%= form.number_field :weight, class: field_class_flex_small  %>
+  </div>
+
+  
+
+  <div class="inline">
+    <%= form.submit "Update Record", class: fill_button_class %>
+  </div>
+<% end %>

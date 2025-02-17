@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :invoices do
+    collection do
+      get :summary
+    end
+  end
   resources :market_sales do
     collection do
       get :summary
