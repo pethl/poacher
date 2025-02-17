@@ -14,7 +14,7 @@ class MarketSalesController < ApplicationController
     # Filtering by year
     if params[:year].present?
       @market_sales = @market_sales.where("extract(year from sale_date) = ?", params[:year])
-    end
+    end 
 
     # Filtering by market
     if params[:market].present?
@@ -39,8 +39,6 @@ def summary
       .select(Arel.sql("EXTRACT(MONTH FROM sale_date) as month, 
                         SUM(cheese_sales) as cheese_total, 
                         SUM(butter_sales) as butter_total, 
-                        SUM(honey_sales) as honey_total, 
-                        SUM(egg_sales) as egg_total, 
                         SUM(plum_bread) as plum_bread_total, 
                         SUM(milk) as milk_total, 
                         SUM(other_cheese) as other_cheese_total, 
@@ -58,8 +56,6 @@ def summary
       @sales_by_product = {
         "Cheese" => Hash.new(0),
         "Butter" => Hash.new(0),
-        "Honey" => Hash.new(0),
-        "Eggs" => Hash.new(0),
         "Plum Bread" => Hash.new(0),
         "Milk" => Hash.new(0),
         "Other Cheese" => Hash.new(0),
@@ -70,8 +66,6 @@ def summary
         # Ensure that the sales values are converted to float, defaulting to 0 if nil
         @sales_by_product["Cheese"][sale.month.to_i] = sale.cheese_total.to_f
         @sales_by_product["Butter"][sale.month.to_i] = sale.butter_total.to_f
-        @sales_by_product["Honey"][sale.month.to_i] = sale.honey_total.to_f
-        @sales_by_product["Eggs"][sale.month.to_i] = sale.egg_total.to_f
         @sales_by_product["Plum Bread"][sale.month.to_i] = sale.plum_bread_total.to_f
         @sales_by_product["Milk"][sale.month.to_i] = sale.milk_total.to_f
         @sales_by_product["Other Cheese"][sale.month.to_i] = sale.other_cheese_total.to_f
