@@ -8,7 +8,7 @@
     <!-- Left Section -->
     <div class="flex-1 text-center md:text-left pt-4 ">
       <a class="bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
- href="chillers/create_month">Add a Month</a>
+          href="chillers/create_month">Add a Month</a>
     </div>
 
   <!-- Right Section -->
@@ -41,12 +41,12 @@
       <table class="mx-auto table-fixed relative w-full lg:w-2/3 border text-sm text-center text-gray-500  ">
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
          <tr class="bg-gray-200 sticky top-0">
-          <td colspan = "5" class= "sticky top-0 bg-white px-4 py-2 text-center text-2xl font-bold border-b-2 border-gray-200">
+          <td colspan = "6" class= "sticky top-0 bg-white px-4 py-2 text-center text-2xl font-bold border-b-2 border-gray-200">
              <%= @chillers.any? ? @chillers.first.date.strftime("%B %Y") : "No Records" %> 
           </td>
         </tr>
        <tr class="bg-gray-200 sticky top-0">
-          <td colspan = "5" class= "sticky top-0 bg-white px-4 py-2 text-center text-xs md:text-sm font-light">
+          <td colspan = "6" class= "sticky top-0 bg-white px-4 py-2 text-center text-xs md:text-sm font-light">
              TARGET TEMPERATURE 5°C OR BELOW - UNACCEPTABLE TEMPERTAURE ABOVE 8C
           </td>
         </tr>
@@ -66,7 +66,9 @@
                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                   Check By
                 </th>
-                
+                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
+                  Signature
+                </th>
             </tr>
         </thead>
         <tbody class="overflow-contain">

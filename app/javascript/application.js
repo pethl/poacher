@@ -2,12 +2,12 @@ import { Turbo } from "@hotwired/turbo-rails"
 import { Application } from "stimulus"
 import { Controller } from "stimulus"
 
-// Initialize Stimulus application
-const application = Application.start()
-
-// Import your custom controllers manually
+//import { Application } from "@hotwired/stimulus"
 import SignatureController from "./controllers/signature_controller"
 import TotalController from "./controllers/total_controller"
+
+// Initialize Stimulus application
+const application = Application.start()
 
 // Register controllers manually
 application.register("signature", SignatureController)

@@ -56,9 +56,24 @@
     <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_med }) %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :drivers_signature %>
-    <%= form.text_field :drivers_signature, class: field_class_flex %>
+   <!-- Staff Signature -->
+  <div data-controller="signature" class="flex flex-col items-center space-y-4 p-4 border rounded-lg shadow-md bg-white">
+    <p class="text-lg font-semibold">Staff Signature</p>
+    <canvas width="400" height="200" class="border border-gray-400 rounded-lg shadow-sm bg-gray-100"></canvas>
+    <button type="button" class="clear-signature px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+      Clear Signature
+    </button>
+    <%= form.hidden_field :staff_signature, class: "signature-input" %>
+  </div>
+
+  <!-- Driver Signature -->
+  <div data-controller="signature" class="flex flex-col items-center space-y-4 p-4 border rounded-lg shadow-md bg-white mt-6">
+    <p class="text-lg font-semibold">Driver Signature</p>
+    <canvas width="400" height="200" class="border border-gray-400 rounded-lg shadow-sm bg-gray-100"></canvas>
+    <button type="button" class="clear-signature px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+      Clear Signature
+    </button>
+    <%= form.hidden_field :driver_signature, class: "signature-input" %>
   </div>
  
   <div class="inline">

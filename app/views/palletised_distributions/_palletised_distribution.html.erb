@@ -39,7 +39,15 @@
   </td>
 
    <td class="px-4 py-2 text-right ">
-    <%= palletised_distribution.drivers_signature %>
+     <% if palletised_distribution.staff_signature.present? %>
+      <img src="<%= palletised_distribution.staff_signature %>" alt="Signature">
+      <% end %>
+  </td>
+
+   <td class="px-4 py-2 text-right ">
+     <% if palletised_distribution.driver_signature.present? %>
+      <img src="<%= palletised_distribution.driver_signature %>" alt="Signature">
+      <% end %>
   </td>
 </tr>
 </div>

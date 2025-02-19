@@ -16,22 +16,22 @@
 
   <div class="my-5">
     <%= form.label :date %>
-    <%= form.date_field :date, class: field_class_flex %>
+    <%= form.date_field :date, class: field_class_flex_med %>
   </div>
 
   <div class="my-5">
     <%= form.label :chiller_1 %>
-    <%= form.number_field :chiller_1, step: 0.1, class: field_class_flex %>
+    <%= form.number_field :chiller_1, step: 0.1, class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :chiller_2 %>
-     <%= form.number_field :chiller_2, step: 0.1, class: field_class_flex %>
+     <%= form.number_field :chiller_2, step: 0.1, class: field_class_flex_small %>
   </div>
 
   <div class="my-5">
     <%= form.label :action_taken, class:"mb-2" %>
-    <%= form.text_area :action_taken,  rows:"4", class: "#{field_class_flex} flex-grow" %>
+    <%= form.text_area :action_taken,  rows:"3", class: "#{field_class_unsized} flex-grow" %>
   </div>
 
   <div class="my-5">
@@ -39,29 +39,17 @@
     <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
 
-   <div>
-      <label for="signature" class="block text-sm font-medium text-gray-700">Signature</label>
-      <div class="p-4 border rounded shadow-md" data-controller="signature">
-        <canvas id="signature-canvas" class="w-full h-64 border rounded" data-signature-target="canvas"></canvas>
-        <div class="flex justify-end mt-4">
-          <button type="button" data-action="signature#clear" class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600">
-            Clear
-          </button>
-        </div>
-      </div>
-      <!-- Hidden Field to Store Signature -->
-      <%# <%= form.hidden_field :signature, id: "signature-input", data: { signature_target: "input" } %> %>
-      <%= form.hidden_field :signature, data: { signature_target: "input" } %>
+  <div class="my-5 text-right">
+   <div data-controller="signature" class="flex flex-col items-center space-y-4 p-4 border rounded-lg shadow-md bg-white">
+     <canvas width="400" height="200" class="border border-gray-400 rounded-lg shadow-sm bg-gray-100"></canvas>
+  
+     <button type="button" class="clear-signature px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600 transition">
+      Clear Signature
+    </button>
 
-    </div>
-
-    <div data-controller="test">
-  <p>Test controller area</p>
-</div>
-<script>
-  console.log("Inline script working!");
-
-</script>
+   <%= form.hidden_field :signature, class: "signature-input" %>
+  </div>
+  </div>
 
   <div class="inline">
     <%= form.submit "Update Record", class: fill_button_class %>

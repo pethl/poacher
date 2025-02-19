@@ -1055,7 +1055,7 @@ signal-exit@^4.0.1:
 
 signature_pad@^5.0.4:
   version "5.0.4"
-  resolved "https://registry.npmjs.org/signature_pad/-/signature_pad-5.0.4.tgz"
+  resolved "https://registry.yarnpkg.com/signature_pad/-/signature_pad-5.0.4.tgz#81d15a75eb6c86a73c4f33b1cdec29068f057c64"
   integrity sha512-nngOixbwLAUOuH3QnZwlgwmynQblxmo4iWacKFwfymJfiY+Qt+9icNtcIe/okqXKun4hJ5QTFmHyC7dmv6lf2w==
 
 source-map-js@^1.2.1:

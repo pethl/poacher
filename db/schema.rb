@@ -234,7 +234,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
     t.string "destination"
     t.integer "number_of_pallets"
     t.bigint "staff_id"
-    t.string "drivers_signature"
+    t.text "staff_signature"
+    t.text "driver_signature"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["staff_id"], name: "index_palletised_distributions_on_staff_id"

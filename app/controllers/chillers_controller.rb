@@ -62,6 +62,7 @@ class ChillersController < ApplicationController
 
   # PATCH/PUT /chillers/1 or /chillers/1.json
   def update
+   
     @staffs = Staff.all.ordered
     respond_to do |format|
       if @chiller.update(chiller_params)

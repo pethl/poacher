@@ -69,6 +69,6 @@ class PalletisedDistributionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def palletised_distribution_params
-      params.require(:palletised_distribution).permit(:date, :company_name, :registration, :trailer_number_type, :temperature, :vehicle_clean, :destination, :number_of_pallets, :staff_id, :drivers_signature)
+      params.require(:palletised_distribution).permit(:date, :company_name, :registration, :trailer_number_type, :temperature, :vehicle_clean, :destination, :number_of_pallets, :staff_id, :staff_signature, :driver_signature)
     end
 end

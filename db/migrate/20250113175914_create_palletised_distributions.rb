@@ -10,7 +10,8 @@ class CreatePalletisedDistributions < ActiveRecord::Migration[7.0]
       t.string :destination
       t.integer :number_of_pallets
       t.references :staff, index: true, foreign_key: true
-      t.string :drivers_signature
+      t.text :staff_signature
+      t.text :driver_signature
 
       t.timestamps
     end
