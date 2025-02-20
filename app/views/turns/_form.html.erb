@@ -14,7 +14,7 @@
 
   <div class="my-2">
     <%= form.label :turn_date, class: label_class %>
-    <%= form.date_field :turn_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex %>
+    <%= form.date_field :turn_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex_med %>
   </div>
 
   <div class="my-2">
@@ -28,7 +28,8 @@
   </div>
 
  <div class="my-2">
-    <%= form.submit class: fill_button_class %>
      <%= link_to "Back to All Turns", turns_path, class: gray_button %>
+    <%= form.submit class: fill_button_class %>
+  
   </div>
 <% end %>

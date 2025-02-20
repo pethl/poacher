@@ -1,17 +1,24 @@
 import { Turbo } from "@hotwired/turbo-rails"
-import { Application } from "stimulus"
+import { Application } from "@hotwired/stimulus"
 import { Controller } from "stimulus"
+//import { definitionsFromContext } from "stimulus/webpack-helpers"
 
-//import { Application } from "@hotwired/stimulus"
+// Start Stimulus
+const application = Application.start()
+window.Stimulus = application // Make Stimulus globally available for debugging
+
+// Automatically load all controllers
+//const context = require.context("./controllers", true, /\.js$/)
+//application.load(definitionsFromContext(context))
+
 import SignatureController from "./controllers/signature_controller"
 import TotalController from "./controllers/total_controller"
-
-// Initialize Stimulus application
-const application = Application.start()
+import HamburgerController from "./controllers/hamburger_controller"
 
 // Register controllers manually
 application.register("signature", SignatureController)
 application.register("total", TotalController)
+application.register("hamburger", HamburgerController) // Register hamburger controller
 
 // Optionally listen for Turbo page load events if you're using Turbo
 document.addEventListener("turbo:load", () => {
@@ -19,3 +26,7 @@ document.addEventListener("turbo:load", () => {
     "Turbo page load detected - Stimulus controllers should be initialized"
   )
 })
+
+// Debugging logs
+console.log("✅ Stimulus initialized")
+console.log("✅ Registered controllers:", application.controllers)

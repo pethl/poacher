@@ -1,69 +1,80 @@
 <header class="sticky top-0 z-50 border border-gray-100 bg-gray-800">
-  <section class="max-w-4xl mx-auto flex h-10 items-center text-gray-100">
+  <section class="max-w-4xl mx-auto flex h-10 items-center justify-between text-gray-100">
     
-    <!-- Left Section (Home Icon) -->
-    <div class="text-sm ml-4">
+    <!-- Home Button (Hidden on small screens) -->
+    <div class="text-sm ml-4 hidden md:block">
       <a href="/pages/home">
         <span class="font-medium text-gray-100"><i class="fa-solid fa-house"></i></span>
-      </a>
+      </a> 
     </div>
 
-    <!-- Centered Navigation Links -->
-    <nav class="hidden md:flex flex-grow justify-center space-x-6 text-sm font-medium text-gray-100" aria-label="main">
+ <div data-controller="hamburger">
+  <!-- Hamburger Button -->
+ <button id="hamburger-button" 
+  class="text-3xl text-white focus:outline-none sm:block md:hidden"  
+  data-action="click->hamburger#toggle">
+  &#9776;
+</button>
+
+
+   <!-- Mobile Menu -->
+     <section id="mobile-menu" class="absolute top-14 w-full bg-gray-800 text-5xl hidden" data-hamburger-target="menu">
+      <!-- Close Button -->
+      <button class="text-4xl text-white self-end px-6 mb-2 ml-4" data-action="click->hamburger#toggle">
+        &times;
+      </button>
+
+    <nav class="h-full flex flex-col items-center bg-gray-800 text-gray-100 py-8">
+      <a href="/pages/home" class="w-full py-6 text-center hover:opacity-90">Home</a>
+      <a href="/pages/dairy_home" class="w-full py-6 text-center hover:opacity-90">Dairy & Store</a>
+      <a href="/pages/cutting_home" class="w-full py-6 text-center hover:opacity-90">Cutting</a>
+      <a href="/pages/office_home" class="w-full py-6 text-center hover:opacity-90">Office</a>
+      <a href="/pages/mgmt_home" class="w-full py-6 text-center hover:opacity-90">Mgmt</a>
+      <a href="<%= edit_user_registration_path %>" class="w-full py-6 text-center hover:opacity-90">
+      <i class="fa-solid fa-user text-gray-100"></i>
+      </a>
+      <a href="<%= destroy_user_session_path %>" data-turbo-method="delete" class="w-full py-6 text-center hover:opacity-90">
+        <i class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
+      </a>
+
+    </nav>
+    </section>
+    </div>
+
+    <!-- Main Navigation (Hidden on small screens, shown on md+) -->
+    <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-100" aria-label="main">
       <a href="/pages/dairy_home" class="hover:opacity-90">Dairy & Store</a>
       <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
       <a href="/pages/office_home" class="hover:opacity-90">Office</a>
       <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
     </nav>
 
-    <!-- Right Section (User Profile and Sign In) -->
-    <div class="ml-4">
+    <!-- User Profile/Edit Section (Hidden on small screens) -->
+    <div class="hidden md:flex mr-6">
       <% if user_signed_in? %> 
-        <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4 mr-6">
+        <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4">
           <div>
             <%= link_to edit_user_registration_path do %>
               <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
             <% end %> 
-            <div id="tooltip-edit" role="tooltip" class="absolute z-10 invisible inline-block text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip ">
+            <div id="tooltip-edit" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
               Edit Profile
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
           </div>
 
-          <div class="">
+          <div>
             <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
-              <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100 "> </i>
+              <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
             <% end %>
-            <div id="tooltip-logout" role="tooltip" class="absolute z-10 invisible inline-block mx-4 text-sm font-medium text-gray-600 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 tooltip">
+            <div id="tooltip-logout" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
               Logout
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
           </div>
         </div>
-      <% else %>
-        <div class="pt-2 pb-2">
-          <%= link_to  "Sign In", new_user_session_path, class:header_bar_button_class %>
-        </div>
       <% end %>
     </div>
   </section>
 
-  <!-- Mobile Menu (hidden by default) -->
-  <section id="mobile-menu" class="absolute top-22 justify-center hidden w-full origin-top animate-open-menu flex-col bg-gray-800 text-5xl">
-    <button class="text-4xl self-end px-6">
-      &times;
-    </button>
-    <nav class="flex min-h-screen flex-col items-center bg-gray-800 text-gray-100 py-8" aria-label="mobile">
-      <a href="#hero" class="w-full py-6 text-center hover:opacity-90">Home</a>
-      <a href="/pages/dairy_home" class="w-full py-6 text-center hover:opacity-90">Dairy & Store</a>
-      <a href="/pages/cutting_home" class="w-full py-6 text-center hover:opacity-90">Cutting</a>
-      <a href="/pages/office_home" class="w-full py-6 text-center hover:opacity-90">Office</a>
-      <a href="/pages/mgmt_home" class="w-full py-6 text-center hover:opacity-90">Mgmt</a>
-    </nav>
-  </section>
-
-  <!-- Title Bar (Render if any) -->
-  <section class="mb-8">
-    <%= render "layouts/title_bar" %>
-  </section>
 </header>
