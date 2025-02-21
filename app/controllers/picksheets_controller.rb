@@ -31,11 +31,29 @@ class PicksheetsController < ApplicationController
   end
 
   def index
-    if params[:column].present?
-        @picksheets = Picksheet.order("#{params[:column]} #{params[:direction]}")
-      else
-        @picksheets = Picksheet.all.ordered
-      end
+
+    @picksheets = Picksheet.all
+
+    # Filtering by month
+    if params[:month].present?
+      @picksheets = @picksheets.where("extract(month from delivery_required_by) = ?", params[:month])
+    end
+
+    # Filtering by year
+    if params[:year].present?
+      @picksheets = @picksheets.where("extract(year from delivery_required_by) = ?", params[:year])
+    end 
+
+    # Filtering by status
+    if params[:status].present?
+      @picksheets = @picksheets.where(status: params[:status])
+    end
+    
+    if params[:column].present? && params[:direction].present?
+      @picksheets = @picksheets.order("#{params[:column]} #{params[:direction]}")
+    else
+      @picksheets = @picksheets.ordered # Assuming `ordered` is a default scope or method
+    end
   end
 
   # GET /picksheets/1 or /picksheets/1.json

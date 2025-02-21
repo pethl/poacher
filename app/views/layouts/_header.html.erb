@@ -18,7 +18,7 @@
 
 
    <!-- Mobile Menu -->
-     <section id="mobile-menu" class="absolute top-14 w-full bg-gray-800 text-5xl hidden" data-hamburger-target="menu">
+     <section id="mobile-menu" class="absolute top-10 w-full bg-gray-800 text-5xl hidden" data-hamburger-target="menu">
       <!-- Close Button -->
       <button class="text-4xl text-white self-end px-6 mb-2 ml-4" data-action="click->hamburger#toggle">
         &times;
@@ -76,5 +76,10 @@
       <% end %>
     </div>
   </section>
+
+    <!-- title bar -->
+s    <section>
+      <%= render "layouts/title_bar" %>
+    </section>
 
 </header>

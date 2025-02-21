@@ -7,6 +7,10 @@ module ApplicationHelper
    def title(page_title)
     content_for :title, page_title.to_s
   end
+
+  def nav_box_class
+    "flex items-center justify-center h-32 text-center bg-gray-800 px-6 mx-10 rounded-lg border border-gray-800 shadow-lg text-lg md:text-xl font-bold text-white tracking-wide"
+  end
    
    def information_text_class
      "text-base text-left font-normal"

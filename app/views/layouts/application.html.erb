@@ -45,15 +45,16 @@
      
        <div class="ml-4 mt-2 mr-2 max-h-4/5 ">
 
-       <% if flash.present? %>
+         <% if flash.present? %>
           <div id="flash" class="text-center">
-              <%= render "layouts/flash" %> 
+            <%= render "layouts/flash" %> 
+          </div>
+          <% end %>
+         
+          <div class="mt-8">
+            <%= yield %>
           </div>
           
-          <% end %>
-          <div class="mt-4">
-           <%= yield %>
-          </div>
        </div> 
        
      </main>
