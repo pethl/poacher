@@ -29,7 +29,7 @@ module ApplicationHelper
   end
    
    def label_class
-    " font-semibold pt-4 pb-1"
+    "font-semibold pt-4 pb-1"
    end
 
    def field_class

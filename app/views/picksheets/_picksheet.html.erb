@@ -3,7 +3,7 @@
       Date order placed:
     </div>
    
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="border border-gray-800 rounded-lg text-left p-2 bg-gray-100">
       <%= picksheet.date_order_placed.to_formatted_s(:uk_day) %>
     </div>
   
@@ -11,57 +11,56 @@
       Customer:
     </div>
    
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
-      <%= "Penarth Cheese Shop"  %>
+    <div class="border border-gray-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= picksheet.contact.business_name %>
     </div>
 
     <div class="font-semibold mb-1 text-right self-center">
       Delivery required by:
     </div>
    
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
+    <div class="h-10 border border-gray-800 rounded-lg text-left p-2 bg-gray-100">
      <%= picksheet.delivery_required_by.to_formatted_s(:uk_day_time) unless picksheet.delivery_required_by.to_s.empty? %>
     </div>
 
-     
     <div class="font-semibold mb-1 text-right self-center">
-      Contact Telephone No.:
+      Customer Telephone:
     </div>
    
-   <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
-   <%= picksheet.contact_telephone_number %>
+    <div class="h-10 border border-gray-800 rounded-lg text-left p-2 bg-gray-100">
+      <%= picksheet.contact_telephone_number %>
     </div>
   
     <div class="font-semibold mb-1 text-right self-center">
-    Order Number:
+      Order Number:
     </div>
  
-    <div class="border border-green-800 rounded-lg h-10 text-left p-2 bg-gray-100">
-     <%= picksheet.order_number %>
+    <div class="border border-gray-800 rounded-lg h-10 text-left p-2 bg-gray-100">
+      <%= picksheet.order_number %>
     </div>
    
     <div class="font-semibold mb-1 text-right self-center">
-     Invoice Number:
+      Invoice Number:
     </div>
  
-    <div class="border border-green-800 rounded-lg text-left h-10 p-2 bg-gray-100">
-     <%= picksheet.invoice_number %>
+    <div class="border border-gray-800 rounded-lg text-left h-10 p-2 bg-gray-100">
+      <%= picksheet.invoice_number %>
     </div>
   
     <div class="font-semibold mb-1 text-right self-center">
-     No of Boxes:
+       No of Boxes:
     </div>
 
-    <div class="border border-green-800 rounded-lg text-left h-10 p-2 bg-gray-100">
+    <div class="border border-gray-800 rounded-lg text-left h-10 p-2 bg-gray-100">
       <%= picksheet.number_of_boxes %>
     </div>
     
     <div class="font-semibold mb-1 text-right self-center">
-    Carrier:
+      Carrier:
     </div>
 
-    <div class="border border-green-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
-     <%= picksheet.carrier %>
+    <div class="border border-gray-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
+      <%= picksheet.carrier %>
     </div>
 
     <div></div>
@@ -73,7 +72,7 @@
           Carrier delivery date:
         </div>
   
-        <div class="border border-green-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
+        <div class="border border-gray-800 rounded-lg text-left  h-10 p-2 bg-gray-100">
           <%= picksheet.carrier_delivery_date.to_formatted_s(:uk_day) unless picksheet.carrier_delivery_date.to_s.empty? %>
         </div>
  

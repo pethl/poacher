@@ -27,12 +27,12 @@
   </div>
 
    <div class="my-2">
-    <%= form.label :contact_id, class: label_class  %>
+    <%= form.label :contact_id, "Customer", class: label_class  %>
     <%= form.collection_select(:contact_id, @contacts, :id, :business_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
 
    <div class="my-2">
-    <%= form.label :contact_telephone_number, class: label_class  %>
+    <%= form.label :contact_telephone_number, "Customer Telephone", class: label_class  %>
     <%= form.text_field :contact_telephone_number, class: field_class_flex_med %>
   </div>
 
