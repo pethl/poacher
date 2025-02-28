@@ -27,17 +27,17 @@
   </div>
 
    <div class="my-2">
-    <%= form.label :contact_id, "Contact Name", class: label_class  %>
+    <%= form.label :contact_id, "Customer Name*", class: label_class  %>
     <%= form.collection_select(:contact_id, @contacts, :id, :business_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
 
    <div class="my-2">
-    <%= form.label :contact_telephone_number, "Contact Telephone", class: label_class  %>
+    <%= form.label :contact_telephone_number, "Customer Telephone", class: label_class  %>
     <%= form.text_field :contact_telephone_number, type: 'tel', class: field_class_flex_med %>
   </div>
 
   <div class="inline">
-    <%= form.submit class: fill_button_class %><br>
-    <%= link_to "Back to picksheets", picksheets_path, class: gray_button %>
+    <%= form.submit "Create Picking Sheet", class: fill_button_class %><br>
+    <%= link_to "Back to picking sheets", picksheets_path, class: gray_button %>
   </div>
 <% end %>

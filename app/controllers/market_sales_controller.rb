@@ -33,7 +33,7 @@ class MarketSalesController < ApplicationController
 def summary
 
     @year = params[:year] || Date.current.year # Default to current year if no year is selected
-  
+   
     # ✅ FIX: Wrap EXTRACT() in Arel.sql() to avoid the dangerous query warning
     @monthly_sales = MarketSale
       .select(Arel.sql("EXTRACT(MONTH FROM sale_date) as month, 
@@ -75,7 +75,23 @@ def summary
       # Handle the case when there are no monthly sales for the selected year
       @sales_by_product = {}
     end
+
+    #2nd table
+    @sales_data = MarketSale.sales_by_market_and_month
+
+    # Transform the data into a suitable format for display with months as rows
+    @table_data = Hash.new { |hash, key| hash[key] = {} }
+
+    @sales_data.each do |sale|
+      month = sale.month.to_i
+      @table_data[month][sale.market] = sale.total_sales
+    end
+    @markets = MarketSale.distinct.pluck(:market).sort
+
+  
   end
+
+
 
   def summary_end
     year = params[:year] || Date.today.year

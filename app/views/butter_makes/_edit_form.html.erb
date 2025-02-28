@@ -1,0 +1,9 @@
+<%= form_with model: butter_make, data: { turbo: true, turbo_frame: "edit_butter_make_#{butter_make.id}" } do |form| %>  <td><%= form.date_field :date, disabled: true %></td>
+  <td><%= form.number_field :cream %></td>
+  <td><%= form.number_field :make %></td>
+  <td><%= form.number_field :stock %></td>
+  <td>
+    <%= form.submit "Update" %>
+    <%= link_to "Cancel", butter_makes_path, data: { turbo_frame: "_top" } %>
+  </td>
+<% end %>

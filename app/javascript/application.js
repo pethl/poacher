@@ -1,6 +1,7 @@
 import { Turbo } from "@hotwired/turbo-rails"
 import { Application } from "@hotwired/stimulus"
 import { Controller } from "stimulus"
+import Highcharts from "highcharts"
 //import { definitionsFromContext } from "stimulus/webpack-helpers"
 
 // Start Stimulus
@@ -14,11 +15,13 @@ window.Stimulus = application // Make Stimulus globally available for debugging
 import SignatureController from "./controllers/signature_controller"
 import TotalController from "./controllers/total_controller"
 import HamburgerController from "./controllers/hamburger_controller"
+import HighchartsController from "./controllers/highcharts_controller"
 
 // Register controllers manually
 application.register("signature", SignatureController)
 application.register("total", TotalController)
 application.register("hamburger", HamburgerController) // Register hamburger controller
+application.register("highcharts", HighchartsController) // Register Highcharts controller with the correct name
 
 // Optionally listen for Turbo page load events if you're using Turbo
 document.addEventListener("turbo:load", () => {

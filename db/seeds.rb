@@ -343,7 +343,7 @@ Reference.create(group:	'sale_size', value:	'300g', description:	'');
 Reference.create(group:	'sale_size', value:	'250g', description:	'');
 Reference.create(group:	'sale_size', value:	'500g', description:	'');
 Reference.create(group:	'sale_size', value:	'750g', description:	'');
-Reference.create(group:	'carrier', value:	'DPD', description:	'');
+Reference.create(group:	'carrier', value:	'DPD by 12', description:	'');
 Reference.create(group:	'carrier', value:	'Langdons', description:	'');
 Reference.create(group:	'carrier', value:	'Palletline', description:	'');
 Reference.create(group:	'carrier', value:	'Tim to Deliver', description:	'');

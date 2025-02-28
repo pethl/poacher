@@ -1,0 +1,10 @@
+<!-- app/views/butter_makes/_row.html.erb -->
+<tr id="butter_make_<%= butter_make.id %>">
+  <td><%= butter_make.date %></td>
+  <td><%= butter_make.cream %></td>
+  <td><%= butter_make.make %></td>
+  <td><%= butter_make.stock %></td>
+  <td>
+    <%= link_to "Edit", edit_butter_make_path(butter_make), data: { turbo_frame: "edit_butter_make_#{butter_make.id}" } %>
+  </td>
+</tr>

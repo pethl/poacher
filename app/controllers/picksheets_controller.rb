@@ -80,7 +80,7 @@ class PicksheetsController < ApplicationController
 
     respond_to do |format|
       if @picksheet.save
-        format.html { redirect_to picksheet_url(@picksheet), notice: "Picksheet was successfully created." }
+        format.html { redirect_to picksheet_url(@picksheet), notice: "Picking Sheet was successfully created." }
         format.json { render :show, status: :created, location: @picksheet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -93,7 +93,7 @@ class PicksheetsController < ApplicationController
   def update
     respond_to do |format|
       if @picksheet.update(picksheet_params)
-        format.html { redirect_to picksheet_url(@picksheet), notice: "Picksheet was successfully updated." }
+        format.html { redirect_to picksheet_url(@picksheet), notice: "Picking Sheet was successfully updated." }
         format.json { render :show, status: :ok, location: @picksheet }
       else
         format.html { render :edit, status: :unprocessable_entity }

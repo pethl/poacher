@@ -8,38 +8,7 @@
       </a> 
     </div>
 
- <div data-controller="hamburger">
-  <!-- Hamburger Button -->
- <button id="hamburger-button" 
-  class="text-3xl text-white focus:outline-none sm:block md:hidden"  
-  data-action="click->hamburger#toggle">
-  &#9776;
-</button>
-
-
-   <!-- Mobile Menu -->
-     <section id="mobile-menu" class="absolute top-10 w-full bg-gray-800 text-5xl hidden" data-hamburger-target="menu">
-      <!-- Close Button -->
-      <button class="text-4xl text-white self-end px-6 mb-2 ml-4" data-action="click->hamburger#toggle">
-        &times;
-      </button>
-
-    <nav class="h-full flex flex-col items-center bg-gray-800 text-gray-100 py-8">
-      <a href="/pages/home" class="w-full py-6 text-center hover:opacity-90">Home</a>
-      <a href="/pages/dairy_home" class="w-full py-6 text-center hover:opacity-90">Dairy & Store</a>
-      <a href="/pages/cutting_home" class="w-full py-6 text-center hover:opacity-90">Cutting</a>
-      <a href="/pages/office_home" class="w-full py-6 text-center hover:opacity-90">Office</a>
-      <a href="/pages/mgmt_home" class="w-full py-6 text-center hover:opacity-90">Mgmt</a>
-      <a href="<%= edit_user_registration_path %>" class="w-full py-6 text-center hover:opacity-90">
-      <i class="fa-solid fa-user text-gray-100"></i>
-      </a>
-      <a href="<%= destroy_user_session_path %>" data-turbo-method="delete" class="w-full py-6 text-center hover:opacity-90">
-        <i class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
-      </a>
-
-    </nav>
-    </section>
-    </div>
+ 
 
     <!-- Main Navigation (Hidden on small screens, shown on md+) -->
     <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-100" aria-label="main">
@@ -76,6 +45,39 @@
       <% end %>
     </div>
   </section>
+
+     <div data-controller="hamburger">
+      <!-- Hamburger Button -->
+    <button id="hamburger-button" 
+      class="text-3xl text-white focus:outline-none sm:block md:hidden"  
+      data-action="click->hamburger#toggle">
+      &#9776;
+    </button>
+
+
+   <!-- Mobile Menu -->
+     <section id="mobile-menu" class="absolute top-10 w-full bg-gray-800 text-5xl hidden" data-hamburger-target="menu">
+      <!-- Close Button -->
+      <button class="text-4xl text-white self-end px-6 mb-2 ml-4" data-action="click->hamburger#toggle">
+        &times;
+      </button>
+
+    <nav class="h-full flex flex-col items-center bg-gray-800 text-gray-100 py-8">
+      <a href="/pages/home" class="w-full py-6 text-center hover:opacity-90">Home</a>
+      <a href="/pages/dairy_home" class="w-full py-6 text-center hover:opacity-90">Dairy & Store</a>
+      <a href="/pages/cutting_home" class="w-full py-6 text-center hover:opacity-90">Cutting</a>
+      <a href="/pages/office_home" class="w-full py-6 text-center hover:opacity-90">Office</a>
+      <a href="/pages/mgmt_home" class="w-full py-6 text-center hover:opacity-90">Mgmt</a>
+      <a href="<%= edit_user_registration_path %>" class="w-full py-6 text-center hover:opacity-90">
+      <i class="fa-solid fa-user text-gray-100"></i>
+      </a>
+      <a href="<%= destroy_user_session_path %>" data-turbo-method="delete" class="w-full py-6 text-center hover:opacity-90">
+        <i class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
+      </a>
+
+    </nav>
+    </section>
+    </div>
 
     <!-- title bar -->
 s    <section>

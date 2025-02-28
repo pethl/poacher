@@ -90,7 +90,7 @@ gem "base64", "~> 0.2.0"
 
 gem "tailwindcss-rails", "~> 2.6"
 gem "chartkick"
-#gem "highcharts-rails"
+gem "highcharts-rails"
 gem "groupdate"
 
 # PDF generator

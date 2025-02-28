@@ -1,11 +1,11 @@
 
-<% content_for(:page_title, "ALL - PICK SHEETS")%>
+<% content_for(:page_title, "ALL - PICKING SHEETS")%>
 <% content_for(:page_button, "picksheets/new")%>
 
 <div id="picksheets">
 
   <!-- Filter Section -->
-   <div class="mb-4 p-2 w-full md:max-w-md text-right">
+   <div class="mb-4 p-2 w-full md:max-w-lg text-right">
      <%= form_with(url: picksheets_path, method: :get, local: true, class: "flex gap-2") do %>
     
         <div class="w-32"> 

@@ -49,6 +49,36 @@
         <% end %>
       </tbody>
     </table>
+    <br>
+    <hr>
+    <br>
+
+      <table class="table-auto border-collapse border border-gray-300 w-full text-center">
+        <thead>
+           <tr class="bg-gray-200 text-gray-700">
+            <th class="border border-gray-300 px-4 py-2">Market</th>
+            <% (1..12).each do |month| %>
+              <th class="border border-gray-300 px-4 py-2"><%= Date::ABBR_MONTHNAMES[month] %></th>
+            <% end %>
+             <th class="border border-gray-300 px-4 py-2 font-bold">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @markets.each do |market| %>
+            <tr class="odd:bg-white even:bg-gray-100 text-gray-900">
+              <td class="border border-gray-300 px-4 py-2 font-semibold"><%= market %></td>
+
+              <% total_sales = 0 %>
+              <% (1..12).each do |month| %>
+                <td><%= (@table_data[month] && @table_data[month][market] || 0).to_i %></td>
+                <% total_sales += (@table_data[month] && @table_data[month][market] || 0).to_i %>
+              <% end %>
+              <td><%= total_sales %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
 
 </div>
 
