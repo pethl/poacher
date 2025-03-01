@@ -66,6 +66,7 @@ class PicksheetsController < ApplicationController
     @picksheet = Picksheet.new
     
     @contacts = Contact.all.ordered
+
   end
 
   # GET /picksheets/1/edit
@@ -75,6 +76,8 @@ class PicksheetsController < ApplicationController
 
   # POST /picksheets or /picksheets.json
   def create
+    @contacts = Contact.all.ordered
+
     @picksheet = Picksheet.new(picksheet_params)
     @picksheet.status = "Open"
 
@@ -141,7 +144,7 @@ class PicksheetsController < ApplicationController
 
        picksheet_header_table_data = Array.new
        picksheet_header_table_data << ["Date Order Placed:", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer:", @picksheet.contact.business_name+"\n"+@picksheet.contact.contact_name]
-       picksheet_header_table_data << ["Delivery Required By:", @picksheet.delivery_required_by.to_datetime.strftime('%b %d, %Y'), "Contact Telephone:", @picksheet.contact_telephone_number.to_s]
+       picksheet_header_table_data << ["Delivery Required By:", @picksheet.full_delivery_info, "Contact Telephone:", @picksheet.contact_telephone_number.presence || ""]
        picksheet_header_table_data << ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number]
        picksheet_header_table_data << ["","","Carrier:", @picksheet.carrier]
        picksheet_header_table_data << ["No of Boxes:", (@picksheet.number_of_boxes.to_s unless @picksheet.number_of_boxes.to_s.empty?), "Carrier Delivery Date:", (@picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y') unless @picksheet.carrier_delivery_date.to_s.empty?)]
@@ -207,6 +210,6 @@ class PicksheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_params
-      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id)
+      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :delivery_time_of_day, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id)
     end
 end

@@ -11,33 +11,43 @@
     </div>
   <% end %>
 
-   <div class="my-2">
+  <div class="my-2">
     <%= form.label :status, class: label_class %>
-   <%=  form.select :status, options_for_select(pick_status, :selected => picksheet.status),{:prompt=>true}, class: field_class_flex_med %>
+    <%=  form.select :status, options_for_select(pick_status, :selected => picksheet.status),{:prompt=>true}, class: field_class_flex_med %>
   </div>
 
-   <div class="my-2">
+  <div class="my-2">
     <%= form.label :date_order_placed, class: label_class %>
     <%= form.date_field :date_order_placed, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex_med %>
   </div>
 
-   <div class="my-2">
+  <div class="my-2">
     <%= form.label :delivery_required_by, class: label_class  %>
-    <%= form.datetime_field :delivery_required_by,  class: field_class_flex %>
+    <%= form.date_field :delivery_required_by,  class: field_class_flex_med %>
   </div>
 
-   <div class="my-2">
+ <div class="my-2 text-right">
+  <div class="form-group flex items-center justify-end">
+    <%= form.label :delivery_time_of_day, "Delivery Time of Day", class: label_class %>
+    <div class="ml-4 flex items-center">
+      <%= form.radio_button :delivery_time_of_day, 'AM', class: 'mr-2' %> AM
+      <%= form.radio_button :delivery_time_of_day, 'PM', class: 'mr-2' %> PM
+    </div>
+  </div>
+</div>
+
+  <div class="my-2">
     <%= form.label :contact_id, "Customer*", class: label_class  %>
     <%= form.collection_select(:contact_id, @contacts, :id, :business_name,{:prompt=>true}, {:class=>field_class_flex }) %>
   </div>
 
-   <div class="my-2">
+  <div class="my-2">
     <%= form.label :contact_telephone_number, "Customer Telephone", class: label_class  %>
     <%= form.text_field :contact_telephone_number, type: 'tel', class: field_class_flex_med %>
   </div>
 
   <div class="inline">
-    <%= form.submit "Create Picking Sheet", class: fill_button_class %><br>
     <%= link_to "Back to picking sheets", picksheets_path, class: gray_button %>
+    <%= form.submit "Create Picking Sheet", class: fill_button_class %>
   </div>
 <% end %>

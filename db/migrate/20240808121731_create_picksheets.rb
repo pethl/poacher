@@ -3,6 +3,7 @@ class CreatePicksheets < ActiveRecord::Migration[7.0]
     create_table :picksheets do |t|
       t.datetime :date_order_placed
       t.datetime :delivery_required_by
+      t.string :delivery_time_of_day
       t.string :order_number
       t.string :contact_telephone_number
       t.string :invoice_number

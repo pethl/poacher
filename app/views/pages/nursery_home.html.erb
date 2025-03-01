@@ -1,16 +1,12 @@
-<% content_for(:page_title, "NURSERY")%>
+<% content_for(:page_title, "STORE")%>
 
-  <div class="flex w-full justify-between ">
- 
-    <div class="">
-      <p class="text-xl text-left font-strong m-2">All Ungraded Batches </p>
-      </div>
-    
-    <div class="">
-      <%= link_to "Search for Batch", makesheets_makesheet_search_path, class: clear_button_class %>
-     </div>
-      </div>
-     <% unless @makesheets.blank? %>
-        <%= render "makesheets/makesheet_table", makesheets: @makesheets %>
-        <% end %>
+<div class="my-4 mt-8 w-2/3 mx-auto">
+ <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
+   
+    <%= link_to "Monthly Summary", "/makesheets/monthly_summary", class: nav_box_class %>
+    <%= link_to "New Turns", "/turns/new", class: nav_box_class %>
+    <%= link_to "Graded Blackboard ", "/makesheets/graded_blackboard", class: nav_box_class %>
+   
+  </div>
+</div>
     

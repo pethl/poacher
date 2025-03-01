@@ -26,6 +26,10 @@
           <div class="text-right">
             <%= link_to "Print", yield(:print_button), class: header_bar_button_class %>
           </div>
+        <% elsif content_for(:print_button)== @picksheet %>
+          <div class="text-right">
+            <%= link_to "Print", print_picksheet_pdf_path(id: @picksheet), class: header_bar_button_class %>
+          </div>
         <% end %>
       </div>
     </div>

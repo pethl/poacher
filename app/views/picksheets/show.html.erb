@@ -1,17 +1,16 @@
 <% content_for :title, "Poacher: Picking Sheet" %>
 <% content_for(:page_title, "SALE & SHIP - PICKING SHEET")%>
+<% content_for :print_button, print_picksheet_pdf_path(id: @picksheet) %>
 
 <br>
 <div class="mx-auto lg:w-2/3 text-center w-full ">
 <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
   <div class="mx-auto">
-   
     
-<main class="container">
+ <main class="container">
   <div class="header">
-
-    <%= render @picksheet %>
-   </div>
+   <%= render @picksheet %>
+  </div>
    
      <div class="relative overflow-x-auto">
          <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">

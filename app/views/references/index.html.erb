@@ -4,25 +4,20 @@
 
  <div class="mx-auto md:w-2/3 w-full">
  <div id="references"> 
- 
- <div class="grid grid-cols-3 gap-4 mb-4">
-    
-    <div class="col-span-3 md:col-span-2">
-      <p class="text-sm md:text-base text-left font-light ">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
+
+  
+  <div class="mx-auto md:w-2/3 w-full place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
+   <p class="text-sm md:text-base text-left font-light ">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
       <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
       </p>
-    </div>
   
-  </div>
-  
-  <div class=" md:w-2/3 w-full place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
   <div class="mt-2">
    <% @references_by_group.each do |group, references| %>
       <div class="text-xl font-bold pt-2">
           <%= group %>
       </div>
    
-      <div class="justify-center">
+      <div class="mx-auto text-center">
         <table class="table-auto place-content-center text-left rtl:text-right">
             <thead class="bg-white border-b-3 text-gray-300 font-light text-xs ">
                 <tr>

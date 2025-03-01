@@ -16,4 +16,12 @@ class Picksheet < ApplicationRecord
   def number_of_products
     self.picksheet_items.count
   end
+
+  def full_delivery_info
+  delivery_date = self.delivery_required_by.present? ? self.delivery_required_by.to_datetime.strftime('%b %d, %Y') : ""
+  delivery_time = self.delivery_time_of_day.presence ? " (#{self.delivery_time_of_day})" : ""
+  full_delivery_info = "#{delivery_date}#{delivery_time}"
+
+  end
+
 end

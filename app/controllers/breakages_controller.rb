@@ -20,9 +20,8 @@ class BreakagesController < ApplicationController
   # GET /breakages or /breakages.json
   def index
     if params[:month].present? && params[:year].present?
-      @breakages = Breakage.filter_by_month_and_year(params[:month], params[:year])
+      @breakages = Breakage.filter_by_month_and_year(params[:month], params[:year]).ordered
     else
-      #@breakages = Breakage.all
       @breakages = Breakage.where('date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
     end  
   end

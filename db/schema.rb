@@ -258,6 +258,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
   create_table "picksheets", force: :cascade do |t|
     t.datetime "date_order_placed"
     t.datetime "delivery_required_by"
+    t.string "delivery_time_of_day"
     t.string "order_number"
     t.string "contact_telephone_number"
     t.string "invoice_number"

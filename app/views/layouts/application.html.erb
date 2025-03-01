@@ -44,15 +44,15 @@
   <body class="min-h-screen bg-white text-gray-800">
      <main class="">
      
-       <div class="ml-4 mt-2 mr-2 max-h-4/5 ">
+       <div class="ml-4 mr-2 max-h-4/5 ">
 
          <% if flash.present? %>
-          <div id="flash" class="text-center">
+          <div id="flash" class="text-center mt-2">
             <%= render "layouts/flash" %> 
           </div>
           <% end %>
          
-          <div class="mt-8">
+          <div class="mt-6">
             <%= yield %>
           </div>
           
