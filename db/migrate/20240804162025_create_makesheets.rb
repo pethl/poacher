@@ -37,6 +37,12 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.float  :second_cut_titration, precision: 6, scale: 3
       t.time  :third_cut_time
       t.float  :third_cut_titration, precision: 6, scale: 3
+      t.time  :fourth_cut_time
+      t.float  :fourth_cut_titration, precision: 6, scale: 3
+      t.time  :fifth_cut_time
+      t.float  :fifth_cut_titration, precision: 6, scale: 3
+      t.time  :sixth_cut_time
+      t.float  :sixth_cut_titration, precision: 6, scale: 3
       t.string  :identify_mill_used
       t.boolean  :warm_am 
       t.boolean  :twelve_hr_pm
@@ -65,7 +71,14 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.boolean  :metal_breakage
       t.boolean  :metal_contamination
       t.text  :metal_comments
-
+      t.boolean  :slow_cheese
+      t.boolean  :step_1_curd_sample
+      t.boolean  :step_2_record_as_slow
+      t.boolean :step_3_record_reason
+      t.boolean :step_4_notify_tim
+      t.boolean :step_5_apply_label
+      t.boolean :step_6_record_red_book
+    
       t.timestamps
     end
 

@@ -6,7 +6,7 @@ class Makesheet < ApplicationRecord
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   has_many :staffs  
   
-  validates :make_date, presence: true
+  validates :make_date, presence: true, uniqueness: { message: "has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
   
   scope :ordered, -> { order(make_date: :asc) }
@@ -18,7 +18,24 @@ class Makesheet < ApplicationRecord
   scope :filter_by_month_and_year, ->(month, year) {
     where('EXTRACT(MONTH FROM make_date) = ? AND EXTRACT(YEAR FROM make_date) = ?', month, year)
   }
-   
+
+    def progress
+      if make_type.present? && milk_used.present?
+        if first_cut_time.present? && second_cut_time.present?
+          if total_weight.present? && number_of_cheeses.present?
+            if pre_start_inspection_by_staff_id.present?
+              return "IV"  # All conditions met
+            end
+            return "III"  # Everything except pre_start_inspection_by_staff_id
+          end
+          return "II"  # Everything except total_weight and number_of_cheeses
+        end
+        return "I"  # Only make_type and milk_used are present
+      end
+      return "N"  # No progress
+    end
+  
+  
   def make_date_formatted
     self.make_date.to_formatted_s(:uk_clean_date)
   end
@@ -54,5 +71,5 @@ class Makesheet < ApplicationRecord
       self.batch
     end 
   end
- 
+
 end

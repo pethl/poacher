@@ -236,5 +236,9 @@ module ApplicationHelper
     farmers_markets = farmers_markets.pluck(:value) 
   end
 
+  def makesheet_mill
+    Reference.where(active: true, group: 'makesheet_mill').pluck(:value)
+  end
+
   
 end
