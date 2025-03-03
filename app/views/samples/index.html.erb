@@ -6,7 +6,7 @@
 
 <div class="m-2">
 <%= form_tag import_samples_path , multipart: true do %>
-  <%= file_field_tag :file, class:"bg-gray-200 rounded-lg" %>
+  <%= file_field_tag :file, class:"h-10 p-2 bg-gray-200 rounded-lg" %>
   <%= submit_tag "Import", class: fill_button_class %>
 <% end %>
 </div>
@@ -81,18 +81,18 @@
            <% @samples.each do |sample| %>
             <tr class="border-b  hover:bg-gray-100">
               <td class="px-2 py-1 text-left whitespace-nowrap">
-                <%  if sample.indicator=="green" %>
+                <%  if sample.indicator=="Green" %>
                 <i class="fa-solid fa-square text-green-400 text-xl"></i>
-                <% elsif  sample.indicator=="yellow" %>
+                <% elsif  sample.indicator=="Yellow" %>
                   <i class="fa-solid fa-square text-yellow-400 text-xl"></i>
-                    <% elsif  sample.indicator=="red" %>
+                    <% elsif  sample.indicator=="Red" %>
                   <i class="fa-solid fa-square text-red-400 text-xl"></i>
                   <% else %>
                   <i class="fa-regular fa-square text-black text-xl"></i>
                 <% end %>
               </td>
               <td scope="row" class="px-2 py-1 whitespace-nowrap underline underline-offset-2">
-                <%= link_to sample.sample_no, sample %>
+                <%= link_to sample.sample_no, edit_sample_path(sample) %>
               </td>
               <td class="px-2 py-1 text-left underline underline-offset-2 whitespace-nowrap ">
                 <% unless sample.received_date.to_s.empty? %>

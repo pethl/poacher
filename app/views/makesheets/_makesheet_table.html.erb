@@ -31,7 +31,7 @@
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right underline underline-offset-2">
                       <%= makesheets_show_sort_indicator_for("total_weight") %>
-                     <%= make_sheets_sort_link(column: "total_weight", label: " Total (kg)") %>
+                     <%= make_sheets_sort_link(column: "total_weight", label: " Weight (kg)") %>
                 </th>
                 <th scope="col" class="sticky top-0 px-6 py-3 text-right">
                     Count
@@ -51,7 +51,7 @@
         <tbody class="overflow-contain">
          <% @makesheets.each do |makesheet| %>
             <tr class="border-b  hover:bg-gray-100">
-               <td class="px-6 py-4 text-center w-10 ">
+               <td class="px-6 py-2 text-center w-10 ">
                  <% if makesheet.progress=="I" %> 
                    <%= image_tag "001-circle.png", alt: "1/4", class: "w-10 h-10" %> 
                   <% elsif makesheet.progress=="II" %> 
@@ -66,33 +66,33 @@
                     <%= makesheet.progress%>
                   <% end %>
                 </td>
-                <td scope="row" class="px-6 py-4 whitespace-nowrap underline underline-offset-2">
-                   <%= link_to makesheet.make_date.to_formatted_s(:uk_time), makesheet %>
+                <td scope="row" class="px-6 py-2 whitespace-nowrap underline underline-offset-2">
+                   <%= link_to makesheet.make_date.to_formatted_s(:uk_time), edit_makesheet_path(makesheet) %>
                 </td>
-                <td class="px-6 py-4 text-left  underline underline-offset-2">
+                <td class="px-6 py-2 text-left  underline underline-offset-2">
                   <% if makesheet.batch? %>
                   <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
                   <% end %>
                 </td>
-                <td class="px-6 py-4 text-right whitespace-nowrap">
+                <td class="px-6 py-2 text-right whitespace-nowrap">
                   <%= makesheet.age_in_months %>m
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-2 text-right">
                   <%=  makesheet.milk_used %> ltrs
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-2 text-right">
                   <%=  makesheet.total_weight %> kg
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-2 text-right">
                   <%=  makesheet.number_of_cheeses %>
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-2 text-right">
                   <%=  makesheet.yield.round(2)%> %
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-2  text-center">
                  <%= link_to makesheet.grade, edit_makesheet_path(makesheet) if makesheet.grade.present? %>
                 </td>
-                <td class="px-6 py-4  text-center">
+                <td class="px-6 py-2  text-center">
                   <%=  makesheet.weight_type %>
                 </td>
                 

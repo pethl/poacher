@@ -1,29 +1,45 @@
 <div id="<%= dom_id makesheet %>">
- <div class="mx-20 flex flex-row gap-4">
-  
+
   <!-- Section 1-->
-  <div class="flex-none w-1/4 border border-gray-200 rounded-md p-2">
-    <div class="grid grid-cols-2 text-right">
+   <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-6 gap-4 bg-gray-200 text-lg justify-between border border-gray-200 rounded-md p-2 m-2">
 
-      <p><strong>Status:</strong></p>
-      <p><%= makesheet.status %></p>
-      
-      <p><strong>Make type:</strong></p>
-      <p><%= makesheet.make_type %></p>
+      <p><strong>Make type:</strong>
+      <%= makesheet.make_type %></p>
 
-      <p><strong>Weight type:</strong></p>
-      <p><%=  makesheet.weight_type %></p>
+      <p><strong>Weight type:</strong>
+      <%=  makesheet.weight_type %></p>
       
-      <p><strong>Make date:</strong></p>
-      <p><%= makesheet.make_date.to_formatted_s(:uk_clean_date)%></p>
+      <p><strong>Make date:</strong>
+      <%= makesheet.make_date.to_formatted_s(:uk_clean_date)%></p>
       
-      <p><strong>Batch:</strong></p>
-      <p><%= makesheet.batch %></p>
-    </div>
+      <p><strong>Batch:</strong>
+      <%= makesheet.batch %></p>
+
+      <p><strong>Total weight:</strong>
+      <%= makesheet.total_weight %></p>
+    
+      <p><strong>No. of cheeses:</strong>
+      <%= makesheet.number_of_cheeses %></p>
+
+      <p><strong>Grade:</strong>
+      <%= makesheet.grade %></p>
+
   </div>
 
+   <!-- Section 1-->
+   <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-2 gap-4">
+    <% if @makesheet.samples.any?%>
+
+     <%= render "samples" %>
+
+     <% end %>
+
+    </div>
+
+ <div class="mx-10 flex flex-row gap-4">
+  
     <!-- Section 2-->
-  <div class="flex-none w-1/4 border border-gray-200 rounded-md p-2">
+  <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
     <div class="grid grid-cols-2 text-right">
       <p><strong>Starter Used:</strong></p>
       <p><%= makesheet.type_of_starter_culture_used %></p>
@@ -171,7 +187,7 @@
   </div>
 
    <!-- Section 2-->
-  <div class="flex-none w-1/4 border border-gray-200 rounded-md p-2">
+  <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
     <div class="grid grid-cols-2 text-right">
 
       <p><strong>Unusal Smell or Appearance:</strong></p>
@@ -256,19 +272,4 @@
 
     </div>
 </div>
-
-<!-- Section 4-->
-  <div class="flex-none w-1/4 border border-gray-200 rounded-md p-2">
-    <div class="grid grid-cols-2 text-right">
-   
-    <p><strong>Total weight:</strong></p>
-    <p><%= makesheet.total_weight %></p>
-  
-    <p><strong>No. of cheeses:</strong></p>
-    <p><%= makesheet.number_of_cheeses %></p>
-
-    <p><strong>Grade:</strong></p>
-    <p><%= makesheet.grade %></p>
-
-  </div>
 </div>

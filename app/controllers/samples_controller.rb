@@ -44,7 +44,7 @@ class SamplesController < ApplicationController
   def update
     respond_to do |format|
       if @sample.update(sample_params)
-        format.html { redirect_to @sample, notice: "Sample was successfully updated." }
+        format.html { redirect_to samples_path, notice: "Sample was successfully updated." }
         format.json { render :show, status: :ok, location: @sample }
       else
         format.html { render :edit, status: :unprocessable_entity }

@@ -11,7 +11,6 @@
     </div>
   <% end %>
 
-
   <div class="my-5">
     <%= form.label :indicator %>
    <%=  form.select :indicator, options_for_select(trafficlights, :selected => sample.indicator),{:prompt=>true}, class: field_class_flex %>
@@ -28,14 +27,14 @@
     <%= form.text_field :sample_no, class: field_class_flex %>
   </div>
 
-  <div class="my-5">
-    <%= form.label :received_date %>
-    <%= form.datetime_field :received_date, class: field_class_flex %>
-  </div>
+  <div class="my-2">
+      <%= form.label :makesheet_id %>
+      <%= form.collection_select(:makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade ,{:prompt=>true},  {class:field_class_flex}) %>
+    </div> 
 
   <div class="my-5">
     <%= form.label :sample_description %>
-    <%= form.text_field :sample_description, class: field_class_flex %>
+    <%= form.text_area :sample_description, rows: 6, class: field_class_flex %>
   </div>
 
  
