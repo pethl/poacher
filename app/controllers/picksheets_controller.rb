@@ -115,8 +115,13 @@ class PicksheetsController < ApplicationController
        pdf.text "\n", size: 8  
 
        picksheet_header_table_data = Array.new
-       picksheet_header_table_data << ["Date Order Placed:", @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), "Customer:", @picksheet.contact.business_name+"\n"+@picksheet.contact.contact_name]
-       picksheet_header_table_data << ["Delivery Required By:", @picksheet.full_delivery_info, "Contact Telephone:", @picksheet.contact_telephone_number.presence || ""]
+       picksheet_header_table_data << [
+        "Date Order Placed:", 
+        @picksheet.date_order_placed.to_datetime.strftime('%b %d, %Y'), 
+        "Customer:", 
+        [@picksheet.contact&.business_name, @picksheet.contact&.contact_name].compact.join("\n")
+      ]
+      picksheet_header_table_data << ["Delivery Required By:", @picksheet.full_delivery_info, "Contact Telephone:", @picksheet.contact_telephone_number.presence || ""]
        picksheet_header_table_data << ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number]
        picksheet_header_table_data << ["","","Carrier:", @picksheet.carrier]
        picksheet_header_table_data << ["No of Boxes:", (@picksheet.number_of_boxes.to_s unless @picksheet.number_of_boxes.to_s.empty?), "Carrier Delivery Date:", (@picksheet.carrier_delivery_date.to_datetime.strftime('%b %d, %Y') unless @picksheet.carrier_delivery_date.to_s.empty?)]
