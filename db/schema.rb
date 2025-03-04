@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -263,6 +263,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
     t.string "code"
     t.decimal "sp_price", precision: 7, scale: 2
     t.datetime "bb_date"
+    t.string "wedge_size"
+    t.string "pricing"
+    t.string "custom_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["picksheet_id"], name: "index_picksheet_items_on_picksheet_id"
@@ -278,10 +281,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
     t.string "carrier"
     t.datetime "carrier_delivery_date"
     t.integer "number_of_boxes"
-    t.integer "contact_id"
+    t.integer "contact_id", null: false
     t.string "status", default: "Open", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_picksheets_on_contact_id"
+    t.index ["user_id"], name: "index_picksheets_on_user_id"
   end
 
   create_table "references", force: :cascade do |t|
@@ -432,6 +438,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_17_175924) do
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "palletised_distributions", "staffs"
   add_foreign_key "picksheet_items", "picksheets"
+  add_foreign_key "picksheets", "contacts"
+  add_foreign_key "picksheets", "users"
   add_foreign_key "samples", "makesheets"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"

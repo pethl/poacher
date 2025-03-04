@@ -1,18 +1,18 @@
 <% content_for(:page_title, "STORE : Graded Blackboard")%>
 
-<div class="mx-auto w-full place-content-center bg-black p-4 border border-gray-200 rounded rounded-lg text-sm">
+<div class="mx-auto w-full place-content-center bg-white p-4 border border-gray-200 rounded rounded-lg text-sm">
   
     <div class="grid grid-cols-7 gap-2">
      
       <% @makesheets_by_grade.each do |grade, makesheets| %>
 
        <div>
-          <p class="text-right text-white text-xl font-bold pb-2">
+          <p class="text-right text-black text-xl font-bold pb-2">
               <%= grade %>
           </p>
 
             <% makesheets.each do |makesheet| %>
-              <p class="py-1 text-right text-white">
+              <p class="py-1 text-right text-black">
                   <%= link_to makesheet.make_date.to_formatted_s(:uk_clean_date), edit_makesheet_path(makesheet) %>
               </p>
             <% end %>

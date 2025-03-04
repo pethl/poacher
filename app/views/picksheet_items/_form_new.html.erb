@@ -14,40 +14,71 @@
     </div>
   <% end %>
 
-<div class="flex flex-row gap-2">
-  <div>
-      <%= form.label :product, class:"font-semibold text-sm pl-4" %><br>
-      <div class="m-2">
-        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'Poacher'%> Poacher</p>
-        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'Vintage' %> Vintage</p>
-        <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :product, 'P50' %> P50</p>
-        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Smoked' %> Smoked</p>
-        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Red' %> Red</p>
-        <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :product, 'Double Barrel' %> Double Barrel</p>
-      </div>
+<div class="w-full flex flex-row gap-4">
+  <!-- Product Column -->
+  <div class="border-l-2 px-4 py-2 w-1/5">
+    <%= form.label :product, class:"font-semibold text-sm" %><br>
+    <div class="w-full">
+      <% grade.each do |product| %>
+        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
+          <%= form.radio_button :product, product %> <%= product %>
+        </p>
+      <% end %>
     </div>
-    <div>
-     <%= form.label :size, class:"font-semibold text-sm" %><br>
-     <div class="w-20">
-       <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :size, 'Whole'%> Whole</p>
-       <p class="my-4 hover:bg-gray-100">  <%= form.radio_button :size, '1/2' %> 1/2</p>
-       <p class="my-4 hover:bg-gray-100"> <%= form.radio_button :size, '1/4' %> 1/4</p>
-       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '1/8' %> 1/4</p>
-       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
-       <p class="my-2  hover:bg-gray-100"> <%= form.radio_button :size, '250g' %> 250g</p>
-     </div>
-     </div>
-   <div>
-     <%= form.label :count, class:"font-semibold text-sm pl-4" %><br>
-      <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
-   </div>
-   
-      </div>
-      
-   <div class="inline">
-     <%= form.submit "Save Line Item", class: tight_fill_button_class %>
-      <%= link_to "Cancel", picksheet_path(picksheet), class: tight_clear_button_class %>
-   </div>
+  </div>
+
+  <!-- Size Column -->
+  <div class="border-l-2 px-4 py-2 w-1/5">
+    <%= form.label :size, class:"font-semibold text-sm" %><br>
+    <div class="w-full">
+      <% sale_size.each do |size| %>
+        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
+          <%= form.radio_button :size, size %> <%= size %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Wedge Size Column -->
+  <div class="border-l-2 px-4 py-2 w-1/5">
+    <%= form.label :wedge_size, class:"font-semibold text-sm" %><br>
+    <div class="w-full">
+      <% wedges_sizes.each do |wedge| %>
+        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
+          <%= form.radio_button :wedge_size, wedge %> <%= wedge %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+   <!-- Pricing  Column -->
+  <div class="border-l-2 px-4 py-2 w-1/5">
+    <%= form.label :pricing, class:"font-semibold text-sm" %><br>
+    <div class="w-full">
+      <% sale_pricing.each do |price| %>
+        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
+          <%= form.radio_button :pricing, price %> <%= price %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Count Column -->
+  <div class="border-l-2 px-4 py-2 w-1/5">
+    <%= form.label :count, class:"font-semibold text-sm" %><br>
+    <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
+    <br>
+    <br>
+     <%= form.label :custom_notes, "Custom Size, Weight or Price", class:"font-semibold text-sm" %><br>
+    <%= form.text_area :custom_notes, rows: 5, class: "text-green-800 rounded-lg w-60" %>
+  </div>
+</div>
+
+<div class="mt-4">
+  <%= form.submit "Save Line Item", class: tight_fill_button_class %>
+  <%= link_to "Cancel", picksheet_path(picksheet), class: tight_clear_button_class %>
+</div>
+
 <% end %>
 <br>
 <hr>

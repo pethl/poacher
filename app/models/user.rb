@@ -7,4 +7,7 @@ class User < ApplicationRecord
          def email_required?
           false
         end
+
+  has_many :picksheets, foreign_key: :contact_id
+
 end 

@@ -5,7 +5,16 @@ class ReferencesController < ApplicationController
   # GET /references or /references.json
   def index
     @references = Reference.all.order(group: :asc, id: :asc)
+    
+     # Filtering by who
+     if params[:group].present?
+      @references = @references.where(group: params[:group])
+    end
+
+    # Sorting the records by date and market
+    @references = @references.ordered
     @references_by_group = @references.group_by { |t| t.group }
+
   end
 
   # GET /references/1 or /references/1.json

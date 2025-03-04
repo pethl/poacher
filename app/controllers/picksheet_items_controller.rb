@@ -72,6 +72,6 @@ class PicksheetItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_item_params
-      params.require(:picksheet_item).permit(:picksheet_id, :product, :size, :count, :weight, :code, :sp_price, :bb_date)
+      params.require(:picksheet_item).permit(:picksheet_id, :product, :size, :wedge_size, :pricing, :count, :custom_notes, :weight, :code, :sp_price, :bb_date)
     end
 end

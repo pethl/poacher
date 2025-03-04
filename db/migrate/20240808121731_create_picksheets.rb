@@ -10,9 +10,10 @@ class CreatePicksheets < ActiveRecord::Migration[7.0]
       t.string :carrier
       t.datetime :carrier_delivery_date
       t.integer :number_of_boxes
-      t.integer :contact_id
+      t.integer :contact_id, null: false  # Add contact_id as an integer
       t.string :status, default: "Open", null: false
-      
+      t.integer :user_id, null: false  # Add user_id as an integer
+
       t.timestamps
     end
   end

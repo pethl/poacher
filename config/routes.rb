@@ -9,10 +9,11 @@ Rails.application.routes.draw do
       get :summary
     end
   end
+
   resources :palletised_distributions
   resources :milk_quality_monitors
   resources :batch_weights
-  #resources :users, except: [:edit, :show, :new]
+  
   get "breakages/create_month"
   resources :breakages
   
@@ -22,13 +23,17 @@ Rails.application.routes.draw do
   get "butter_makes/create_month"
   resources :butter_makes
   resources :waste_records
+  
   resources :traceability_records do
     resources :waste_records, except: [:index, :show]
   end
+  
   resources :butter_stocks
+  
   resources :samples do 
     collection { post :import }
   end
+  
   resources :staffs
   resources :contacts
   devise_for :users
@@ -38,23 +43,19 @@ Rails.application.routes.draw do
   resources :references
   resources :wash_picksheets
   
-  get "picksheets/index_open"
-  get "picksheets/index_assigned"
-  get "picksheets/index_shipped"
   get "washes/wash_home"
   resources :washes
   
-  get "pages/office_home"
   get "pages/home"
-  
-  get "pages/cutting_home"
-  get "pages/credits"
   get "pages/dairy_home"
   get "pages/nursery_home"
   get "pages/store_home"
+  get "pages/wash_home"
+  get "pages/cutting_home"
+  get "pages/office_home"
   get "pages/sales_home"
-  get "pages/search"
   get "pages/mgmt_home"
+  get "pages/credits"
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
@@ -79,7 +80,14 @@ Rails.application.routes.draw do
    
   resources :picksheets do
     resources :picksheet_items, except: [:index, :show]
+  
+    collection do
+      get :open_picksheets
+      get :assigned_picksheets
+      get :shipped_picksheets
+    end
   end
-   match '/users',   to: 'users#index',   via: 'get'
+   
+  match '/users',   to: 'users#index',   via: 'get'
  
 end

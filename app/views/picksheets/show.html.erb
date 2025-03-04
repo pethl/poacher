@@ -1,84 +1,87 @@
 <% content_for :title, "Poacher: Picking Sheet" %>
-<% content_for(:page_title, "SALE & SHIP - PICKING SHEET")%>
+<% content_for(:page_title, "PICKING SHEET:  #{@picksheet.contact.business_name}")%>
 <% content_for :print_button, print_picksheet_pdf_path(id: @picksheet) %>
 
-<br>
-<div class="mx-auto lg:w-2/3 text-center w-full ">
-<div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
-  <div class="mx-auto">
-    
- <main class="container">
-  <div class="header">
-   <%= render @picksheet %>
-  </div>
-   
+
+<div class="mx-auto w-full lg:w-2/3 text-center mt-2">
+  <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
+    <div class="mx-auto">
+
+     <div class="header">
+      <%= render @picksheet %>
+     </div>
+
+     <div class="new_line_item text-left">
+       <div class="mt-4 mb-4">
+          <%= link_to " Add New Line Item ",
+                          new_picksheet_picksheet_item_path(@picksheet),
+                        data: { turbo_frame: dom_id(PicksheetItem.new) },
+                        class: tight_fill_button_class %>
+          </div>
+     </div>
+  <hr>
      <div class="relative overflow-x-auto">
-         <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+         <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 ">
              <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
                  <tr>
-                     <th scope="col" class="px-2 py-3 w-25">
+                     <th scope="col" class="px-2 py-2 w-32">
                          Product
                      </th>
-                     <th scope="col" class="px-2 py-3 text-left w-25">
+                     <th scope="col" class="px-2 py-2 text-left w-32">
                          Size
                      </th>
-                     <th scope="col" class="px-2 py-3 text-left  w-25">
-                        Count
+                     <th scope="col" class="px-2 py-2 text-right w-24">
+                        Wedge Size
                      </th>
-                     <th scope="col" class="px-2 py-3 text-left w-25">
+                     <th scope="col" class="px-2 py-2 text-right w-32">
+                        Pricing
+                     </th>
+                     <th scope="col" class="px-2 py-2 text-center w-[30px]">
+                        #
+                     </th>
+                     <th scope="col" class="px-2 py-2 text-center w-24">
                         Weight
                      </th>
-                     <th scope="col" class="px-2 py-3 text-center w-25 ">
+                     <th scope="col" class="px-2 py-2 text-center w-24">
                         Code
                      </th>
-                     <th scope="col" class="px-2 py-3 text-center w-25">
-                         Price
+                     <th scope="col" class="px-2 py-2 text-center w-24">
+                        Sp Price
                      </th>
-                     <th scope="col" class="px-2 py-3  w-25">
-                         B/B Date
+                     <th scope="col" class="px-2 py-2 text-center w-32">
+                        B/b Date
                      </th>
-                     <th colspan="2" class="px-2 py-3 text-right  w-25">
+                      <th scope="col" class="px-2 py-2 text-center w-24">
+                        Action
                      </th>
-                     
-                 </tr>
+                  </tr>
              </thead>
             <tbody>
-            <tr>
-              <td colspan="3">
-                <div class="mt-4 mb-4">
-                 <%= link_to " Add New Line Item ",
-                                 new_picksheet_picksheet_item_path(@picksheet),
-                                data: { turbo_frame: dom_id(PicksheetItem.new) },
-                                class: tight_clear_button_class %>
-                  </div>
-                </td>
-              </tr>
               <tr>
-                <td colspan="9">
+                <td colspan="10">
                   <%= turbo_frame_tag PicksheetItem.new %>
                  </td>
               </tr>
               <tr>
-                 <td colspan="9">
+                 <td colspan="10">
                    <%= turbo_frame_tag "picksheet_items" do %>
                     <%= render @picksheet_items, picksheet: @picksheet %>
                     <% end %>
                 </td>
               </tr>
-              
              </tbody>
           </table>  
      
-          <br><br><br><br>
+      <br>
      
     <%= link_to "Edit this Pick Sheet", edit_picksheet_path(@picksheet), class: fill_button_class %>
     <%= link_to "Back to picksheets", picksheets_path, class: clear_button_class %>
     <div class="inline-block ml-2">
-    <%= button_to "Delete Picking Sheet",
-                    @picksheet,
-                    method: :delete,
-                    form: { data: { turbo_confirm: "Are you sure?" } },
-                    class: gray_button %>
+        <%= button_to "Delete Picking Sheet",
+                        @picksheet,
+                        method: :delete,
+                        form: { data: { turbo_confirm: "Are you sure?" } },
+                        class: gray_button %>
     </div>
   </div>
   </div>

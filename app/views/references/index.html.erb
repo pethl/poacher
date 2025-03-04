@@ -2,18 +2,42 @@
 <% content_for(:page_title, "Reference Data")%>
    <% content_for(:page_button, "references/new")%>
 
- <div class="mx-auto md:w-2/3 w-full">
+ <div class="mx-auto w-full md:w-2/3 ">
  <div id="references"> 
 
-  
+   <!-- Filter Section -->
+  <div class="mx-auto max-w-2xl flex justify-center">
+
+     <%= form_with(url: references_path, method: :get, local: true, class: "flex gap-2") do %>
+
+        <div class="w-40">
+          <label for="market" class="block mt-1 text-xs text-left font-medium text-gray-800">Group</label>
+          <%= select_tag :group, options_for_select(Reference.distinct.pluck(:group).sort, params[:group]), 
+                        include_blank: "Select ", class: filter_drop_down %>
+        </div>
+
+        <div class="pt-5 flex place-items-center">
+          <%= submit_tag "Filter", class: filter_button %>
+        </div>
+
+        <div class="pt-5 flex place-items-center">
+          <%= link_to "Clear", references_path, class: clear_filter_button %>
+        </div>
+
+      <% end %>
+    </div>
+    <!-- Filter Section End -->
+
+
   <div class="mx-auto md:w-2/3 w-full place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
+   
    <p class="text-sm md:text-base text-left font-light ">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong> 
       <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
       </p>
   
   <div class="mt-2">
    <% @references_by_group.each do |group, references| %>
-      <div class="text-xl font-bold pt-2">
+      <div class="text-2xl font-bold pt-2 text-center bg-gray-200">
           <%= group %>
       </div>
    

@@ -5,16 +5,22 @@
  <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
    
     <%= link_to "New Picking Sheet", "/picksheets/new", class: nav_box_class %>
-    <%= link_to "Picking Sheets", "/picksheets", class: nav_box_class %>
-    <%= link_to "Washes", "/washes", class: nav_box_class %>
-    <%= link_to "Traceability", "/traceability_records", class: nav_box_class %>
-    <%= link_to "Chillers ", "/chillers", class: nav_box_class %>
-    <%= link_to "Batch Weights ", "/batch_weights", class: nav_box_class %>
+    <%= link_to "Open Picking Sheets (#{@open_picksheets_count})", "/picksheets/open_picksheets", class: nav_box_class %>
+    <%= link_to "Assigned Picking Sheets (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: nav_box_class %>
+
+    <%= link_to "Individual Batch Traceability", "/traceability_records", class: nav_box_class %>
+    <%= link_to "Cheese Batch Weights ", "/batch_weights", class: nav_box_class %>
+    <p></p>
+
+    <%= link_to "Chiller Temp Display ", "/chillers", class: nav_box_class %>
+    <%= link_to "Daily Scale Check - TBD ", "", class: nav_box_class %>
+    <%= link_to "Metal Breakages", "/breakages", class: nav_box_class %>
+
 
    
   </div>  
   
-  </div>
+</div>
 
 
 

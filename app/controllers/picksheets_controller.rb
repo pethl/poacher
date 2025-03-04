@@ -3,57 +3,30 @@ class PicksheetsController < ApplicationController
   require 'prawn/table'
   before_action :authenticate_user!
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
+  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :shipped_picksheets]
   
   # GET /picksheets or /picksheets.json
-
-  def index_open
-    if params[:column].present?
-        @picksheets = Picksheet.where(status: "Open").order("#{params[:column]} #{params[:direction]}")
-      else
-        @picksheets = Picksheet.where(status: "Open").ordered
-      end
+  def open_picksheets
+    @picksheets = @picksheets.where(status: "Open")
+    @type = "OPEN"
+    render :index
   end
 
-  def index_assigned
-    if params[:column].present?
-        @picksheets = Picksheet.where(status: "Assigned").order("#{params[:column]} #{params[:direction]}")
-      else
-        @picksheets = Picksheet.where(status: "Assigned").ordered
-      end
+  def assigned_picksheets
+    @picksheets = @picksheets.where(status: "Assigned")
+    @type = "ASSIGNED"
+    render :index
   end
 
-  def index_shipped
-    if params[:column].present?
-        @picksheets = Picksheet.where(status: "Shipped").order("#{params[:column]} #{params[:direction]}")
-      else
-        @picksheets = Picksheet.where(status: "Shipped").ordered
-      end
+  def shipped_picksheets
+    @picksheets = @picksheets.where(status: "Shipped")
+    @type = "SHIPPED"
+    render :index
   end
 
   def index
-
-    @picksheets = Picksheet.all
-
-    # Filtering by month
-    if params[:month].present?
-      @picksheets = @picksheets.where("extract(month from delivery_required_by) = ?", params[:month])
-    end
-
-    # Filtering by year
-    if params[:year].present?
-      @picksheets = @picksheets.where("extract(year from delivery_required_by) = ?", params[:year])
-    end 
-
-    # Filtering by status
-    if params[:status].present?
-      @picksheets = @picksheets.where(status: params[:status])
-    end
-    
-    if params[:column].present? && params[:direction].present?
-      @picksheets = @picksheets.order("#{params[:column]} #{params[:direction]}")
-    else
-      @picksheets = @picksheets.ordered # Assuming `ordered` is a default scope or method
-    end
+    # All picksheets (no status filter)
+    @type = "ALL"
   end
 
   # GET /picksheets/1 or /picksheets/1.json
@@ -64,9 +37,7 @@ class PicksheetsController < ApplicationController
   # GET /picksheets/new
   def new
     @picksheet = Picksheet.new
-    
     @contacts = Contact.all.ordered
-
   end
 
   # GET /picksheets/1/edit
@@ -79,6 +50,7 @@ class PicksheetsController < ApplicationController
     @contacts = Contact.all.ordered
 
     @picksheet = Picksheet.new(picksheet_params)
+    @picksheet.user_id = current_user.id  # Associate the picksheet with the current user
     @picksheet.status = "Open"
 
     respond_to do |format|
@@ -210,6 +182,39 @@ class PicksheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_params
-      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :delivery_time_of_day, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id)
+      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :delivery_time_of_day, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id, :user_id)
     end
+
+    def set_picksheets
+      @picksheets = Picksheet.all.ordered
+
+      # Apply filter by delivery_required_by
+      if params[:delivery_required_by].present?
+        selected_date = Date.parse(params[:delivery_required_by]) rescue nil
+        @picksheets = @picksheets.where(delivery_required_by: selected_date) if selected_date
+      end
+
+      # Apply filter by date_order_placed
+      if params[:date_order_placed].present?
+        selected_order_date = Date.parse(params[:date_order_placed]) rescue nil
+        @picksheets = @picksheets.where(date_order_placed: selected_order_date) if selected_order_date
+      end
+  
+      # Apply other date filtering (start_date, end_date, etc.)
+      if params[:start_date].present? && params[:end_date].present?
+        start_date = Date.parse(params[:start_date]) rescue nil
+        end_date = Date.parse(params[:end_date]) rescue nil
+        
+        if start_date && end_date
+          @picksheets = @picksheets.where("delivery_required_by BETWEEN ? AND ?", start_date, end_date)
+
+          # Include records where delivery_required_by is NULL (ASAP)
+          @picksheets = @picksheets.or(Picksheet.where(delivery_required_by: nil)) if params[:include_asap]
+        end
+      elsif params[:start_date].present? && params[:end_date].nil?
+        # "Due Later" - delivery_required_by > end of this week
+        end_of_week = Date.today.end_of_week
+        @picksheets = @picksheets.where("delivery_required_by > ?", end_of_week)
+      end
+  end
 end

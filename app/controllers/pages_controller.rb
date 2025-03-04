@@ -1,29 +1,26 @@
 class PagesController < ApplicationController
   def home
-    @makesheets = Makesheet.all
+    
   end
   
   def dairy_home
-    @makesheets = Makesheet.order('make_date DESC')
-  #  @makesheets = @makesheets.last(7)
+  end
+
+  def store_home
+  end
+  
+  def wash_home
+  end
+  
+  def cutting_home
+    @open_picksheets_count = Picksheet.where(status: "Open").count
+    @assigned_picksheets_count = Picksheet.where(status: "Assigned").count
   end
 
   def office_home
   end
   
-  def nursery_home
-    @makesheets = Makesheet.where(grade: "").order('make_date DESC')
-  end
-  
-  def sales_home
-    @picksheets = Picksheet.all.order(:date_order_placed)
-    @open_orders = Picksheet.where(status: "Open")
-    @assigned_orders = Picksheet.where(status: "Assigned")
-    @shipped_orders = Picksheet.where(status: "Shipped")
-  end
-  
-  def store_home
-    @turns = Turn.order('turn_date DESC')
+  def mgmt_home
   end
   
   def search
@@ -36,6 +33,5 @@ class PagesController < ApplicationController
      redirect_to print_makesheet_pdf_path(:id => @makesheet)
      return
   end
-
 
 end

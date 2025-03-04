@@ -60,7 +60,7 @@ module ApplicationHelper
    end
 
    def field_class_flex_small
-    "max-w-20 py-2 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
+    "max-w-20 h-10 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
    
    def field_class_fit
@@ -94,6 +94,10 @@ module ApplicationHelper
    def tight_clear_button_class
      "bg-transparent hover:bg-gray-600 font-semibold hover:text-white p-2 w-full border border-gray-900 hover:border-transparent rounded-lg"
    end
+
+   def tight_fill_button_class
+    "bg-gray-800 hover:bg-gray-600 font-semibold hover:text-white p-2 w-full border border-gray-900 hover:border-transparent rounded-lg"
+  end
    
    def fill_button_class
       "bg-gray-800 text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
@@ -161,68 +165,55 @@ module ApplicationHelper
     end
 
    def weight_type
-     weight_type = Reference.where(active: "TRUE", group: 'weight_type')
-     weight_type = weight_type.pluck(:value)       
+    Reference.where(active: true, group: 'weight_type').pluck(:value)       
    end
    
    def sale_size
-     sale_size = Reference.where(active: "TRUE", group: 'sale_size')
-     sale_size = sale_size.pluck(:value)       
+    Reference.where(active: true, group: 'sale_size').pluck(:value)      
    end
    
    def grade
-     grade = Reference.where(active: "TRUE", group: 'grade')
-     grade = grade.pluck(:value)       
+    Reference.where(active: true, group: 'grade').pluck(:value)      
    end
    
    def turned_by
-     turned_by = Reference.where(active: "TRUE", group: 'turned_by')
-     turned_by = turned_by.pluck(:value)       
+    Reference.where(active: true, group: 'turned_by').pluck(:value)      
    end
    
    def wash_status
-     wash_status = Reference.where(active: "TRUE", group: 'wash_status')
-     wash_status = wash_status.pluck(:value)       
+    Reference.where(active: true, group: 'wash_status').pluck(:value)       
    end
 
    def carrier
-    carrier = Reference.where(active: "TRUE", group: 'carrier')
-    carrier = carrier.pluck(:value)       
+    Reference.where(active: true, group: 'carrier').pluck(:value)      
   end
 
   def pick_status
-    pick_status = Reference.where(active: "TRUE", group: 'pick_status')
-    pick_status = pick_status.pluck(:value)       
+    Reference.where(active: true, group: 'pick_status').pluck(:value)       
   end
 
   def department
-    department = Reference.where(active: "TRUE", group: 'department')
-    department = department.pluck(:value)       
+    Reference.where(active: true, group: 'department').pluck(:value)      
   end
 
   def employment_status
-    employment_status = Reference.where(active: "TRUE", group: 'employment_status')
-    employment_status = employment_status.pluck(:value)       
+    Reference.where(active: true, group: 'employment_status').pluck(:value)       
   end
 
   def trafficlights
-    trafficlights = Reference.where(active: "TRUE", group: 'trafficlights')
-    trafficlights = trafficlights.pluck(:value)       
+    Reference.where(active: true, group: 'trafficlights').pluck(:value)    
   end
 
   def batch_status
-    batch_status = Reference.where(active: "TRUE", group: 'batch_status')
-    batch_status = batch_status.pluck(:value)       
+    Reference.where(active: true, group: 'batch_status').pluck(:value)       
   end
 
   def make_type
-    make_type = Reference.where(active: "TRUE", group: 'make_type')
-    make_type = make_type.pluck(:value)       
+    Reference.where(active: true, group: 'make_type').pluck(:value)       
   end
 
   def weather
-    weather = Reference.where(active: "TRUE", group: 'weather')
-    weather = weather.pluck(:value) 
+    Reference.where(active: true, group: 'weather').pluck(:value)
   end
 
   def yes_no
@@ -238,6 +229,14 @@ module ApplicationHelper
 
   def makesheet_mill
     Reference.where(active: true, group: 'makesheet_mill').pluck(:value)
+  end
+
+  def wedges_sizes
+    Reference.where(active: true, group: 'wedges_sizes').pluck(:value)
+  end
+
+  def sale_pricing
+    Reference.where(active: true, group: 'sale_pricing').pluck(:value)
   end
 
   

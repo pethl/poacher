@@ -17,7 +17,6 @@ class PicksheetItem < ApplicationRecord
        count= self.count.to_f
        converter =Calculation.where(product: product, size: size).pluck(:weight)
       (count*converter.first.to_f)/1000
-     end
-     
+     end   
      
 end
