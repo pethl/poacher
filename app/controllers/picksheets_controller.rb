@@ -3,7 +3,7 @@ class PicksheetsController < ApplicationController
   require 'prawn/table'
   before_action :authenticate_user!
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
-  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :shipped_picksheets]
+  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :shipped_picksheets, :daily_cheese_manifest]
   
   # GET /picksheets or /picksheets.json
   def open_picksheets
@@ -29,6 +29,15 @@ class PicksheetsController < ApplicationController
     @type = "ALL"
   end
 
+  def daily_cheese_manifest
+    # Fetch the assigned picksheets and their items
+    @assigned_picksheets = @picksheets.where(status: "Assigned")
+    @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
+
+    # Group data by product, size, and wedge_size
+    @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
+  end
+
   # GET /picksheets/1 or /picksheets/1.json
   def show
      @picksheet_items = @picksheet.picksheet_items.ordered
@@ -51,7 +60,7 @@ class PicksheetsController < ApplicationController
 
     @picksheet = Picksheet.new(picksheet_params)
     @picksheet.user_id = current_user.id  # Associate the picksheet with the current user
-    @picksheet.status = "Open"
+    #@picksheet.status = "Open"
 
     respond_to do |format|
       if @picksheet.save
@@ -96,6 +105,24 @@ class PicksheetsController < ApplicationController
     send_data pdf_data, filename: 'picking_sheet.pdf', type: 'application/pdf', disposition: 'inline'
   end
 
+  def print_manifest_pdf
+    @assigned_picksheets = Picksheet.where(status: "Assigned")
+    @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
+    @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
+
+    Rails.logger.info "Generating PDF for #{@final_grouped_items.size} items"
+
+    pdf_data = PicksheetManifestPdfService.new(@final_grouped_items).generate
+
+    if pdf_data.present?
+      send_data pdf_data, filename: 'manifest_sheet.pdf', type: 'application/pdf', disposition: 'inline'
+
+
+    else
+      render plain: "PDF generation failed", status: :internal_server_error
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_picksheet
@@ -104,7 +131,7 @@ class PicksheetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_params
-      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :delivery_time_of_day, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :number_of_boxes, :contact_id, :user_id)
+      params.require(:picksheet).permit(:status, :date_order_placed, :delivery_required_by, :delivery_time_of_day, :order_number, :contact_telephone_number, :invoice_number, :carrier, :carrier_delivery_date, :carrier_collection_notes, :number_of_boxes, :contact_id, :user_id)
     end
 
     def set_picksheets
@@ -138,5 +165,39 @@ class PicksheetsController < ApplicationController
         end_of_week = Date.today.end_of_week
         @picksheets = @picksheets.where("delivery_required_by > ?", end_of_week)
       end
+   end
+
+
+   def group_picksheet_items(items)
+    # Fetch the size order from the Reference model (group = "sale_size")
+    size_order = Reference.where(group: "sale_size").order(:description).pluck(:value, :description).to_h
+  
+    # Debugging: Check what size_order looks like
+    Rails.logger.debug "Size Order: #{size_order.inspect}"
+  
+    grouped_by_product = items.group_by(&:product)
+  
+    # Group items by product, size, and wedge_size, then sum the count
+    final_grouped_items = {}
+  
+    grouped_by_product.each do |product, items|
+      # Group by size and wedge_size
+      final_grouped_items[product] = items
+        .group_by { |item| [item.size, item.wedge_size] }  # Group by size and wedge_size
+        .map do |size_and_wedge, items|
+          total_count = items.sum(&:count)  # Sum the count field for this combination
+          { size: size_and_wedge[0], wedge_size: size_and_wedge[1], count: total_count }
+        end
+  
+      # Sort by the custom order from the Reference model
+      final_grouped_items[product] = final_grouped_items[product].sort_by do |item|
+        # Ensure we handle missing size values gracefully
+        size_sort_order = size_order[item[:size]] || Float::INFINITY  # Default to a high number if missing
+        [size_sort_order, item[:wedge_size]]
+      end
+    end
+  
+    # Return the grouped and sorted items
+    final_grouped_items
   end
-end
+  end

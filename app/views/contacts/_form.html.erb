@@ -53,11 +53,39 @@
   </div>
 
   <div class="">
+    <%= form.label :pre_payment, class: label_class %><br>
+    <%= form.radio_button :pre_payment, true %> Yes
+    <%= form.radio_button :pre_payment, false %> No 
+  </div>
+
+  <div class="">
+    <%= form.label :payment_on_receipt, class: label_class %><br>
+    <%= form.radio_button :payment_on_receipt, true %> Yes
+    <%= form.radio_button :payment_on_receipt, false %> No 
+  </div>
+
+  <div class="">
+    <%= form.label :days_after_invoice, class: label_class %><br>
+    <%= form.number_field :days_after_invoice, class:field_class_flex_small %>
+  </div>
+
+   <div class="">
+    <%= form.label :sage_delivery_note, class: label_class %><br>
+    <%= form.radio_button :sage_delivery_note, true %> Yes
+    <%= form.radio_button :sage_delivery_note, false %> No 
+  </div>
+
+  <div class="col-span-2">
+    <%= form.label :terms_and_conditions, class: label_class %>
+    <%= form.text_area :terms_and_conditions, rows: 4, class:field_class_unsized %>
+  </div> 
+
+   <div class="col-span-2">
     <%= form.label :notes, class: label_class %>
     <%= form.text_area :notes, rows: 4, class:field_class_unsized %>
   </div>
 
-  <div class="inline mt-8">
+  <div class="inline">
     <%= form.submit class: fill_button_class %>
   </div>
 <% end %>

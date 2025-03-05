@@ -16,10 +16,10 @@
 
 <div class="w-full flex flex-row gap-4">
   <!-- Product Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :product, class:"font-semibold text-sm" %><br>
     <div class="w-full">
-      <% grade.each do |product| %>
+      <% sale_product.each do |product| %>
         <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
           <%= form.radio_button :product, product %> <%= product %>
         </p>
@@ -28,7 +28,7 @@
   </div>
 
   <!-- Size Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :size, class:"font-semibold text-sm" %><br>
     <div class="w-full">
       <% sale_size.each do |size| %>
@@ -40,7 +40,7 @@
   </div>
 
   <!-- Wedge Size Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :wedge_size, class:"font-semibold text-sm" %><br>
     <div class="w-full">
       <% wedges_sizes.each do |wedge| %>
@@ -52,7 +52,7 @@
   </div>
 
    <!-- Pricing  Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :pricing, class:"font-semibold text-sm" %><br>
     <div class="w-full">
       <% sale_pricing.each do |price| %>
@@ -64,7 +64,7 @@
   </div>
 
   <!-- Count Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :count, class:"font-semibold text-sm" %><br>
     <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
     <br>

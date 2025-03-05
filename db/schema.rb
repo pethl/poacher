@@ -100,6 +100,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
     t.string "phone"
     t.string "country"
     t.string "address"
+    t.boolean "pre_payment"
+    t.boolean "payment_on_receipt"
+    t.integer "days_after_invoice"
+    t.string "terms_and_conditions"
+    t.boolean "sage_delivery_note"
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -280,6 +285,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
     t.string "invoice_number"
     t.string "carrier"
     t.datetime "carrier_delivery_date"
+    t.string "carrier_collection_notes"
     t.integer "number_of_boxes"
     t.integer "contact_id", null: false
     t.string "status", default: "Open", null: false

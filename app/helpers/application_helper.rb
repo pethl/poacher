@@ -60,7 +60,7 @@ module ApplicationHelper
    end
 
    def field_class_flex_small
-    "max-w-20 h-10 shadow text-right outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
+    "max-w-20 h-10 shadow text-center outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
    
    def field_class_fit
@@ -168,10 +168,6 @@ module ApplicationHelper
     Reference.where(active: true, group: 'weight_type').pluck(:value)       
    end
    
-   def sale_size
-    Reference.where(active: true, group: 'sale_size').pluck(:value)      
-   end
-   
    def grade
     Reference.where(active: true, group: 'grade').pluck(:value)      
    end
@@ -231,12 +227,20 @@ module ApplicationHelper
     Reference.where(active: true, group: 'makesheet_mill').pluck(:value)
   end
 
+  def sale_product
+    Reference.where(active: true, group: 'sale_product').order(:description).pluck(:value)
+  end
+
+  def sale_size
+    Reference.where(active: true, group: 'sale_size').order(:description).pluck(:value)
+  end
+
   def wedges_sizes
-    Reference.where(active: true, group: 'wedges_sizes').pluck(:value)
+    Reference.where(active: true, group: 'wedges_sizes').order(:description).pluck(:value)
   end
 
   def sale_pricing
-    Reference.where(active: true, group: 'sale_pricing').pluck(:value)
+    Reference.where(active: true, group: 'sale_pricing').order(:description).pluck(:value)
   end
 
   

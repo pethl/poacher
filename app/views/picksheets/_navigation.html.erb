@@ -1,0 +1,15 @@
+<!-- app/views/shared/_navigation.html.erb -->
+<div class="mx-auto flex justify-center gap-4 mb-2 border-b-2 pb-2">
+  <%= link_to "All", picksheets_path, class: "nav-link #{'active' if @type == 'ALL'} hover:bg-gray-200" %>
+  <%= link_to "Open", open_picksheets_picksheets_path, class: "nav-link #{'active' if @type == 'OPEN'} hover:bg-gray-200" %>
+  <%= link_to "Assigned", assigned_picksheets_picksheets_path, class: "nav-link #{'active' if @type == 'ASSIGNED'} hover:bg-gray-200" %>
+  <%= link_to "Due This Week/ASAP", 
+    picksheets_path(start_date: Date.today.beginning_of_week, end_date: Date.today.end_of_week, include_asap: true), 
+    class: "nav-link #{'active' if @type == 'DUE_THIS_WEEK'} hover:bg-gray-200" %>
+  <%= link_to "Due Later", 
+    picksheets_path(start_date: (Date.today + 7).beginning_of_week, end_date: nil), 
+    class: "nav-link #{'active' if @type == 'DUE_LATER'} hover:bg-gray-200" %>
+  <%= link_to "Shipped", shipped_picksheets_picksheets_path, class: "nav-link #{'active' if @type == 'SHIPPED'} hover:bg-gray-200" %>
+  <%= link_to "Manifest", daily_cheese_manifest_picksheets_path, class: "nav-link #{'active' if @type == 'ASSIGNED'} hover:bg-gray-200" %>
+
+</div>

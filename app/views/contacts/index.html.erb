@@ -1,5 +1,6 @@
 <div class="overscroll-none">
-<% content_for(:page_title, "ADMIN: CONTACTS")%>
+<% content_for :title, "Poacher: Customer List" %>
+<% content_for(:page_title, "CUSTOMERS")%>
 <% content_for(:page_button, "contacts/new")%>
 <div id="contacts">
 
@@ -9,12 +10,11 @@
   <% end %>
     </div>
 
-
-  <div class="items-center rounded text-sm">
+<div class="items-center rounded text-sm">
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
 <div class="sticky top-0 font-normal text-left text-sm m-2">
-<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
+  <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
 </div>
 
 <div class="flex flex-col h-screen">
@@ -51,7 +51,16 @@
                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Ref
                 </th>
-                <th scope="col" class="sticky top-0 px-4 py-2  text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
+                    Payment Terms
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2  text-center">
+                    Sage Del Note?
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left w-48">
+                    Ts & Cs
+                </th>
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left w-48">
                     Notes
                 </th>
                 
@@ -64,7 +73,7 @@
                    <%= link_to contact.business_name, contact %>
                 </td>
                 <td class="px-4 py-3 text-left underline underline-offset-2">
-                  <%=  link_to contact.contact_name, (contact) %>
+                  <%=  contact.contact_name %>
                 </td>
                 <td class="px-4 py-3 text-left whitespace-nowrap">
                   <%= contact.email %>
@@ -84,7 +93,16 @@
                 <td class="px-4 py-3  text-left truncate">
                    <%=  contact.reference %>
                 </td>
-                <td class="px-4 py-3  text-left truncate">
+                 <td class="px-4 py-3  text-left truncate">
+                   <%=  contact.payment_terms %>
+                </td>
+                 <td class="px-4 py-3  text-center">
+                   <%=  contact.sage_delivery_note? ? "SAGE" : "" %>
+                </td>
+                <td class="px-4 py-3  text-left w-48 truncate">
+                  <%=  contact.terms_and_conditions %>
+                </td>
+                <td class="px-4 py-3  text-left w-48 truncate">
                   <%=  contact.notes %>
                 </td>
                 

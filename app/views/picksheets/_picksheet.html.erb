@@ -47,10 +47,16 @@
       <%= picksheet.invoice_number %>
     </div>
 
-    <div></div>
-    <div></div>
-  
-    
+    <div class="flex items-center space-x-2 leading-none justify-end">
+       <% if picksheet.contact.sage_delivery_note == true %>  
+        <%= image_tag "sage-logo.png", alt: "Sage Logo", class: "w-10 h-auto" %>
+        <i class="fa-regular fa-square text-2xl"></i>
+        <% end %>
+    </div>
+ 
+    <div class=" text-left h-9 py-1 px-2 ">
+      <%= picksheet.contact.terms_and_conditions %>
+    </div>
     
     <div class="font-semibold mb-1 text-right self-center">
       Carrier:
@@ -60,20 +66,30 @@
       <%= picksheet.carrier %>
     </div>
 
-    <div class="font-semibold mb-1 text-right self-center">
-       No of Boxes:
+     <div class="font-semibold mb-2 text-right self-center">
+      Payment Terms:
     </div>
-
-    <div class="border border-gray-800 rounded-lg text-left h-9 py-1 px-2 bg-gray-100">
-      <%= picksheet.number_of_boxes %>
+    <div class="text-left mb-1"> 
+      <%= picksheet.contact.payment_terms %>
     </div>
-    
+        
     <div class="font-semibold mb-1 text-right self-center">
       Carrier Delivery Date:
     </div>
   
     <div class="border border-gray-800 rounded-lg text-left  h-9 py-1 px-2 bg-gray-100">
       <%= picksheet.carrier_delivery_date.to_formatted_s(:uk_day) unless picksheet.carrier_delivery_date.to_s.empty? %>
+    </div>
+
+    <div></div>
+    <div></div>
+
+    <div class="font-semibold mb-1 text-right self-center">
+       No of Boxes:
+    </div>
+
+    <div class="border border-gray-800 rounded-lg text-left h-9 w-20 py-1 px-2 bg-gray-100">
+      <%= picksheet.number_of_boxes %>
     </div>
  
   </div>

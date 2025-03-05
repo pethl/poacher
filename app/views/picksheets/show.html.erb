@@ -1,10 +1,16 @@
 <% content_for :title, "Poacher: Picking Sheet" %>
 <% content_for(:page_title, "PICKING SHEET:  #{@picksheet.contact.business_name}")%>
 <% content_for :print_button, print_picksheet_pdf_path(id: @picksheet) %>
+<% content_for(:page_button, new_picksheet_path)%>
 
+<%= render 'navigation' %>
 
 <div class="mx-auto w-full lg:w-2/3 text-center mt-2">
-  <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
+   <% if @picksheet.status=="Assigned" %>
+  <div class="border border-double border-4 border-green-600 p-2 rounded-lg">
+    <% else %>
+   <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
+       <% end %>
     <div class="mx-auto">
 
      <div class="header">
@@ -52,7 +58,7 @@
                         B/b Date
                      </th>
                       <th scope="col" class="px-2 py-2 text-center w-24">
-                        Action
+                        ""
                      </th>
                   </tr>
              </thead>
@@ -74,8 +80,8 @@
      
       <br>
      
-    <%= link_to "Edit this Pick Sheet", edit_picksheet_path(@picksheet), class: fill_button_class %>
-    <%= link_to "Back to picksheets", picksheets_path, class: clear_button_class %>
+    <%= link_to "Edit this Picking Sheet", edit_picksheet_path(@picksheet), class: fill_button_class %>
+    <%= link_to "Back to Picking sheets", picksheets_path, class: clear_button_class %>
     <div class="inline-block ml-2">
         <%= button_to "Delete Picking Sheet",
                         @picksheet,

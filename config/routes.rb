@@ -85,6 +85,8 @@ Rails.application.routes.draw do
       get :open_picksheets
       get :assigned_picksheets
       get :shipped_picksheets
+      get :daily_cheese_manifest
+      get :print_manifest_pdf
     end
   end
    

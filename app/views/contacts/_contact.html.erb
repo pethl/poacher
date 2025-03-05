@@ -42,6 +42,32 @@
   </p>
 
   <p class="">
+    <strong class="block font-medium mb-1">Pre Payment?:</strong>
+    <%= contact.pre_payment? ? "YES" : ""  %>
+  </p>
+
+   <p class="">
+    <strong class="block font-medium mb-1">Payment On Receipt:</strong>
+    <%= contact.payment_on_receipt? ? "YES" : ""  %>
+  </p>
+
+  <p class="">
+    <strong class="block font-medium mb-1">Days After Invoice:</strong>
+    <%= contact.days_after_invoice %>
+  </p>
+
+  <p class="">
+    <strong class="block font-medium mb-1">Ts & Cs:</strong>
+    <%= contact.terms_and_conditions %>
+  </p>
+
+
+<p class="">
+    <strong class="block font-medium mb-1">Sage Delivery Note:</strong>
+    <%= contact.sage_delivery_note? ? "YES" : ""  %>
+  </p>
+
+  <p class="">
     <strong class="block font-medium mb-1">Notes:</strong>
     <%= contact.notes %>
   </p>

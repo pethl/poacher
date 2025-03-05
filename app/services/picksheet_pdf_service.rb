@@ -45,7 +45,8 @@ class PicksheetPdfService
       ["Delivery Required By:", @picksheet.full_delivery_info, "Contact Telephone:", @picksheet.contact_telephone_number.to_s],
       ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number],
       ["", "", "Carrier:", @picksheet.carrier],
-      ["No of Boxes:", @picksheet.number_of_boxes.to_s.presence, "Carrier Delivery Date:", format_date(@picksheet.carrier_delivery_date)]
+      ["No of Boxes:", @picksheet.number_of_boxes.to_s.presence, "Carrier Delivery Date:", format_date(@picksheet.carrier_delivery_date)],
+      ["Notes", {content: @picksheet.carrier_collection_notes, colspan: 2}]
     ]
 
     pdf.table(picksheet_header_table_data, width: 460, cell_style: { inline_format: true, size: 10 }) do |t|

@@ -1,0 +1,61 @@
+<% content_for(:page_title, "DAILY CHEESE MANIFEST")%>
+<% content_for :print_button, print_manifest_pdf_picksheets_path(format: :pdf) %>
+
+
+<div id="picksheets">
+
+<%= render 'navigation' %>
+
+  <!-- Table Container -->
+  <div class="mx-auto w-3/4 border border-gray-200 rounded-lg">
+
+   <!-- Simple Table with Sticky Header and Vertical Scrolling -->
+<div class="relative overflow-x-auto">
+  <table class="w-full table-auto text-left">
+    <!-- Table Header (Sticky at the top) -->
+    <thead class="sticky top-0 bg-gray-200 text-xs text-gray-700 uppercase">
+       
+      
+    </thead>
+
+    <!-- Table Body with Scrolling -->
+    <tbody class="overflow-y-auto" style="max-height: calc(24rem);">
+      <% @final_grouped_items.each do |product, items| %>
+        <!-- Product Row -->
+        <tr class="bg-white border-b hover:bg-gray-100">
+          <td class="px-2 py-1 pl-4 border-r-2 pt-4 font-semibold text-lg text-left w-24" colspan="5">
+            <%= product.upcase %>
+          </td>
+        </tr>
+
+        <!-- Size and Wedge Size Rows -->
+        <% items.each do |item| %>
+          <tr class="bg-white border-b hover:bg-gray-100">
+            <td class="px-3 py-2 pl-8 border-r-2 underline underline-offset-2 w-32">
+              <%= item[:size] %>
+            </td>
+            <td class="px-2 py-2 border-r-2 w-32">
+              <%= item[:wedge_size] %>
+            </td>
+            <td class="px-2 py-2 border-r-2 text-center w-24">
+              <%= item[:count] %>
+            </td>
+            <td class="px-2 py-2 border-r-2 w-64">
+              <!-- Action buttons or links go here -->
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+</div>
+
+
+
+
+
+
+

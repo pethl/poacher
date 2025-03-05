@@ -9,6 +9,11 @@ class CreateContacts < ActiveRecord::Migration[7.0]
       t.string :phone
       t.string :country
       t.string :address
+      t.boolean :pre_payment
+      t.boolean :payment_on_receipt
+      t.integer :days_after_invoice
+      t.string :terms_and_conditions
+      t.boolean :sage_delivery_note
       t.text :notes
 
       t.timestamps
