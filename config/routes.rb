@@ -84,9 +84,12 @@ Rails.application.routes.draw do
     collection do
       get :open_picksheets
       get :assigned_picksheets
+      get :cutting_picksheets
       get :shipped_picksheets
       get :daily_cheese_manifest
       get :print_manifest_pdf
+      get :print_dispatch_pdf
+      get :dispatch_and_collection
     end
   end
    

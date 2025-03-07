@@ -46,7 +46,7 @@ class PicksheetPdfService
       ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number],
       ["", "", "Carrier:", @picksheet.carrier],
       ["No of Boxes:", @picksheet.number_of_boxes.to_s.presence, "Carrier Delivery Date:", format_date(@picksheet.carrier_delivery_date)],
-      ["Notes", {content: @picksheet.carrier_collection_notes, colspan: 2}]
+      ["Carrier/Cust Collection Notes", {content: @picksheet.carrier_collection_notes, colspan: 2}]
     ]
 
     pdf.table(picksheet_header_table_data, width: 460, cell_style: { inline_format: true, size: 10 }) do |t|
@@ -65,7 +65,9 @@ class PicksheetPdfService
       t.column(2).size = 7
     end
 
-    pdf.move_down 20
+    pdf.move_down 8
+    pdf.text "Carrier/Cust Collection Notes: #{ @picksheet.carrier_collection_notes.presence || 'No notes ' }\n", size: 8, align: :left
+    pdf.move_down 12
   end
 
   def add_picksheet_items(pdf)

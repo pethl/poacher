@@ -11,6 +11,18 @@ module ApplicationHelper
   def nav_box_class
     "flex items-center justify-center h-32 text-center bg-gray-800 px-6 mx-10 rounded-lg border border-gray-800 shadow-lg text-lg md:text-xl font-bold text-white tracking-wide"
   end
+
+  def nav_box_inverse_class
+    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-gray-800 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+  end
+
+  def nav_box_assigned_class
+    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-green-500 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+  end
+
+  def nav_box_cutting_class
+    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-blue-600 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+  end
    
    def information_text_class
      "text-base text-left font-normal"
@@ -185,7 +197,7 @@ module ApplicationHelper
   end
 
   def pick_status
-    Reference.where(active: true, group: 'pick_status').pluck(:value)       
+    Reference.where(active: true, group: 'pick_status').order(:description).pluck(:value)       
   end
 
   def department

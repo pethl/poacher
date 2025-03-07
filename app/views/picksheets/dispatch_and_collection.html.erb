@@ -1,0 +1,106 @@
+<%= content_for(:page_title, "DISPATCH AND COLLECTIONS")%>
+<%= content_for :print_button, print_dispatch_pdf_picksheets_path(format: :pdf) %>
+
+<div id="picksheets">
+
+  <%= render 'navigation' %>
+  <br>
+  <!-- Table Container -->
+  <div class="mx-auto w-3/4">
+      Assigned Orders Only:
+
+      <div class="border border-gray-400 rounded-lg">
+
+
+    <!-- Simple Table with Sticky Header and Vertical Scrolling -->
+    <div class="relative overflow-x-auto">
+      <table class="w-full table-auto text-left">
+        <!-- Table Header (Sticky at the top) -->
+        <thead class="sticky top-0 bg-gray-200  border-gray-400 border-b text-xs text-gray-700 uppercase">
+          <tr>
+            <th class="py-1 border-white border-r text-center w-24">Pallets</th>
+            <th class="py-1 border-white border-r text-center w-24">Boxes</th>
+            <th class="py-1 border-white border-r text-left pl-2 w-64">Customer</th>
+            <th class="py-1 border-white border-r text-left pl-2 w-80">Notes</th>
+          </tr>
+        </thead>
+
+        <!-- Table Body with Scrolling -->
+        <tbody class="overflow-y-auto" style="max-height: calc(24rem);">
+          <!-- Render picksheets for Langdons and Palletline carriers first -->
+          <% ['Langdons', 'Palletline'].each do |carrier_name| %>
+            <% if @grouped_picksheets[carrier_name] %>
+              <tr class="bg-yellow-200  border-gray-400 border-b">
+                <td class="px-2 py-1 pl-4 border-r-2 pt-4 font-semibold text-lg text-left w-24" colspan="5">
+                  <%= carrier_name.upcase %>
+                 
+                </td>
+              </tr>
+              <% @grouped_picksheets[carrier_name].each do |picksheet| %>
+                <tr class="bg-white  border-gray-400 border-b hover:bg-gray-100">
+                  <td class="px-3 py-2 border-gray-400 border-r-2 text-center w-24"><%=  %></td>
+                  <td class="px-3 py-2  border-gray-400 border-r-2 text-center w-24"><%= picksheet.number_of_boxes %></td>
+                  <td class="px-2 py-2  border-gray-400 border-r-2 w-64"><%= picksheet.contact.business_name %></td>
+                  <td class="px-2 py-2  border-gray-400 border-r-2 text-left w-80">
+                    <%= picksheet.carrier_delivery_date&.to_formatted_s(:day_short_date) %>
+                    <%= picksheet.carrier_collection_notes %><%= picksheet.contact.payment_terms %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <!-- Render the rest of the picksheets -->
+         <% @grouped_picksheets.except('Langdons', 'Palletline').each do |carrier, picksheets| %>
+          <% if  carrier == 'DPD by 12' %>
+           <tr class="bg-yellow-500 border-b">
+             <% else %>
+             <tr class="bg-green-500 border-b ">
+              <% end %>
+            <!-- Apply conditional background color based on carrier -->
+            <td class="px-2 py-1 pl-4  border-gray-400 border-r-2 pt-4 font-semibold text-lg text-left w-24" colspan="5" >
+                <%= carrier.upcase %>
+                 <% if carrier == "DPD by 12" %>
+                   [ <%= @grouped_picksheets[carrier].sum { |picksheet| picksheet.number_of_boxes.to_i } %> boxes ]
+                  <% end %>
+            </td>
+          </tr>
+            <% picksheets.each do |picksheet| %>
+              <tr class="bg-white  border-gray-400 border-b hover:bg-gray-100">
+                <td class="px-3 py-2  border-gray-400 border-r-2 text-center w-24"><%=  %></td>
+                <td class="px-3 py-2  border-gray-400 border-r-2 text-center w-24"><%= picksheet.number_of_boxes %></td>
+                <td class="px-2 py-2  border-gray-400 border-r-2 w-64"><%= picksheet.contact.business_name %></td>
+                <td class="px-2 py-2  border-gray-400 border-r-2 text-left w-80">
+                  <%= picksheet.carrier_delivery_date&.to_formatted_s(:day_short_date) %>
+                  <%= picksheet.carrier_collection_notes %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+         
+            <tr class="bg-blue-300 border-b">
+              <td class="px-2 py-1 pl-4 border-r-2 pt-4 bg-red-500 font-semibold text-lg text-left w-24" colspan="5">
+                PRE-PAYMENT CUSTOMERS
+              </td>
+            </tr>
+          <% if @prepayments.any? %>
+            <% @prepayments.each do |picksheet| %>
+              <tr class="bg-white border-gray-400 border-b hover:bg-gray-100">
+                <td class="px-3 py-2 border-gray-400 border-r-2 text-center w-24"><%= picksheet.number_of_boxes %></td>
+                <td class="px-3 py-2 border-gray-400 border-r-2 text-center w-24"><%= picksheet.number_of_boxes %></td>
+                <td class="px-2 py-2 border-gray-400 border-r-2 w-64"><%= picksheet.contact.business_name %></td>
+                <td class="px-2 py-2 border-gray-400 border-r-2 text-left w-80">
+                  <%= picksheet.carrier_delivery_date&.to_formatted_s(:day_short_date) %>
+                  <%= picksheet.carrier_collection_notes %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+    </div>
+
+</div>

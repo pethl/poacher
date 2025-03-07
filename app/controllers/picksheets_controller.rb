@@ -3,7 +3,7 @@ class PicksheetsController < ApplicationController
   require 'prawn/table'
   before_action :authenticate_user!
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
-  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :shipped_picksheets, :daily_cheese_manifest]
+  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :cutting_picksheets, :shipped_picksheets, :daily_cheese_manifest, :dispatch_and_collection]
   
   # GET /picksheets or /picksheets.json
   def open_picksheets
@@ -15,6 +15,12 @@ class PicksheetsController < ApplicationController
   def assigned_picksheets
     @picksheets = @picksheets.where(status: "Assigned")
     @type = "ASSIGNED"
+    render :index
+  end
+
+  def cutting_picksheets
+    @picksheets = @picksheets.where(status: "Cutting")
+    @type = "CUTTING"
     render :index
   end
 
@@ -37,6 +43,37 @@ class PicksheetsController < ApplicationController
     # Group data by product, size, and wedge_size
     @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
   end
+
+  def dispatch_and_collection
+
+      @assigned_picksheets = Picksheet.includes(:contact)
+                                      .where(status: 'Assigned')
+                                      .where.not(carrier: [nil, ''])
+                                      .order('contacts.business_name ASC')
+
+                                      # Separate the records where carrier is "Langdons" or "Palletline"
+      @special_carriers = @assigned_picksheets.select { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+      # Get the rest of the records
+      @other_carriers = @assigned_picksheets.reject { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+      # Group both arrays by carrier
+      @grouped_picksheets = (@special_carriers + @other_carriers).group_by(&:carrier)
+
+      # Combine "Tim to Deliver" and "Customer Collect" under a new name
+      combined_carriers = @assigned_picksheets.select { |p| ['Tim to Deliver', 'Customer Collect'].include?(p.carrier) }
+      @grouped_picksheets['Get ready for Tim or farm collections'] = combined_carriers
+
+      # Remove the individual carrier entries for "Tim to Deliver" and "Customer Collect"
+      @grouped_picksheets.delete('Tim to Deliver')
+      @grouped_picksheets.delete('Customer Collect')
+
+      @prepayments = Picksheet.includes(:contact)
+      .where(status: "Assigned", contacts: { pre_payment: true })
+      .order("contacts.business_name ASC")
+
+  end
+  
 
   # GET /picksheets/1 or /picksheets/1.json
   def show
@@ -110,17 +147,40 @@ class PicksheetsController < ApplicationController
     @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
     @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
 
-    Rails.logger.info "Generating PDF for #{@final_grouped_items.size} items"
-
     pdf_data = PicksheetManifestPdfService.new(@final_grouped_items).generate
 
     if pdf_data.present?
       send_data pdf_data, filename: 'manifest_sheet.pdf', type: 'application/pdf', disposition: 'inline'
-
-
     else
       render plain: "PDF generation failed", status: :internal_server_error
     end
+  end
+
+  def print_dispatch_pdf
+    @assigned_picksheets = Picksheet.includes(:contact)
+    .where(status: 'Assigned')
+    .where.not(carrier: [nil, ''])
+    .order('contacts.business_name ASC')
+
+    # Separate the records where carrier is "Langdons" or "Palletline"
+    @special_carriers = @assigned_picksheets.select { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+    # Get the rest of the records
+    @other_carriers = @assigned_picksheets.reject { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+    # Group both arrays by carrier
+    @grouped_picksheets = (@special_carriers + @other_carriers).group_by(&:carrier)
+
+    
+
+    pdf_data = PicksheetDispatchPdfService.new(@grouped_picksheets).generate
+
+    if pdf_data.present?
+      send_data pdf_data, filename: 'dispatch_sheet.pdf', type: 'application/pdf', disposition: 'inline'
+    else
+      render plain: "PDF generation failed", status: :internal_server_error
+    end
+
   end
 
   private

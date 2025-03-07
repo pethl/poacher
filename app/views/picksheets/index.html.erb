@@ -66,10 +66,13 @@
             <th scope="col" class="px-2 py-3 w-24 text-center">
               No of Boxes
             </th>
-            <th scope="col" class="px-2 py-3 w-48">
+            <th scope="col" class="px-2 py-3 w-24">
               Order Taken By
             </th>
-            <th scope="col" class="px-2 py-3 w-80 underline underline-offset-2">
+             <th scope="col" class="px-2 py-3 w-24">
+              Order Number
+            </th>
+            <th scope="col" class="px-2 py-3 w-24 underline underline-offset-2">
               <%= show_sort_indicator_for("invoice_number") %>
               <%= sort_link(column: "invoice_number", label: "Invoice No.") %>
             </th>
@@ -84,7 +87,9 @@
           <tbody>
             <% @picksheets.each do |picksheet| %>
               <tr class="bg-white border-b hover:bg-gray-100">
-                <td class="px-2 py-3 border-r-2 text-left w-24 <%= 'text-green-600' if picksheet.status == 'Assigned' %>">
+                <td class="px-2 py-3 border-r-2 text-left font-semibold w-24 
+                <%= 'text-green-600' if picksheet.status == 'Assigned' %>
+                 <%= 'text-blue-600' if picksheet.status == 'Cutting' %>">
                   <%= picksheet.status %>
                 </td>
                 <td scope="row" class="px-3 py-3 border-r-2 underline underline-offset-2 w-32">
@@ -106,10 +111,13 @@
                 <td class="px-2 py-3 border-r-2 w-24 text-center">
                   <%= picksheet.number_of_boxes %>
                 </td>
-                <td class="px-2 py-3 border-r-2 w-48">
+                <td class="px-2 py-3 border-r-2 w-24">
                   <%= picksheet.user.username %>
                 </td>
-                <td class="px-2 py-3 border-r-2 w-80">
+                 <td class="px-2 py-3 border-r-2 w-24">
+                  <%= picksheet.order_number %>
+                </td>
+                <td class="px-2 py-3 border-r-2 w-24">
                   <%= picksheet.invoice_number %>
                 </td>
               </tr>

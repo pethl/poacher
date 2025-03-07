@@ -5,16 +5,22 @@
  <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
    
     <%= link_to "New Picking Sheet", "/picksheets/new", class: nav_box_class %>
-    <%= link_to "Open Picking Sheets (#{@open_picksheets_count})", "/picksheets/open_picksheets", class: nav_box_class %>
-    <%= link_to "Assigned Picking Sheets (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: nav_box_class %>
+    <%= link_to "Daily Cheese Manifest ", "/picksheets/daily_cheese_manifest", class: nav_box_class %>
+    <%= link_to "Dispatch and Collection ", "/picksheets/dispatch_and_collection", class: nav_box_class %>
+
+
+    <%= link_to "Open (#{@open_picksheets_count})", "/picksheets/open_picksheets", class: nav_box_inverse_class %>
+    <%= link_to "Assigned (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: nav_box_assigned_class %>
+    <%= link_to "Cutting (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: nav_box_cutting_class %>
+
 
     <%= link_to "Individual Batch Traceability", "/traceability_records", class: nav_box_class %>
     <%= link_to "Cheese Batch Weights ", "/batch_weights", class: nav_box_class %>
-    <%= link_to "Daily Cheese Manifest ", "/picksheets/daily_cheese_manifest", class: nav_box_class %>
-
+    <br>
 
     <%= link_to "Chiller Temp Display ", "/chillers", class: nav_box_class %>
     <%= link_to "Daily Scale Check - TBD ", "", class: nav_box_class %>
+    <br>
     <%= link_to "Metal Breakages", "/breakages", class: nav_box_class %>
 
 
