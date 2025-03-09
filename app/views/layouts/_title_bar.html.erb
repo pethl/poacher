@@ -1,35 +1,27 @@
 <% if content_for(:page_title) %>
   <div class="max-w-screen-4xl">
-    <div class="fixed top-10 z-10 w-full flex justify-between bg-gray-200 pl-4 font-strong text-gray-800 shadow-md h-9 border border-b-2 border-gray-600">
+    <div class="fixed top-10 z-10 w-full flex justify-between items-center bg-gray-200 pl-4 font-strong text-gray-800 shadow-md h-9 border border-b-2 border-gray-600">
       
       <!-- Left section (Add New Button) -->
-      <div class="text-xl py-1 font-semibold flex-shrink-0">
+      <div class="text-xl py-1 font-semibold flex-shrink-0 flex items-center">
         <% if content_for(:page_button) %>
-          <div class="text-left">
-            <%= link_to " Add New ", yield(:page_button), class: header_bar_button_class %> 
-          </div>
+          <%= link_to "Add New", yield(:page_button), class: header_bar_button_class %>
         <% end %>
       </div>
 
       <!-- Center section (Title) -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 text-xl py-1 font-semibold">
+      <div class="text-xl py-1 font-semibold text-center flex-grow">
         <%= yield(:page_title) %>
       </div>
 
       <!-- Right section (Print Button) -->
-      <div class="inline mr-8 mt-1 flex-shrink-0">
+      <div class="inline mr-6 flex-shrink-0 flex items-center">
         <% if content_for(:print_button) == "browser-print" %>
-          <div class="text-right">
-            <%= link_to "Print", '#', class: header_bar_button_class, onclick: 'window.print();return false;' %>
-          </div>
+          <%= link_to "Print", '#', class: header_bar_button_class, onclick: 'window.print();return false;' %>
         <% elsif content_for(:print_button) %>
-          <div class="text-right">
-            <%= link_to "Print", yield(:print_button), class: header_bar_button_class %>
-          </div>
-        <% elsif content_for(:print_button)== @picksheet %>
-          <div class="text-right">
-            <%= link_to "Print", print_picksheet_pdf_path(id: @picksheet), class: header_bar_button_class %>
-          </div>
+          <%= link_to "Print", yield(:print_button), class: header_bar_button_class %>
+        <% elsif content_for(:print_button) == @picksheet %>
+          <%= link_to "Print", print_picksheet_pdf_path(id: @picksheet), class: header_bar_button_class %>
         <% end %>
       </div>
     </div>

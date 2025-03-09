@@ -43,7 +43,8 @@
                   <td class="px-2 py-2  border-gray-400 border-r-2 w-64"><%= picksheet.contact.business_name %></td>
                   <td class="px-2 py-2  border-gray-400 border-r-2 text-left w-80">
                     <%= picksheet.carrier_delivery_date&.to_formatted_s(:day_short_date) %>
-                    <%= picksheet.carrier_collection_notes %><%= picksheet.contact.payment_terms %>
+                    <%= picksheet.carrier_collection_notes %>
+                    <%= picksheet.contact.payment_terms %>
                   </td>
                 </tr>
               <% end %>
