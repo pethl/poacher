@@ -5,65 +5,89 @@
 <% content_for(:page_button, "staffs/new")%>
 <div id="contacts">
 
-<div class="items-center rounded text-sm">
-<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+  <div class="mx-auto w-full md:w-2/3 lg:w-1/2">
+  
+    <div class="items-center rounded text-sm">
+      <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
-<div class="sticky top-0 font-normal text-left text-sm m-2">
-<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
-</div>
+    <!-- Nav Bar for Filtering Staff -->
+    <div class="mb-4">
+      Select: 
+      <%= link_to 'Active Staff', staffs_path(employment_status: 'Active'), class: "text-gray-600 font-semibold hover:underline" %> |
+      <%= link_to 'Inactive Staff', staffs_path(employment_status: 'Inactive'), class: "text-gray-600 font-semibold hover:underline" %>
+    </div>
 
-<div class="flex flex-col h-screen">
-    <div class="flex-grow overflow-y-scroll">
-      <table class="relative w-full md:w-4/5 lg:w-2/3 mx-auto table-auto border text-sm text-left text-gray-600  ">
-       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-4 py-2  underline underline-offset-2">
-                   <%= staff_show_sort_indicator_for("employment_status") %>
-                   <%= staff_sort_link(column: "employment_status", label: "Employment Status") %>
-                </th>
-                <th id="batch" class="sticky top-0 px-4 py-2  text-left underline underline-offset-2">
-                   <%= staff_show_sort_indicator_for("first_name") %>
-                   <%= staff_sort_link(column: "first_name", label: "First Name") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
-                     <%= staff_show_sort_indicator_for("last_name") %>
-                     <%= staff_sort_link(column: "last_name", label: "Last Name") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left whitespace-nowrap underline underline-offset-2">
-                    <%= staff_show_sort_indicator_for("dept") %>
-                     <%= staff_sort_link(column: "dept", label: "Department") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
-                      <%= staff_show_sort_indicator_for("role") %>
-                     <%= staff_sort_link(column: "role", label: "Role") %>
-                </th>
-                
-            </tr>
-        </thead>
-        <tbody class="overflow-contain">
-      <% @staffs.each do |staff| %>
-            <tr class="border-b  hover:bg-gray-100">
-                <td scope="row" class="px-4 py-3 whitespace-nowrap">
-                   <%= staff.employment_status %>
-                </td>
-                <td class="px-4 py-3 text-left underline underline-offset-2">
-                  <%=  link_to staff.first_name, edit_staff_path(staff) %>
-                </td>
-                <td class="px-4 py-3 text-left whitespace-nowrap underline underline-offset-2">
-                  <%=  link_to staff.last_name, edit_staff_path(staff) %>
-                </td>
-                <td class="px-4 py-3 text-left">
-                  <%=  staff.dept %>
-                </td>
-                <td class="px-4 py-3 text-left">
-                  <%=  staff.role %>
-                </td>
-                
-            </tr>
-              <% end %>
-        </tbody>
-    </table>
-</div>
+    <!-- Staff Table -->
+    <div class="mt-4">
+      <h2 class="text-xl font-bold mb-2">
+        <% if params[:employment_status] == 'Inactive' %>
+          Inactive Staff
+        <% else %>
+          Active Staff
+        <% end %>
+      </h2>
+
+   
+
+    <!-- Check if there are staff records for the selected status -->
+    <% if @staffs.empty? %>
+      <p class="text-center text-gray-500">No <%= params[:employment_status] == 'Inactive' ? 'Inactive' : 'Active' %> Staff records to show.</p>
+    <% else %>
+    <div class="sticky top-0 font-normal text-left text-sm m-2">
+      <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
+    </div>
+    <div class="flex flex-col h-screen">
+        <div class="flex-grow overflow-y-scroll">
+          <table class="w-full relative text-center table-auto border text-sm text-left text-gray-600  ">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+            <tr class="bg-gray-200 sticky top-0">
+                  <th scope="col" class="sticky top-0 px-2 py-1 text-center">
+                    Status
+                  </th>
+                  <th id="batch" class="sticky top-0 px-4 py-2  text-left underline underline-offset-2">
+                    <%= staff_show_sort_indicator_for("first_name") %>
+                    <%= staff_sort_link(column: "first_name", label: "First Name") %>
+                  </th>
+                  <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
+                      <%= staff_show_sort_indicator_for("last_name") %>
+                      <%= staff_sort_link(column: "last_name", label: "Last Name") %>
+                  </th>
+                  <th scope="col" class="sticky top-0 px-4 py-2 text-left whitespace-nowrap underline underline-offset-2">
+                      <%= staff_show_sort_indicator_for("dept") %>
+                      <%= staff_sort_link(column: "dept", label: "Department") %>
+                  </th>
+                  <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
+                        <%= staff_show_sort_indicator_for("role") %>
+                      <%= staff_sort_link(column: "role", label: "Role") %>
+                  </th>
+                    
+                </tr>
+            </thead>
+            <tbody class="overflow-contain">
+          <% @staffs.each do |staff| %>
+                <tr class="border-b  hover:bg-gray-100">
+                    <td scope="row" class="px-4 py-3 whitespace-nowrap">
+                      <%= staff.employment_status %>
+                    </td>
+                    <td class="px-4 py-3 text-left underline underline-offset-2">
+                      <%=  link_to staff.first_name, edit_staff_path(staff) %>
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap underline underline-offset-2">
+                      <%=  link_to staff.last_name, edit_staff_path(staff) %>
+                    </td>
+                    <td class="px-4 py-3 text-left">
+                      <%=  staff.dept %>
+                    </td>
+                    <td class="px-4 py-3 text-left">
+                      <%=  staff.role %>
+                    </td>
+                    
+                </tr>
+                  <% end %>
+            </tbody>
+        </table>
+        <% end %>
+    </div>
   
   </div>
 </div>

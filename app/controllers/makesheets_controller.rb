@@ -2,6 +2,7 @@ class MakesheetsController < ApplicationController
   require_relative Rails.root.join('services/weather_service')
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
+  before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
 
 
   def makesheet_search
@@ -26,8 +27,7 @@ class MakesheetsController < ApplicationController
   def monthly_summary 
     if params[:month].present? && params[:year].present?
       @makesheets = Makesheet.filter_by_month_and_year(params[:month], params[:year])
-     
-    else
+      else
       @makesheets = Makesheet.where('make_date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
     end 
 
@@ -54,11 +54,11 @@ class MakesheetsController < ApplicationController
   
   # GET /makesheets or /makesheets.json
   def index
-     if params[:column].present?
-         @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
-       else
-         @makesheets = Makesheet.all.ordered_reverse
-       end
+    if params[:column].present?
+        @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
+      else
+        @makesheets = Makesheet.all.ordered_reverse
+    end
   end
 
   # GET /makesheets/1 or /makesheets/1.json
@@ -77,32 +77,28 @@ class MakesheetsController < ApplicationController
     metal_breakage: false,
     make_date: Date.today
   )
-    @staffs = Staff.ordered
-
-     #no need to define location as its hard coded in service
-     service = WeatherService.new
-     @weather = service.fetch_daily_weather
+    #no need to define location as its hard coded in service
+    service = WeatherService.new
+    @weather = service.fetch_daily_weather
  
      if @weather[:error]
        flash[:alert] = @weather[:error]
        @weather = nil
      end
-     @makesheet.weather_today = @weather[:conditions]
-     @makesheet.weather_temp = @weather[:temperature]
-     @makesheet.weather_humidity = @weather[:humidity]
+    @makesheet.weather_today = @weather[:conditions]
+    @makesheet.weather_temp = @weather[:temperature]
+    @makesheet.weather_humidity = @weather[:humidity]
      
   end
 
   # GET /makesheets/1/edit
   def edit
     prepare_chart_data # Call the reusable method
-    @staffs = Staff.ordered
   end
 
   # POST /makesheets or /makesheets.json
   def create
     @makesheet = Makesheet.new(makesheet_params)
-    @staffs = Staff.ordered
     @makesheet.batch = (@makesheet.make_date + 6.years).strftime("%d-%m-%y")
 
     respond_to do |format|
@@ -118,7 +114,6 @@ class MakesheetsController < ApplicationController
 
   # PATCH/PUT /makesheets/1 or /makesheets/1.json
   def update
-    @staffs = Staff.ordered
     respond_to do |format|
       if @makesheet.update(makesheet_params)
         format.html { redirect_to makesheet_url(@makesheet), notice: "Makesheet was successfully updated." }
@@ -168,8 +163,12 @@ class MakesheetsController < ApplicationController
       :first_cut_time, :first_cut_titration, :second_cut_time, :second_cut_titration, :third_cut_time, :third_cut_titration, :fourth_cut_time, :fourth_cut_titration, :fifth_cut_time, :fifth_cut_titration, :sixth_cut_time, :sixth_cut_titration, :identify_mill_used, 
       :warm_am, :twelve_hr_pm, :unusual_smell_appearance, :number_of_bottles_from_fm, :use_by_date_milk_from_fm, 
       :type_of_starter_culture_used, :qty_of_starter_used, :pre_start_inspection_of_high_risk_items, :pre_start_inspection_by_staff_id, 
-      :ingredient_batch_change, :thermometer_change, :scale_change, :batch_dipped, :post_make_notes, :milling_help, :cheese_made_by_staff_id, :salt_weight_net, :salt_weight_gross, 
+      :ingredient_batch_change, :thermometer_change, :scale_change, :farm_change, :batch_dipped, :post_make_notes, :milling_help, :cheese_made_by_staff_id, :assistant_staff_id,:salt_weight_net, :salt_weight_gross, 
       :weather_today, :weather_temp, :weather_humidity, :glass_breakage, :glass_contamination, :glass_comments, :metal_breakage, :metal_contamination, :metal_comments, :slow_cheese, :step_1_curd_sample, :step_2_record_as_slow, :step_3_record_reason, :step_4_notify_tim, :step_5_apply_label, :step_6_record_red_book)
+    end
+
+    def set_cheese_makers
+      @cheese_makers = Staff.where(dept: "Cheesemaking Team").ordered
     end
 
      # Private method to prepare chart data

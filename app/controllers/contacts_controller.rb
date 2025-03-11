@@ -4,7 +4,6 @@ class ContactsController < ApplicationController
 
   # GET /contacts or /contacts.json
   def index
-   
     if params[:column].present?
       @contacts = Contact.order("#{params[:column]} #{params[:direction]}")
     else
@@ -14,6 +13,29 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1 or /contacts/1.json
   def show
+    @contact = Contact.find(params[:id])
+    @makesheets = Makesheet.where(contact_id: nil).ordered # Only unlinked makesheets
+  end
+
+  def search_makesheets
+    @contact = Contact.find(params[:id])
+    if params[:make_date].present?
+      @makesheets = Makesheet.where(make_date: params[:make_date], contact_id: nil)
+    else
+      @makesheets = Makesheet.where(contact_id: nil).where.not(status: "Finished")
+    end
+    render :show
+  end
+
+  def link_makesheets
+    @contact =  @contact = Contact.find(params[:id])
+
+    selected_makesheets = Makesheet.where(id: params[:makesheet_ids])
+
+    # Link the selected makesheets to the contact
+    selected_makesheets.update_all(contact_id: @contact.id)
+
+    redirect_to @contact, notice: "Makesheets linked successfully!"
   end
 
   # GET /contacts/new
@@ -71,6 +93,6 @@ class ContactsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.require(:contact).permit(:business_name, :contact_name, :reference, :email, :mobile, :phone, :country, :address, :pre_payment, :payment_on_receipt, :days_after_invoice, :terms_and_conditions, :sage_delivery_note, :notes)
+      params.require(:contact).permit(:business_name, :contact_name, :reference, :email, :mobile, :phone, :country, :address, :pre_payment, :payment_on_receipt, :days_after_invoice, :terms_and_conditions, :sage_delivery_note, :contact_id, :notes)
     end
 end

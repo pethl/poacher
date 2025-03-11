@@ -2,9 +2,10 @@ class Makesheet < ApplicationRecord
   has_many :turns
   has_many :traceability_records
   has_many :samples  
+  has_many :staffs  
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
-  has_many :staffs  
+  belongs_to :contact, optional: true
   
   validates :make_date, presence: true, uniqueness: { message: "has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true

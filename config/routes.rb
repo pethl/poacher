@@ -35,7 +35,13 @@ Rails.application.routes.draw do
   end
   
   resources :staffs
-  resources :contacts
+
+  resources :contacts do
+    member do
+      get :search_makesheets
+      post :link_makesheets
+    end
+  end
   devise_for :users
 
   root "pages#home"

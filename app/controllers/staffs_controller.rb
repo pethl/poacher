@@ -3,12 +3,21 @@ class StaffsController < ApplicationController
 
   # GET /staffs or /staffs.json
   def index
-   
-    if params[:column].present?
-      @staffs = Staff.order("#{params[:column]} #{params[:direction]}")
-    else
-      @staffs = Staff.all.ordered
-    end
+
+       # Filtering by active or inactive status
+       if params[:employment_status] == 'Inactive'
+        @staffs = Staff.where(employment_status: "Inactive")
+      else
+        # Default to Active staff
+        @staffs = Staff.where(employment_status: "Active")
+      end
+
+      # Sorting logic
+      if params[:column].present?
+        @staffs = @staffs.order("#{params[:column]} #{params[:direction]}")
+      else
+        @staffs = @staffs.ordered
+      end
   end
 
   # GET /staffs/1 or /staffs/1.json

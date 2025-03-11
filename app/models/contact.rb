@@ -1,6 +1,7 @@
 class Contact < ApplicationRecord
   validate :only_one_payment_term_allowed
   has_many :picksheets, foreign_key: :contact_id
+  has_many :makesheets
 
   scope :ordered, -> { order(business_name: :asc) }
 

@@ -25,11 +25,11 @@
 </div>
 
 <div class="grid grid-cols-4 gap-2 mt-8">
-
-  <div class="col-span-4 my-2">  <hr>  </div>
+  <div class="col-span-4">  <hr>  </div>
 
   <!--  SUMMARY Section -->
   <div id="summary-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold"> SUMMARY  </div>
+  <div class="col-span-2">  <hr>  </div><div class="col-span-2">  </div>
 
   <div class="col-span-2 self-center"><%= form.label :status,  class: label_class %></div>
   <div><%=  form.select :status, options_for_select(batch_status, :selected => makesheet.status),{:prompt=>true}, :disabled => true, class: field_class_flex_full_disabled %></div>
@@ -45,10 +45,20 @@
   <%= form.date_field :make_date, 
         value: @makesheet.make_date,  # Ensure the field has a value
        class: field_class_flex_full %>
-</div>
+  </div>
+  <div class="col-span-4 text-center"><hr></div>
+
+  <div class="col-span-2 self-center"><%= form.label :cheese_made_by_staff_id, class: label_class %></div>
+  <div class="text-left"><%= form.collection_select(:cheese_made_by_staff_id, @cheese_makers, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_full }) %></div>
+
+  <div class="col-span-2 self-center"><%= form.label :assistant_staff_id, class: label_class %></div>
+  <div class="text-left"><%= form.collection_select(:assistant_staff_id, @cheese_makers, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_full }) %></div>
+  
+  <div class="col-span-2 self-center"><%= form.label :milling_help, class: label_class %></div>
+  <div class="text-left"><%= form.text_field :milling_help, class: field_class_flex_full %></div>
 
 
-
+ <!--  INGREDIENTS Section -->
   <div class="col-span-4 mt-8">  <hr>  </div>
   <div id="ingredients-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold"> INGREDIENTS: MILK & ADDITIONS  </div>
   <div class="col-span-2">  <hr>  </div><div class="col-span-2">  </div>
@@ -56,21 +66,22 @@
   <div class="col-span-1 text-left font-light"> STARTER CULTURE </div>
 
   <div class="col-span-1 self-center"><%= form.label :type_of_starter_culture_used, "Type", class: label_class %></div>
-  <div><%= form.text_field :type_of_starter_culture_used, class: field_class_flex%></div>
+  <div class="text-left"><%=  form.select :type_of_starter_culture_used, options_for_select(starter_culture, :selected => makesheet.type_of_starter_culture_used),{:prompt=>true}, class: field_class_flex_med %></div>
 
   <div class="col-span-2 self-center"><%= form.label :qty_of_starter_used, "Quantity", class: label_class %></div>
-  <div class="text-left"><%= form.number_field :qty_of_starter_used, step: :any, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams  ", class: field_class_flex_med %></div>
 
   <div class="col-span-4 ">  <hr>  </div>
   <div class="col-span-1 text-left font-light">  MILK </div>
 
   <div class="col-span-1 self-center"><%= form.label :milk_used, "Milk (ltrs)", class: label_class %></div>
   <div class="text-left"> <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex_small %> </div>
+
   <div class="col-span-2 self-center"><%= form.label :warm_am, class: label_class %></div>
-  <div class="text-left"><%= form.select :warm_am, options_for_select(yes_no, :selected => makesheet.warm_am),{:include_blank => true}, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.select :warm_am, options_for_select(yes_no, :selected => makesheet.warm_am.presence || "Yes"),{}, class: field_class_flex_small %></div>
 
   <div class="col-span-2 self-center"><%= form.label :twelve_hr_pm, "12 Hour PM", class: label_class %></div>
-  <div class="text-left"><%= form.select :twelve_hr_pm, options_for_select(yes_no, :selected => makesheet.twelve_hr_pm),{:include_blank => true}, class: field_class_flex_small %></div>
+  <div class="text-left"><%= form.select :twelve_hr_pm, options_for_select(yes_no, :selected => makesheet.twelve_hr_pm || "Yes"),{}, class: field_class_flex_small %></div>
 
   <div class="col-span-4 ">  <hr>  </div>
   <div class="col-span-1 text-left font-light"> MILK FROM FARMERS MARKETS  </div>
@@ -90,7 +101,8 @@
 
   <div class="col-span-2 self-center"><%= form.label :salt_weight_gross, class: label_class %></div>
   <div class="text-left"><%= form.number_field :salt_weight_gross, step: :any, class: field_class_flex_small %></div>
-  <div class="col-span-4 ">  <hr>  </div>
+    <br>
+  <div class="col-span-4 mt-8">  <hr>  </div>
 
  
  
@@ -210,85 +222,96 @@
 
   <div class="col-span-2 self-center"><%= form.label :post_make_notes, class: label_class %></div>
   <div class="text-left"><%= form.text_area :post_make_notes, rows: 3, class:field_class_flex %></div>
-
-  <div class="col-span-4 text-center"><hr></div>
-
-  <div class="col-span-2 self-center"><%= form.label :milling_help, class: label_class %></div>
-  <div class="text-left"><%= form.text_field :milling_help, class: field_class_flex_full %></div>
-
-  <div class="col-span-2 self-center"><%= form.label :cheese_made_by_staff_id, class: label_class %></div>
-  <div class="text-left"><%= form.collection_select(:cheese_made_by_staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex_full }) %></div>
-
-<div class="col-span-4">  <hr>  </div>
-
- <!-- Concertina Header -->
-<div class="col-span-4 text-left font-light cursor-pointer flex items-center" onclick="toggleAccordion('changes-section', event)">
-  <span>CHANGES</span>
-  <span class="font-thin ml-4 text-gray-600">(Click to expand)</span>
 </div>
+<div class="col-span-4 my-2">  <hr>  </div>
 
-<!-- Hidden Content (Revealed on Click) -->
-<div id="changes-section" class="hidden col-span-4">
-  <div class="grid grid-cols-4 gap-4 mt-2">
-    <!-- Ingredient Batch Change -->
-    <div class="col-span-2 self-center">
-      <%= form.label :ingredient_batch_change, class: label_class %>
-    </div>
-    <div class="col-span-2">
-      <%= form.text_area :ingredient_batch_change, rows: "2", class: field_class_flex_full %>
-    </div>
+<!-- Wrap the entire section in a Stimulus controller -->
+<div data-controller="accordion">
+  
+  <!-- Clickable accordion header -->
+  <div class="col-span-2 cursor-pointer font-light text-left flex items-center"
+       data-action="click->accordion#toggle"
+       data-accordion-target="header">
+    <span>CHANGES</span>
+    <span class="text-gray-600 ml-4"> (Click to expand)</span>
+  </div>
 
-    <!-- Thermometer Change -->
-    <div class="col-span-2 self-center">
-      <%= form.label :thermometer_change, class: label_class %>
-    </div>
-    <div class="col-span-2">
-      <%= form.text_area :thermometer_change, rows: "2", class: field_class_flex_full %>
-    </div>
+  <!-- Hidden section that expands/collapses -->
+  <div id="changes-section" class="hidden col-span-4"
+       data-accordion-target="section">
+    <div class="grid grid-cols-4 gap-4 mt-2">
 
-    <!-- Scale Change -->
-    <div class="col-span-2 self-center">
-      <%= form.label :scale_change, class: label_class %>
-    </div>
-    <div class="col-span-2">
-      <%= form.text_area :scale_change, rows: "2", class: field_class_flex_full %>
+      <!-- Ingredient Batch Change -->
+      <div class="col-span-2 self-center">
+        <%= form.label :ingredient_batch_change, class: label_class %>
+      </div>
+      <div class="col-span-2">
+        <%= form.text_area :ingredient_batch_change, rows: "2", class: field_class_flex_full %>
+      </div>
+
+      <!-- Thermometer Change -->
+      <div class="col-span-2 self-center">
+        <%= form.label :thermometer_change, class: label_class %>
+      </div>
+      <div class="col-span-2">
+        <%= form.text_area :thermometer_change, rows: "2", class: field_class_flex_full %>
+      </div>
+
+      <!-- Scale Change -->
+      <div class="col-span-2 self-center">
+        <%= form.label :scale_change, class: label_class %>
+      </div>
+      <div class="col-span-2">
+        <%= form.text_area :scale_change, rows: "2", class: field_class_flex_full %>
+      </div>
+
+      <!-- Farm Change -->
+      <div class="col-span-2 self-center">
+        <%= form.label :farm_change, class: label_class %>
+      </div>
+      <div class="col-span-2">
+        <%= form.text_area :farm_change, rows: "2", class: field_class_flex_full %>
+      </div>
+
     </div>
   </div>
 </div>
 
-  <div class="col-span-4">  <hr>  </div>
-  <div class="col-span-1 text-left font-light"> WEATHER</div>
 
-  <div class="col-span-1 self-center"><%= form.label :weather_today, class: label_class %></div>
-  <div class="text-left"><%= form.select :weather_today, options_for_select(weather, :selected => makesheet.weather_today),{:prompt=>true}, class: field_class_flex_disabled %></div>
+  <div class="col-span-4 mt-8">  <hr>  </div>
+  <div class="grid grid-cols-4 gap-4 mt-2">
+    <div class="col-span-1 text-left font-light"> WEATHER</div>
 
-  <div class="col-span-2 self-center"><%= form.label :weather_temp, "Temperature °C", class: label_class %></div>
-  <div class="text-left"><%= form.number_field :weather_temp,step: :any,  class: field_class_flex_small %></div>
+        <div class="col-span-1 self-center"><%= form.label :weather_today, class: label_class %></div>
+        <div class="text-left"><%= form.select :weather_today, options_for_select(weather, :selected => makesheet.weather_today),{:prompt=>true}, class: field_class_flex_disabled %></div>
 
-  <div class="col-span-2 self-center"><%= form.label :weather_humidity, "Humidity %", class: label_class %></div>
-  <div class="text-left"><%= form.number_field :weather_humidity, step: :any, class: field_class_flex_small %></div>
+        <div class="col-span-2 self-center"><%= form.label :weather_temp, "Temperature °C", class: label_class %></div>
+        <div class="text-left"><%= form.number_field :weather_temp,step: :any,  class: field_class_flex_small %></div>
 
- <div class="col-span-4 mt-8">  <hr>  </div>
+        <div class="col-span-2 self-center"><%= form.label :weather_humidity, "Humidity %", class: label_class %></div>
+        <div class="text-left"><%= form.number_field :weather_humidity, step: :any, class: field_class_flex_small %></div>
+
+      <div class="col-span-4 mt-8">  <hr>  </div>
+    </div>
+
 
   <!-- Graph Section -->
-  <div id="graph-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold"> GRAPH</div>
-  <div class="col-span-2">  <hr>  </div><div class="col-span-2">  </div>
+  <div class="grid grid-cols-4 gap-4 mt-2">
+   <div id="graph-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold"> GRAPH</div>
+    <div class="col-span-2">  <hr>  </div> <div class="col-span-2">  </div>
 
   <div class="col-span-4 text-center">
-  <hr class="col-span-2 my-2">
-     
-      <p class="mt-4 text-left font-semibold">Acidity Profile</p>
+     <p class="text-left font-semibold">Acidity Profile</p>
       <div class="border border-gray-200 rounded-lg p-4">
         <%= line_chart @chart_data, xtitle: "Elapsed Time in Hours", ytitle: "Titration Value"%>
      </div>
   </div>
 
-
   <div class="col-span-4 my-2">  <hr>  </div>
    <!-- Slow Cheese Section -->
 
- <!-- Wrap the entire section in a Stimulus controller -->
- <div data-controller="accordion" class="col-span-4">
+  <!-- Wrap the entire section in a Stimulus controller -->
+  <div data-controller="accordion" class="col-span-4">
   
   <!-- Clickable accordion header -->
   <div class="col-span-4 cursor-pointer font-light text-left flex items-center"
@@ -346,31 +369,32 @@
        <div class="text-left">
          <%= form.select :step_4_notify_tim, options_for_select(yes_no, selected: makesheet.step_4_notify_tim), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
        </div>
-    <div class="col-span-3 self-center">
-      <%= form.label :step_5_apply_label, "Identify the batch as slow - apply 'HOLD SLOW CHEESE' label with the DATE completed", class: label_class %>
-    </div>
 
-    <div class="text-left">
-      <%= form.select :step_5_apply_label, options_for_select(yes_no, selected: makesheet.step_5_apply_label), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-    </div>
+      <div class="col-span-3 self-center">
+        <%= form.label :step_5_apply_label, "Identify the batch as slow - apply 'HOLD SLOW CHEESE' label with the DATE completed", class: label_class %>
+      </div>
 
-    <div class="col-span-3 self-center">
-      <%= form.label :step_6_record_red_book, "Head Cheesemake to record the cheese is slow in the annual cheese make record (RED BOOK)", class: label_class %>
-    </div>
+      <div class="text-left">
+        <%= form.select :step_5_apply_label, options_for_select(yes_no, selected: makesheet.step_5_apply_label), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
+      </div>
 
-    <div class="text-left">
-      <%= form.select :step_6_record_red_book, options_for_select(yes_no, selected: makesheet.step_6_record_red_book), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-    </div>
+      <div class="col-span-3 self-center">
+        <%= form.label :step_6_record_red_book, "Head Cheesemake to record the cheese is slow in the annual cheese make record (RED BOOK)", class: label_class %>
+      </div>
+
+      <div class="text-left">
+        <%= form.select :step_6_record_red_book, options_for_select(yes_no, selected: makesheet.step_6_record_red_book), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
+      </div>
   </div>
-    </div>
   </div>
-</div>
+  </div>
+
 
 <br>
-
+<div class="col-span-4">  <hr>  </div>
    <!-- Maintenace Section -->
   <div id="maintenance-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold"> MAINTENANCE</div>
-    <div class="col-span-2">  <hr>  </div><div class="col-span-2">  </div>
+  <div class="col-span-2 my-2">  <hr>  </div><div class="col-span-2">  </div>
   
   <div class="col-span-4 text-left font-light"> PRE START INSPECTION</div>
 
@@ -380,45 +404,45 @@
     <div class="text-left"><%= form.select :pre_start_inspection_of_high_risk_items, options_for_select(yes_no, :selected => makesheet.pre_start_inspection_of_high_risk_items),{:include_blank => true}, class: field_class_flex_small %></div>
 
     <div class="col-span-2 self-center text-right"><%= form.label :pre_start_inspection_by_staff_id, "Inspection By", class: label_class %></div>
-    <div><%= form.collection_select(:pre_start_inspection_by_staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %></div>
+    <div><%= form.collection_select(:pre_start_inspection_by_staff_id, @cheese_makers, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %></div>
   
   </div>
 
- <div class="col-span-4 my-2">  <hr>  </div>
+  <div class="col-span-4 my-2">  <hr>  </div>
 
- <!-- Wrap the entire section in a Stimulus controller -->
- <div data-controller="accordion">
-  
-  <!-- Clickable accordion header -->
-  <div class="col-span-2 cursor-pointer font-light text-left flex items-center"
-     data-action="click->accordion#toggle">
-    <span>GLASS BREAKAGES</span>
-    <span class="text-gray-600 ml-4"> (Click to expand)</span>
-  </div>
+  <!-- Wrap the entire section in a Stimulus controller -->
+  <div data-controller="accordion">
+    
+    <!-- Clickable accordion header -->
+    <div class="col-span-2 cursor-pointer font-light text-left flex items-center"
+      data-action="click->accordion#toggle">
+      <span>GLASS BREAKAGES</span>
+      <span class="text-gray-600 ml-4"> (Click to expand)</span>
+    </div>
 
-  <!-- Hidden section that expands/collapses -->
-  <div data-accordion-target="section" class="hidden col-span-4">
-    <div class="grid grid-cols-4 gap-4 mt-2">
-      
-      <!-- Glass Contamination -->
-      <div class="col-span-2 self-center text-right">
-        <%= form.label :glass_contamination, class: label_class %>
-      </div>
-      <div class="col-span-1 col-start-3 text-left">
-        <%= form.select :glass_contamination, options_for_select(yes_no, selected: makesheet.glass_contamination), { include_blank: true }, class: field_class_flex_small %>
-      </div>
+    <!-- Hidden section that expands/collapses -->
+    <div data-accordion-target="section" class="hidden col-span-4">
+      <div class="grid grid-cols-4 gap-4 mt-2">
+        
+        <!-- Glass Contamination -->
+        <div class="col-span-2 self-center text-right">
+          <%= form.label :glass_contamination, class: label_class %>
+        </div>
+        <div class="col-span-1 col-start-3 text-left">
+          <%= form.select :glass_contamination, options_for_select(yes_no, selected: makesheet.glass_contamination), { include_blank: true }, class: field_class_flex_small %>
+        </div>
 
-      <!-- Glass Comments -->
-      <div class="col-span-2 self-center text-right">
-        <%= form.label :glass_comments, class: label_class %>
-      </div>
-      <div class="col-span-1 col-start-3">
-        <%= form.text_area :glass_comments, rows: 3, class: field_class_flex %>
-      </div>
+        <!-- Glass Comments -->
+        <div class="col-span-2 self-center text-right">
+          <%= form.label :glass_comments, class: label_class %>
+        </div>
+        <div class="col-span-1 col-start-3">
+          <%= form.text_area :glass_comments, rows: 3, class: field_class_flex %>
+        </div>
 
+      </div>
     </div>
   </div>
-</div>
 
   <div class="col-span-4 my-2">  <hr>  </div>
 
@@ -508,12 +532,3 @@
 
 <br>
 
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-<br>

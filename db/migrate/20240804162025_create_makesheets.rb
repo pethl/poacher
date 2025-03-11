@@ -55,10 +55,12 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.integer :pre_start_inspection_by_staff_id
       t.text  :ingredient_batch_change
       t.string  :thermometer_change
+      t.string  :farm_change
       t.string  :scale_change
       t.boolean  :batch_dipped
       t.text  :post_make_notes
       t.integer :cheese_made_by_staff_id
+      t.integer :assistant_staff_id
       t.string  :milling_help
       t.float  :salt_weight_net, precision: 6, scale: 3
       t.float  :salt_weight_gross, precision: 6, scale: 3

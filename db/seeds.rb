@@ -349,9 +349,8 @@ Reference.create(group:	'department', value:	'Butter Team', description:	'');
 Reference.create(group:	'department', value:	'Office', description:	'');
 Reference.create(group:	'department', value:	'Cheese Store', description:	'');
 Reference.create(group:	'department', value:	'Cutting Room', description:	'');
-Reference.create(group:	'employment_status', value:	'Working', description:	'');
-Reference.create(group:	'employment_status', value:	'Trainee', description:	'');
-Reference.create(group:	'employment_status', value:	'Terminated', description:	'');
+Reference.create(group:	'employment_status', value:	'Active', description:	'');
+Reference.create(group:	'employment_status', value:	'Inactive', description:	'');
 Reference.create(group:	'trafficlights', value:	'Green', description:	'');
 Reference.create(group:	'trafficlights', value:	'Yellow', description:	'');
 Reference.create(group:	'trafficlights', value:	'Red', description:	'');
@@ -455,6 +454,8 @@ Reference.create(group: 'wedges_sizes', value: 'min 400-450g', description: '5')
 Reference.create(group: 'sale_pricing', value: 'Unpriced', description: '1');
 Reference.create(group: 'sale_pricing', value: 'Farmers Market', description: '2');
 Reference.create(group: 'sale_pricing', value: 'London Wholesale', description: '3');
+Reference.create(group: 'starter_culture', value: 'RA21', description: '2');
+Reference.create(group: 'starter_culture', value: 'RA24', description: '3');
 
 # MarketSale.create(who: 'ed', market:'Stamford', sale_date: Date.parse('2023/01/22'), cheese_sales:'313.59', butter_sales:'59.2', plum_bread:'60', milk:'87.5', other_cheese:'247', total_sales:'767.29');
 # MarketSale.create(who: 'jo', market:'Oakham', sale_date: Date.parse('2023/01/21'), cheese_sales:'330.74', butter_sales:'48.1', plum_bread:'135', milk:'82.25', other_cheese:'287', total_sales:'883.09');

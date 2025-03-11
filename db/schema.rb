@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -175,10 +175,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
     t.integer "pre_start_inspection_by_staff_id"
     t.text "ingredient_batch_change"
     t.string "thermometer_change"
+    t.string "farm_change"
     t.string "scale_change"
     t.boolean "batch_dipped"
     t.text "post_make_notes"
     t.integer "cheese_made_by_staff_id"
+    t.integer "assistant_staff_id"
     t.string "milling_help"
     t.float "salt_weight_net"
     t.float "salt_weight_gross"
@@ -201,6 +203,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "batch"
+    t.bigint "contact_id"
+    t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
     t.index ["status"], name: "index_makesheets_on_status"
   end
@@ -441,6 +445,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_04_120843) do
   add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
+  add_foreign_key "makesheets", "contacts"
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "palletised_distributions", "staffs"
   add_foreign_key "picksheet_items", "picksheets"

@@ -3,20 +3,99 @@
 <% content_for :title, "Poacher: Customer Details" %>
 <% content_for(:print_button, "browser-print")%>
 
-  <div class="mx-auto">
+    <div class="mb-4 border border-gray-800 p-4 rounded-lg">
    
+      <%= render @contact %>
 
-    <%= render @contact %>
-<br>
-    <%= link_to "Edit this contact", edit_contact_path(@contact), class: fill_button_class %>
-    <br><br>
-    <%= link_to "All Contacts", contacts_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Delete this Contact",
-                  @contact,
-                  method: :delete,
-                  form: { data: { turbo_confirm: "Are you sure?" } },
-                  class: gray_button %>
+        <div class="my-2">
+          <%= link_to "Edit this contact", edit_contact_path(@contact), class: fill_button_class %>
+          <%= link_to "All Contacts", contacts_path, class: gray_button %>
+            <div class="inline-block ml-2">
+              <%= button_to "Delete this Contact",
+                          @contact,
+                          method: :delete,
+                          form: { data: { turbo_confirm: "Are you sure?" } },
+                          class: gray_button %>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex row gap-4">
+
+      <div class="w-full md:w-1/2 mb-4 border border-gray-800 p-4 rounded-lg">
+        <p class="<%= title_two %>">Add New Reserved Batchs</p>
+
+        <%= form_with url: search_makesheets_contact_path(@contact), method: :get, local: true do |form| %>
+          <%= form.label :make_date, "Search by Make Date" %>
+          <%= form.date_field :make_date, class:field_class_flex_med %>
+          <%= form.submit "Search", class:fill_button_class %>
+        <% end %>
+
+          <div class="mx-8 mt-2">
+           
+              <% if @makesheets.present? %>
+                <%= form_with url: link_makesheets_contact_path(@contact), method: :post do |form| %>
+                  <table class="w-full table-fixed mt-2">
+                    <thead class="bg-gray-400 text-white mt-2">
+                      <tr class="">
+                        <th>Select</th>
+                        <th class="text-left">Make Date</th>
+                        <th class="text-left">Grade</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @makesheets.each do |makesheet| %>
+                        <tr>
+                          <td class="text-center">
+                            <%= check_box_tag "makesheet_ids[]", makesheet.id, @contact.makesheets.include?(makesheet) %>
+                          </td>
+                          <td class="text-left"><%= makesheet.make_date.to_formatted_s(:uk_clean_date) %></td>
+                          <td class="text-left"><%= makesheet.grade %></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                  <%= form.submit "Link Makesheet/s", class:fill_button_class %>
+                <% end %>
+              <% else %>
+                <p>No makesheets found for this date.</p>
+              <% end %>
+            </div>
+         </div>
+
+
+         <div class="w-full md:w-1/2 mb-4 border border-gray-800 p-4 rounded-lg">
+          <h2 class="<%= title_two %>">Existing Reserved Batchs</h2>
+
+            <% if @contact.makesheets.any? %>
+              <table class="w-full mt-2">
+                <thead>
+                  <thead class="bg-gray-400 text-white mt-2">
+                    <th class=" px-2 ">Make Date</th>
+                    <th class=" px-2 ">Type</th>
+                    <th class=" px-2 ">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @contact.makesheets.order(make_date: :desc).each do |makesheet| %>
+                    <tr class="<%= 'bg-gray-200' if makesheet.status == 'Finished' %>">
+                      <td class="px-2 text-center">
+                        <%= makesheet.make_date.to_formatted_s(:uk_clean_date) %>
+                      </td>
+                      <td class=" px-2 text-center">
+                        <%= makesheet.grade %>
+                      </td>
+                      <td class=" px-2 text-center">
+                        <%= makesheet.status %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <p>No linked makesheets found.</p>
+            <% end %>
+
     </div>
   </div>
 </div>
