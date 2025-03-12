@@ -20,6 +20,9 @@
                  <th scope="col" class="sticky top-0 px-6 py-2 text-left">
                     Batch Code
                 </th>
+                 <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                    Grade
+                </th>
                 <th scope="col" class="sticky top-0 px-6 py-2 w-30  underline underline-offset-2">
                    <%= traceability_show_sort_indicator_for("date_started_batch") %>
                    <%= traceability_sort_link(column: "date_started_batch", label: "Date Batch Started") %>
@@ -56,8 +59,13 @@
                 <td scope="row" class="px-6 py-4 whitespace-nowrap ">
                    <%= traceability_record.makesheet.batch %>
                 </td>
+
+                 <td scope="row" class="px-6 py-4 whitespace-nowrap ">
+                   <%= traceability_record.makesheet.grade %>
+                </td>
+
                 <td class="px-6 py-4 text-left underline underline-offset-2">
-                  <%= link_to traceability_record.date_started_batch.to_formatted_s(:uk_clean_date), traceability_record %>
+                  <%= link_to traceability_record.date_started_batch.to_formatted_s(:uk_clean_date), edit_traceability_record_path(traceability_record) %>
                 </td>
                 <td class="px-6 py-4 text-left whitespace-nowrap">
                   <%=  traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %>

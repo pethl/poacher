@@ -3,12 +3,19 @@ class TraceabilityRecordsController < ApplicationController
 
   # GET /traceability_records or /traceability_records.json
   def index
-    #@traceability_records = TraceabilityRecord.all
-    if params[:column].present?
-      @traceability_records = TraceabilityRecord.order("#{params[:column]} #{params[:direction]}")
-    else
-      @traceability_records = TraceabilityRecord.all
-    end
+    # only show records linked to open makesheets. makesheet is closed when sally adds to a batch weight record
+    #@traceability_records = TraceabilityRecord.joins(:makesheet) .where.not(makesheets: { status: "Finished" })
+   #instead where associated makesheet is not linked to a batch weight record.
+   @traceability_records = TraceabilityRecord.joins(:makesheet)
+                                            .left_joins(makesheet: :batch_weights)
+                                            .where(batch_weights: { id: nil }) # Filters out Makesheets linked to BatchWeight
+
+
+  if params[:column].present? && params[:direction].present?
+    @traceability_records = @traceability_records.order("#{params[:column]} #{params[:direction]}")
+  else
+    @traceability_records = @traceability_records.order(created_at: :desc)
+  end
   end
 
   # GET /traceability_records/1 or /traceability_records/1.json
@@ -19,18 +26,27 @@ class TraceabilityRecordsController < ApplicationController
   # GET /traceability_records/new
   def new
     @traceability_record = TraceabilityRecord.new
-    @makesheets = Makesheet.all.ordered
+    # Exclude makesheets that are already associated with a TraceabilityRecord
+    @makesheets = Makesheet.where.not(status: "Finished")
+                           .where.not(id: TraceabilityRecord.pluck(:makesheet_id))
+                           .ordered
   end
-
+ 
   # GET /traceability_records/1/edit
   def edit
-    @makesheets = Makesheet.all.ordered
+    # Exclude makesheets that are already associated with a TraceabilityRecord
+    @makesheets = Makesheet.where.not(status: "Finished")
+                           .where.not(id: TraceabilityRecord.pluck(:makesheet_id))
+                           .ordered
   end 
 
   # POST /traceability_records or /traceability_records.json
   def create
     @traceability_record = TraceabilityRecord.new(traceability_record_params)
-    @makesheets = Makesheet.all.ordered
+   # Exclude makesheets that are already associated with a TraceabilityRecord
+   @makesheets = Makesheet.where.not(status: "Finished")
+   .where.not(id: TraceabilityRecord.pluck(:makesheet_id))
+   .ordered
 
     respond_to do |format|
       if @traceability_record.save

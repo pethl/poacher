@@ -14,15 +14,19 @@
 
   <div class="grid grid-rows-2 grid-cols-2">
 
-    <div class="my-2">
-      <%= form.label :makesheet_id %>
-      <%= form.collection_select(:makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade ,{:prompt=>true},  {class:field_class_flex}) %>
-    </div> 
+   <div class="my-2">
+    <%= form.label :makesheet_id %>
+    <%= form.collection_select(:makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade, { prompt: true }, 
+                              { class: field_class_flex, disabled: !form.object.new_record? }) %>
+  </div>
 
-    <div class="my-2">
-      <%= form.label :date_started_batch, " Started Batch" %>
-      <%= form.date_field :date_started_batch, :value => Time.now.strftime("%Y-%m-%d") , class: field_class_flex %>
-    </div>
+   <div class="my-2">
+    <%= form.label :date_started_batch, " Started Batch" %>
+    <%= form.date_field :date_started_batch, 
+        value: Time.now.strftime("%Y-%m-%d"), 
+        class: field_class_flex, 
+        disabled: !form.object.new_record? %>
+  </div>
 
       <div class="my-2">
       <%= form.label :batch_code %>
@@ -224,5 +228,9 @@
 <% end %>
 
   <div class="inline">
-    <%= link_to "Show Details", traceability_record, class: gray_button %> 
+    <%= link_to "Add Waste Details", traceability_record, class: gray_button %> 
+  </div>
+<br>
+  <div class="inline">
+    <%= link_to "All Batch Traceability Records", traceability_records_path, class: gray_button %> 
   </div>

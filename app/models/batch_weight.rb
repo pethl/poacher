@@ -1,7 +1,18 @@
 class BatchWeight < ApplicationRecord
   belongs_to :makesheet, optional: true
 
-  scope :ordered, -> { order(date: :asc) }
+  validates :makesheet_id, presence: true, uniqueness: true  
+  validates :date, presence: true
 
-  scope :not_finished, -> { where.not(status: "Finished") }
+  scope :ordered, -> { order(date: :asc) }
+  scope :not_finished, -> { where.not(status: "Finished") } 
+
+   # After creating a BatchWeight, update the associated Makesheet's status to "Finished"
+   after_create :mark_makesheet_as_finished
+
+   private
+ 
+   def mark_makesheet_as_finished
+     makesheet.update(status: 'Finished')
+   end
 end

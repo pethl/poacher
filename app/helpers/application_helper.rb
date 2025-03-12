@@ -96,12 +96,13 @@ module ApplicationHelper
    end
    
    def gray_button
-     "mt-2 rounded-lg py-2heroku  px-4 bg-gray-100 inline-block font-medium"
+     "mt-2 rounded-lg py-2 px-4 bg-gray-100 inline-block font-medium"
    end 
  
    def clear_button_class
-     "bg-transparent text-sm hover:bg-gray-600 font-semibold hover:text-white mt-8 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
+     "bg-transparent text-sm hover:bg-gray-200 hover:text-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
    end
+
    
    def tight_clear_button_class
      "bg-transparent hover:bg-gray-600 font-semibold hover:text-white p-2 w-full border border-gray-900 hover:border-transparent rounded-lg"

@@ -1,6 +1,7 @@
 class Makesheet < ApplicationRecord
   has_many :turns
   has_many :traceability_records
+  has_many :batch_weights 
   has_many :samples  
   has_many :staffs  
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
@@ -39,6 +40,10 @@ class Makesheet < ApplicationRecord
   
   def make_date_formatted
     self.make_date.to_formatted_s(:uk_clean_date)
+  end
+
+  def make_date_formatted_and_grade
+    self.make_date.to_formatted_s(:uk_clean_date) +" - "+ self.grade
   end
 
   def make_date_formatted_batch_grade

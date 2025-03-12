@@ -1,12 +1,13 @@
 class BatchWeightsController < ApplicationController
   before_action :set_batch_weight, only: %i[ show edit update destroy ]
+  before_action :set_makesheets, only: %i[new edit create update]
+
 
   # GET /batch_weights or /batch_weights.json
   def index
     @batch_weights = BatchWeight.all.ordered
-    @makesheets = Makesheet.not_finished
   end
-
+ 
   # GET /batch_weights/1 or /batch_weights/1.json
   def show
   end
@@ -14,7 +15,7 @@ class BatchWeightsController < ApplicationController
   # GET /batch_weights/new
   def new
     @batch_weight = BatchWeight.new
-    @makesheets = Makesheet.not_finished
+    
   end
 
   # GET /batch_weights/1/edit
@@ -71,5 +72,14 @@ class BatchWeightsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def batch_weight_params
       params.require(:batch_weight).permit(:date, :makesheet_id, :washed_batch_weight, :all_rinds_visually_clean, :comments)
+    end
+
+    def set_makesheets
+      # Get all makesheets that are linked to a TraceabilityRecord
+      makesheets_with_traceability = Makesheet.joins(:traceability_records).distinct
+  
+      # Exclude makesheets that are already linked to a BatchWeight record
+      @makesheets = makesheets_with_traceability.left_joins(:batch_weights)
+                                                 .where(batch_weights: { id: nil })
     end
 end

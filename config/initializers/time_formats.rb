@@ -1,6 +1,7 @@
 Date::DATE_FORMATS[:default] = "%m/%d/%Y"
 Date::DATE_FORMATS[:month_and_year] = '%B %Y'  
 Date::DATE_FORMATS[:uk] = '%d %b %Y' #01 Jan 2025
+Date::DATE_FORMATS[:d_uk_clean_date] = '%d-%m-%y' # 05-03-25
 Date::DATE_FORMATS[:usa_dt] = '%b %d, %Y %H:%M'
 Date::DATE_FORMATS[:custom] = "%Y-%m-%d"
 Date::DATE_FORMATS[:long_day] = "%A"

@@ -1,4 +1,5 @@
-<%= form_with(model: batch_weight, class: "contents") do |form| %>
+<%= form_with(model: batch_weight, url: batch_weights_path, method: :post, data: { turbo: false }) do |form| %>
+
   <% if batch_weight.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(batch_weight.errors.count, "error") %> prohibited this batch_weight from being saved:</h2>
@@ -11,14 +12,25 @@
     </div>
   <% end %>
 
+  <!-- Date Field Only editable in New form disabled in edit-->
   <div class="my-5">
     <%= form.label :date %>
-    <%= form.date_field :date, value: @batch_weight.date || Date.today, placeholder:Time.now.strftime('%Y-%m-%d') , class: field_class_flex_med %>
+    <%= form.date_field :date, 
+                        value: @batch_weight.date || Date.today, 
+                        placeholder: Time.now.strftime('%Y-%m-%d'), 
+                        class: field_class_flex_med, 
+                        disabled: !@batch_weight.new_record? %>  <!-- Disabled in edit -->
   </div>
 
+  <!-- Makesheet Select Field Only editable in New form disabled in edit -->
   <div class="my-5">
     <%= form.label :makesheet_id, "Production Date/Batch" %>
-    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex_med}) %>
+    <%= form.collection_select(:makesheet_id, 
+                                @makesheets, 
+                                :id, 
+                                :make_date_formatted_and_grade, 
+                                { prompt: true }, 
+                                { class: field_class_flex_med, disabled: !@batch_weight.new_record? }) %>  <!-- Disabled in edit -->
   </div>
 
   <div class="my-5 text-right">
@@ -40,3 +52,5 @@
     <%= form.submit "Save Batch Weight Record", class: fill_button_class %>
   </div>
 <% end %>
+
+<%= link_to "All Batch Weight Records", batch_weights_path, class:gray_button%>

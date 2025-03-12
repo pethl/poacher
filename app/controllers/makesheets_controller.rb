@@ -54,10 +54,16 @@ class MakesheetsController < ApplicationController
   
   # GET /makesheets or /makesheets.json
   def index
-    if params[:column].present?
-        @makesheets = Makesheet.order("#{params[:column]} #{params[:direction]}")
-      else
-        @makesheets = Makesheet.all.ordered_reverse
+    @makesheets = Makesheet.all
+
+    # Apply search filter if a date is provided
+    @makesheets = @makesheets.where(make_date: params[:search]) if params[:search].present?
+  
+    # Apply sorting if column and direction are provided
+    if params[:column].present? && params[:direction].present?
+      @makesheets = @makesheets.order("#{params[:column]} #{params[:direction]}")
+    else
+      @makesheets = @makesheets.ordered_reverse
     end
   end
 
