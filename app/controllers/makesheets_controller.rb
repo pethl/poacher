@@ -168,7 +168,7 @@ class MakesheetsController < ApplicationController
     end
 
     def set_cheese_makers
-      @cheese_makers = Staff.where(dept: "Cheesemaking Team").ordered
+      @cheese_makers = Staff.where(dept: "Cheesemaking Team").where(employment_status: "Active").ordered
     end
 
      # Private method to prepare chart data

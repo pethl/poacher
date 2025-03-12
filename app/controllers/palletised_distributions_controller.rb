@@ -13,17 +13,17 @@ class PalletisedDistributionsController < ApplicationController
   # GET /palletised_distributions/new
   def new
     @palletised_distribution = PalletisedDistribution.new
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
   end
 
   # GET /palletised_distributions/1/edit
   def edit
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
   end
 
   # POST /palletised_distributions or /palletised_distributions.json
   def create
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
     @palletised_distribution = PalletisedDistribution.new(palletised_distribution_params)
 
     respond_to do |format|

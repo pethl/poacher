@@ -4,17 +4,30 @@ class ContactsController < ApplicationController
 
   # GET /contacts or /contacts.json
   def index
-    if params[:column].present?
-      @contacts = Contact.order("#{params[:column]} #{params[:direction]}")
+    @contacts = Contact.all.order(:business_name)
+
+    # Apply search filter if present
+    if params[:search].present?
+      @contacts = @contacts.where("business_name ILIKE ?", "%#{params[:search]}%")
+    end
+  
+    # Apply sorting if present
+    if params[:column].present? && params[:direction].present?
+      @contacts = @contacts.order("#{params[:column]} #{params[:direction]}")
     else
-      @contacts = Contact.all.ordered
+      @contacts = @contacts.order(:business_name) # Default ordering
+    end
+
+    respond_to do |format|
+      format.html # Normal page load
+      format.turbo_stream # Handles Turbo update
     end
   end
 
   # GET /contacts/1 or /contacts/1.json
   def show
     @contact = Contact.find(params[:id])
-    @makesheets = Makesheet.where(contact_id: nil).ordered # Only unlinked makesheets
+    @makesheets = Makesheet.where(contact_id: nil).where.not(status: "Finished").where.not(grade: [nil, '']).ordered # Only unlinked makesheets
   end
 
   def search_makesheets

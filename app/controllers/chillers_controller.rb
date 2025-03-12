@@ -35,7 +35,7 @@ class ChillersController < ApplicationController
   # GET /chillers/new
   def new
     @chiller = Chiller.new
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(status: "Active").ordered
   end
 
   # GET /chillers/1/edit
@@ -46,7 +46,7 @@ class ChillersController < ApplicationController
   # POST /chillers or /chillers.json
   def create
     @chiller = Chiller.new(chiller_params)
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(status: "Active").ordered
      Rails.logger.debug "Params: #{params.inspect}"
 
     respond_to do |format|
@@ -63,7 +63,7 @@ class ChillersController < ApplicationController
   # PATCH/PUT /chillers/1 or /chillers/1.json
   def update
    
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(status: "Active").ordered
     respond_to do |format|
       if @chiller.update(chiller_params)
         format.html { redirect_to chillers_path, notice: "Chiller temperature record was successfully updated." }

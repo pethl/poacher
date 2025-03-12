@@ -33,18 +33,18 @@ class BreakagesController < ApplicationController
   # GET /breakages/new
   def new
     @breakage = Breakage.new
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
   end
 
   # GET /breakages/1/edit
   def edit
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
   end
 
   # POST /breakages or /breakages.json
   def create
     @breakage = Breakage.new(breakage_params)
-    @staffs = Staff.all.ordered
+    @staffs = Staff.where(employment_status: "Active").ordered
 
     respond_to do |format|
       if @breakage.save
@@ -61,7 +61,7 @@ class BreakagesController < ApplicationController
   def update
     respond_to do |format|
       if @breakage.update(breakage_params)
-        @staffs = Staff.all.ordered
+        @staffs = Staff.where(employment_status: "Active").ordered
         format.html { redirect_to breakages_path, notice: "Breakage was successfully updated." }
         format.json { render :show, status: :ok, location: @breakage }
       else
