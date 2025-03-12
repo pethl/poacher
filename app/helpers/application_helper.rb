@@ -96,7 +96,7 @@ module ApplicationHelper
    end
    
    def gray_button
-     "mt-2 rounded-lg py-2 px-4 bg-gray-100 inline-block font-medium"
+     "mt-2 rounded-lg py-2heroku  px-4 bg-gray-100 inline-block font-medium"
    end 
  
    def clear_button_class
