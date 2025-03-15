@@ -1,54 +1,51 @@
 <% content_for(:page_title, "MANAGEMENT")%>
 
-<div class="my-4 mt-8 w-2/3 mx-auto">
-  <div class="my-4 text-center mt-2">
-    <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
-   
-    <%= link_to "Butter Makes", "/butter_makes", class: nav_box_class %>
-    <%= link_to "Stock Position", "/makesheets/overview", class: nav_box_class %>
-    <%= link_to "Monthly Cheese Summary", "/makesheets/monthly_summary", class: nav_box_class %>
-    <%= link_to "Market Sales", "/market_sales", class: nav_box_class %>
-    <%= link_to "Invoices ", "/invoices", class: nav_box_class %>
-    <%= link_to "TBD ", "/butter_makes", class: nav_box_class %>
-   
-  </div>
-</div>
-
-<hr class="my-4">
-
-<div class="grid grid-cols-1 md:grid-cols-2">
-  <div class="basis-1/2">
-    <div class="text-center text-lg">
-       Stock by %
-   
-    <%= pie_chart Makesheet.where("status NOT IN (?)", 'Finished').group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'percentage'}, legend: "bottom"  %>
-     </div>
-  </div>
+<div class="my-4 mt-8 w-2/3 mx-auto overflow-y-auto">
   
+  <!-- Section 1: Links Grid -->
+  <div class="my-4 text-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
+      <%= link_to "Butter Makes", "/butter_makes", class: nav_box_class %>
+      <%= link_to "Stock Position", "/makesheets/overview", class: nav_box_class %>
+      <%= link_to "Monthly Cheese Summary", "/makesheets/monthly_summary", class: nav_box_class %>
+      <%= link_to "Market Sales", "/market_sales", class: nav_box_class %>
+      <%= link_to "Invoices", "/invoices", class: nav_box_class %>
+      <%= link_to "TBD", "/butter_makes", class: nav_box_class %>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <!-- Section 2: Charts Grid (Stock by %, Stock Count) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Stock by % -->
+    <div class="text-center text-lg">
+      <h3>Stock by %</h3>
+      <%= pie_chart Makesheet.where("status NOT IN (?)", 'Finished').group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'percentage'}, legend: "bottom"  %>
+    </div>
   
-  <div class="basis-1/2">
+    <!-- Stock Count -->
     <div class="text-center text-lg">
-       Stock Count
-   
-    <%= bar_chart Makesheet.where("status NOT IN (?)", 'Finished').group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'value', legend: "bottom" }  %>
-     </div>
-  </div>
+      <h3>Stock Count</h3>
+      <%= bar_chart Makesheet.where("status NOT IN (?)", 'Finished').group(:grade).sum(:number_of_cheeses), donut: true, library: {pieSliceText: 'value', legend: "bottom" }  %>
+    </div>
   </div>
 
+  <br><br>
 
-<br><br>
+  <!-- Section 3: Charts Grid (Poacher Count, Vintage Count) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Poacher Count by Age -->
+    <div class="text-center text-lg">
+      <h3>Poacher Count by Age</h3>
+      <%= line_chart Makesheet.where(grade: "Poacher").group_by_week(:make_date).sum(:number_of_cheeses) %>
+    </div>
+  
+    <!-- Vintage Count by Age -->
+    <div class="text-center text-lg">
+      <h3>Vintage Count by Age</h3>
+      <%= line_chart Makesheet.where(grade: "Vintage").group_by_week(:make_date).sum(:number_of_cheeses) %>
+    </div>
+  </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2">
-  <div class="basis-1/2">
-    <div class="text-center text-lg">
-      Poacher Count by Age
-    <%= line_chart Makesheet.where(grade: "Poacher").group_by_week(:make_date).sum(:number_of_cheeses) %>
-  </div>
-</div>
-  <div class="basis-1/2">
-    <div class="text-center text-lg">
-      Vintage Count by Age
-    <%= line_chart Makesheet.where(grade: "Vintage").group_by_week(:make_date).sum(:number_of_cheeses) %>
-  </div>
-</div>
 </div>
