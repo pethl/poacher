@@ -8,7 +8,14 @@
       </a> 
     </div>
 
- 
+    <div class="flex items-start justify-between">
+      <!-- Hamburger Button -->
+      <button id="hamburger-button" 
+        class="text-3xl text-white focus:outline-none sm:block md:hidden">
+        &#9776;
+      </button>
+    </div>
+
 
     <!-- Main Navigation (Hidden on small screens, shown on md+) -->
     <nav class="hidden md:flex space-x-6 text-sm font-medium text-gray-100" aria-label="main">
@@ -48,13 +55,7 @@
     </div>
   </section>
 
-     <div data-controller="hamburger">
-      <!-- Hamburger Button -->
-    <button id="hamburger-button" 
-      class="text-3xl text-white focus:outline-none sm:block md:hidden"  
-      data-action="click->hamburger#toggle">
-      &#9776;
-    </button>
+   
 
 
    <!-- Mobile Menu -->
