@@ -25,6 +25,18 @@
         </p>
       <% end %>
     </div>
+     <!-- Makesheet Select only for customers with special batches -->
+        <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>%
+          <div class="my-5">
+            <%= form.label :makesheet_id, "Production Date/Batch" %>
+            <%= form.collection_select(:makesheet_id, 
+                                        @makesheets, 
+                                        :id, 
+                                        :make_date_formatted_and_grade, 
+                                        { prompt: true }, 
+                                        { class: field_class_flex_med }) %>  
+          </div>
+          <% end %>
   </div>
 
   <!-- Size Column -->
@@ -40,7 +52,7 @@
   </div>
 
   <!-- Wedge Size Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :wedge_size, class:"font-semibold text-sm" %><br>
     <div class="w-full">
       <% wedges_sizes.each do |wedge| %>
@@ -52,7 +64,7 @@
   </div>
 
    <!-- Pricing  Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/7">
     <%= form.label :pricing, class:"font-semibold text-sm" %><br>
     <div class="w-full">
       <% sale_pricing.each do |price| %>
@@ -64,7 +76,7 @@
   </div>
 
   <!-- Count Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
+  <div class="border-l-2 px-4 py-2 w-1/6">
     <%= form.label :count, class:"font-semibold text-sm" %><br>
     <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
     <br>

@@ -15,6 +15,7 @@ class PagesController < ApplicationController
   def cutting_home
     @open_picksheets_count = Picksheet.where(status: "Open").count
     @assigned_picksheets_count = Picksheet.where(status: "Assigned").count
+    @cutting_picksheets_count = Picksheet.where(status: "Cutting").count
   end
 
   def office_home

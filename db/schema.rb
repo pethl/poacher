@@ -265,6 +265,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
 
   create_table "picksheet_items", force: :cascade do |t|
     t.bigint "picksheet_id", null: false
+    t.bigint "makesheet_id"
     t.string "product"
     t.string "size"
     t.integer "count"
@@ -277,6 +278,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
     t.string "custom_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_picksheet_items_on_makesheet_id"
     t.index ["picksheet_id"], name: "index_picksheet_items_on_picksheet_id"
   end
 
@@ -448,6 +450,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "palletised_distributions", "staffs"
+  add_foreign_key "picksheet_items", "makesheets"
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "picksheets", "contacts"
   add_foreign_key "picksheets", "users"

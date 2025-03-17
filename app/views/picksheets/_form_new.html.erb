@@ -51,9 +51,14 @@
     <%=  form.select :carrier, options_for_select(carrier, :selected => picksheet.carrier),{:prompt=>true}, class: field_class_flex %>
   </div>
    
-   <div class="my-2 flex items-center">
+  <div class="my-2 flex items-center">
     <%= form.label :carrier_delivery_date, class: "w-1/3 text-right pr-4"   %>
     <%= form.date_field :carrier_delivery_date,  class: field_class_flex%>
+  </div>
+
+   <div class="my-2 flex items-center">
+    <%= form.label :number_of_boxes, class: "w-1/3 text-right pr-4"   %>
+    <%= form.number_field :number_of_boxes,  class: field_class_flex_small %>
   </div>
 
   <div class="my-2 flex items-center">

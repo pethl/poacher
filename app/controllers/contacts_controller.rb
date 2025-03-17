@@ -41,7 +41,7 @@ class ContactsController < ApplicationController
   end
 
   def link_makesheets
-    @contact =  @contact = Contact.find(params[:id])
+    @contact = Contact.find(params[:id])
 
     selected_makesheets = Makesheet.where(id: params[:makesheet_ids])
 

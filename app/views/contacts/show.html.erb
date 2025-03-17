@@ -36,7 +36,7 @@
                 </thead>
                 <tbody>
                   <% @contact.makesheets.order(make_date: :desc).each do |makesheet| %>
-                    <tr class="<%= 'bg-gray-200' if makesheet.status == 'Finished' %>">
+                    <tr class="<%= 'bg-gray-200 line-through' if makesheet.status == 'Finished' %>">
                       <td class="px-2 text-center">
                         <%= makesheet.make_date.to_formatted_s(:uk_clean_date) %>
                       </td>

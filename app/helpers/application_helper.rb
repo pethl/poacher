@@ -102,7 +102,6 @@ module ApplicationHelper
    def clear_button_class
      "bg-transparent text-sm hover:bg-gray-200 hover:text-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
    end
-
    
    def tight_clear_button_class
      "bg-transparent hover:bg-gray-600 font-semibold hover:text-white p-2 w-full border border-gray-900 hover:border-transparent rounded-lg"
@@ -168,6 +167,11 @@ module ApplicationHelper
     else
       return "NO"
     end
+  end
+
+  # for customers with special batch selections
+  def contact_ids
+    contact_ids = Makesheet.where.not(status: "Finished").pluck(:contact_id).compact.uniq
   end
    
    #REFERENECE DATA ONLY
