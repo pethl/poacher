@@ -402,6 +402,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  yard (~> 0.9.37)
 
 RUBY VERSION
    ruby 3.3.7p123
