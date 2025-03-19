@@ -1,106 +1,104 @@
-<div class="mx-auto items-center rounded text-sm">
-<%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+<div class="items-center rounded text-sm">
+  <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
 
-<div class="sticky top-0 font-normal text-left text-sm m-2">
-<i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
-</div>
+  <div class="sticky top-0 font-normal text-left text-sm m-2">
+    <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
+  </div>
 
-<div class="flex flex-col h-screen">
+  <div class="flex flex-col h-screen">
     <div class="flex-grow overflow-auto">
       <table class="mx-auto w-full border text-sm text-left text-gray-500  ">
-       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 pl-2 pr-6 py-3 text-center">
-                    Progress
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 w-40  underline underline-offset-2">
-                   <%= makesheets_show_sort_indicator_for("make_date") %>
-                   <%= make_sheets_sort_link(column: "make_date", label: "Make Date") %>
-                </th>
-                <th id="batch" class="sticky top-0 px-4 py-3 text-left w-32  underline underline-offset-2">
-                   <%= makesheets_show_sort_indicator_for("batch") %>
-                   <%= make_sheets_sort_link(column: "batch", label: "Batch") %>
-                </th>
-                 <th scope="col" class="sticky top-0 pl-2 pl-6 py-3 text-left w-32">
-                    Status
-                </th>
-                 <th scope="col" class="sticky top-0 px-4 py-3 text-left w-32">
-                    Grade
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24">
-                     <%= makesheets_show_sort_indicator_for("age_in_days") %>
-                     <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 whitespace-nowrap underline underline-offset-2">
-                    <%= makesheets_show_sort_indicator_for("milk_used") %>
-                     <%= make_sheets_sort_link(column: "milk_used", label: "Milk (l)") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 underline underline-offset-2">
-                      <%= makesheets_show_sort_indicator_for("total_weight") %>
-                     <%= make_sheets_sort_link(column: "total_weight", label: " Weight (kg)") %>
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 text-right">
-                    Count
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-3 text-right">
-                    Yield
-                </th>
-               
-            </tr>
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
+          <tr class="bg-gray-200 sticky top-0">
+            <th scope="col" class="sticky top-0 pl-2 pr-6 py-3 text-center">
+              Progress
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 w-40  underline underline-offset-2">
+              <%= makesheets_show_sort_indicator_for("make_date") %>
+              <%= make_sheets_sort_link(column: "make_date", label: "Make Date") %>
+            </th>
+            <th id="batch" class="sticky top-0 px-4 py-3 text-left w-32  underline underline-offset-2">
+              <%= makesheets_show_sort_indicator_for("batch") %>
+              <%= make_sheets_sort_link(column: "batch", label: "Batch") %>
+            </th>
+            <th scope="col" class="sticky top-0 pl-2 pl-6 py-3 text-left w-32">
+              Status
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-left w-32">
+              Grade
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24">
+              <%= makesheets_show_sort_indicator_for("age_in_days") %>
+              <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 whitespace-nowrap underline underline-offset-2">
+              <%= makesheets_show_sort_indicator_for("milk_used") %>
+              <%= make_sheets_sort_link(column: "milk_used", label: "Milk (l)") %>
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 underline underline-offset-2">
+              <%= makesheets_show_sort_indicator_for("total_weight") %>
+              <%= make_sheets_sort_link(column: "total_weight", label: " Weight (kg)") %>
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-right">
+              Count
+            </th>
+            <th scope="col" class="sticky top-0 px-4 py-3 text-right">
+              Yield
+            </th>
+
+          </tr>
         </thead>
         <tbody class="overflow-contain">
-         <% @makesheets.each do |makesheet| %>
-            <tr class="border-b  hover:bg-gray-100">
-               <td class="px-4 py-2 text-center w-10 ">
-                 <% if makesheet.progress=="I" %> 
-                   <%= image_tag "001-circle.png", alt: "1/4", class: "w-10 h-10" %> 
-                  <% elsif makesheet.progress=="II" %> 
-                   <%= image_tag "002-last-quarter.png", alt: "1/2", class: "w-10 h-10" %> 
-                  <% elsif makesheet.progress=="III" %> 
-                    <%= image_tag "003-quarter.png", alt: "3/4", class: "w-10 h-10" %> 
-                  <% elsif makesheet.progress=="IV" %>
-                    <%= image_tag "004-moon.png", alt: "full", class: "w-10 h-10" %> 
-                   <% elsif makesheet.progress=="N" %>
-                    <%= image_tag "moon.png", alt: "nil", class: "w-10 h-10" %> 
-                  <% else %>
-                    <%= makesheet.progress%>
-                  <% end %>
-                </td>
-                <td scope="row" class="px-4 py-2 whitespace-nowrap underline underline-offset-2">
-                   <%= link_to makesheet.make_date.to_formatted_s(:uk_day), edit_makesheet_path(makesheet) %>
-                </td>
-                <td class="px-4 py-2 text-left underline underline-offset-2">
-                  <% if makesheet.batch? %>
-                  <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
-                  <% end %>
-                </td>
-                 <td class="px-4 py-2 text-left underline underline-offset-2">
-                 <%=  link_to makesheet.status, makesheet %>
-                </td>
-                 <td class="px-4 py-2 text-left">
-                 <%=  makesheet.grade %>
-                </td>
-                <td class="px-4 py-2 text-right whitespace-nowrap">
-                  <%= makesheet.age_in_months %>m
-                </td>
-                <td class="px-4 py-2 text-right">
-                  <%=  makesheet.milk_used %> ltrs
-                </td>
-                <td class="px-4 py-2 text-right">
-                  <%=  makesheet.total_weight %> kg
-                </td>
-                <td class="px-4 py-2 text-right">
-                  <%=  makesheet.number_of_cheeses %>
-                </td>
-                <td class="px-4 py-2 text-right">
-                  <%=  makesheet.yield.round(2)%> %
-                </td>
-               
-               
-            </tr>
+          <% @makesheets.each do |makesheet| %>
+          <tr class="border-b  hover:bg-gray-100">
+            <td class="px-4 py-2 text-center w-10 ">
+              <% if makesheet.progress=="I" %>
+              <%= image_tag "001-circle.png", alt: "1/4", class: "w-10 h-10" %>
+              <% elsif makesheet.progress=="II" %>
+              <%= image_tag "002-last-quarter.png", alt: "1/2", class: "w-10 h-10" %>
+              <% elsif makesheet.progress=="III" %>
+              <%= image_tag "003-quarter.png", alt: "3/4", class: "w-10 h-10" %>
+              <% elsif makesheet.progress=="IV" %>
+              <%= image_tag "004-moon.png", alt: "full", class: "w-10 h-10" %>
+              <% elsif makesheet.progress=="N" %>
+              <%= image_tag "moon.png", alt: "nil", class: "w-10 h-10" %>
+              <% else %>
+              <%= makesheet.progress%>
               <% end %>
+            </td>
+            <td scope="row" class="px-4 py-2 whitespace-nowrap underline underline-offset-2">
+              <%= link_to makesheet.make_date.to_formatted_s(:uk_day), edit_makesheet_path(makesheet) %>
+            </td>
+            <td class="px-4 py-2 text-left underline underline-offset-2">
+              <% if makesheet.batch? %>
+              <%=  link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
+              <% end %>
+            </td>
+            <td class="px-4 py-2 text-left underline underline-offset-2">
+              <%=  link_to makesheet.status, makesheet %>
+            </td>
+            <td class="px-4 py-2 text-left">
+              <%=  makesheet.grade %>
+            </td>
+            <td class="px-4 py-2 text-right whitespace-nowrap">
+              <%= makesheet.age_in_months %>m
+            </td>
+            <td class="px-4 py-2 text-right">
+              <%=  makesheet.milk_used %> ltrs
+            </td>
+            <td class="px-4 py-2 text-right">
+              <%=  makesheet.total_weight %> kg
+            </td>
+            <td class="px-4 py-2 text-right">
+              <%=  makesheet.number_of_cheeses %>
+            </td>
+            <td class="px-4 py-2 text-right">
+              <%=  makesheet.yield.round(2)%> %
+            </td>
+
+
+          </tr>
+          <% end %>
         </tbody>
-    </table>
-</div>
-
-
+      </table>
+    </div>

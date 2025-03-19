@@ -87,13 +87,13 @@ class MakesheetsController < ApplicationController
     service = WeatherService.new
     @weather = service.fetch_daily_weather
  
-     if @weather[:error]
-       flash[:alert] = @weather[:error]
-       @weather = nil
-     end
-    @makesheet.weather_today = @weather[:conditions]
-    @makesheet.weather_temp = @weather[:temperature]
-    @makesheet.weather_humidity = @weather[:humidity]
+    if @weather
+      @makesheet.weather_today = @weather[:conditions]
+      @makesheet.weather_temp = @weather[:temperature]
+      @makesheet.weather_humidity = @weather[:humidity]
+    else
+      flash[:alert] = "Weather data unavailable"
+    end
      
   end
 
@@ -229,16 +229,22 @@ class MakesheetsController < ApplicationController
       base_uri 'http://api.weatherapi.com'
     
       def initialize
-       
+        @location = "LN130HE"
+        @api_key = ENV['openweather_api_key'] # Fix ENV.fetch issue
        # raise "Missing OpenWeather API Key" unless api_key
       end
     
       def fetch_weather
-         @location = "LN130HE"
-         @api_key = ENV.fetch['openweather_api_key'] # Store your API key in the environment
+        # @location = "LN130HE"
+        # @api_key = ENV.fetch['openweather_api_key'] # Store your API key in the environment
         options = { query: { q: @location, appid: @api_key, units: 'metric' } }
+        begin
         response = self.class.get('/weather', options)
         parse_response(response)
+        rescue StandardError => e
+          Rails.logger.error "Weather API request failed: #{e.message}"
+          nil
+        end
       end
     
       private

@@ -1,17 +1,16 @@
-<header class="sticky top-0 z-50 border border-gray-100 bg-gray-800">
+<header class="sticky top-0 z-999 border border-gray-100 bg-gray-800">
   <section class="max-w-4xl mx-auto flex h-10 items-center justify-between text-gray-100">
-    
+
     <!-- Home Button (Hidden on small screens) -->
     <div class="text-sm ml-4 hidden md:block">
       <a href="/pages/home">
         <span class="font-medium text-gray-100"><i class="fa-solid fa-house"></i></span>
-      </a> 
+      </a>
     </div>
 
     <!-- Hamburger Button (Hidden on large screens) -->
     <div class="flex items-start justify-between md:hidden">
-      <button id="hamburger-button" 
-        class="text-3xl text-white focus:outline-none">
+      <button id="hamburger-button" class="text-3xl text-white focus:outline-none">
         &#9776;
       </button>
     </div>
@@ -28,28 +27,28 @@
 
     <!-- User Profile/Edit Section (Hidden on small screens) -->
     <div class="hidden md:flex mr-6">
-      <% if user_signed_in? %> 
-        <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4">
-          <div>
-            <%= link_to edit_user_registration_path do %>
-              <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
-            <% end %> 
-            <div id="tooltip-edit" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
-              Edit Profile
-              <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
-          </div>
-
-          <div>
-            <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
-              <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
-            <% end %>
-            <div id="tooltip-logout" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
-              Logout
-              <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
+      <% if user_signed_in? %>
+      <div class="grid inline-grid grid-cols-2 gap-4 justify-items-center my-4">
+        <div>
+          <%= link_to edit_user_registration_path do %>
+          <i data-tooltip-target="tooltip-edit" class="fa-solid fa-user text-gray-100"> </i>
+          <% end %>
+          <div id="tooltip-edit" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
+            Edit Profile
+            <div class="tooltip-arrow" data-popper-arrow></div>
           </div>
         </div>
+
+        <div>
+          <%= link_to destroy_user_session_path, data: { turbo_method: :delete } do %>
+          <i data-tooltip-target="tooltip-logout" class="fa-solid fa-arrow-right-from-bracket text-gray-100"></i>
+          <% end %>
+          <div id="tooltip-logout" class="absolute z-10 invisible text-sm text-gray-600 bg-white rounded-lg shadow-sm opacity-0 tooltip">
+            Logout
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+        </div>
+      </div>
       <% end %>
     </div>
   </section>

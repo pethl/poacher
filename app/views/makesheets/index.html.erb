@@ -1,22 +1,21 @@
 <div class="overscroll-none">
-<% content_for :title, "Poacher: Makesheets" %>
-<% content_for(:page_title, "MAKESHEETS")%>
-<% content_for(:page_button, "makesheets/new")%>   
+  <% content_for :title, "Poacher: Makesheets" %>
+  <% content_for(:page_title, "MAKESHEETS")%>
+  <% content_for(:page_button, "makesheets/new")%>
 
-<div id="makesheets">
-   <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
-  <div class="flex items-center space-x-2">
-    <%= label_tag :search, "Search by Make Date", class:"font-semibold" %>
-    <%= date_field_tag :search, params[:search], class: field_class_flex %>
-    <%= submit_tag "Search", class: fill_button_class %>
-    <%= link_to "Clear", makesheets_path, class: clear_button_class %>
+  <div id="makesheets">
+
+    <div class="mx-auto w-full xl:w-2/3">
+      <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
+      <div class="flex items-center space-x-2">
+        <%= label_tag :search, "Search by Make Date", class:"font-semibold" %>
+        <%= date_field_tag :search, params[:search], class: field_class_flex %>
+        <%= submit_tag "Search", class: fill_button_class %>
+        <%= link_to "Clear", makesheets_path, class: clear_button_class %>
+      </div>
+      <% end %>
+
+      <%= render "makesheet_table", makesheets: @makesheets %>
+    </div>
   </div>
-<% end %>
-   
-   <%= render "makesheet_table", makesheets: @makesheets %>
 </div>
-</div>
-
-
-
-

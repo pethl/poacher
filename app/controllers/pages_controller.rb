@@ -22,6 +22,19 @@ class PagesController < ApplicationController
   end
   
   def mgmt_home
+
+      makesheets_data = Makesheet.where.not(status: "Finished")
+      .where.not(grade: [nil, ""])
+      .group(:grade)
+      .group(Arel.sql("EXTRACT(MONTH FROM age(CURRENT_DATE, make_date))::int"))
+      .order(:grade, Arel.sql("EXTRACT(MONTH FROM age(CURRENT_DATE, make_date))::int"))
+      .count
+
+      # The result is a hash with keys in the form [grade, age_in_months] and count as values.
+      # We then regroup the data by grade and sort by the age.
+      @charts_data = makesheets_data.group_by { |(grade, _age), _count| grade }.transform_values do |group|
+        group.map { |(_grade, age), count| [age.to_i, count] }.sort_by { |age, _count| age }
+      end
   end
   
   def search
