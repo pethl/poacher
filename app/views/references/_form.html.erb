@@ -1,41 +1,41 @@
 <%= form_with(model: reference, class: "contents") do |form| %>
-  <% if reference.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
+<% if reference.errors.any? %>
+<div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+  <h2><%= pluralize(reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
 
-      <ul>
-        <% reference.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <ul>
+    <% reference.errors.each do |error| %>
+    <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
 
-  <div class="my-2">
-    <%= form.label :group, class:label_class   %>
-    <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_flex %>
-     </div>
- 
+<div class="my-2">
+  <%= form.label :group, class:label_class   %>
+  <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_flex %>
+</div>
 
-  <div class="my-2">
-    <%= form.label :value, class:label_class   %>
-    <%= form.text_field :value, class:field_class_flex %>
-  </div>
 
-  <div class="my-2">
-    <%= form.label :description, "Desc", class:label_class  %>
-    <%= form.text_field :description, class: field_class_flex %>
-  </div>
+<div class="my-2">
+  <%= form.label :value, class:label_class   %>
+  <%= form.text_field :value, class:field_class_flex %>
+</div>
 
-  <div class="my-2  ">
-    <%= form.label :active, class:label_class  %>
-    <div class="hover:bg-gray-100">
+<div class="my-2">
+  <%= form.label :description, "Description/Sort Order", class:label_class  %>
+  <%= form.text_field :description, class: field_class_flex %>
+</div>
+
+<div class="my-2  ">
+  <%= form.label :active, class:label_class  %>
+  <div class="hover:bg-gray-100">
     <%= form.check_box :active, class: "outline:none m-2 h-5 w-5 checked:bg-grey-500" %>
-    </div>
- 
-    </div>
-
-  <div class="inline">
-    <%= form.submit class: fill_button_class %>
   </div>
+
+</div>
+
+<div class="inline">
+  <%= form.submit class: fill_button_class %>
+</div>
 <% end %>

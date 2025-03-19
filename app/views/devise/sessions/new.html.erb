@@ -6,12 +6,10 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
 
-    <div class="field">
-      <%= f.label :username, class: label_class  %>
-      <%= f.text_field :username, class: field_class %>
+    <div class="field my-6">
+      <%= f.label :email, class: label_class %>
+      <%= f.email_field :email, autocomplete: "email", class: field_class  %>
     </div>
-
-    <br>
 
     <div class="field">
       <%= f.label :password, class: label_class %>
