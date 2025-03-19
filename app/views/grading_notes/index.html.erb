@@ -1,0 +1,19 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Grading List" %>
+  <% content_for(:page_title, "GRADING")%>
+  <% content_for(:page_button, "grading_notes/new")%>
+  <div id="grading_notes">
+
+    <div class="mx-auto w-full xl:w-2/3">
+
+
+
+      <div id="grading_notes" class="min-w-full">
+        <% @grading_notes.each do |grading_note| %>
+        <%= render grading_note %>
+        <p>
+          <%= link_to "Show this grading note", grading_note, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        </p>
+        <% end %>
+      </div>
+    </div>

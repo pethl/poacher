@@ -1,0 +1,37 @@
+<div id="<%= dom_id grading_note %>" class="border rounded-lg border-gray-400 p-4">
+  <div class="grid grid-cols-2 gap-4">
+    <div><strong>Makesheet:</strong></div>
+    <div><%= grading_note.makesheet.make_date_formatted %></div>
+
+    <div><strong>Grading Date:</strong></div>
+    <div><%= grading_note.date.to_formatted_s(:uk) %></div>
+
+    <div><strong>Appearance:</strong></div>
+    <div><%= grading_note.appearance %></div>
+
+    <div><strong>Bore:</strong></div>
+    <div><%= grading_note.bore %></div>
+
+    <div><strong>Texture:</strong></div>
+    <div><%= grading_note.texture %></div>
+
+    <div><strong>Taste:</strong></div>
+    <div><%= grading_note.taste %></div>
+
+    <div><strong>Score:</strong></div>
+    <div><%= grading_note.score %></div>
+
+    <div><strong>Comments:</strong></div>
+    <div><%= grading_note.comments %></div>
+
+    <div><strong>Head Taster:</strong></div>
+    <div><%= grading_note.head_taster_staff&.full_name || "N/A" %></div>
+
+    <div><strong>Assistant Taster 1:</strong></div>
+    <div><%= grading_note.assistant_taster_staff_1&.full_name || "N/A" %></div>
+
+    <div><strong>Assistant Taster 2:</strong></div>
+    <div><%= grading_note.assistant_taster_staff_2&.full_name || "N/A" %></div>
+
+  </div>
+</div>

@@ -45,7 +45,7 @@ Picksheet.create(date_order_placed:'08/12/2024', delivery_required_by: '17/12/20
 Picksheet.create(date_order_placed:'08/12/2024', delivery_required_by: '18/12/2024', order_number: 'PD123459', contact_telephone_number: '07803 293 666', invoice_number: '6674880', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
 Picksheet.create(date_order_placed:'09/12/2024', delivery_required_by: '22/12/2024', order_number: 'PD123460', contact_telephone_number: '07803 293 552', invoice_number: '6674881', carrier: 'JH LOAN', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
 Picksheet.create(date_order_placed:'09/12/2024', delivery_required_by: '24/12/2024', order_number: 'PD123461', contact_telephone_number: '07803 456 552', invoice_number: '6674882', carrier: 'DPD', carrier_delivery_date:'03/07/2024',number_of_boxes: 2);
-PicksheetItem.create(picksheet:saleone.id, product: 'Poacher', size: 'Whole', count: 2, weight:'5kg', code:'batchid', bb_date:'01/09/2025');
+#PicksheetItem.create(picksheet:saleone.id, product: 'Poacher', size: 'Whole', count: 2, weight:'5kg', code:'batchid', bb_date:'01/09/2025');
 #PicksheetItem.create(picksheet:saleone.id, product: 'Vintage', size: '1/4', count: 4, weight:'2kg', code:'batchid', bb_date:'11/10/2025');
 #PicksheetItem.create(picksheet:saletwo, product: 'Poacher', size: 'Whole', count: 12, weight:'140kg', code:'batchid', bb_date:'01/09/2025');
 #PicksheetItem.create(picksheet:saletwo, product: 'Vintage', size: '1/2', count: 2, weight:'20kg', code:'batchid', bb_date:'11/10/2025');
@@ -457,6 +457,21 @@ Reference.create(group: 'sale_pricing', value: 'Farmers Market', description: '2
 Reference.create(group: 'sale_pricing', value: 'London Wholesale', description: '3');
 Reference.create(group: 'starter_culture', value: 'RA21', description: '2');
 Reference.create(group: 'starter_culture', value: 'RA24', description: '3');
+Reference.create(group: 'grade_appearance', value: 'straight', description: '1');
+Reference.create(group: 'grade_appearance', value: 'bowed sides', description: '2');
+Reference.create(group: 'grade_appearance', value: 'mis-shapen', description: '3');
+Reference.create(group: 'grade_bore', value: 'good', description: '1');
+Reference.create(group: 'grade_bore', value: 'average', description: '2');
+Reference.create(group: 'grade_bore', value: 'poor', description: '3');
+Reference.create(group: 'grade_texture', value: 'smooth', description: '1');
+Reference.create(group: 'grade_texture', value: 'sticky', description: '2');
+Reference.create(group: 'grade_texture', value: 'grainy', description: '3');
+Reference.create(group: 'grade_texture', value: 'dry', description: '4');
+Reference.create(group: 'grade_taste', value: 'excellent', description: '1');
+Reference.create(group: 'grade_taste', value: 'fine', description: '2');
+Reference.create(group: 'grade_taste', value: 'savoury', description: '3');
+Reference.create(group: 'grade_taste', value: 'bitter', description: '4');
+
 
 # MarketSale.create(who: 'ed', market:'Stamford', sale_date: Date.parse('2023/01/22'), cheese_sales:'313.59', butter_sales:'59.2', plum_bread:'60', milk:'87.5', other_cheese:'247', total_sales:'767.29');
 # MarketSale.create(who: 'jo', market:'Oakham', sale_date: Date.parse('2023/01/21'), cheese_sales:'330.74', butter_sales:'48.1', plum_bread:'135', milk:'82.25', other_cheese:'287', total_sales:'883.09');

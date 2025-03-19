@@ -1,0 +1,120 @@
+<%= form_with(model: grading_note, local: true) do |form| %>
+<div class="mt-8 grid grid-cols-1  gap-4">
+
+  <!-- Date Field -->
+  <div class="w-full">
+    <%= form.label :date, class: label_class %>
+    <%= form.date_field :date, value: grading_note.date || Date.current, class: field_class_flex %>
+  </div>
+
+  <!-- Makesheet Select Field -->
+  <div class="w-full">
+    <%= form.label :makesheet_id, "Batch Number", class: label_class %>
+    <%= form.collection_select(:makesheet_id, 
+                                        @makesheets, 
+                                        :id, 
+                                        :make_date_formatted_and_grade, 
+                                        { prompt: true }, 
+                                        { class: field_class_flex }) %>
+  </div>
+
+
+  <!-- Appearance Column -->
+  <div class="border rounded-lg px-4 py-2 w-full">
+    <%= form.label :appearance, class: label_class %><br>
+    <div class="w-full flex space-x-4">
+      <% grade_appearance.each do |appearance| %>
+      <div class="hover:bg-gray-100 whitespace-nowrap">
+        <%= form.radio_button :appearance, appearance %>
+        <%= appearance %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Bore Column -->
+  <div class="border rounded-lg px-4 py-2 w-full">
+    <%= form.label :bore, class: label_class %><br>
+    <div class="w-full flex space-x-4">
+      <% grade_bore.each do |bore| %>
+      <div class="hover:bg-gray-100 whitespace-nowrap">
+        <%= form.radio_button :bore, bore %>
+        <%= bore %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Texture Column -->
+  <div class="border rounded-lg px-4 py-2 w-full">
+    <%= form.label :texture, class: label_class %><br>
+    <div class="w-full flex space-x-4">
+      <% grade_texture.each do |texture| %>
+      <div class="hover:bg-gray-100 whitespace-nowrap">
+        <%= form.radio_button :texture, texture %>
+        <%= texture %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Taste Column -->
+  <div class="border rounded-lg px-4 py-2 w-full">
+    <%= form.label :taste, class: label_class %><br>
+    <div class="w-full flex space-x-4">
+      <% grade_taste.each do |taste| %>
+      <div class="hover:bg-gray-100 whitespace-nowrap">
+        <%= form.radio_button :taste, taste %>
+        <%= taste %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Score Field -->
+  <div class="w-full">
+    <%= form.label :score, "Score (0-10)", class: label_class %>
+    <div class="flex justify-end items-center mt-1">
+      <%= form.range_field :score, in: 0..10, step: 1, class: "w-1/2", id: "score_slider" %>
+      <output id="score_output" class="ml-2 text-sm text-gray-500"><%= grading_note.score || 0 %></output>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const slider = document.getElementById("score_slider");
+      const output = document.getElementById("score_output");
+      if (slider) {
+        output.textContent = slider.value;
+        slider.addEventListener("input", function() {
+          output.textContent = slider.value;
+        });
+      }
+    });
+  </script>
+
+
+  <!-- Head Taster Field -->
+  <div class="w-full">
+    <%= form.label :head_taster, "Head Taster", class: label_class %>
+    <%= form.collection_select :head_taster, Staff.all, :id, :full_name, { prompt: "Select Head Taster" }, { class: field_class_flex } %>
+  </div>
+
+  <!-- Assistant Taster 1 Field -->
+  <div class="w-full">
+    <%= form.label :assistant_taster_1, "Assistant Taster 1", class: label_class %>
+    <%= form.collection_select :assistant_taster_1, Staff.all, :id, :full_name, { prompt: "Select Assistant Taster" }, { class: field_class_flex } %>
+  </div>
+
+  <!-- Assistant Taster 2 Field -->
+  <div class="w-full">
+    <%= form.label :assistant_taster_2, "Assistant Taster 2", class: label_class %>
+    <%= form.collection_select :assistant_taster_2, Staff.all, :id, :full_name, { prompt: "Select Assistant Taster" }, { class: field_class_flex } %>
+  </div>
+
+</div>
+
+<div class="mt-4">
+  <%= form.submit "Save ", class:fill_button_class %>
+</div>
+<% end %>
