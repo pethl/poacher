@@ -11,81 +11,78 @@
 
 <div class="flex flex-col h-screen">
     <div class="flex-grow overflow-auto">
-      <table class="relative w-full border text-sm text-left text-gray-500  ">
+      <table class="mx-auto table-auto w-full border text-sm text-left text-gray-500  ">
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
         <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Make Date
                 </th>
-                 <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Batch Code
                 </th>
-                 <th scope="col" class="sticky top-0 px-6 py-2 text-left">
+                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Grade
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-2 w-30  underline underline-offset-2">
+                <th scope="col" class="sticky top-0 px-4 py-2 w-30  underline underline-offset-2">
                    <%= traceability_show_sort_indicator_for("date_started_batch") %>
                    <%= traceability_sort_link(column: "date_started_batch", label: "Date Batch Started") %>
                 </th>
-                <th id="batch" class="sticky top-0 px-6 py-2 text-left w-32  underline underline-offset-2">
+                <th id="batch" class="sticky top-0 px-4 py-2 text-left w-32  underline underline-offset-2">
                    <%= traceability_show_sort_indicator_for("date_finished_batch") %>
                    <%= traceability_sort_link(column: "date_finished_batch", label: "Date Batch Finished ") %>
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     [From Batch Ticket]<br>
                     Total Weight of Cheese
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     Total Weight of Cheese
                 </th>
-                <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     [From Batch Ticket]<br>
                     Number of Cheeses
                 </th>
-                 <th scope="col" class="sticky top-0 px-6 py-2 text-right">
+                 <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     Number of Cheeses
                 </th>
-                
                  
             </tr>
         </thead>
         <tbody class="overflow-contain">
         <% @traceability_records.each do |traceability_record| %>
             <tr class="border-b  hover:bg-gray-100">
-               <td class="px-6 py-4 text-left whitespace-nowrap">
+               <td class="px-4 py-4 text-left whitespace-nowrap">
                    <%= traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date) %>
                 </td>
 
-                <td scope="row" class="px-6 py-4 whitespace-nowrap ">
+                <td scope="row" class="px-4 py-4 whitespace-nowrap ">
                    <%= traceability_record.makesheet.batch %>
                 </td>
 
-                 <td scope="row" class="px-6 py-4 whitespace-nowrap ">
+                 <td scope="row" class="px-4 py-4 whitespace-nowrap ">
                    <%= traceability_record.makesheet.grade %>
                 </td>
 
-                <td class="px-6 py-4 text-left underline underline-offset-2">
+                <td class="px-4 py-4 text-left underline underline-offset-2">
                   <%= link_to traceability_record.date_started_batch.to_formatted_s(:uk_clean_date), edit_traceability_record_path(traceability_record) %>
                 </td>
-                <td class="px-6 py-4 text-left whitespace-nowrap">
+                <td class="px-4 py-4 text-left whitespace-nowrap">
                   <%=  traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %>
-           
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-4 py-4 text-right">
                   <%= traceability_record.makesheet.total_weight %>
                 </td>
-                <td class="px-6 py-4 text-right ">
-                  <%=  traceability_record.confirmed_number_of_cheeses %>
+                 <td class="px-4 py-4 text-right">
+                  <%=  traceability_record.calculated_batch_cheese_weight_total %> 
                 </td>
-                <td class="px-6 py-4 text-right ">
+                 <td class="px-4 py-4 text-right ">
                   <%=  traceability_record.makesheet.number_of_cheeses %>
                 </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  traceability_record.total_weight_of_batch %> 
+                <td class="px-4 py-4 text-right ">
+                  <%=  traceability_record.calculated_batch_cheese_count %>
                 </td>
-                <td class="px-6 py-4 text-right">
-                  <%=  traceability_record.confirmed_number_of_cheeses %> 
-                </td>
+               
+               
              </tr>
               <% end %>
         </tbody>

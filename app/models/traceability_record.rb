@@ -11,7 +11,6 @@ class TraceabilityRecord < ApplicationRecord
 
   scope :ordered, -> { order(date_started_batch: :asc) }
 
-
   def waste_records_total_wedges
     @waste_records =  WasteRecord.where(traceability_record_id: self.id).pluck(:wedges)
     total = @waste_records.compact.sum
