@@ -67,7 +67,7 @@ class GradingNotesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def grading_note_params
-      params.require(:grading_note).permit(:makesheet_id, :date, :appearance, :bore, :texture, :taste, :score, :comments, :head_taster, :assistant_taster_1, :assistant_taster_2)
+      params.require(:grading_note).permit(:makesheet_id, :date, :appearance, :bore, :texture, :taste, :score, :comments, :head_taster, :assistant_taster_1, :assistant_taster_2, makesheet_attributes: [:grade])
     end
 
     def set_makesheets

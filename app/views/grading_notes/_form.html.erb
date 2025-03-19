@@ -20,7 +20,7 @@
 
 
   <!-- Appearance Column -->
-  <div class="border rounded-lg px-4 py-2 w-full">
+  <div class="border border-gray-400 rounded-lg px-4 py-2 w-full">
     <%= form.label :appearance, class: label_class %><br>
     <div class="w-full flex space-x-4">
       <% grade_appearance.each do |appearance| %>
@@ -33,7 +33,7 @@
   </div>
 
   <!-- Bore Column -->
-  <div class="border rounded-lg px-4 py-2 w-full">
+  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
     <%= form.label :bore, class: label_class %><br>
     <div class="w-full flex space-x-4">
       <% grade_bore.each do |bore| %>
@@ -46,7 +46,7 @@
   </div>
 
   <!-- Texture Column -->
-  <div class="border rounded-lg px-4 py-2 w-full">
+  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
     <%= form.label :texture, class: label_class %><br>
     <div class="w-full flex space-x-4">
       <% grade_texture.each do |texture| %>
@@ -59,7 +59,7 @@
   </div>
 
   <!-- Taste Column -->
-  <div class="border rounded-lg px-4 py-2 w-full">
+  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
     <%= form.label :taste, class: label_class %><br>
     <div class="w-full flex space-x-4">
       <% grade_taste.each do |taste| %>
@@ -72,7 +72,7 @@
   </div>
 
   <!-- Score Field -->
-  <div class="w-full">
+  <div class="w-full mb-2">
     <%= form.label :score, "Score (0-10)", class: label_class %>
     <div class="flex justify-end items-center mt-1">
       <%= form.range_field :score, in: 0..10, step: 1, class: "w-1/2", id: "score_slider" %>
@@ -92,6 +92,16 @@
       }
     });
   </script>
+
+  <!-- Nested Makesheet Field -->
+  <%= form.fields_for :makesheet do |m_form| %>
+  <div class="mb-4">
+    <%= m_form.label :grade, "Grade:" %>
+
+    <%= m_form.select :grade, options_for_select(grade, selected: grading_note.makesheet.grade), { prompt: true }, class: field_class_flex %>
+
+  </div>
+  <% end %>
 
 
   <!-- Head Taster Field -->
