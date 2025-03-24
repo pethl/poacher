@@ -4,7 +4,7 @@ class Makesheet < ApplicationRecord
   has_many :batch_weights 
   has_many :samples  
   has_many :staffs  
-  has_many :grading_notes, dependent: :destroy
+  has_one :grading_note, dependent: :destroy
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   belongs_to :contact, optional: true
@@ -43,8 +43,8 @@ class Makesheet < ApplicationRecord
     self.make_date.to_formatted_s(:uk_clean_date)
   end
 
-  def make_date_formatted_and_grade
-    self.make_date.to_formatted_s(:uk_clean_date) +" - "+ self.grade
+  def make_date_formatted_batch_grade
+    "#{make_date.strftime('%d-%b')} – Batch #{batch} (#{grade.presence || 'Ungraded'})"
   end
 
   def make_date_formatted_batch_grade

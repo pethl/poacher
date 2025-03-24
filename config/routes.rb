@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :grading_notes
+  resources :grading_notes do
+    collection do
+      get :preload
+      post :create_preloaded
+    end
+  end
   resources :invoices do
     collection do
       get :summary

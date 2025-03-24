@@ -3,10 +3,10 @@ import { Application } from "@hotwired/stimulus"
 import { Controller } from "stimulus"
 import Highcharts from "highcharts"
 //import { definitionsFromContext } from "stimulus/webpack-helpers"
-import Chart from "chart.js/auto";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import Chart from "chart.js/auto"
+import ChartDataLabels from "chartjs-plugin-datalabels"
 
-Chart.register(ChartDataLabels);
+Chart.register(ChartDataLabels)
 
 // Start Stimulus
 const application = Application.start()
@@ -22,6 +22,8 @@ import HamburgerController from "./controllers/hamburger_controller"
 import HighchartsController from "./controllers/highcharts_controller"
 import AccordionController from "./controllers/accordion_controller"
 import SearchController from "./controllers/search_controller"
+import ClickToVisitController from "./controllers/click_to_visit_controller"
+import ScoreSliderController from "./controllers/score_slider_controller"
 
 // Register controllers manually
 application.register("signature", SignatureController)
@@ -30,6 +32,8 @@ application.register("hamburger", HamburgerController) // Register hamburger con
 application.register("highcharts", HighchartsController) // Register Highcharts controller with the correct name
 application.register("accordion", AccordionController)
 application.register("search", SearchController)
+application.register("click-to-visit", ClickToVisitController)
+application.register("score-slider", ScoreSliderController)
 
 // Optionally listen for Turbo page load events if you're using Turbo
 document.addEventListener("turbo:load", () => {

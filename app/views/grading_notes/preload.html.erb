@@ -1,0 +1,60 @@
+<% content_for(:page_title, "Preload Grading Notes Wizard") %>
+
+<div class="max-w-2xl mx-auto mt-6 bg-white p-6 rounded-lg shadow border border-gray-200">
+  <h2 class="text-xl font-bold mb-4 text-gray-700">🪄 Preload Grading Notes Wizard</h2>
+
+  <%= form_with url: create_preloaded_grading_notes_path, method: :post, local: true do |form| %>
+
+    <div class="grid grid-cols-2 gap-x-6 gap-y-4 items-center">
+
+      <!-- Start from Make Date -->
+      <label class="text-right font-semibold text-gray-700">
+        Start from Make Date:
+      </label>
+      <div class="text-left">
+        <%= form.date_field :start_date, value: @start_date, class: field_class_flex_med %>
+      </div>
+
+      <label class="text-right font-semibold text-gray-700">
+        How many batches would you like to preload?
+      </label>
+      <div class="text-left">
+        <%= form.select :batch_count, options_for_select([3,4,5], selected: 5), {}, class: field_class_flex_med %>
+      </div>
+
+      <!-- Head Taster -->
+      <label class="text-right font-semibold text-gray-700">
+        Head Taster:
+      </label>
+      <div class="text-left">
+        <%= form.collection_select :head_taster, @staffs, :id, :full_name, { prompt: "Select Head Taster" }, class: field_class_flex %>
+      </div>
+
+      <!-- Assistant Taster 1 -->
+      <label class="text-right font-semibold text-gray-700">
+        Assistant Taster 1:
+      </label>
+      <div class="text-left">
+        <%= form.collection_select :assistant_taster_1, @staffs, :id, :full_name, { prompt: "Select Assistant 1" }, class: field_class_flex %>
+      </div>
+
+      <!-- Assistant Taster 2 -->
+      <label class="text-right font-semibold text-gray-700">
+        Assistant Taster 2:
+      </label>
+      <div class="text-left">
+        <%= form.collection_select :assistant_taster_2, @staffs, :id, :full_name, { prompt: "Select Assistant 2" }, class: field_class_flex %>
+      </div>
+
+      <!-- Back Button -->
+      <div class="col-span-1 text-left mt-2">
+        <%= link_to "← Back to Grading Notes", grading_notes_path, class: gray_button %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="col-span-1 text-left mt-2">
+        <%= form.submit "Create Grading Notes", class: fill_button_class %>
+      </div>
+    </div>
+  <% end %>
+</div>

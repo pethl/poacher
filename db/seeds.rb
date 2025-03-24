@@ -6,17 +6,20 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 #User.destroy_all
+WashPicksheet.destroy_all;
+BatchWeight.delete_all
+PicksheetItem.destroy_all;
+Sample.delete_all
 Chiller.destroy_all
 Breakage.destroy_all
 MarketSale.destroy_all
-#WashPicksheet.destroy_all;
 TraceabilityRecord.destroy_all;
-#PicksheetItem.destroy_all;
-#Picksheet.destroy_all;
+Picksheet.destroy_all;
 Turn.destroy_all;
 Makesheet.destroy_all;
 Calculation.destroy_all;
 Reference.destroy_all;
+Makesheet.delete_all
 #Wash.destroy_all;
 #Contact.destroy_all;
 #PalletisedDistribution.destroy_all;

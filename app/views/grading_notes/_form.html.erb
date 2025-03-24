@@ -1,130 +1,145 @@
-<%= form_with(model: grading_note, local: true) do |form| %>
-<div class="mt-8 grid grid-cols-1  gap-4">
+<div class="max-w-4xl mx-auto mt-6 bg-white p-6 rounded-lg shadow-sm">
 
-  <!-- Date Field -->
-  <div class="w-full">
-    <%= form.label :date, class: label_class %>
-    <%= form.date_field :date, value: grading_note.date || Date.current, class: field_class_flex %>
-  </div>
-
-  <!-- Makesheet Select Field -->
-  <div class="w-full">
-    <%= form.label :makesheet_id, "Batch Number", class: label_class %>
-    <%= form.collection_select(:makesheet_id, 
-                                        @makesheets, 
-                                        :id, 
-                                        :make_date_formatted_and_grade, 
-                                        { prompt: true }, 
-                                        { class: field_class_flex }) %>
-  </div>
-
-
-  <!-- Appearance Column -->
-  <div class="border border-gray-400 rounded-lg px-4 py-2 w-full">
-    <%= form.label :appearance, class: label_class %><br>
-    <div class="w-full flex space-x-4">
-      <% grade_appearance.each do |appearance| %>
-      <div class="hover:bg-gray-100 whitespace-nowrap">
-        <%= form.radio_button :appearance, appearance %>
-        <%= appearance %>
+  <!-- 📦 Context Info Card (only if makesheet is present) -->
+  <% if grading_note.makesheet.present? %>
+    <div class="w-full mb-6 px-6 py-4 bg-yellow-50 border border-yellow-200 rounded-lg shadow text-center">
+      <div class="text-xl font-semibold text-gray-700">Grading Batch</div>
+      <div class="text-5xl font-extrabold text-gray-700 tracking-wide uppercase">
+        <%= grading_note.makesheet.make_date_formatted %>
       </div>
+      <div class="text-sm text-gray-500 mt-2">
+        Grading Date: <%= grading_note.date&.to_formatted_s(:uk) %>
+      </div>
+      <% if defined?(@current_batch_number) && defined?(@total_batches) %>
+        <div class="text-sm text-gray-500 mt-1">
+          Batch <%= @current_batch_number %> of <%= @total_batches %>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+          <div class="bg-green-500 h-2.5 rounded-full transition-all duration-500 ease-in-out"
+               style="width: <%= ((@current_batch_number.to_f / @total_batches) * 100).round %>%">
+          </div>
+        </div>
       <% end %>
     </div>
-  </div>
-
-  <!-- Bore Column -->
-  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
-    <%= form.label :bore, class: label_class %><br>
-    <div class="w-full flex space-x-4">
-      <% grade_bore.each do |bore| %>
-      <div class="hover:bg-gray-100 whitespace-nowrap">
-        <%= form.radio_button :bore, bore %>
-        <%= bore %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Texture Column -->
-  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
-    <%= form.label :texture, class: label_class %><br>
-    <div class="w-full flex space-x-4">
-      <% grade_texture.each do |texture| %>
-      <div class="hover:bg-gray-100 whitespace-nowrap">
-        <%= form.radio_button :texture, texture %>
-        <%= texture %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Taste Column -->
-  <div class="border  border-gray-400 rounded-lg px-4 py-2 w-full">
-    <%= form.label :taste, class: label_class %><br>
-    <div class="w-full flex space-x-4">
-      <% grade_taste.each do |taste| %>
-      <div class="hover:bg-gray-100 whitespace-nowrap">
-        <%= form.radio_button :taste, taste %>
-        <%= taste %>
-      </div>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Score Field -->
-  <div class="w-full mb-2">
-    <%= form.label :score, "Score (0-10)", class: label_class %>
-    <div class="flex justify-end items-center mt-1">
-      <%= form.range_field :score, in: 0..10, step: 1, class: "w-1/2", id: "score_slider" %>
-      <output id="score_output" class="ml-2 text-sm text-gray-500"><%= grading_note.score || 0 %></output>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const slider = document.getElementById("score_slider");
-      const output = document.getElementById("score_output");
-      if (slider) {
-        output.textContent = slider.value;
-        slider.addEventListener("input", function() {
-          output.textContent = slider.value;
-        });
-      }
-    });
-  </script>
-
-  <!-- Nested Makesheet Field -->
-  <%= form.fields_for :makesheet do |m_form| %>
-  <div class="mb-4">
-    <%= m_form.label :grade, "Grade:" %>
-
-    <%= m_form.select :grade, options_for_select(grade, selected: grading_note.makesheet.grade), { prompt: true }, class: field_class_flex %>
-
-  </div>
   <% end %>
 
+  <!-- 🚀 Form Starts -->
+  <%= form_with(model: grading_note, local: true) do |form| %>
+    <%= form_errors_for(grading_note) %>
 
-  <!-- Head Taster Field -->
-  <div class="w-full">
-    <%= form.label :head_taster, "Head Taster", class: label_class %>
-    <%= form.collection_select :head_taster, Staff.all, :id, :full_name, { prompt: "Select Head Taster" }, { class: field_class_flex } %>
+    <!-- Need to predefault date to today -->
+
+     <% if grading_note.new_record? %>
+      <%= form.hidden_field :date, value: Date.today %>
+    <% end %>
+
+    <!-- Select Makesheet (only for new) -->
+    <% if grading_note.makesheet.blank? %>
+      <div class="mb-6">
+        <label class="block text-base font-semibold text-gray-700 mb-2">Select Batch to Grade</label>
+        <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted,
+            { prompt: "Choose a Batch" }, class: field_class_flex %>
+      </div>
+    <% end %>
+
+    <!-- Grading Sections -->
+    <div class="grid grid-cols-2 gap-6 mb-4">
+      <% { appearance: grade_appearance, bore: grade_bore, texture: grade_texture, taste: grade_taste }.each do |attr, options| %>
+        <div class="border border-gray-300 rounded-lg p-4">
+          <h3 class="text-sm text-center font-semibold text-gray-700 mb-2"><%= attr.to_s.titleize %></h3>
+          <div class="flex flex-wrap gap-3">
+            <% options.each do |opt| %>
+              <label class="flex items-center space-x-2 hover:bg-yellow-100 px-2 py-1 rounded">
+                <%= form.radio_button attr, opt, class: "accent-green-600" %>
+                <span class="text-sm"><%= opt %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Score Slider -->
+   <div data-controller="score-slider" class="mb-8">
+      <label class="block text-base font-semibold text-gray-700 mb-2">Score (0–10)</label>
+      <div class="flex items-center space-x-4">
+        <%= form.range_field :score,
+              in: 0..10,
+              step: 1,
+              class: "w-full h-3 accent-green-600",
+              id: "score_slider",
+              data: { score_slider_target: "slider", action: "input->score-slider#change" } %>
+
+        <output
+          id="score_output"
+          data-score-slider-target="output"
+          class="text-3xl font-bold text-green-700 bg-gray-100 px-4 py-2 rounded-lg shadow-sm min-w-[3rem] text-center">
+          <%= grading_note.score || 0 %>
+        </output>
+      </div>
+    </div>
+
+    <% if grading_note.new_record? %>
+      <!-- Makesheet Grade (Standalone for New) -->
+      <div class="mb-6">
+        <label class="block text-base font-semibold text-gray-700 mb-2">Assign Grade</label>
+        <%= select_tag :makesheet_grade,
+            options_for_select(grade, selected: params[:makesheet_grade]),
+            prompt: "Select..",
+            class: field_class_flex %>
+      </div>
+    <% else %>
+      <!-- Makesheet Grade (Nested for Edit) -->
+      <%= form.fields_for :makesheet do |m_form| %>
+        <div class="mb-4">
+          <label class="block text-base font-semibold text-gray-700 mb-2">Makesheet Grade</label>
+          <div class="flex flex-wrap gap-4">
+            <% grade.each do |option| %>
+              <label class="flex items-center space-x-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-yellow-200 cursor-pointer">
+                <%= m_form.radio_button :grade, option, class: "accent-green-600" %>
+                <span><%= option %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+
+    <!-- Comments -->
+    <div class="mb-6">
+      <label class="block text-base font-semibold text-gray-700 mb-2">Comments</label>
+      <%= form.text_area :comments, rows: 3, class: "#{field_class_flex} w-full" %>
+    </div>
+
+
+  <!-- Grading Staff -->
+    <div class="grid grid-cols-3 gap-6 mb-4">
+      <% [['Head Taster', :head_taster], ['Assistant 1', :assistant_taster_1], ['Assistant 2', :assistant_taster_2]].each_with_index do |(label_text, field), index| %>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1 text-left"><%= label_text %></label>
+          <div class="<%= ['text-left', 'text-center', 'text-right'][index] %>">
+            <%= form.collection_select field, Staff.all, :id, :full_name,
+                  { prompt: "Select #{label_text}" },
+                  class: "#{field_class_flex} w-full max-w-xs inline-block" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Submit Buttons -->
+   <div class="flex justify-between items-center mt-6">
+  <%= link_to "← Back to Index", grading_notes_path, class: gray_button %>
+
+  <div class="flex gap-4">
+    <!-- Save Normally -->
+    <%= form.submit "Save", name: "commit", class: fill_button_class %>
+
+    <% if grading_note.persisted? %>
+      <!-- Save and See Next (only on edit) -->
+      <%= form.submit "Save and See Next", name: "commit", class: "#{fill_button_class} bg-yellow-500 hover:bg-yellow-600" %>
+    <% end %>
   </div>
-
-  <!-- Assistant Taster 1 Field -->
-  <div class="w-full">
-    <%= form.label :assistant_taster_1, "Assistant Taster 1", class: label_class %>
-    <%= form.collection_select :assistant_taster_1, Staff.all, :id, :full_name, { prompt: "Select Assistant Taster" }, { class: field_class_flex } %>
-  </div>
-
-  <!-- Assistant Taster 2 Field -->
-  <div class="w-full">
-    <%= form.label :assistant_taster_2, "Assistant Taster 2", class: label_class %>
-    <%= form.collection_select :assistant_taster_2, Staff.all, :id, :full_name, { prompt: "Select Assistant Taster" }, { class: field_class_flex } %>
-  </div>
-
 </div>
-
-<div class="mt-4">
-  <%= form.submit "Save ", class:fill_button_class %>
+  <% end %>
 </div>
-<% end %>
