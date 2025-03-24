@@ -4,6 +4,7 @@ class Makesheet < ApplicationRecord
   has_many :batch_weights 
   has_many :samples  
   has_many :staffs  
+  has_many :grading_notes, dependent: :destroy
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   belongs_to :contact, optional: true

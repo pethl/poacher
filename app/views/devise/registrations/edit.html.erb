@@ -1,44 +1,55 @@
-
 <% content_for(:page_title, "Edit User Profile")%>
-<div class="mx-auto md:w-1/3 w-full flex text-right">
+<div class="mx-auto md:w-1/3 w-full pt-12 flex justify-center">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <br><br><br>
+  <div class="border border-gray-400 rounded-lg p-8 text-right">
 
-  <div class="field mb-4">
-    <%= f.label :username, class: label_class %><br>
-    <%= f.text_field :username, class: field_class %>
-  </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+
+    <div class="field mb-4">
+      <%= f.label :first_name, class: label_class %>
+      <%= f.text_field :first_name, class: field_class %>
+    </div>
+
+    <div class="field mb-4">
+      <%= f.label :last_name, class: label_class %>
+      <%= f.text_field :last_name, class: field_class %>
+    </div>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field mb-4">
-    <%= f.label :password, class: label_class  %><br> <i>(leave blank if you don't want to change it)</i>
-    <%= f.password_field :password, autocomplete: "new-password", class: field_class %>
-    <span class="text-green-600">
-    <% if @minimum_password_length %>
-      <br>
-      <em><%= @minimum_password_length %> characters minimum</em>
     <% end %>
-    </span>
+
+    <div class="field mb-4">
+
+      <%= f.label :password, class: label_class %>
+      <%= f.password_field :password, autocomplete: "new-password", class: field_class %>
+      <span class="text-green-600">
+        <% if @minimum_password_length %>
+        <br>
+        <em><%= @minimum_password_length %> characters minimum</em>
+        <% end %>
+      </span>
+      <i class="text-sm"><br>(leave blank if you don't want to change it)</i><br>
+    </div>
+
+    <div class="field mb-4">
+      <%= f.label :password_confirmation, class: label_class  %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: field_class %>
+    </div>
+
+    <div class="field mb-4">
+      <%= f.label :current_password, class: label_class  %>
+      <%= f.password_field :current_password, autocomplete: "current-password" , class: field_class%>
+      <br><i class="text-sm">(we need your current password to confirm your changes)</i><br />
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Update", class: fill_button_class %>
+    </div>
+    <% end %>
+
+
   </div>
-
-  <div class="field mb-4">
-    <%= f.label :password_confirmation, class: label_class  %><br>
-    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: field_class %>
-  </div>
-
-  <div class="field mb-4">
-    <%= f.label :current_password, class: label_class  %><br><i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" , class: field_class%>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update", class: fill_button_class %>
-  </div>
-<% end %>
-
-
-</div>

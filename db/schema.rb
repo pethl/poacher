@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_19_101622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -108,6 +108,23 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "grading_notes", force: :cascade do |t|
+    t.bigint "makesheet_id", null: false
+    t.date "date"
+    t.string "appearance"
+    t.string "bore"
+    t.string "texture"
+    t.string "taste"
+    t.integer "score"
+    t.text "comments"
+    t.integer "head_taster"
+    t.integer "assistant_taster_1"
+    t.integer "assistant_taster_2"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_grading_notes_on_makesheet_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -400,9 +417,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "username", default: "", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "email"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -411,8 +429,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
     t.boolean "account_active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   create_table "wash_picksheets", force: :cascade do |t|
@@ -447,6 +465,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_11_094027) do
   add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
+  add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "palletised_distributions", "staffs"

@@ -3,6 +3,10 @@ import { Application } from "@hotwired/stimulus"
 import { Controller } from "stimulus"
 import Highcharts from "highcharts"
 //import { definitionsFromContext } from "stimulus/webpack-helpers"
+import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
+Chart.register(ChartDataLabels);
 
 // Start Stimulus
 const application = Application.start()

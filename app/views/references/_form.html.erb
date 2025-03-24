@@ -4,6 +4,10 @@
     <%= form_errors_for(reference) %>
 
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+<%= form_with(model: reference, class: "contents") do |form| %>
+<% if reference.errors.any? %>
+<div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+  <h2><%= pluralize(reference.errors.count, "error") %> prohibited this reference from being saved:</h2>
 
       <!-- Group -->
       <label class="text-right font-semibold text-gray-700">
@@ -20,6 +24,24 @@
       <div class="text-left">
         <%= form.text_field :value, class: field_class_flex %>
       </div>
+  <ul>
+    <% reference.errors.each do |error| %>
+    <li><%= error.full_message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="my-2">
+  <%= form.label :group, class:label_class   %>
+  <%= form.select :group, options_for_select(reference_group, :selected => @reference.group),{:prompt=>true}, class: field_class_flex %>
+</div>
+
+
+<div class="my-2">
+  <%= form.label :value, class:label_class   %>
+  <%= form.text_field :value, class:field_class_flex %>
+</div>
 
       <!-- Description -->
       <label class="text-right font-semibold text-gray-700">

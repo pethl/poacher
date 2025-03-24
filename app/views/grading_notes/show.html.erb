@@ -1,0 +1,13 @@
+<% content_for(:page_title, "GRADING NOTES - #{@grading_note.makesheet.make_date_formatted}")%>
+
+<div class="mx-auto md:w-2/3 w-full flex">
+  <div class="mx-auto mt-8">
+
+    <%= render @grading_note %>
+
+    <%= link_to "Edit this Grading note", edit_grading_note_path(@grading_note), class: fill_button_class %>
+    <%= link_to "Back to Grading notes", grading_notes_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <div class="inline-block ml-2">
+    </div>
+  </div>
+</div>

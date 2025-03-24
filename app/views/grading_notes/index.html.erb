@@ -1,0 +1,59 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Grading List" %>
+  <% content_for(:page_title, "GRADING")%>
+  <% content_for(:page_button, "grading_notes/new")%>
+  <div id="grading_notes">
+
+    <div class="mx-auto w-full lg:w-2/3 ">
+
+      <br>
+
+      <div class="border-separate overflow-clip flex flex-col">
+        <table class="mx-auto table-fixed w-full lg:w-2/3">
+          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
+            <tr class="bg-gray-200 sticky top-0">
+              <th scope="col" class="px-4 py-2 ml-4 w-40 text-left">
+                Grading Date
+              </th>
+              <th scope="col" class="px-4 py-2 ml-4 w-40 text-left">
+                Batch Graded
+              </th>
+              <th scope="col" class="px-4 py-2 w-40 text-center">
+                Score
+              </th>
+              <th scope="col" class="px-4 py-2 ml-4 w-40 text-left">
+                Grade
+              </th>
+              <th scope="col" class="px-4 py-2 ml-4 text-left ">
+                Comments
+              </th>
+            </tr>
+          </thead>
+        </table>
+        <div class="flex-1 overflow-y-auto">
+          <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm">
+            <tbody>
+              <% @grading_notes.each do |grading_note| %>
+              <tr class="bg-white border-b hover:bg-gray-100">
+                <td scope="row" class="px-4 py-4 ">
+                  <%= link_to grading_note.date.to_formatted_s(:uk) %>
+                </td>
+                <td class="px-4 py-4 text-left underline underline-offset-2">
+                  <%=  link_to grading_note.makesheet.make_date_formatted, grading_note_path(grading_note) %>
+                </td>
+                <td class="px-4 py-4 text-left">
+                  <%=  grading_note.score %>
+                </td>
+                <td class="px-4 py-4 text-left">
+                  <%=  grading_note.makesheet.grade %>
+                </td>
+                <td class="px-4 py-4 text-left ">
+                  <%=  grading_note.comments %>
+                </td>
+
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>

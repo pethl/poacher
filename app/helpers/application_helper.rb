@@ -282,5 +282,21 @@ module ApplicationHelper
     Reference.where(active: true, group: 'sale_pricing').order(:description).pluck(:value)
   end
 
+  def grade_appearance
+    Reference.where(active: true, group: 'grade_appearance').order(:description).pluck(:value)
+  end
+
+  def grade_bore
+    Reference.where(active: true, group: 'grade_bore').order(:description).pluck(:value)
+  end
+
+  def grade_texture
+    Reference.where(active: true, group: 'grade_texture').order(:description).pluck(:value)
+  end
+
+  def grade_taste
+    Reference.where(active: true, group: 'grade_taste').order(:description).pluck(:value)
+  end
+
   
 end

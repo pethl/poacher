@@ -1,11 +1,13 @@
 <% content_for(:page_title, "STORE")%>
 
 <div class="my-4 mt-8 w-2/3 mx-auto">
- <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
-   
+  <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
+
     <%= link_to "Graded Whiteboard ", "/makesheets/graded_blackboard", class: nav_box_class %>
 
     <%= link_to "New Turns", "/turns/new", class: nav_box_class %>
-   
+
+    <%= link_to "Grading", "/grading_notes", class: nav_box_class %>
+
   </div>
 </div>

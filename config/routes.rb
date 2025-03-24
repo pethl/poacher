@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :grading_notes
   resources :invoices do
     collection do
       get :summary
