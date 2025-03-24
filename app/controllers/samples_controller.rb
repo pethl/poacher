@@ -18,6 +18,7 @@ class SamplesController < ApplicationController
   # GET /samples/new
   def new
     @sample = Sample.new
+    @makesheets = Makesheet.not_finished
   end
 
   # GET /samples/1/edit
@@ -28,6 +29,7 @@ class SamplesController < ApplicationController
   # POST /samples or /samples.json
   def create
     @sample = Sample.new(sample_params)
+    @makesheets = Makesheet.not_finished
 
     respond_to do |format|
       if @sample.save

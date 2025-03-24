@@ -1,236 +1,118 @@
-<%= form_with(model: traceability_record, class: "contents") do |form| %>
-  
-  <% if traceability_record.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(traceability_record.errors.count, "error") %> prohibited this traceability_record from being saved:</h2>
+<div class="w-full max-w-4xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: traceability_record, local: true) do |form| %>
 
-      <ul>
-        <% traceability_record.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+    <%= form_errors_for(traceability_record) %>
+
+  <!-- Label/Field Grid Layout: Clean 2-column pairing in 4-column grid -->
+  <div class="grid grid-cols-4 gap-x-6 gap-y-2 items-center w-full">
+
+      <!-- Makesheet -->
+      <label class="text-right font-semibold text-gray-700 col-span-1">
+        <%= form.label :makesheet_id %>
+      </label>
+      <div class="col-span-1 text-left">
+        <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade,
+              { prompt: true },
+              { class: field_class_flex_med, disabled: !form.object.new_record? } %>
+      </div>
+
+      <!-- Date Started Batch -->
+      <label class="text-right font-semibold text-gray-700 col-span-1">
+        <%= form.label :date_started_batch, "Started Batch" %>
+      </label>
+      <div class="col-span-1 text-left mr-4">
+        <%= form.date_field :date_started_batch, value: Time.now.strftime('%Y-%m-%d'),
+            class: field_class_flex_med, disabled: !form.object.new_record? %>
+      </div>
+
+      <!-- Batch Code -->
+      <label class="text-right font-semibold text-gray-700 col-span-1">
+        <%= form.label :batch_code %>
+      </label>
+      <div class="col-span-1 text-left">
+        <% if traceability_record.makesheet.present? %>
+          <p><%= traceability_record.makesheet.batch %></p>
+        <% else %>
+          <p>--</p>
         <% end %>
-      </ul>
+      </div>
+
+      <!-- Date Finished Batch -->
+      <label class="text-right font-semibold text-gray-700 col-span-1">
+        <%= form.label :date_finished_batch, "Finished Batch" %>
+      </label>
+      <div class="col-span-1 text-left  mr-4">
+        <%= form.date_field :date_finished_batch, class: field_class_flex_med %>
+      </div>
+
     </div>
-  <% end %>
-
-  <div class="grid grid-rows-2 grid-cols-2">
-
-   <div class="my-2">
-    <%= form.label :makesheet_id %>
-    <%= form.collection_select(:makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade, { prompt: true }, 
-                              { class: field_class_flex, disabled: !form.object.new_record? }) %>
-  </div>
-
-   <div class="my-2">
-    <%= form.label :date_started_batch, " Started Batch" %>
-    <%= form.date_field :date_started_batch, 
-        value: Time.now.strftime("%Y-%m-%d"), 
-        class: field_class_flex, 
-        disabled: !form.object.new_record? %>
-  </div>
-
-      <div class="my-2">
-      <%= form.label :batch_code %>
-      <% if traceability_record.makesheet.present? %>
-        <p><%= traceability_record.makesheet.batch %></p>
-      <% else %>
-        <p>--</p>
-      <% end %>
-    </div>
-
-    <div class="my-2">
-      <%= form.label :date_finished_batch, " Finished Batch"  %>
-      <%= form.date_field :date_finished_batch, class: field_class_flex %>
-    </div>
-  </div>
-
+    
+    <hr class="mb-2 mt-2">
+  
+   <!-- Individual Batch weights-->
    <div class= "text-base font-bold text-left underline underline-offset-2">
       Individual Cheese Weights (Kg)
     </div>
 
-  <div class="grid grid-rows-5 grid-cols-7 gap-1">
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_1, step: :any, class: field_class_flex_small %>
+  <div class="grid grid-cols-7 gap-2 mt-2">
+  <% (1..35).each do |i| %>
+    <div class="my-1 flex justify-center">
+      <% field_name = "individual_cheese_weight_#{i}" %>
+      <% error_class = traceability_record.errors.include?(field_name.to_sym) ? "border-red-500 ring-1 ring-red-300" : "" %>
+      <%= form.number_field field_name,
+            step: :any,
+            class: "#{field_class_flex_small} #{error_class}" %>
     </div>
+  <% end %>
+</div>
 
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_2, step: :any, class: field_class_flex_small %>
-    </div>
 
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_3, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_4, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_5, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_6, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_7, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_8, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_9, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_10, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_11, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_12, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_13, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_14, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_15, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_16, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_17, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_18, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_19, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_20, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_21, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_22, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_23, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_24, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_25, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_26, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_27, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_28, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_29, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_30, step: :any, class: field_class_flex_small %>
-    </div>
-
-      <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_31, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_32, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_33, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_34, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="my-1">
-      <%= form.number_field :individual_cheese_weight_35, step: :any, class: field_class_flex_small %>
-    </div>
-
-   </div>
-
-   <hr class="my-1">
+   <!-- From Batch Ticket Details-->
+   <hr class="my-2">
      <div class= "mb-1 text-base font-bold text-left underline underline-offset-2">
     From Batch Ticket:
    </div>
 
-<div class="grid md:grid-cols-4 ">
-  <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Number in Batch:</span></div>
-  <div class="pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
-      <% if traceability_record.makesheet.present? %>
-        <p><%= traceability_record.makesheet.number_of_cheeses %></p>
-      <% else %>
-        <p>--</p>
-      <% end %>
-      </div>
-  <div class="text-left pl-4 pt-2 "> <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span></div>
-  <div class="pt-2 pr-10 "> <%= traceability_record.calculated_batch_cheese_count %></div>
- 
-  <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Total Weight of Batch:</span></div>
-  <div class="pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
-     <% if traceability_record.makesheet.present? %>
-        <p><%= traceability_record.makesheet.total_weight %></p>
-      <% else %>
-        <p>--</p>
-      <% end %>
+    <div class="grid md:grid-cols-4 ">
+      <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Number in Batch:</span></div>
+      <div class="text-right pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
+          <% if traceability_record.makesheet.present? %>
+            <p><%= traceability_record.makesheet.number_of_cheeses %></p>
+          <% else %>
+            <p>--</p>
+          <% end %>
+          </div>
+      <div class="text-left pl-4 pt-2 "> <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span></div>
+      <div class="text-right pt-2 pr-10 "> <%= traceability_record.calculated_batch_cheese_count %></div>
+    
+      <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Total Weight of Batch:</span></div>
+      <div class="text-right pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
+        <% if traceability_record.makesheet.present? %>
+            <p><%= traceability_record.makesheet.total_weight %></p>
+          <% else %>
+            <p>--</p>
+          <% end %>
+        </div>
+      <div class="text-left pl-4 pt-2"> <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span></div>
+      <div class="text-right pt-2 pr-10">  <%= traceability_record.calculated_batch_cheese_weight_total %></div>
     </div>
-  <div class="text-left pl-4 pt-2"> <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span></div>
-  <div class="pt-2 pr-10">  <%= traceability_record.calculated_batch_cheese_weight_total %></div>
-</div>
 
   <hr class="mb-2 mt-2">
 
-  <div class="inline">
-    <%= form.submit "Save", class: fill_button_class %>
-  </div>
-<% end %>
+   <!-- Action buttons-->
+  <div class="grid grid-cols-4 gap-x-6 gap-y-2 items-center w-full">
 
-  <div class="inline">
-    <%= link_to "Add Waste Details", traceability_record, class: gray_button %> 
+    <div class="inline col-span-2">
+        <%= link_to "Add Waste Details", traceability_record, class: gray_button %> 
+      </div>
+
+      <div class="inline col-span-2">
+        <%= form.submit "Save", class: fill_button_class %>
+      </div>
+    <% end %>
+  <!-- Back to Index -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to Index", traceability_records_path, class: gray_button %>
+      </div>
   </div>
-<br>
-  <div class="inline">
-    <%= link_to "All Batch Traceability Records", traceability_records_path, class: gray_button %> 
-  </div>
+

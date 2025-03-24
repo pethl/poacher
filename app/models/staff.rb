@@ -5,8 +5,8 @@ class Staff < ApplicationRecord
  
     
   validates :employment_status, presence: true
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :first_name, presence: { message: "First name is required" }
+  validates :last_name, presence: { message: "Last name is required" }
   
   scope :ordered, -> { order(last_name: :asc) }
 

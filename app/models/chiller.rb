@@ -1,7 +1,7 @@
 class Chiller < ApplicationRecord
   belongs_to :staff, optional: true
 
-  validate :staff_id_required_if_chillers_present
+  validate :required_fields_on_edit
 
   scope :ordered, -> { order(date: :asc) }
 
@@ -9,10 +9,12 @@ class Chiller < ApplicationRecord
     where('EXTRACT(MONTH FROM date) = ? AND EXTRACT(YEAR FROM date) = ?', month, year)
   }
 
-   # Custom validation logic
-   def staff_id_required_if_chillers_present
-    if chiller_1.present? && chiller_2.present? && staff_id.blank?
-      errors.add(:staff_id, "name is required before record can be saved.")
-    end
-  end
+  def required_fields_on_edit
+    return if new_record?
+  
+    errors.add(:base, "Chiller 1 is required") if chiller_1.blank?
+    errors.add(:base, "Chiller 2 is required") if chiller_2.blank?
+    errors.add(:base, "Staff must be selected") if staff_id.blank?
+    errors.add(:base, "Signature is required") if signature.blank?
+  end 
 end

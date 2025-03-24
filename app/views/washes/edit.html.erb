@@ -1,11 +1,4 @@
-<% content_for(:page_title, "WASH SHEET - EDIT")%>
-<% content_for(:page_button, "washs/new")%>
-
-<div class="mx-auto md:w-1/3 w-full text-center overscroll-none">
+<% content_for :title, "Poacher: Chiller Temperatures" %>
+<% content_for(:page_title, "Edit: WASH SHEET")%>
 
    <%= render "form", wash: @wash %>
-
- 
-  <%= link_to "Show this wash", @wash, class: gray_button %>
- 
-</div>

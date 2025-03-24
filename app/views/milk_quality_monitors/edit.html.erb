@@ -1,7 +1,4 @@
-<div class="mx-auto md:w-1/3 w-full text-right">
-<% content_for(:page_title, "EDIT MILK QUALITY MONITOR RECORDS")%>
- 
+<% content_for :title, "Poacher: Milk Quality Monitor" %>
+<% content_for(:page_title, "Edit: MILK QUALITY MONITOR")%>
+
   <%= render "form", milk_quality_monitor: @milk_quality_monitor %>
-  <br>
-  <%= link_to "Back to Main Page", milk_quality_monitors_path, class: gray_button %>
-</div>

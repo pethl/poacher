@@ -1,92 +1,69 @@
-<%= form_with(model: contact, class: "contents") do |form| %>
-  <% if contact.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+<div class="max-w-6xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: contact, local: true) do |form| %>
 
-      <ul>
-        <% contact.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <%= form_errors_for(contact) %>
+
+    <div class="grid grid-cols-4 gap-x-6 gap-y-4 items-center">
+
+      <!-- Row 1 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :business_name %></label>
+      <div><%= form.text_field :business_name, class: field_class_unsized %></div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :contact_name %></label>
+      <div><%= form.text_field :contact_name, class: field_class_unsized %></div>
+
+      <!-- Row 2 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :reference %></label>
+      <div><%= form.text_field :reference, class: field_class_unsized %></div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :email %></label>
+      <div><%= form.text_field :email, type: 'email', class: field_class_unsized %></div>
+
+      <!-- Row 3 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :mobile %></label>
+      <div><%= form.text_field :mobile, type: 'tel', class: field_class_unsized %></div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :phone %></label>
+      <div><%= form.text_field :phone, type: 'tel', class: field_class_unsized %></div>
+
+      <!-- Row 4 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :country %></label>
+      <div><%= form.text_field :country, class: field_class_unsized %></div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :address %></label>
+      <div><%= form.text_field :address, class: field_class_unsized %></div>
+
+      <!-- Row 5 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :pre_payment %></label>
+      <div>
+        <%= form.radio_button :pre_payment, true %> Yes
+        <%= form.radio_button :pre_payment, false %> No
+      </div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :payment_on_receipt %></label>
+      <div>
+        <%= form.radio_button :payment_on_receipt, true %> Yes
+        <%= form.radio_button :payment_on_receipt, false %> No
+      </div>
+
+      <!-- Row 6 -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :days_after_invoice %></label>
+      <div><%= form.number_field :days_after_invoice, class: field_class_flex_small %></div>
+      <label class="text-right font-semibold text-gray-700"><%= form.label :sage_delivery_note %></label>
+      <div>
+        <%= form.radio_button :sage_delivery_note, true %> Yes
+        <%= form.radio_button :sage_delivery_note, false %> No
+      </div>
+
+      <!-- Textareas -->
+      <label class="text-right font-semibold text-gray-700 col-span-1"><%= form.label :terms_and_conditions %></label>
+      <div class="col-span-3"><%= form.text_area :terms_and_conditions, rows: 4, class: field_class_unsized %></div>
+
+      <label class="text-right font-semibold text-gray-700 col-span-1"><%= form.label :notes %></label>
+      <div class="col-span-3"><%= form.text_area :notes, rows: 4, class: field_class_unsized %></div>
+
+      <!-- Footer row: Back & Submit -->
+      <div></div>
+      <div class="text-left"><%= link_to "← Back to Index", contacts_path, class: gray_button %></div>
+      <div class="text-left"><%= form.submit "Save", class: fill_button_class %></div>
+      <div></div>
+
     </div>
+
   <% end %>
-
-<div class="grid grid-cols-2 gap-4">
-  <div class="">
-    <%= form.label :business_name, class: label_class %>
-    <%= form.text_field :business_name, class: field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :contact_name, class: label_class %>
-    <%= form.text_field :contact_name, class: field_class_unsized%>
-  </div>
-
-  <div class="">
-    <%= form.label :reference, class: label_class %>
-    <%= form.text_field :reference, class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :email, class: label_class %>
-    <%= form.text_field :email, type: 'email', class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :mobile, class: label_class %>
-    <%= form.text_field :mobile,  type: 'tel', class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :phone, class: label_class %>
-    <%= form.text_field :phone,  type: 'tel', class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :country, class: label_class %>
-    <%= form.text_field :country, class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :address, class: label_class %>
-    <%= form.text_field :address, class:field_class_unsized %>
-  </div>
-
-  <div class="">
-    <%= form.label :pre_payment, class: label_class %><br>
-    <%= form.radio_button :pre_payment, true %> Yes
-    <%= form.radio_button :pre_payment, false %> No 
-  </div>
-
-  <div class="">
-    <%= form.label :payment_on_receipt, class: label_class %><br>
-    <%= form.radio_button :payment_on_receipt, true %> Yes
-    <%= form.radio_button :payment_on_receipt, false %> No 
-  </div>
-
-  <div class="">
-    <%= form.label :days_after_invoice, class: label_class %><br>
-    <%= form.number_field :days_after_invoice, class:field_class_flex_small %>
-  </div>
-
-   <div class="">
-    <%= form.label :sage_delivery_note, class: label_class %><br>
-    <%= form.radio_button :sage_delivery_note, true %> Yes
-    <%= form.radio_button :sage_delivery_note, false %> No 
-  </div>
-
-  <div class="col-span-2">
-    <%= form.label :terms_and_conditions, class: label_class %>
-    <%= form.text_area :terms_and_conditions, rows: 4, class:field_class_unsized %>
-  </div> 
-
-   <div class="col-span-2">
-    <%= form.label :notes, class: label_class %>
-    <%= form.text_area :notes, rows: 4, class:field_class_unsized %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: fill_button_class %>
-  </div>
-<% end %>
-  </div>
+</div>

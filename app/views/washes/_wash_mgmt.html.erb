@@ -1,47 +1,52 @@
+<div class="max-w-4xl mx-auto mt-2 bg-white p-4">
+  <%= form_with(model: @wash, local: true) do |form| %>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-3 items-center">
 
- <div class="grid grid-cols-2 md:grid-cols-4  gap-x-6 gap-y-2">
-    <div class="font-semibold mb-1 text-right self-center">
-     Action date:
+      <!-- Action Date -->
+      <div class="text-right font-semibold text-gray-700">
+        Action date:
+      </div>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 col-span-1">
+        <%= @wash.action_date.to_formatted_s(:uk_day) unless @wash.action_date.blank? %>
+      </div>
+
+      <!-- Wash Status -->
+      <div class="text-right font-semibold text-gray-700">
+        Wash Status:
+      </div>
+      <div class="text-left">
+        <%= form.select :wash_status, options_for_select(wash_status, @wash.wash_status),
+              { prompt: true },
+              class: field_class_flex_med %>
+      </div>
+
+      <!-- Created At -->
+      <div class="text-right font-semibold text-gray-700">
+        Created At:
+      </div>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 col-span-1">
+        <%= @wash.created_at.to_formatted_s(:uk_day) unless @wash.created_at.blank? %>
+      </div>
+
+      <!-- Created By -->
+      <div class="text-right font-semibold text-gray-700">
+        Created By:
+      </div>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 col-span-1">
+        User Name Here
+      </div>
+
+      <!-- Print Button (left) -->
+      <div class="col-span-2 text-right mt-4">
+        <%= link_to "🖨️ Print Today's Wash Sheet PDF", print_washsheet_pdf_path(id: @wash),
+              class: "underline text-sm font-semibold hover:text-green-700" %>
+      </div>
+
+      <!-- Submit Button (right) -->
+      <div class="col-start-4 text-right mt-4">
+        <%= form.submit "Update", class: tight_fill_button_class %>
+      </div>
+
     </div>
-   
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
-      <%= wash.action_date.to_formatted_s(:uk_day) unless wash.action_date.to_s.empty?  %>
-    </div>
-  
-    <div class="font-semibold mb-1 text-right self-center">
-      Wash Status:
-    </div>
-    <%= form_with(model: @wash, class: "contents") do |form| %>
-    <div>
-      <%=  form.select :wash_status, options_for_select(wash_status, :selected => wash.wash_status),{:prompt=>true}, class:  "border border-green-800 rounded-lg text-left p-2 bg-white" %>
-    </div>
-  
-    
-    <div class="font-semibold text-right self-center">
-      Created At:
-    </div>
-   
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
-     <%= wash.created_at.to_formatted_s(:uk_day) unless wash.created_at.to_s.empty? %>
-    </div>
-   
-    <div class="font-semibold text-right self-center">
-      Created By:
-    </div>
-    
-    <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100">
-      User Name Here
-    </div>
-    
-    
-    
-    <div class="col-start-1 col-span-2 p-2 underline rounded-t-lg text-sm active font-bold text-right">
-        <%= link_to "Print Today's Wash Sheet PDF", print_washsheet_pdf_path(:id => wash), { 'data-toggle' => 'tab', 'aria-controls'=>'home', 'role'=>'tab' } %>
-       </div>
-    
-    <div class="col-end-5 col-span-1">
-      <%= form.submit class: tight_fill_button_class %>   
-    </div>
-      <% end %>
-  
- </div>
+  <% end %>
+</div>

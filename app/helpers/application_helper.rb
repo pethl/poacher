@@ -8,6 +8,24 @@ module ApplicationHelper
     content_for :title, page_title.to_s
   end
 
+  def form_errors_for(record)
+    return unless record.errors.any?
+
+    content_tag :div, class: "bg-red-100 border border-red-400 text-red-700 rounded p-4 mb-4" do
+      concat content_tag(:h2, "#{pluralize(record.errors.count, 'error')} prohibited this record from being saved:", class: "font-semibold text-sm mb-2")
+
+      concat content_tag(:ul, class: "list-disc pl-5 text-sm") {
+        record.errors.full_messages.map { |msg| content_tag(:li, msg) }.join.html_safe
+      }
+    end
+  end
+
+  def field_error_for(record, field)
+    return unless record.errors[field].any?
+
+    content_tag(:p, record.errors[field].first, class: "text-sm text-red-600 mt-1")
+  end
+
   def nav_box_class
     "flex items-center justify-center h-32 text-center bg-gray-800 px-6 mx-10 rounded-lg border border-gray-800 shadow-lg text-lg md:text-xl font-bold text-white tracking-wide"
   end

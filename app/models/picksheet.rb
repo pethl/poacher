@@ -11,7 +11,7 @@ class Picksheet < ApplicationRecord
   scope :ordered, -> { order(date_order_placed: :asc) }
    
    def picksheet_title_detail
-    "Due: #{self.delivery_required_by.strftime('%b %d, %Y')} - #{self.contact.business_name}, Products: #{self.number_of_products}"
+    "Due: #{self.delivery_required_by&.strftime('%b %d, %Y')} - #{self.contact.business_name}, Products: #{self.number_of_products}"
    end
      
   def number_of_products

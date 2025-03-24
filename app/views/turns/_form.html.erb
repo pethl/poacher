@@ -1,35 +1,43 @@
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: turn, local: true) do |form| %>
 
-<%= form_with(model: turn, class: "contents") do |form| %>
-  <% if turn.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(turn.errors.count, "error") %> prohibited this turn from being saved:</h2>
+    <%= form_errors_for(turn) %>
 
-      <ul>
-        <% turn.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Turn Date -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :turn_date %>
+      </label>
+      <div class="text-left">
+        <%= form.date_field :turn_date, value: Time.now.strftime('%Y-%m-%d'), class: field_class_flex_med %>
+      </div>
+
+      <!-- Makesheet (Batch) -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :makesheet_id, "Batch" %>
+      </label>
+      <div class="text-left">
+        <%= form.collection_select :makesheet_id, @makesheets, :id, :batch_and_grade, { prompt: true }, class: field_class_flex %>
+      </div>
+
+      <!-- Turned By -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :turned_by %>
+      </label>
+      <div class="text-left">
+        <%= form.select :turned_by, options_for_select(turned_by, turn.turned_by), { prompt: true }, class: field_class_flex %>
+      </div>
+
+      <!-- Back and Submit Buttons -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to All Turns", turns_path, class: gray_button %>
+      </div>
+      <div class="text-left mt-2">
+        <%= form.submit "Save Turn", class: fill_button_class %>
+      </div>
+
     </div>
+
   <% end %>
-
-  <div class="my-2">
-    <%= form.label :turn_date, class: label_class %>
-    <%= form.date_field :turn_date, :value => Time.now.strftime('%Y-%m-%d'), class: field_class_flex_med %>
-  </div>
-
-  <div class="my-2">
-    <%= form.label :makesheet_id, "Batch", class: label_class %>
-    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex}) %>
-  </div>
-
-  <div class="my-2">
-    <%= form.label :turned_by, class: label_class %>
-    <%=  form.select :turned_by, options_for_select(turned_by, :selected => turn.turned_by),{:prompt=>true}, class: field_class_flex %>
-  </div>
-
- <div class="my-2">
-     <%= link_to "Back to All Turns", turns_path, class: gray_button %>
-    <%= form.submit class: fill_button_class %>
-  
-  </div>
-<% end %>
+</div>

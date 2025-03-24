@@ -1,7 +1,4 @@
-<div class="mx-auto md:w-1/3 w-full text-right">
-<% content_for(:page_title, "EDIT PALLETISED DISTRIBUTION VEHICLE DETAILS")%>
+<% content_for :title, "Poacher: Palletised Distribution Checklist" %>
+<% content_for(:page_title, "Edit: PALLETISED DISTRIBUTION VEHICLE DETAILS")%>
 
   <%= render "form", palletised_distribution: @palletised_distribution %>
-
-  <%= link_to "Back to Month Display", palletised_distributions_path, class: clear_button_class %>
-</div>

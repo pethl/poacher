@@ -1,7 +1,4 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New milk quality monitor</h1>
+<% content_for :title, "Poacher: Milk Quality Monitor" %>
+<% content_for(:page_title, "New: MILK QUALITY MONITOR")%>
 
   <%= render "form", milk_quality_monitor: @milk_quality_monitor %>
-
-  <%= link_to "Back to milk quality monitors", milk_quality_monitors_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-</div>

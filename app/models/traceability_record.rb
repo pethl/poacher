@@ -1,13 +1,24 @@
 class TraceabilityRecord < ApplicationRecord
-  belongs_to :makesheet
+  belongs_to :makesheet, optional: true
   has_many :waste_records, dependent: :destroy
  
-  validates :makesheet_id, presence: true, uniqueness: true  
-  validates :date_started_batch, presence: true
-  validates :individual_cheese_weight_1, 
-  numericality: { greater_than_or_equal_to: 0, less_than: BigDecimal(10**3) },
-  format: { with: /\A\d{1,3}(\.\d{1,2})?\z/ },
-  allow_nil: true
+  validates :makesheet_id,
+  presence: { message: "Please select a Makesheet" },
+  uniqueness: { message: "This Makesheet has already been used for another record" }
+
+    validates :date_started_batch,
+      presence: { message: "Start date is required" }
+
+    # Validate all cheese weights (1 to 35)
+    (1..35).each do |i|
+      validates :"individual_cheese_weight_#{i}",
+        numericality: {
+          greater_than_or_equal_to: 0,
+          less_than: BigDecimal(10**2),
+          message: "Cheese weight must be a number between 0 and 99.99"
+        },
+        allow_nil: true
+    end
 
   scope :ordered, -> { order(date_started_batch: :asc) }
 

@@ -1,8 +1,4 @@
-<% content_for(:page_title, "STORE : EDIT TURN RECORD for #{@turn.turn_date.to_formatted_s(:uk_day)}")%>
- <div class="mx-auto w-1/3 text-center">
+<% content_for :title, "Poacher: Turns" %>
+<% content_for(:page_title, "Edit: TURN RECORD")%>
 
   <%= render "form", turn: @turn %>
-  
-
-  <%= link_to "Show this turn", @turn, class: gray_button %>
-  </div>

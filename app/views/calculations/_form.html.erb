@@ -1,38 +1,58 @@
-<div>
-<%= form_with(model: calculation, class: "contents") do |form| %>
-  <% if calculation.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(calculation.errors.count, "error") %> prohibited this calculation from being saved:</h2>
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: calculation, local: true) do |form| %>
 
-      <ul>
-        <% calculation.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <%= form_errors_for(calculation) %>
+
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Product -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :product %>
+      </label>
+      <div class="text-left">
+        <%= form.select :product,
+                        options_for_select(grade, selected: calculation.product),
+                        { prompt: true },
+                        class: field_class_flex %>
+      </div>
+
+      <!-- Size -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :size %>
+      </label>
+      <div class="text-left">
+        <%= form.select :size,
+                        options_for_select(sale_size, selected: calculation.size),
+                        { prompt: true },
+                        class: field_class_flex %>
+      </div>
+
+      <!-- Weight -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :weight, "Weight in Grams" %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :weight, class: field_class_flex %>
+      </div>
+
+      <!-- Notes -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :notes %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :notes, class: field_class_flex %>
+      </div>
+
+      <!-- Back to Index (1st col, label side) -->
+      <div class="text-left">
+        <%= link_to "← Back to Calculations", calculations_path, class: gray_button %>
+      </div>
+
+      <!-- Submit Button (2nd col, input side) -->
+      <div class="text-left">
+        <%= form.submit "Save", class: fill_button_class %>
+      </div>
     </div>
+
   <% end %>
-
- 
-  <div class="">
-    <%= form.label :product, class:label_class %>
-      <div class="">
-    <%=  form.select :product, options_for_select(grade, :selected => calculation.product),{:prompt=>true}, class: field_class_flex %>
-   </div>
-   <div>
-     <%= form.label :size, class:label_class%>
-     <%=  form.select :size, options_for_select(sale_size, :selected => calculation.size),{:prompt=>true}, class: field_class_flex%>
-   </div>
-   <div>
-     <%= form.label :weight,"Weight in Grams", class:label_class%>
-     <%= form.text_field :weight, class: field_class_flex %>
-    </div>
-  <div class="">
-    <%= form.label :notes, class:label_class %>
-    <%= form.text_field :notes, class: field_class_flex %>
-  </div>
-  <br>
-  <div class="inline m-4 mb-4">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-green-800 text-white inline-block font-medium cursor-pointer" %>
-  <%= link_to "Back to calculations", calculations_path, class: gray_button %>
-  </div><br><br>
-<% end %>
+</div>

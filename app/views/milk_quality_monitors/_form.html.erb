@@ -1,77 +1,70 @@
-<%= form_with(model: milk_quality_monitor, class: "contents") do |form| %>
-  <% if milk_quality_monitor.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(milk_quality_monitor.errors.count, "error") %> prohibited this milk_quality_monitor from being saved:</h2>
+<div class="max-w-2xl mx-auto mt-6 bg-white p-4">
+  <%= form_with(model: milk_quality_monitor, local: true) do |form| %>
 
-      <ul>
-        <% milk_quality_monitor.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <%= form_errors_for(milk_quality_monitor) %>
+
+    <div class="grid grid-cols-2 gap-x-6 gap-y-4 items-center">
+
+      <!-- Sample Date -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :sample_date %></label>
+      <div><%= form.date_field :sample_date, class: field_class_flex_med %></div>
+
+      <!-- Production Date/Batch -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :makesheet_id, "Production Date / Batch" %></label>
+      <div><%= form.collection_select :makesheet_id, @makesheets, :id, :batch_and_grade, { prompt: "Select..." }, class: field_class_flex_med %></div>
+
+      <!-- Cell Count -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :cell_count %></label>
+      <div><%= form.number_field :cell_count, class: field_class_flex_med %></div>
+
+      <!-- Bactoscan -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :bactoscan %></label>
+      <div><%= form.number_field :bactoscan, class: field_class_flex_med %></div>
+
+      <!-- Butterfat -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :butterfat %></label>
+      <div><%= form.text_field :butterfat, class: field_class_flex_med %></div>
+
+      <!-- Lactose -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :lactose %></label>
+      <div><%= form.text_field :lactose, class: field_class_flex_med %></div>
+
+      <!-- Protein -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :protein %></label>
+      <div><%= form.text_field :protein, class: field_class_flex_med %></div>
+
+      <!-- Casein -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :casein %></label>
+      <div><%= form.text_field :casein, class: field_class_flex_med %></div>
+
+      <!-- Urea -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :urea %></label>
+      <div><%= form.text_field :urea, class: field_class_flex_med %></div>
+
+      <!-- Total Viable Colonies -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :total_viable_colonies %></label>
+      <div><%= form.text_field :total_viable_colonies, class: field_class_flex_med %></div>
+
+      <!-- Therms -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :therms %></label>
+      <div><%= form.text_field :therms, class: field_class_flex_med %></div>
+
+      <!-- Coliforms -->
+      <label class="text-right font-semibold text-gray-700"><%= form.label :coliforms %></label>
+      <div><%= form.text_field :coliforms, class: field_class_flex_med %></div>
+
+      <!-- Action buttons -->
+      <!-- Back to Index (left column) -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to Index", chillers_path, class: gray_button %>
+      </div>
+
+      <!-- Submit (right column) -->
+      <div class="text-left mt-2">
+        <%= form.submit "Update Record", class: fill_button_class %>
+      </div>
+
     </div>
+
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :sample_date %>
-    <%= form.date_field :sample_date, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :makesheet_id, "Production Date/Batch" %>
-    <%= form.collection_select(:makesheet_id, @makesheets, :id, :batch_and_grade,{:prompt=>true}, {:class=>field_class_flex_med}) %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :cell_count %>
-    <%= form.number_field :cell_count, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :bactoscan %>
-    <%= form.number_field :bactoscan, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :butterfat %>
-    <%= form.text_field :butterfat, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :lactose %>
-    <%= form.text_field :lactose, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :protein %>
-    <%= form.text_field :protein, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :casein %>
-    <%= form.text_field :casein, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :urea %>
-    <%= form.text_field :urea, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :total_viable_colonies %>
-    <%= form.text_field :total_viable_colonies, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :therms %>
-    <%= form.text_field :therms, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :coliforms %>
-    <%= form.text_field :coliforms, class: field_class_flex_med %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>
+</div>

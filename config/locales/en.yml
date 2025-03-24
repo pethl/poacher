@@ -29,6 +29,8 @@
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
 en:
+  errors:
+    format: "%{message}" # ← optional, but removes 'Makesheet' prefix
   date:
     formats:
       default: "%d-%m-%Y"
@@ -39,4 +41,12 @@ en:
         unit: "£"
         delimiter: ","
         separator: "."
-        format: "%u%n" # Ensures £ appears before the number
+        format: "%u%n"
+
+  activerecord:
+    errors:
+      models:
+        batch_weight:
+          attributes:
+            makesheet_id:
+              blank: "Please select relevant batch"

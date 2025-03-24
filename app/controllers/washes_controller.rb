@@ -26,7 +26,7 @@ class WashesController < ApplicationController
     @wash = Wash.new
     #.or(Picksheet.where(status: "Open")) NOT YET IMPLEMENTED NEED STATUS SET FOR PICKING
     
-    @picksheets = Picksheet.where("delivery_required_by>= ?", Date.today).pluck(:id) 
+    @picksheets = Picksheet.where.not(status: "Shipped").pluck(:id) 
     @picksheets_already_assigned_to_a_wash = (WashPicksheet.all.pluck(:picksheet_id))
     @picksheets_subset = @picksheets.reject {|n| @picksheets_already_assigned_to_a_wash.include? n}
     @picksheets_subset = Picksheet.find(@picksheets_subset)

@@ -1,7 +1,7 @@
 class BatchWeight < ApplicationRecord
   belongs_to :makesheet, optional: true
 
-  validates :makesheet_id, presence: true, uniqueness: true  
+  validates :makesheet_id, presence: true, uniqueness: true #custom error message in locale/en.yml
   validates :date, presence: true
 
   scope :ordered, -> { order(date: :asc) }

@@ -1,8 +1,4 @@
-<div class="mx-auto md:w-2/3 w-full">
-<% content_for(:page_title, "EDIT BUTTER STOCK POSITION")%>
+<% content_for :title, "Poacher: Butter Stock Position" %>
+<% content_for(:page_title, "Edit: BUTTER STOCK POSITION")%>
 
-  <%= render "form", butter_stock: @butter_stock %>
-
-  <%= link_to "Show this butter stock", @butter_stock, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to butter stocks", butter_stocks_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-</div>
+<%= render "form", butter_stock: @butter_stock %>

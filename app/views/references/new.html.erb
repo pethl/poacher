@@ -1,8 +1,4 @@
-<% content_for(:page_title, "Reference Data")%>
+<% content_for :title, "Poacher: Reference Data" %>
+<% content_for(:page_title, "REFERENCE DATA")%>
 
-<div class="mx-auto w-1/3 text-right mt-8">
- 
   <%= render "form", reference: @reference %>
-
-  <%= link_to "Back to references", references_path, class: gray_button %>
-</div>

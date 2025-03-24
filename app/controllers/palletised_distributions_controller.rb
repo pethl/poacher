@@ -25,7 +25,13 @@ class PalletisedDistributionsController < ApplicationController
   def create
     @staffs = Staff.where(employment_status: "Active").ordered
     @palletised_distribution = PalletisedDistribution.new(palletised_distribution_params)
-
+  
+    # Check if no data was entered (all params blank)
+    if palletised_distribution_params.values.all?(&:blank?)
+      redirect_to palletised_distributions_path, notice: 'No data entered. Nothing was saved.'
+      return
+    end
+  
     respond_to do |format|
       if @palletised_distribution.save
         format.html { redirect_to palletised_distributions_path, notice: "Palletised distribution was successfully created." }

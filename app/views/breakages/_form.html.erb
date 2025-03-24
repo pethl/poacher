@@ -1,101 +1,141 @@
-<%= form_with(model: breakage, class: "contents") do |form| %>
-  <% if breakage.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(breakage.errors.count, "error") %> prohibited this breakage from being saved:</h2>
+<div class="max-w-2xl mx-auto bg-white p-6 ">
+  <%= form_with(model: breakage, local: true) do |form| %>
 
-      <ul>
-        <% breakage.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <%= form_errors_for(breakage) %>
+
+    <div class="grid grid-cols-2 gap-x-6 gap-y-3 items-center">
+
+     <!-- Date -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :date %>
+      </label>
+      <div class="text-left">
+        <%= form.date_field :date,
+                            class: field_class_flex_med,
+                            disabled: !breakage.new_record? %>
+      </div>
+
+      <!-- Breakage Occurred? -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :breakage_occured, "Breakage Occurred?" %>
+      </label>
+      <div class="text-left flex items-center gap-4">
+        <label class="inline-flex items-center gap-1">
+          <%= form.radio_button :breakage_occured, true, class: "form-radio text-blue-600" %>
+          <span>Yes</span>
+        </label>
+        <label class="inline-flex items-center gap-1">
+          <%= form.radio_button :breakage_occured, false, class: "form-radio text-blue-600" %>
+          <span>No</span>
+        </label>
+      </div>
+
+      <!-- Knife -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :knife %>
+      </label>
+      <div class="text-left">
+        <%= form.check_box :knife, class: "h-5 w-5" %>
+      </div>
+
+      <!-- Cutting Board / Cutting Wire -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :cutting_board_cutting_wire %>
+      </label>
+      <div class="text-left">
+        <%= form.check_box :cutting_board_cutting_wire, class: "h-5 w-5" %>
+      </div>
+
+      <!-- Ringing Machine / Cutting Wire -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :ringing_machine_cutting_wire %>
+      </label>
+      <div class="text-left">
+        <%= form.check_box :ringing_machine_cutting_wire, class: "h-5 w-5" %>
+      </div>
+
+      <!-- Cutting Spring -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :cutting_spring %>
+      </label>
+      <div class="text-left">
+        <%= form.check_box :cutting_spring, class: "h-5 w-5" %>
+      </div>
+
+      <!-- Wire Broken Into 2 -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :wire_broken_into_2 %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :wire_broken_into_2, class: field_class_flex_small %>
+      </div>
+
+      <!-- Wire Unwound -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :wire_unwound %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :wire_unwound, class: field_class_flex_small %>
+      </div>
+
+      <!-- Other Number -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :other_number %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :other_number, class: field_class_flex_small %>
+      </div>
+
+      <!-- Other Description -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :other_desc %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :other_desc, class: field_class_flex %>
+      </div>
+
+      <!-- Product Contaminated? -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :product_contaminated, "Product Contaminated?" %>
+      </label>
+      <div class="text-left flex items-center gap-4">
+        <label class="inline-flex items-center gap-1">
+          <%= form.radio_button :product_contaminated, true, class: "form-radio text-blue-600" %>
+          <span>Yes</span>
+        </label>
+        <label class="inline-flex items-center gap-1">
+          <%= form.radio_button :product_contaminated, false, class: "form-radio text-blue-600" %>
+          <span>No</span>
+        </label>
+      </div>
+
+      <!-- Action Taken -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :action_taken %>
+      </label>
+      <div class="text-left">
+        <%= form.text_area :action_taken, rows: 3, class: field_class_flex %>
+      </div>
+
+      <!-- Staff -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :staff_id, "Staff Member" %>
+      </label>
+      <div class="text-left">
+        <%= form.collection_select(:staff_id, @staffs, :id, :full_name, { prompt: true }, { class: field_class_flex }) %>
+      </div>
+
+      <!-- Submit -->
+       <!-- Back to Index (1st col, label side) -->
+      <div class="text-left">
+        <%= link_to "← Back to Calculations", breakages_path, class: gray_button %>
+      </div>
+
+      <!-- Submit Button (2nd col, input side) -->
+      <div class="text-left">
+        <%= form.submit "Save", class: fill_button_class %>
+      </div>
+
     </div>
-  <% end %> 
-
-
-  <div class="my-4">
-    <%= form.label :date %>
-    <%= form.date_field :date, class: field_class_flex_med %>
-  </div>
-
-  <div class="my-4 flex justify-end space-x-4">
-    <%= form.label :breakage_occured, "Breakage Occurred?" %>
-    <label class="flex items-center space-x-2">
-      <%= form.radio_button :breakage_occured, true, id: "breakage_occured", class: "form-radio text-blue-600" %>
-      <span class="text-gray-700">Yes</span>
-    </label>
-
-    <label class="flex items-center space-x-2">
-      <%= form.radio_button :breakage_occured, false, id: "breakage_occured", class: "form-radio text-blue-600" %>
-      <span class="text-gray-700">No</span>
-    </label>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :knife %>
-    <%= form.check_box :knife, class: "h-5 w-5" %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :cutting_board_cutting_wire %>
-    <%= form.check_box :cutting_board_cutting_wire, class: "h-5 w-5" %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :ringing_machine_cutting_wire %>
-    <%= form.check_box :ringing_machine_cutting_wire, class: "h-5 w-5" %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :cutting_spring %>
-    <%= form.check_box :cutting_spring, class: "h-5 w-5" %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :wire_broken_into_2  %>
-    <%= form.number_field :wire_broken_into_2, class: field_class_flex_small %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :wire_unwound %>
-    <%= form.number_field :wire_unwound, class: field_class_flex_small %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :other_number %>
-    <%= form.number_field :other_number, class: field_class_flex_small %>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :other_desc %>
-    <%= form.text_field :other_desc, class: field_class_flex %>
-  </div>
-
-  <div class="my-4 flex justify-end space-x-4">
-    <%= form.label :product_contaminated, "Product Contaminated?" %>
-    <label class="flex items-center space-x-2">
-      <%= form.radio_button :product_contaminated, true, id: "product_contaminated", class: "form-radio text-blue-600" %>
-      <span class="text-gray-700">Yes</span>
-    </label>
-
-    <label class="flex items-center space-x-2">
-      <%= form.radio_button :product_contaminated, false, id: "product_contaminated", class: "form-radio text-blue-600" %>
-      <span class="text-gray-700">No</span>
-    </label>
-  </div>
-
-  <div class="my-4">
-    <%= form.label :action_taken %>
-    <%= form.text_area :action_taken, rows: 2, class: field_class_flex %>
-  </div>
-
- <div class="mt-5">
-    <%= form.label :staff_id %>
-    <%= form.collection_select(:staff_id, @staffs, :id, :full_name,{:prompt=>true}, {:class=>field_class_flex }) %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class:fill_button_class %>
-  </div>
-<% end %>
-
-
+  <% end %>
+</div>
