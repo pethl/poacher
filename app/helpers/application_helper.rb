@@ -27,19 +27,27 @@ module ApplicationHelper
   end
 
   def nav_box_class
-    "flex items-center justify-center h-32 text-center bg-gray-800 px-6 mx-10 rounded-lg border border-gray-800 shadow-lg text-lg md:text-xl font-bold text-white tracking-wide"
+    "w-64 h-32 bg-gray-800 text-gray-50 p-6 rounded-lg text-center font-semibold shadow-md
+     hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300
+     transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
-
+  
   def nav_box_inverse_class
-    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-gray-800 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+    "w-64 h-32 bg-white text-gray-800 p-6 rounded-lg text-center font-bold border-4 border-gray-800 shadow-md
+     hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300
+     transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
 
   def nav_box_assigned_class
-    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-green-500 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+    "w-64 h-32 bg-white text-gray-800 p-6 rounded-lg text-center font-bold border-4 border-green-500 shadow-md
+    hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-green-300
+    transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
 
   def nav_box_cutting_class
-    "flex items-center justify-center h-32 text-center bg-white px-6 mx-10 rounded-lg border border-4 border-blue-600 shadow-lg text-lg md:text-xl font-bold text-gray-800 tracking-wide"
+    "w-64 h-32 bg-white text-gray-800 p-6 rounded-lg text-center font-bold border-4 border-blue-600 shadow-md
+    hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-blue-300
+    transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
    
    def information_text_class

@@ -59,6 +59,7 @@ group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
   gem 'yard', '~> 0.9.37'
+  gem 'faker', '~> 3.2'
 end
  
 

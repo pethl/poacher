@@ -1,27 +1,27 @@
 <% content_for(:page_title, "MANAGEMENT")%>
 
-<div class="my-4 mt-8 w-2/3 mx-auto overflow-y-auto">
+<div class="my-4 mt-8 max-w-7xl mx-auto px-4 overflow-y-auto">
 
   <!-- Section 1: Links Grid -->
   <div class="my-4 text-center">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
-      <%= link_to "Butter Makes", "/butter_makes", class: nav_box_class %>
-      <%= link_to "Stock Position", "/makesheets/overview", class: nav_box_class %>
-      <%= link_to "Monthly Cheese Summary", "/makesheets/monthly_summary", class: nav_box_class %>
-      <%= link_to "Market Sales", "/market_sales", class: nav_box_class %>
-      <%= link_to "Invoices", "/invoices", class: nav_box_class %>
-      <%= link_to "TBD", "/butter_makes", class: nav_box_class %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+      <%= link_to "Butter Makes", "/butter_makes", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Stock Position", "/makesheets/overview", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Monthly Cheese Summary", "/makesheets/monthly_summary", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Market Sales", "/market_sales", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Invoices", "/invoices", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "TBD", "/butter_makes", class: "#{nav_box_class} mx-auto" %>
     </div>
   </div>
 
-  <hr class="my-4">
+  <hr class="my-6">
 
-  <!-- Section 2: Charts Grid (Stock by %, Stock Count) -->
+  <!-- Section 2: Charts Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <!-- Stock % Spread % -->
-    <div class="text-center text-lg bg-transparent relative z-0">
-      <p class="text-center text-lg pr-20"> Stock % Spread</p>
+    <!-- Stock % Spread -->
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-lg font-semibold mb-4">Stock % Spread</p>
       <%= pie_chart Makesheet.where("status NOT IN (?)", 'Finished')
                 .where.not(grade: [nil, ""])
                 .group(:grade)
@@ -38,55 +38,48 @@
                                   }"
                     }
                   },
-                  legend: {
-                    display: false
-                  },
+                  legend: { display: false },
                   pieSliceText: 'percentage'
                 } %>
-
-
     </div>
 
     <!-- Stock Count -->
-    <div class="text-center text-lg relative z-0">
-      <p class="text-center text-lg pb-8"> Stock Count(batches)</p>
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-lg font-semibold mb-4">Stock Count (batches)</p>
       <%= bar_chart Makesheet.where("status NOT IN (?)", 'Finished')
-                     .where.not(grade: [nil, ""])
-                     .group(:grade)
-                     .count,
-                     donut: true,
-                     library: {
-                       plugins: {
-                         legend: {
-                           display: true,
-                           position: "bottom",
-                           title: {
-                             display: true,
-                             text: "Count of batches"
-                           }
-                         }
-                       },
-                       pieSliceText: 'value'
-                     } %>
-
+                .where.not(grade: [nil, ""])
+                .group(:grade)
+                .count,
+                library: {
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "bottom",
+                      title: {
+                        display: true,
+                        text: "Count of batches"
+                      }
+                    }
+                  },
+                  pieSliceText: 'value'
+                } %>
     </div>
 
   </div>
 
-  <br><br>
+  <hr class="my-8">
 
-  <!-- Section 3: Charts Grid (Poacher Count, Vintage Count) -->
-
+  <!-- Section 3: Line Charts -->
   <p class="text-center font-semibold text-lg my-4">Batch Count By Age (months)</p>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     <% @charts_data.each do |grade, data| %>
-    <div class="relative z-0">
-      <p class="text-center text-lg"> <%= grade %></p>
-      <%= line_chart data, xtitle: "Age (months)", ytitle: "Count" %>
-
-    </div>
+      <div class="bg-white p-4 rounded shadow text-center">
+        <p class="text-lg font-semibold mb-4"><%= grade %></p>
+        <%= line_chart data, xtitle: "Age (months)", ytitle: "Count" %>
+      </div>
     <% end %>
 
   </div>
+</div>

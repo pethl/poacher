@@ -1,14 +1,23 @@
-<% content_for(:page_title, "DAIRY")%>
+<% content_for(:page_title, "DAIRY") %>
 
-<div class="my-4 mt-8 w-2/3 mx-auto">
- <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
-   
-    <%= link_to "New Makesheet \n Standard 20kgs", new_makesheet_path(make_type: "Standard", weight_type: "Standard (20kgs)"), class: nav_box_class %>
-    <%= link_to "New Makesheet Red 1/2 truckle", new_makesheet_path(make_type: "Red", weight_type: "Half Truckle (10kgs)"), class: nav_box_class %>
-    <%= link_to "New Makesheet P50 20kgs", new_makesheet_path(make_type: "P50", weight_type: "Standard (20kgs)"), class: nav_box_class %>
+<div class="max-w-5xl mx-auto px-4 mt-8">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
 
-    <%= link_to "Makesheets", "/makesheets", class: nav_box_class %>
-    <%= link_to "Monthly Summary", "/makesheets/monthly_summary", class: nav_box_class %>
-   
+    <%= link_to "New Makesheet<br>Standard 20kgs".html_safe,
+        new_makesheet_path(make_type: "Standard", weight_type: "Standard (20kgs)"),
+        class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "New Makesheet<br>Red 1/2 truckle".html_safe,
+        new_makesheet_path(make_type: "Red", weight_type: "Half Truckle (10kgs)"),
+        class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "New Makesheet<br>P50 20kgs".html_safe,
+        new_makesheet_path(make_type: "P50", weight_type: "Standard (20kgs)"),
+        class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "Makesheets", "/makesheets", class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "Monthly Summary", "/makesheets/monthly_summary", class: "#{nav_box_class} mx-auto" %>
+
   </div>
 </div>

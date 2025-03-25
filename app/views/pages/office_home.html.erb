@@ -1,19 +1,17 @@
 <% content_for(:page_title, "OFFICE")%>
 
-<div class="my-4 mt-8 w-2/3 mx-auto">
-  <div class="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-content-center">
-   
-    <%= link_to "Staff", "/staffs", class: nav_box_class %>
-    <%= link_to "Customers", "/contacts", class: nav_box_class %>
-    <%= link_to "Users", "/users", class: nav_box_class %>
-    <%= link_to "References", "/references", class: nav_box_class %>
-    <%= link_to "Calculations ", "/calculations", class: nav_box_class %>
-    <%= link_to "Butter Stocks ", "/butter_stocks", class: nav_box_class %>
-    <%= link_to "Samples", "/samples", class: nav_box_class %>
-    <%= link_to "Milk Quality ", "/milk_quality_monitors", class: nav_box_class %>
-    <%= link_to "Palletised Distribution Report", "/palletised_distributions", class: nav_box_class %>
-  
+<div class="my-4 mt-8 max-w-5xl mx-auto px-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+
+    <%= link_to "Staff", "/staffs", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Customers", "/contacts", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Users", "/users", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "References", "/references", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Calculations", "/calculations", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Butter Stocks", "/butter_stocks", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Samples", "/samples", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Milk Quality", "/milk_quality_monitors", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "Palletised Distribution Report", "/palletised_distributions", class: "#{nav_box_class} mx-auto" %>
+
   </div>
 </div>
-
-

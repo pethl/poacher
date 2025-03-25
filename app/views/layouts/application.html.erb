@@ -2,26 +2,17 @@
 <html class="scroll-smooth">
   <head>
     <title><%= yield(:title) %></title>
-    <link rel="shortcut icon" href="/public/poacher_logo_sm.jpg"/>
-   
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <!-- Stylesheets -->
+    <!-- Styles -->
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-        
+
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/public/poacher_logo_sm.jpg"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
-    <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180' %>
-    <%= favicon_link_tag 'apple-touch-icon-120x120.png', rel: 'apple-touch-icon', sizes: '120x120' %>
-    <%= favicon_link_tag 'apple-touch-icon-152x152.png', rel: 'apple-touch-icon', sizes: '152x152' %>
-    <%= favicon_link_tag 'apple-touch-icon-180x180.png', rel: 'apple-touch-icon', sizes: '180x180' %>
+    <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' %>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,46 +21,30 @@
 
     <!-- JavaScript -->
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-
-    <%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %> <!-- External chartkick -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
     <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
+    <%= javascript_include_tag "animation" %>
 
-    <%= javascript_include_tag('animation') %>
-   
-    <% if content_for? :head %>
+    <% if content_for?(:head) %>
       <%= yield :head %>
     <% end %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-   <%= render "layouts/header" %>
-   <br>
-   
-   
   <body class="max-h-screen overflow-x-hidden bg-white text-gray-900">
-     <main class="">
-     
-       <div class="ml-4 mr-2 max-h-4/5 ">
+    <%= render "layouts/header" %>
 
-         <% if flash.present? %>
-          <div id="flash" class="text-center mt-2">
-            <%= render "layouts/flash" %> 
-          </div>
-          <% end %>
-         
-          <div class="mt-4">
-            <%= yield %>
-          </div>
-          
-       </div> 
-       
-     </main>
-     
-     <footer>
-     </footer>
-  
-  </div>
+    <main class="pt-24 ml-4 mr-2 max-h-4/5">
+      <% if flash.present? %>
+        <div id="flash" class="text-center mt-2">
+          <%= render "layouts/flash" %> 
+        </div>
+      <% end %>
+
+      <div class="mt-4">
+        <%= yield %>
+      </div>
+    </main>
+
+    <footer></footer>
   </body>
-
 </html>

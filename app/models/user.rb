@@ -10,4 +10,8 @@ class User < ApplicationRecord
 
   has_many :picksheets, foreign_key: :contact_id
 
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+
 end 

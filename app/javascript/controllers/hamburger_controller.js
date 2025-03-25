@@ -19,7 +19,7 @@ export default class extends Controller {
       console.log("Menu is hidden, showing it now...")
       // Remove 'hidden' and add 'flex' to show the menu
       this.menuTarget.classList.remove("hidden")
-      this.menuTarget.classList.add("flex")
+      this.menuTarget.classList.add("flex", "flex-col")
     } else {
       console.log("Menu is visible, hiding it now...")
       // Remove 'flex' and add 'hidden' to hide the menu
