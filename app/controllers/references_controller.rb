@@ -5,15 +5,13 @@ class ReferencesController < ApplicationController
   # GET /references or /references.json
   def index
     @references = Reference.all.order(group: :asc, id: :asc)
-    
-     # Filtering by who
-     if params[:group].present?
-      @references = @references.where(group: params[:group])
-    end
+    @references = Reference.all
+    @references = @references.where(group: params[:group]) if params[:group].present?
+    @references = @references.where(model: params[:model]) if params[:model].present?
 
-    # Sorting the records by date and market
-    @references = @references.ordered
-    @references_by_group = @references.group_by { |t| t.group }
+    @references_by_model_and_group = @references.group_by(&:model).transform_values do |refs|
+      refs.group_by(&:group)
+    end
 
   end
 
@@ -23,7 +21,8 @@ class ReferencesController < ApplicationController
 
   # GET /references/new
   def new
-    @reference = Reference.new
+    #@reference = Reference.new
+    @reference = Reference.new(group: params[:group], model: params[:model])
   end
 
   # GET /references/1/edit
@@ -76,6 +75,6 @@ class ReferencesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def reference_params
-      params.require(:reference).permit(:group, :value, :description, :active)
+      params.require(:reference).permit(:group, :value, :description, :active, :sort_order, :model)
     end
 end

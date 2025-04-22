@@ -1,84 +1,116 @@
 <% content_for(:page_title, "Reference Data")%>
 <% content_for(:page_button, "references/new")%>
 
-<div class="mx-auto w-full md:w-2/3 ">
-  <div id="references">
+<div class="mx-auto w-full md:w-1/2 px-4">
 
-    <!-- Filter Section -->
-    <div class="mx-auto max-w-2xl flex justify-center">
+<!-- FILTER CONTROLLER wrapper -->
+<div data-controller="filter" class="m-4">
 
-      <%= form_with(url: references_path, method: :get, local: true, class: "flex gap-2") do %>
+  <!-- Inline filter & search layout -->
+  <div class="flex flex-wrap items-center gap-4">
 
-      <div class="w-40">
-        <label for="market" class="block mt-1 text-xs text-left font-medium text-gray-800">Group</label>
-        <%= select_tag :group, options_for_select(Reference.distinct.pluck(:group).sort, params[:group]), 
-                        include_blank: "Select ", class: filter_drop_down %>
-      </div>
+    <!-- SEARCH INPUT -->
+   <div>
+  <label for="search" class="sr-only">Search</label>
+  <input type="text"
+         name="search"
+         id="search"
+         placeholder="Search values..."
+         data-filter-target="input"
+         data-action="input->filter#filter"
+         class="w-64 p-1.5 border border-gray-300 rounded text-sm shadow-sm focus:ring focus:outline-none focus:border-blue-400" />
+</div>
 
-      <div class="pt-5 flex place-items-center">
-        <%= submit_tag "Filter", class: filter_button %>
-      </div>
-
-      <div class="pt-5 flex place-items-center">
-        <%= link_to "Clear", references_path, class: clear_filter_button %>
-      </div>
-
-      <% end %>
-    </div>
-    <!-- Filter Section End -->
-
-
-    <div class="mx-auto md:w-2/3 w-full place-content-center m-4 p-4 border border-gray-200 rounded rounded-lg text-sm">
-
-      <p class="text-sm md:text-base text-left font-light ">IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong>
-        <br>When adding a new value you must assign the correct <strong>group</strong> and mark as <strong>Active</strong> for it to show up in the system.
-      </p>
-
-      <div class="mt-2">
-        <% @references_by_group.each do |group, references| %>
-        <div class="text-2xl font-bold pt-2 text-center bg-gray-200">
-          <%= group %>
-        </div>
-
-        <div class="mx-auto text-center">
-          <table class="table-auto place-content-center text-left rtl:text-right">
-            <thead class="bg-white border-b-3 text-gray-400 font-light text-xs ">
-              <tr>
-                <th scope="col" class="px-6 py-3 w-52 ">
-                  Value
-                </th>
-                <th scope="col" class="px-6 py-3 w-52">
-                  Description
-                </th>
-                <th scope="col" class="px-6 py-3 w-52">
-                  Active?
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <% references.each do |reference| %>
-              <tr class="bg-white border-b hover:bg-gray-100">
-
-                <td class="px-6 py-4  underline underline-offset-2">
-                  <%= link_to reference.value, edit_reference_path(reference) %>
-                </td>
-
-                <td class="px-6 py-4">
-                  <%= reference.description %>
-                </td>
-
-                <td class="px-6 py-4">
-                  <%= reference.active? ? 'Yes' : 'No'  %>
-                </td>
-
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-          <br><br>
-          <% end %>
-        </div>
+    <!-- FILTER FORM -->
+    <%= form_with(url: references_path, method: :get, local: true, class: "flex flex-wrap items-center gap-2") do %>
+      <div>
+        <%= label_tag :model, "Model", class: "block text-[11px] font-medium text-gray-600" %>
+        <%= select_tag :model, options_for_select(reference_model_options, params[:model]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
       </div>
 
       <div>
+        <%= label_tag :group, "Group", class: "block text-[11px] font-medium text-gray-600" %>
+        <%= select_tag :group, options_for_select(Reference.distinct.pluck(:group).sort, params[:group]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
       </div>
+
+      <div class="flex gap-1 mt-5">
+        <%= submit_tag "Filter", class: "px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700" %>
+        <%= link_to "Clear", references_path, class: "px-3 py-1 text-sm border rounded text-gray-600 hover:text-gray-800" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+
+  <!-- Intro text -->
+  <p class="text-base text-left font-light mb-4">
+    IMPORTANT: values cannot be deleted, they can be made <strong>Inactive.</strong><br>
+    When adding a new value you must assign the correct <strong>model</strong>, <strong>group</strong>, and mark as <strong>Active</strong> for it to show up in the system.
+  </p>
+
+  <!-- Add New Button -->
+  <div class="mb-6">
+    <%= link_to "Add New Reference", new_reference_path, class: gray_button %>
+  </div>
+
+  <!-- MODEL + GROUP LOOP -->
+  <% @references_by_model_and_group.each do |model, grouped_references| %>
+    <div class="text-xl font-bold text-gray-800 mb-2 mt-6">
+      <%= model %>
+    </div>
+
+    <% grouped_references.each do |group, references| %>
+      <div data-filter-target="item" data-filter-value="<%= references.map(&:value).join(' ').parameterize %>">
+
+        <div data-controller="accordion" class="mt-2 border border-gray-200 rounded-lg shadow bg-white overflow-hidden">
+
+          <!-- Accordion Header -->
+          <button
+            data-action="accordion#toggle"
+            class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 text-sm border-b transition"
+          >
+            <%= group %>
+          </button>
+
+          <!-- Accordion Body -->
+          <div data-accordion-target="section" class="px-4 py-4 hidden transition-all duration-200 ease-in-out">
+            <div class="mb-4">
+              <%= link_to "Add new to #{group}", new_reference_path(model: model, group: group), class: gray_button %>
+            </div>
+
+            <% if references.any? %>
+              <table class="w-full text-left text-sm">
+                <thead class="text-xs bg-gray-200 text-gray-500 uppercase border-b">
+                  <tr>
+                    <th class="px-4 py-2 w-48">Value</th>
+                    <th class="px-4 py-2 w-48">Description</th>
+                    <th class="px-4 py-2 w-20">Sort Order</th>
+                    <th class="px-4 py-2 w-20">Active?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% references.sort_by(&:sort_order).each do |reference| %>
+                    <tr class="border-b hover:bg-gray-50">
+                      <td class="px-4 py-2">
+                        <%= link_to reference.value, edit_reference_path(reference), class: link_class %>
+                      </td>
+                      <td class="px-4 py-2"><%= reference.description %></td>
+                      <td class="px-4 py-2"><%= reference.sort_order %></td>
+                      <td class="px-4 py-2"><%= reference.active? ? 'Yes' : 'No' %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            <% else %>
+              <p class="text-sm text-gray-500 italic">No entries found for this group.</p>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+</div>

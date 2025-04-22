@@ -1,4 +1,4 @@
-<header data-controller="hamburger" class="fixed top-0 z-50 w-full bg-gray-800 text-gray-100 shadow-md">
+<header class="fixed top-0 z-50 w-full bg-gray-800 text-gray-100 shadow-md">
   <!-- Top Row: Logo, Nav, Hamburger, User Controls -->
   <div class="max-w-4xl mx-auto flex h-10 items-center justify-between px-4 border-b border-gray-600">
 
@@ -9,11 +9,43 @@
       <% end %>
     </div>
 
-    <!-- Hamburger Button (Visible on small screens only) -->
-    <div class="md:hidden">
-      <button id="hamburger-button" class="text-3xl text-white focus:outline-none" data-action="click->hamburger#toggle">
+    <!-- Hamburger Button + Mobile Menu Wrapper (Visible on small screens only) -->
+    <div class="md:hidden" data-controller="hamburger">
+      <!-- 🍔 Hamburger Button -->
+      <button class="text-3xl text-white focus:outline-none" 
+              data-action="click->hamburger#toggle"
+              aria-label="Toggle menu"
+              aria-expanded="false">
         &#9776;
       </button>
+
+      <!-- 📋 Mobile Menu -->
+      <section data-hamburger-target="menu"
+               class="fixed top-0 left-0 w-full h-screen bg-gray-800 text-5xl hidden flex-col z-50">
+        <button class="text-4xl text-white self-end px-6 mb-2 ml-4" 
+                data-action="click->hamburger#toggle"
+                aria-label="Close menu">
+          &times;
+        </button>
+
+        <nav class="h-full flex flex-col items-center bg-gray-800 text-gray-100 py-8 space-y-4">
+          <a href="/pages/home" aria-label="Home" class="hover:opacity-90 block p-4">
+            <i class="fa-solid fa-house text-gray-100 text-4xl"></i>
+          </a>
+          <a href="/pages/dairy_home" class="hover:opacity-90">Dairy</a>
+          <a href="/pages/store_home" class="hover:opacity-90">Store</a>
+          <a href="/pages/wash_home" class="hover:opacity-90">Wash</a>
+          <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
+          <a href="/pages/office_home" class="hover:opacity-90">Office</a>
+          <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
+          <a href="<%= edit_user_registration_path %>" aria-label="Edit Profile" class="hover:opacity-90 block p-4">
+            <i class="fa-solid fa-user text-gray-100 text-4xl"></i>
+          </a>
+          <a href="<%= destroy_user_session_path %>" aria-label="Log Out" data-turbo-method="delete" class="hover:opacity-90 block p-4">
+            <i class="fa-solid fa-arrow-right-from-bracket text-gray-100 text-4xl"></i>
+          </a>
+        </nav>
+      </section>
     </div>
 
     <!-- Desktop Nav -->
@@ -39,19 +71,16 @@
   <!-- Bottom Row: Title Bar -->
   <% if content_for?(:page_title) %>
     <div class="h-9 flex justify-between items-center bg-gray-200 text-gray-800 px-4 text-sm font-medium border-b border-gray-300">
-      
       <!-- Left: Optional Add New Button -->
       <div class="flex-shrink-0">
         <% if content_for?(:page_button) %>
           <%= link_to "Add New", yield(:page_button), class: header_bar_button_class %>
         <% end %>
       </div>
-
       <!-- Center: Page Title -->
       <div class="text-center flex-grow truncate text-base">
         <%= yield(:page_title) %>
       </div>
-
       <!-- Right: Optional Print Button -->
       <div class="flex-shrink-0">
         <% if content_for(:print_button) == "browser-print" %>
@@ -65,14 +94,3 @@
     </div>
   <% end %>
 </header>
-
-<!-- Mobile Menu (outside header!) -->
-<section id="mobile-menu" class="fixed top-0 left-0 w-full h-screen bg-gray-800 text-5xl hidden z-50 flex-col" data-hamburger-target="menu">
-  <button class="text-4xl text-white self-end px-6 mb-2 ml-4" data-action="click->hamburger#toggle">
-    &times;
-  </button>
-
-  <nav class="h-full flex flex-col items-center bg-gray-800 text-gray-100 py-8 space-y-4">
-    <%= render "layouts/mobile_nav" %>
-  </nav>
-</section>

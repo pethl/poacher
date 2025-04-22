@@ -60,6 +60,12 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'yard', '~> 0.9.37'
   gem 'faker', '~> 3.2'
+  gem 'rspec-rails', '~> 6.1.0'
+  gem 'capybara'
+  gem 'selenium-webdriver' # for browser testing
+  gem 'webdrivers' 
+  gem 'factory_bot_rails'
+  gem 'shoulda-matchers'
 end
  
 
@@ -83,8 +89,10 @@ end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  #gem "capybara"
+ # gem "selenium-webdriver"
+ gem 'simplecov', require: false
+
 end
 
 # for devise

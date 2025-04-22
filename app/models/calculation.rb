@@ -3,5 +3,6 @@ class Calculation < ApplicationRecord
   validates :size, presence: true
   validates :weight, presence: true
   
-   scope :ordered, -> { order(product: :asc, weight: :desc) }
+  scope :ordered, -> { order(product: :asc, weight: :desc, id: :asc) }
+
 end

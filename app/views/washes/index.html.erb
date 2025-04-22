@@ -28,11 +28,11 @@
          <% @washes.each do |wash| %>
             <tr class="bg-white border-b ">
                 <td scope="row" class="px-6 py-4 whitespace-nowrap">
-                <%= wash.action_date.to_formatted_s(:uk_time) unless wash.action_date.to_s.empty? %>
+                <%= wash.action_date.to_formatted_s(:uk) unless wash.action_date.to_s.empty? %>
              
                 </td>
                 <td class="px-6 py-4 underline underline-offset-2">
-                    <%= link_to wash.created_at.to_formatted_s(:uk_time), wash %>
+                    <%= link_to wash.created_at.to_formatted_s(:uk), wash %>
                 </td>
                 <td class="px-6 py-4 ">
                   <%=  wash.wash_status %>

@@ -1,92 +1,112 @@
-# db/seeds/references.rb
-
 puts "✨ Seeding Reference values..."
 
 Reference.destroy_all
 
 reference_data = [
   # Grades
-  { group: 'grade', value: 'Poacher' },
-  { group: 'grade', value: 'Vintage' },
-  { group: 'grade', value: 'Double Barrel' },
-  { group: 'grade', value: 'Knuckle Duster' },
-  { group: 'grade', value: 'Grating' },
-  { group: 'grade', value: 'Poacher Leave' },
-  { group: 'grade', value: 'Vintage Leave' },
+  { group: 'grade', value: 'Poacher', model: 'System Wide' },
+  { group: 'grade', value: 'Vintage', model: 'System Wide' },
+  { group: 'grade', value: 'Double Barrel', model: 'System Wide' },
+  { group: 'grade', value: 'Knuckle Duster', model: 'System Wide' },
+  { group: 'grade', value: 'Grating', model: 'System Wide' },
+  { group: 'grade', value: 'Poacher Leave', model: 'System Wide' },
+  { group: 'grade', value: 'Vintage Leave', model: 'System Wide' },
 
   # Wash Status
-  { group: 'wash_status', value: 'Created' },
-  { group: 'wash_status', value: 'Approved' },
-  { group: 'wash_status', value: 'Completed' },
+  { group: 'wash_status', value: 'Created', model: 'Wash' },
+  { group: 'wash_status', value: 'Approved', model: 'Wash' },
+  { group: 'wash_status', value: 'Completed', model: 'Wash' },
 
   # Turned By
-  { group: 'turned_by', value: 'Florence', description: 'Method by which Cheese was turned on the racks' },
-  { group: 'turned_by', value: 'Hand', description: 'Method by which Cheese was turned on the racks' },
+  { group: 'turned_by', value: 'Florence', description: 'Method by which Cheese was turned on the racks', model: 'Turns' },
+  { group: 'turned_by', value: 'Hand', description: 'Method by which Cheese was turned on the racks', model: 'Turns' },
 
   # Weight Types
-  { group: 'weight_type', value: 'Standard (20 kgs)', description: 'Standard (20 kgs)' },
-  { group: 'weight_type', value: 'Half Truckle (10kgs)', description: 'Half Truckle (10kgs), for Red only' },
-  { group: 'weight_type', value: 'Midi (8 kgs)', description: 'Midi (8 kgs)' },
-  { group: 'weight_type', value: '2.5kg', description: '2.5kg' },
+  { group: 'weight_type', value: 'Standard (20 kgs)', description: 'Standard (20 kgs)', model: 'Calculations' },
+  { group: 'weight_type', value: 'Half Truckle (10kgs)', description: 'Half Truckle (10kgs), for Red only', model: 'Calculations' },
+  { group: 'weight_type', value: 'Midi (8 kgs)', description: 'Midi (8 kgs)', model: 'Calculations' },
+  { group: 'weight_type', value: '2.5kg', description: '2.5kg', model: 'Calculations' },
 
   # Departments
-  { group: 'department', value: 'Cheesemaking Team' },
-  { group: 'department', value: 'Butter Team' },
-  { group: 'department', value: 'Office' },
-  { group: 'department', value: 'Cheese Store' },
-  { group: 'department', value: 'Cutting Room' },
+  { group: 'department', value: 'Cheesemaking Team', model: 'Staff' },
+  { group: 'department', value: 'Butter Team', model: 'Staff' },
+  { group: 'department', value: 'Office', model: 'Staff' },
+  { group: 'department', value: 'Cheese Store', model: 'Staff' },
+  { group: 'department', value: 'Cutting Room', model: 'Staff' },
 
   # Employment Status
-  { group: 'employment_status', value: 'Active' },
-  { group: 'employment_status', value: 'Inactive' },
+  { group: 'employment_status', value: 'Active', model: 'Staff' },
+  { group: 'employment_status', value: 'Inactive', model: 'Staff' },
 
   # Pick Status
-  { group: 'pick_status', value: 'Open' },
-  { group: 'pick_status', value: 'Assigned' },
-  { group: 'pick_status', value: 'Shipped' },
+  { group: 'pick_status', value: 'Open', model: 'PickSheet' },
+  { group: 'pick_status', value: 'Assigned', model: 'PickSheet' },
+  { group: 'pick_status', value: 'Shipped', model: 'PickSheet' },
 
   # Make Types
-  { group: 'make_type', value: 'Standard' },
-  { group: 'make_type', value: 'Red' },
-  { group: 'make_type', value: 'P50' },
+  { group: 'make_type', value: 'Standard', model: 'MakeSheet' },
+  { group: 'make_type', value: 'Red', model: 'MakeSheet' },
+  { group: 'make_type', value: 'P50', model: 'MakeSheet' },
 
   # Traffic Lights
-  { group: 'trafficlights', value: 'Green' },
-  { group: 'trafficlights', value: 'Yellow' },
-  { group: 'trafficlights', value: 'Red' },
+  { group: 'trafficlights', value: 'Green', model: 'Samples' },
+  { group: 'trafficlights', value: 'Yellow', model: 'Samples' },
+  { group: 'trafficlights', value: 'Red', model: 'Samples' },
 
   # Batch Status
-  { group: 'batch_status', value: 'Created' },
-  { group: 'batch_status', value: 'Nursery' },
-  { group: 'batch_status', value: 'Store' },
-  { group: 'batch_status', value: 'Wash' },
-  { group: 'batch_status', value: 'Finished' },
+  { group: 'batch_status', value: 'Created', model: 'MakeSheet' },
+  { group: 'batch_status', value: 'Nursery', model: 'MakeSheet' },
+  { group: 'batch_status', value: 'Store', model: 'MakeSheet' },
+  { group: 'batch_status', value: 'Wash', model: 'MakeSheet' },
+  { group: 'batch_status', value: 'Finished', model: 'MakeSheet' },
 
   # Starter Culture
-  { group: 'starter_culture', value: 'RA21' },
-  { group: 'starter_culture', value: 'RA24' },
+  { group: 'starter_culture', value: 'RA21', model: 'MakeSheet' },
+  { group: 'starter_culture', value: 'RA24', model: 'MakeSheet' },
 
   # Weather
-  { group: 'weather', value: 'Sunny' },
-  { group: 'weather', value: 'Cloudy' },
-  { group: 'weather', value: 'Overcast' },
-  { group: 'weather', value: 'Fog' },
-  { group: 'weather', value: 'Rain (light)' },
-  { group: 'weather', value: 'Rain (heavy)' },
-  { group: 'weather', value: 'Hail' },
-  { group: 'weather', value: 'Snow' },
-  { group: 'weather', value: 'Stormy' },
+  { group: 'weather', value: 'Sunny', model: 'MakeSheet' },
+  { group: 'weather', value: 'Cloudy', model: 'MakeSheet' },
+  { group: 'weather', value: 'Overcast', model: 'MakeSheet' },
+  { group: 'weather', value: 'Fog', model: 'MakeSheet' },
+  { group: 'weather', value: 'Rain (light)', model: 'MakeSheet' },
+  { group: 'weather', value: 'Rain (heavy)', model: 'MakeSheet' },
+  { group: 'weather', value: 'Hail', model: 'MakeSheet' },
+  { group: 'weather', value: 'Snow', model: 'MakeSheet' },
+  { group: 'weather', value: 'Stormy', model: 'MakeSheet' },
 
   # Carrier
-  { group: 'carrier', value: 'DPD by 12' },
-  { group: 'carrier', value: 'Langdons' },
-  { group: 'carrier', value: 'Palletline' },
-  { group: 'carrier', value: 'Tim to Deliver' },
-  { group: 'carrier', value: 'Customer Collect' }
+  { group: 'carrier', value: 'DPD by 12', model: 'PalletisedDistribution' },
+  { group: 'carrier', value: 'Langdons', model: 'PalletisedDistribution' },
+  { group: 'carrier', value: 'Palletline', model: 'PalletisedDistribution' },
+  { group: 'carrier', value: 'Tim to Deliver', model: 'PalletisedDistribution' },
+  { group: 'carrier', value: 'Customer Collect', model: 'PalletisedDistribution' },
+
+  # Grading Bore
+  { group: 'grade_bore', value: 'good', model: 'GradingNote' },
+  { group: 'grade_bore', value: 'with holes', model: 'GradingNote' },
+  { group: 'grade_bore', value: 'smooth', model: 'GradingNote' },
+  { group: 'grade_bore', value: 'grainy', model: 'GradingNote' },
+
+  # Grading Texture
+  { group: 'grade_texture', value: 'good', model: 'GradingNote' },
+  { group: 'grade_texture', value: 'creamy', model: 'GradingNote' },
+  { group: 'grade_texture', value: 'grainy', model: 'GradingNote' },
+  { group: 'grade_texture', value: 'sticky', model: 'GradingNote' },
+
+  # Grading Taste
+  { group: 'grade_taste', value: 'mild', model: 'GradingNote' },
+  { group: 'grade_taste', value: 'tangy', model: 'GradingNote' },
+  { group: 'grade_taste', value: 'sharp', model: 'GradingNote' },
+  { group: 'grade_taste', value: 'strong', model: 'GradingNote' },
+
+  # Grading Appearance
+  { group: 'grade_appearance', value: 'bowed', model: 'GradingNote' },
+  { group: 'grade_appearance', value: 'straight', model: 'GradingNote' },
+  { group: 'grade_appearance', value: 'dry', model: 'GradingNote' },
+  { group: 'grade_appearance', value: 'sagged', model: 'GradingNote' }
 ]
 
-reference_data.each do |attrs|
-  Reference.create!(attrs)
-end
+Reference.create!(reference_data)
 
-puts "✅ References seeded: #{Reference.count}"
+puts "✅ Reference values seeded successfully!"

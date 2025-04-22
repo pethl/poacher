@@ -5,6 +5,14 @@
 
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
 
+   <!-- Model -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :model %>
+      </label>
+      <div class="text-left">
+        <%= form.select :model, reference_model_options, { prompt: "Please select" }, class: field_class_flex %>
+      </div>
+
       <!-- Group -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :group %>
@@ -20,13 +28,13 @@
       <div class="text-left">
         <%= form.text_field :value, class: field_class_flex %>
       </div>
-
-      <!-- Description -->
+      
+      <!-- Sort Order -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :description, "Desc" %>
+        <%= form.label :sort_order, "Sort Order" %>
       </label>
       <div class="text-left">
-        <%= form.text_field :description, class: field_class_flex %>
+        <%= form.number_field :sort_order, class: field_class_flex_med %>
       </div>
 
       <!-- Active Checkbox -->

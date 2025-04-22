@@ -105,7 +105,7 @@
                 </td>
                 <td class="px-2 py-3 border-r-2 w-48">
                  <%= picksheet.carrier %>
-                 <%= "(#{picksheet.carrier_delivery_date.to_formatted_s(:uk_time)})" unless picksheet.carrier_delivery_date.to_s.empty? %>
+                 <%= "(#{picksheet.carrier_delivery_date.to_formatted_s(:uk)})" unless picksheet.carrier_delivery_date.to_s.empty? %>
                 </td>
                
                 <td class="px-2 py-3 border-r-2 w-24 text-center">

@@ -19,10 +19,11 @@ class Picksheet < ApplicationRecord
   end
 
   def full_delivery_info
-  delivery_date = self.delivery_required_by.present? ? self.delivery_required_by.to_datetime.strftime('%b %d, %Y') : ""
-  delivery_time = self.delivery_time_of_day.presence ? " (#{self.delivery_time_of_day})" : ""
-  full_delivery_info = "#{delivery_date}#{delivery_time}"
-
+    return "" unless delivery_required_by.present?
+  
+    delivery_date = delivery_required_by.strftime('%b %d, %Y')
+    delivery_time = delivery_time_of_day.present? ? " (#{delivery_time_of_day})" : ""
+    "#{delivery_date}#{delivery_time}"
   end
 
 end

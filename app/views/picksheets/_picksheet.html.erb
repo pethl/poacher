@@ -20,7 +20,7 @@
     </div>
    
     <div class="h-9 border border-gray-800 rounded-lg text-left py-1 px-2 bg-gray-100">
-     <%= picksheet.delivery_required_by.to_formatted_s(:uk_time) unless picksheet.delivery_required_by.to_s.empty? %>
+     <%= picksheet.delivery_required_by.to_formatted_s(:uk) unless picksheet.delivery_required_by.to_s.empty? %>
       <%= picksheet.delivery_time_of_day %>
     </div>
 

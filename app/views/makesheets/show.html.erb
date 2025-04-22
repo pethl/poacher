@@ -1,5 +1,5 @@
 
-<% content_for(:page_title, "MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk_time)}")%>
+<% content_for(:page_title, "MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk)}")%>
 <% content_for :print_button, print_makesheet_pdf_path(id: @makesheet) %>
 
 <div class="mx-auto w-full text-right pr-10">
