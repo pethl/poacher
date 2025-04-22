@@ -39,7 +39,7 @@
                     POACHER LARGE 
               </th>
               <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
-                    RED LARGE
+                    RED
               </th>
               <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
                     MEDIUM
@@ -93,22 +93,23 @@
                 <%=  number_with_delimiter(makesheet.milk_used)  %>
               </td>
               <td class="px-6 py-2 text-right">
-                <% if makesheet.weight_type == "Standard (20 kgs)" && makesheet.make_type=="Normal" %>
+               <% if makesheet.weight_type == "Standard (20 kgs)" && ["Standard", "P50"].include?(makesheet.make_type) %>
                   <%=  makesheet.number_of_cheeses  %>
                 <% end %>
               </td>
               <td class="px-6 py-2 text-right border-r border-gray-400">
-                <% if makesheet.weight_type == "Standard (20 kgs)" && makesheet.make_type=="Normal" %>
+               <% if makesheet.weight_type == "Standard (20 kgs)" && ["Standard", "P50"].include?(makesheet.make_type) %>
+
                   <%=  makesheet.total_weight  %>
                 <% end %>
               </td>
               <td class="px-6 py-2 text-right">
-                <% if makesheet.weight_type == "Standard (20 kgs)" && makesheet.make_type=="Red" %>
+                <% if makesheet.weight_type == "Half Truckle (10kgs)" && makesheet.make_type=="Red" %>
                   <%=  makesheet.number_of_cheeses  %>
                 <% end %>
               </td>
               <td class="px-6 py-2 text-right border-r border-gray-400">
-                <% if makesheet.weight_type == "Standard (20 kgs)" && makesheet.make_type=="Red" %>
+                <% if makesheet.weight_type == "Half Truckle (10kgs)" && makesheet.make_type=="Red" %>
                   <%=  makesheet.total_weight  %>
                 <% end %>
               </td>

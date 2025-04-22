@@ -82,15 +82,17 @@
         <%= yield(:page_title) %>
       </div>
       <!-- Right: Optional Print Button -->
-      <div class="flex-shrink-0">
-        <% if content_for(:print_button) == "browser-print" %>
-          <%= link_to "Print", '#', class: header_bar_button_class, onclick: 'window.print();return false;' %>
-        <% elsif content_for(:print_button) %>
-          <%= link_to "Print", yield(:print_button), class: header_bar_button_class %>
-        <% elsif content_for(:print_button) == @picksheet %>
-          <%= link_to "Print", print_picksheet_pdf_path(id: @picksheet), class: header_bar_button_class %>
-        <% end %>
-      </div>
+     <% if content_for?(:print_button) %>
+        <div class="flex-shrink-0">
+          <% if content_for(:print_button) == "browser-print" %>
+            <%= link_to "Print", '#', class: header_bar_button_class, onclick: 'window.print();return false;' %>
+          <% elsif content_for(:print_button) %>
+            <%= link_to "Print", yield(:print_button), class: header_bar_button_class %>
+          <% elsif content_for(:print_button) == @picksheet %>
+            <%= link_to "Print", print_picksheet_pdf_path(id: @picksheet), class: header_bar_button_class %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </header>

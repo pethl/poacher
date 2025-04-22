@@ -33,11 +33,22 @@ class MakesheetsController < ApplicationController
 
       @total_monthly_milk_litres =  @makesheets.pluck(:milk_used).compact.sum
 
-      @large_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Normal").pluck(:number_of_cheeses).compact.sum
-      @large_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Normal").pluck(:total_weight).compact.sum
-
-      @red_poacher_count =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Red").pluck(:number_of_cheeses).compact.sum
-      @red_poacher_weight =  @makesheets.where(weight_type: "Standard (20 kgs)").where(make_type: "Red").pluck(:total_weight).compact.sum
+      @large_poacher_count = @makesheets
+      .where(weight_type: "Standard (20 kgs)")
+      .where(make_type: ["Standard", "P50"])
+      .pluck(:number_of_cheeses)
+      .compact
+      .sum
+    
+    @large_poacher_weight = @makesheets
+      .where(weight_type: "Standard (20 kgs)")
+      .where(make_type: ["Standard", "P50"])
+      .pluck(:total_weight)
+      .compact
+      .sum
+    
+      @red_poacher_count =  @makesheets.where(weight_type: "Half Truckle (10kgs)").where(make_type: "Red").pluck(:number_of_cheeses).compact.sum
+      @red_poacher_weight =  @makesheets.where(weight_type: "Half Truckle (10kgs)").where(make_type: "Red").pluck(:total_weight).compact.sum
 
       @medium_cheese_count =  @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
       @medium_cheese_weight = @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
