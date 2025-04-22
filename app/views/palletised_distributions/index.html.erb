@@ -1,54 +1,71 @@
 <div class="overscroll-none">
-<% content_for :title, "Poacher: Palletised Distribution Vehicle Details" %>
-<% content_for(:page_title, "PALLETISED DISTRIBUTION VEHICLE DETAILS")%>
-<% content_for(:page_button, "palletised_distributions/new")%>
-<div id="palletised_distributions">
-<br>
-<div class="h-screen">
-    <div class="overscroll-none">
-      <table class="mx-auto table-fixed relative w-full border border-gray-400 text-sm text-gray-500">
-       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  Date
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 pr-2 text-left">
-                  Company
-                </th>
-                <th id="col" class="sticky top-0 px-4 py-2 text-left">
-                  Registration
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
-                  Trailer Reg/Type
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  Temp °C
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-center">
-                  Vehicle Clean<br>YES / NO
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left">
-                  Destination
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  No. of pallets/cases
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  FWR Staff Name
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  FWR Signature
-                </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                  Driver Signature
-                </th> 
-            </tr>
-        </thead>
-        <tbody class="overflow-contain">
-         
-            <%= render @palletised_distributions %>
+  <% content_for :title, "Poacher: Palletised Distribution Vehicle Details" %>
+  <% content_for(:page_title, "PALLETISED DISTRIBUTION VEHICLE DETAILS")%>
+  <% content_for(:page_button, "palletised_distributions/new")%>
 
+  <div id="palletised_distributions" class="space-y-4">
+    <!-- Table for large screens -->
+    <div class="hidden lg:block">
+      <table class="mx-auto table-fixed relative w-full border border-gray-400 text-sm text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+          <tr class="bg-gray-200 sticky top-0">
+            <th class="sticky top-0 px-4 py-2 text-right">Date</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Company</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Registration</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Trailer Reg/Type</th>
+            <th class="sticky top-0 px-4 py-2 text-right">Temp °C</th>
+            <th class="sticky top-0 px-4 py-2 text-center">Vehicle Clean<br>YES / NO</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Destination</th>
+            <th class="sticky top-0 px-4 py-2 text-right">No. of pallets/cases</th>
+            <th class="sticky top-0 px-4 py-2 text-right">FWR Staff Name</th>
+            <th class="sticky top-0 px-4 py-2 text-right">FWR Signature</th>
+            <th class="sticky top-0 px-4 py-2 text-right">Driver Signature</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @palletised_distributions %>
         </tbody>
-    </table>
-</div> 
-<br><br>
+      </table>
+    </div>
+
+    <!-- Cards for medium and smaller screens -->
+    <div class="block lg:hidden space-y-4">
+  <% @palletised_distributions.each do |palletised_distribution| %>
+    <div id="<%= dom_id palletised_distribution %>" class="border rounded-lg p-4 bg-white shadow-sm">
+     
+     
+      <!-- Main Details Grid -->
+      <div class="grid grid-cols-2 gap-2 text-sm text-gray-700">
+        <div><span class="font-semibold">Date:</span>  <% if palletised_distribution.date? %>
+            <%= link_to palletised_distribution.date.to_formatted_s(:uk_clean_date), edit_palletised_distribution_path(palletised_distribution), class: "underline underline-offset-2 hover:text-blue-600" %>
+          <% end %></div>
+        <div><span class="font-semibold">Company:</span> <%= palletised_distribution.company_name %></div>
+        <div><span class="font-semibold">Registration:</span> <%= palletised_distribution.registration %></div>
+        <div><span class="font-semibold">Trailer Reg/Type:</span> <%= palletised_distribution.trailer_number_type %></div>
+        <div><span class="font-semibold">Temp °C:</span> <%= palletised_distribution.temperature %></div>
+        <div><span class="font-semibold">Vehicle Clean:</span> <%= palletised_distribution.vehicle_clean? ? "YES" : "NO" %></div>
+        <div class="col-span-2"><span class="font-semibold">Destination:</span> <%= palletised_distribution.destination %></div>
+        <div><span class="font-semibold">Pallets:</span> <%= palletised_distribution.number_of_pallets %></div>
+        <% if palletised_distribution.staff_id? %>
+          <div><span class="font-semibold">FWR Staff Name:</span> <%= palletised_distribution.staff.full_name %></div>
+        <% end %>
+      </div>
+
+      <!-- Signatures -->
+      <div class="grid grid-cols-2 gap-2 text-sm text-gray-700 mt-4">
+        <% if palletised_distribution.staff_signature.present? %>
+          <div>
+            <span class="font-semibold block mb-1">FWR Signature:</span>
+            <img src="<%= palletised_distribution.staff_signature %>" alt="FWR Signature" class="max-h-16">
+          </div>
+        <% end %>
+        <% if palletised_distribution.driver_signature.present? %>
+          <div>
+            <span class="font-semibold block mb-1">Driver Signature:</span>
+            <img src="<%= palletised_distribution.driver_signature %>" alt="Driver Signature" class="max-h-16">
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

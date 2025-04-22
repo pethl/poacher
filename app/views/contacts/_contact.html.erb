@@ -1,76 +1,48 @@
-<div id="<%= dom_id contact %>">
+<div class="max-w-6xl mx-auto mt-4 bg-white p-4 border rounded-lg shadow-sm">
+  <div class="grid grid-cols-4 gap-x-6 gap-y-4 items-center text-sm text-gray-800">
 
-<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-  <p class="">
-    <span class="block text-gray-400 mb-1">Business name:</span>
-    <%= contact.business_name %>
-  </p>
+    <!-- Row 1 -->
+    <label class="text-right font-semibold text-gray-700">Business Name</label>
+    <div><%= contact.business_name %></div>
+    <label class="text-right font-semibold text-gray-700">Contact Name</label>
+    <div><%= contact.contact_name %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Contact name:</span>
-    <%= contact.contact_name %>
-  </p>
+    <!-- Row 2 -->
+    <label class="text-right font-semibold text-gray-700">Reference</label>
+    <div><%= contact.reference %></div>
+    <label class="text-right font-semibold text-gray-700">Email</label>
+    <div><%= contact.email %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Reference:</span>
-    <%= contact.reference %>
-  </p>
+    <!-- Row 3 -->
+    <label class="text-right font-semibold text-gray-700">Mobile</label>
+    <div><%= contact.mobile %></div>
+    <label class="text-right font-semibold text-gray-700">Phone</label>
+    <div><%= contact.phone %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Email:</span>
-    <%= contact.email %>
-  </p>
+    <!-- Row 4 -->
+    <label class="text-right font-semibold text-gray-700">Country</label>
+    <div><%= contact.country %></div>
+    <label class="text-right font-semibold text-gray-700">Address</label>
+    <div><%= contact.address %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Mobile:</span>
-    <%= contact.mobile %>
-  </p>
+    <!-- Row 5 -->
+    <label class="text-right font-semibold text-gray-700">Pre Payment?</label>
+    <div><%= contact.pre_payment? ? "Yes" : "No" %></div>
+    <label class="text-right font-semibold text-gray-700">Payment on Receipt?</label>
+    <div><%= contact.payment_on_receipt? ? "Yes" : "No" %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Phone:</span>
-    <%= contact.phone %>
-  </p>
+    <!-- Row 6 -->
+    <label class="text-right font-semibold text-gray-700">Days After Invoice</label>
+    <div><%= contact.days_after_invoice %></div>
+    <label class="text-right font-semibold text-gray-700">Sage Delivery Note</label>
+    <div><%= contact.sage_delivery_note? ? "Yes" : "No" %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Country:</span>
-    <%= contact.country %>
-  </p>
+    <!-- Row 7 - Terms and Notes -->
+    <label class="text-right font-semibold text-gray-700 col-span-1">Ts & Cs</label>
+    <div class="col-span-3 whitespace-pre-line"><%= contact.terms_and_conditions %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Address:</span>
-    <%= contact.address %>
-  </p>
+    <label class="text-right font-semibold text-gray-700 col-span-1">Notes</label>
+    <div class="col-span-3 whitespace-pre-line"><%= contact.notes %></div>
 
-  <p class="">
-    <span class="block text-gray-400 mb-1">Pre Payment?:</span>
-    <%= contact.pre_payment? ? "YES" : ""  %>
-  </p>
-
-   <p class="">
-    <span class="block text-gray-400 mb-1">Payment On Receipt:</span>
-    <%= contact.payment_on_receipt? ? "YES" : ""  %>
-  </p>
-
-  <p class="">
-    <span class="block text-gray-400 mb-1">Days After Invoice:</span>
-    <%= contact.days_after_invoice %>
-  </p>
-
-  <p class="">
-    <span class="block text-gray-400 mb-1">Ts & Cs:</span>
-    <%= contact.terms_and_conditions %>
-  </p>
-
-
-<p class="">
-    <span class="block text-gray-400 mb-1">Sage Delivery Note:</span>
-    <%= contact.sage_delivery_note? ? "YES" : ""  %>
-  </p>
-
-  <p class="">
-    <span class="block text-gray-400 mb-1">Notes:</span>
-    <%= contact.notes %>
-  </p>
-
-</div>
+  </div>
 </div>

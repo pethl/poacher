@@ -1,40 +1,30 @@
-  <div class="overscroll-none">
+<div class="overscroll-none bg-white min-h-screen">
   <% content_for :title, "Poacher: Customer List" %>
   <% content_for(:page_title, "CUSTOMERS")%>
   <% content_for(:page_button, "contacts/new")%>
-  <div class="max-w-6xl mx-auto px-4" id="contacts">
-<div class="overscroll-none">
-  <% content_for :title, "Poacher: Customer List" %>
-  <% content_for(:page_title, "CUSTOMERS")%>
-  <% content_for(:page_button, "contacts/new")%>
-  <div id="contacts">
 
-    <div class="mx-auto w-full xl:w-2/3">
+  <div id="contacts" class="max-w-4xl mx-auto px-4 py-6">
+    <% if notice.present? %>
+      <p class="py-2 px-4 bg-green-100 text-green-700 font-medium rounded-lg mb-4" id="notice"><%= notice %></p>
+    <% end %>
 
-        <div class="w-full">
-          <% if notice.present? %>
-          <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-          <% end %>
+    <div class="mb-6">
+      <%= form_with url: contacts_path, method: :get, data: { controller: "search", action: "input->search#submitForm" }, local: true do %>
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+          <%= label_tag :search, "Search by Business Name", class: "font-medium text-gray-700" %>
+          <%= text_field_tag :search, params[:search], placeholder: "Search Business Name", data: { search_target: "input" }, class: "border border-gray-300 rounded-lg px-3 py-2 w-full sm:w-64" %>
         </div>
+      <% end %>
+    </div>
 
-      <div class="items-center rounded text-sm">
-          <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <div class="overflow-x-auto rounded-lg shadow">
+      <%= turbo_frame_tag "contacts" do %>
+        <%= render "contacts_table", contacts: @contacts %>
+      <% end %>
+    </div>
 
-          <%= form_with url: contacts_path, method: :get, data: { controller: "search", action: "input->search#submitForm" }, local: true do %>
-            <div class="my-2">
-              <%= label_tag :search, "Search by Business Name", class: label_class %>
-              <%= text_field_tag :search, params[:search], placeholder: "Search Business Name", data: { search_target: "input" }, class: field_class_flex %>
-            </div>
-          <% end %>
-
-          <%= turbo_frame_tag "contacts" do %>
-            <%= render "contacts_table", contacts: @contacts %>
-          <% end %>
-
-          <div class="sticky top-0 font-normal text-left text-sm m-2">
-            <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table<br>
-          </div>
-
-      </div>
-
+    <div class="text-sm text-gray-600 mt-4">
+      <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
+    </div>
+  </div>
 </div>
