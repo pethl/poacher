@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_21_112214) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_23_100548) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -226,6 +226,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_21_112214) do
     t.index ["status"], name: "index_makesheets_on_status"
   end
 
+  create_table "makesheets_samples", id: false, force: :cascade do |t|
+    t.bigint "sample_id", null: false
+    t.bigint "makesheet_id", null: false
+    t.index ["makesheet_id", "sample_id"], name: "index_makesheets_samples_on_makesheet_id_and_sample_id"
+    t.index ["sample_id", "makesheet_id"], name: "index_makesheets_samples_on_sample_id_and_makesheet_id"
+  end
+
   create_table "market_sales", force: :cascade do |t|
     t.string "who"
     t.string "market"
@@ -333,9 +340,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_21_112214) do
   create_table "samples", force: :cascade do |t|
     t.string "indicator"
     t.string "sample_no"
-    t.datetime "received_date"
+    t.date "received_date"
     t.string "sample_description"
-    t.bigint "makesheet_id"
     t.string "suite"
     t.string "classification"
     t.string "schedule"
@@ -350,7 +356,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_21_112214) do
     t.string "staphylococcus_aureus_enterotoxins"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["makesheet_id"], name: "index_samples_on_makesheet_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -475,7 +480,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_21_112214) do
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "picksheets", "contacts"
   add_foreign_key "picksheets", "users"
-  add_foreign_key "samples", "makesheets"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"
   add_foreign_key "wash_picksheets", "picksheets"

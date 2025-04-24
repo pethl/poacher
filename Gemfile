@@ -119,4 +119,7 @@ gem "csv", "~> 3.3.2"
 #for weather
 gem 'httparty'
 
+#for samples import
+gem 'activerecord-import'
+
 

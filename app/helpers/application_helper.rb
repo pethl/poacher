@@ -81,6 +81,7 @@ module ApplicationHelper
    def field_class_flex
     "shadow outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-800 "
    end
+   
    def field_class_flex_full
     "shadow outline:none py-2 rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-3 w-full focus:border-gray-800 "
    end

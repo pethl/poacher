@@ -3,14 +3,11 @@ class MakesheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
   before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
-
-
   def makesheet_search
     if params[:search_by_batch] && params[:search_by_batch] != ""
       @makesheets = Makesheet.where(batch: params[:search_by_batch])
     end 
   end
-
   def overview
   end  
   
@@ -80,7 +77,7 @@ class MakesheetsController < ApplicationController
 
   # GET /makesheets/1 or /makesheets/1.json
   def show
-    @samples = Sample.where(makesheet_id: @makesheet.id)
+    @samples = @makesheet.samples
 
     prepare_chart_data # Call the reusable method
   end

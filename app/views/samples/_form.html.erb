@@ -18,7 +18,7 @@
         <%= form.label :received_date %>
       </label>
       <div class="text-left">
-        <%= form.datetime_field :received_date, class: field_class_flex %>
+        <%= form.date_field :received_date, class: field_class_flex %>
       </div>
 
       <!-- Sample Number -->
@@ -29,21 +29,29 @@
         <%= form.text_field :sample_no, class: field_class_flex %>
       </div>
 
-      <!-- Makesheet -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :makesheet_id %>
-      </label>
-      <div class="text-left">
-        <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade, { prompt: true }, class: field_class_flex %>
-      </div>
-
       <!-- Sample Description -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :sample_description %>
       </label>
       <div class="text-left">
-        <%= form.text_area :sample_description, rows: 6, class: field_class_flex %>
+        <%= form.text_area :sample_description, rows: 6, class: field_class_flex_full %>
       </div>
+
+      <!-- Makesheet -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :makesheet_id, "Makesheets" %>
+      </label>
+      <div class="text-left">
+        <%= form.select :makesheet_ids,
+       @active_makesheets.map { |m| [m.make_date.to_formatted_s(:uk), m.id] },
+      {},
+      multiple: true,
+      size: 10, # Show 10 rows
+      class: "#{field_class_flex} h-auto" %>
+      </div>
+
+
+     
 
       <!-- Back to Index -->
       <div class="text-left mt-2">

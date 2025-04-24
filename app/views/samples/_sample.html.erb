@@ -1,87 +1,95 @@
 <div id="<%= dom_id sample %>" >
-<div class="border border-gray-800 rounded-lg p-4">
-<div class="grid md:grid-cols-2 lg:grid-cols-4">
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Sample no:</strong><br>
-    <%= sample.sample_no %>
-  </p>
+    <div class="border border-gray-800 rounded-lg p-4">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4">
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Sample no:</strong>
+          <%= sample.sample_no %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Received date:</strong><br>
-    <%= sample.received_date.to_formatted_s(:uk_clean_date) %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Received date:</strong>
+          <%= sample.received_date.to_formatted_s(:uk_clean_date) %>
+        </p>
 
- 
+       <div class="my-5">
+        <strong class="block font-semibold mb-2">MakeSheet/Batches:</strong>
+        <% if sample.makesheets.any? %>
+          <ul class="list-disc list-inside text-gray-800 ml-4">
+            <% sample.makesheets.order(:make_date).each do |makesheet| %>
+              <li>
+                <%= link_to makesheet.make_date.to_formatted_s(:uk), makesheet_path(makesheet), class: link_class %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <span class="text-red-500">No batches linked</span>
+        <% end %>
+      </div>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">MakeSheet/Batch:</strong><br>
-    <%= sample.makesheet.make_date unless sample.makesheet_id.to_s.empty?%>
-  </p>
+        <p class="my-5 col-span-2 lg:col-span-4">
+          <strong class="block font-semibold mb-2">Sample description:</strong>
+          <%= sample.sample_description %>
+        </p>
 
-   <p class="my-5 col-span-2 lg:col-span-4">
-    <strong class="block font-semibold mb-1">Sample description:</strong><br>
-    <%= sample.sample_description %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Suite:</strong>
+          <%= sample.suite %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Suite:</strong><br>
-    <%= sample.suite %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Classification:</strong>
+          <%= sample.classification %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Classification:</strong><br>
-    <%= sample.classification %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Schedule:</strong>
+          <%= sample.schedule %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Schedule:</strong><br>
-    <%= sample.schedule %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Barcode count:</strong>
+          <%= sample.barcode_count %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Barcode count:</strong><br>
-    <%= sample.barcode_count %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Coagulase positive staphylococcus 37c umqv9:</strong>
+          <%= sample.coagulase_positive_staphylococcus_37c_umqv9 %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Coagulase positive staphylococcus 37c umqv9:</strong><br>
-    <%= sample.coagulase_positive_staphylococcus_37c_umqv9 %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Coagulase positive staphylococcus 37c umqzw:</strong>
+          <%= sample.coagulase_positive_staphylococcus_37c_umqzw %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Coagulase positive staphylococcus 37c umqzw:</strong><br>
-    <%= sample.coagulase_positive_staphylococcus_37c_umqzw %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Escherichia coli b-glucuronidase:</strong>
+          <%= sample.escherichia_coli_b_glucuronidase %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Escherichia coli b-glucuronidase:</strong><br>
-    <%= sample.escherichia_coli_b_glucuronidase %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Listeria species:</strong>
+          <%= sample.listeria_species %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Listeria species:</strong><br>
-    <%= sample.listeria_species %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Listeria species 37:</strong>
+          <%= sample.listeria_species_37 %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Listeria species 37:</strong><br>
-    <%= sample.listeria_species_37 %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Presumptive coliforms:</strong>
+          <%= sample.presumptive_coliforms %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Presumptive coliforms:</strong><br>
-    <%= sample.presumptive_coliforms %>
-  </p>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Salmonella:</strong>
+          <%= sample.salmonella %>
+        </p>
 
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Salmonella:</strong><br>
-    <%= sample.salmonella %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-semibold mb-1">Staphylococcus aureus enterotoxins:</strong><br>
-    <%= sample.staphylococcus_aureus_enterotoxins %>
-  </p>
-</div>
-</div>
+        <p class="my-5">
+          <strong class="block font-semibold mb-2">Staphylococcus aureus enterotoxins:</strong>
+          <%= sample.staphylococcus_aureus_enterotoxins %>
+        </p>
+      </div>
+    </div>
 </div>

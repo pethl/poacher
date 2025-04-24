@@ -59,15 +59,15 @@
         <% end %>
       </td>
         <td scope="row" class="px-4 py-2 underline underline-offset-2">
-          <%= link_to makesheet.make_date.to_formatted_s(:uk_day), edit_makesheet_path(makesheet) %>
+          <%= link_to makesheet.make_date.to_formatted_s(:uk_day), edit_makesheet_path(makesheet)  %>
         </td>
         <td class="px-4 py-2 text-left underline underline-offset-2">
           <% if makesheet.batch? %>
-            <%= link_to makesheet.batch, batch_turns_makesheet_path(makesheet) %>
+             <%= link_to makesheet.batch, makesheet %>
           <% end %>
         </td>
         <td class="px-4 py-2 text-left underline underline-offset-2">
-          <%= link_to makesheet.status, makesheet %>
+          <%= link_to makesheet.status, batch_turns_makesheet_path(makesheet) %>
         </td>
         <td class="px-4 py-2 text-left">
           <%= makesheet.grade %>

@@ -2,6 +2,8 @@
 <% content_for(:print_button, "browser-print")%>
 <% title "Monthly Cheese Making Summary" %>
 
+  <div class="mx-auto w-full lg:w-4/5 place-content-center pl-2 pr-4 text-sm">
+
    <!-- Filter Section -->
    <div class="mb-4 p-2 max-w-xs text-right">
      <%= form_with(url: makesheets_monthly_summary_path, method: :get, local: true, class: "flex gap-2") do %>
@@ -25,7 +27,7 @@
     </div>
 
 
-  <div class="mx-auto w-full place-content-center pl-2 pr-4 text-sm">
+
     <div class="flex flex-col">
       <div class="flex-grow overflow-auto">
   
@@ -171,10 +173,10 @@
       </table>
     </div>
   </div>
-</div>
+
 
 <% if @makesheets&.any? %>
-<div class="text-center text-lg mt-2 font-bold">
+<div class="text-center text-lg mt-2 font-bold mt-4 mb-8">
  <%= line_chart @data, 
                height: "600px", 
                title: "Milk Usage (litres) by #{@makesheets.first.make_date.strftime('%B %Y')}",
@@ -193,6 +195,7 @@
                } %>
     </div>
 <% end %>
+</div>
 
 
 
