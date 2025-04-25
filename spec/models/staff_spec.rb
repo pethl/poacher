@@ -25,13 +25,13 @@ RSpec.describe Staff, type: :model do
   end
 
   describe 'scopes' do
-    it 'returns staff ordered by last name asc' do
+    it 'returns staff ordered by first name asc' do
       Staff.destroy_all # isolate the test
   
       s1 = described_class.create!(first_name: "Amy", last_name: "Zebra", employment_status: "Active")
       s2 = described_class.create!(first_name: "Ben", last_name: "Apple", employment_status: "Active")
   
-      expect(Staff.ordered).to eq([s2, s1])
+      expect(Staff.ordered).to eq([s1, s2])
     end
   end
   

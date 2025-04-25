@@ -13,7 +13,7 @@
 
   <% @scale_names.each do |scale_name| %>
     <!-- Scale Name Header -->
-    <div class="bg-gray-200 text-center font-bold text-md py-1 col-span-5 mt-4">
+    <div class="bg-gray-200 text-center font-bold text-sm py-1 col-span-5 mt-4">
       <%= scale_name %>
     </div>
     <!-- Grid for scale data -->
@@ -54,9 +54,9 @@
               <table class="table-auto w-full text-xs text-left">
                 <thead>
                   <tr>
-                    <th>Weights</th>
+                    <th class="text-xs">Weights</th>
                     <th>Tolerance</th>
-                    <th>5 POINT CHECK</th>
+                    <th>5 Point Check</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -79,7 +79,7 @@
 </div>
 
 <br>
- <div class="bg-gray-200 text-center font-bold text-md py-1 col-span-5">
+ <div class="bg-gray-200 text-center font-bold text-sm py-1 col-span-5">
      WEEKLY CHECKS
     </div>
 
@@ -92,23 +92,23 @@
       <div class="bg-white border border-gray-300 p-4 shadow transition-transform transform hover:scale-105 hover:shadow-lg hover:border-gray-800">
         <!-- Header -->
         <% scale_type = @weekly_pan_scale_names.include?(scale_name) ? "Pan" : "Individual" %>
-        <p class="font-semibold text-gray-700"> <%= scale_name %></p>
-        <p class="text-md text-gray-800">Date: <%= check&.check_date&.strftime("%d %B %Y") || 'N/A' %></p>
+        <p class="font-semibold text-gray-700 text-sm"> <%= scale_name %></p>
+        <p class="text-sm text-gray-800">Date: <%= check&.check_date&.strftime("%d %B %Y") || 'N/A' %></p>
         
         <!-- Weights Table -->
         <table class="table-auto w-full text-sm mt-2">
           <tbody>
-             <tr>
-                <th>Weights</th>
+             <tr class="text-sm">
+              <th class="hidden sm:table-cell">Weights</th><td class="table-cell sm:hidden">WGT</td>
                 <th>Tolerance</th>
-                <th>5 POINT CHECK</th>
+                <th>5 Point Check</th>
               </tr>
             <% weights = scale_type == "Pan" ? [["10kg", "+ / - 10g"], ["20kg", "+ / - 10g"]] : [["100g", "+ / - 2g"], ["500g", "+ / - 2g"]] %>
             <% weights.each do |weight, tolerance| %>
               
               <tr>
                 <td class="text-center px-2 py-1"><%= weight %></td>
-                <td class="text-center px-2 py-1"><%= tolerance %></td>
+                <td class="text-sm text-center px-2 py-1"><%= tolerance %></td>
                 <td class="px-2 py-1 text-center"><%= "✅" if check&.send("scale_#{weight}") %></td>
               </tr>
             <% end %>

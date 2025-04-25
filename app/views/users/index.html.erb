@@ -10,7 +10,7 @@
        <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
         <tr class="bg-gray-200 sticky top-0">
                 <th scope="col" class="sticky top-0 px-4 py-2  underline underline-offset-2">
-                   Username</th>
+                   Name</th>
                 <th id="batch" class="sticky top-0 px-4 py-2  text-left underline underline-offset-2">
                    created at </th>
                 <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
@@ -21,7 +21,7 @@
       <% @users.each do |user| %>
             <tr class="border-b  hover:bg-gray-100">
                 <td scope="row" class="px-6 py-4 whitespace-nowrap">
-                   <%= user.username %>
+                   <%= user.full_name %>
                 </td>
                 <td class="px-4 py-3 text-left">
                   <%=  user.created_at.to_formatted_s(:uk_clean_date) %>
