@@ -1,0 +1,128 @@
+ <% content_for :title, "Poacher: Scale Checks Week View" %>
+<% content_for :page_title, "SCALE CHECKS: WEEK VIEW: #{@week_start.strftime("%d %B %Y")}" %>
+<% content_for(:print_button, "browser-print") %>
+
+<!-- Days of the week header -->
+<div class="grid grid-cols-5 gap-2 text-center font-semibold text-sm">
+  <% (Date.today.beginning_of_week(:monday)..Date.today.beginning_of_week(:monday) + 4.days).each do |day| %>
+    <div><%= day.strftime("%A") %></div>
+  <% end %>
+</div>
+
+<!-- Scale sections -->
+
+  <% @scale_names.each do |scale_name| %>
+    <!-- Scale Name Header -->
+    <div class="bg-gray-200 text-center font-bold text-md py-1 col-span-5 mt-4">
+      <%= scale_name %>
+    </div>
+    <!-- Grid for scale data -->
+    <div class="grid grid-cols-5 gap-2">
+      <% (Date.today.beginning_of_week(:monday)..Date.today.beginning_of_week(:monday) + 4.days).each do |day| %>
+        <% check = @scale_checks.find { |sc| sc.scale_name == scale_name && sc.check_date == day } %>
+
+        <% if check.present? %>
+          <%= link_to edit_scale_check_path(check), class: "block" do %>
+             <div class="border p-2 transition-transform transform hover:scale-105 hover:shadow-lg hover:border-gray-800 <%= 'border-2 border-green-500' if day == Date.today %>">
+              <table class="table-auto w-full text-xs text-left">
+                <thead>
+                  <tr>
+                    <th>Weights</th>
+                    <th>Tolerance</th>
+                    <th>5 POINT CHECK</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% ["100g", "500g", "1kg", "5kg"].each do |weight| %>
+                    <tr>
+                      <td><%= weight %></td>
+                      <td>+ / - 2g</td>
+                      <td class="text-center">
+                        <% if check["scale_#{weight}"] %>
+                          ✅
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        <% else %>
+          <%= link_to new_scale_check_path(scale_name: scale_name, check_date: day, frequency: 'Daily'), class: "block" do %>
+            <div class="border p-2 hover:bg-green-50 <%= 'border-2 border-green-500' if day == Date.today %>">
+              <table class="table-auto w-full text-xs text-left">
+                <thead>
+                  <tr>
+                    <th>Weights</th>
+                    <th>Tolerance</th>
+                    <th>5 POINT CHECK</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% ["100g", "500g", "1kg", "5kg"].each do |weight| %>
+                    <tr>
+                      <td><%= weight %></td>
+                      <td>+ / - 2g</td>
+                      <td class="text-center"></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+       
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<br>
+ <div class="bg-gray-200 text-center font-bold text-md py-1 col-span-5">
+     WEEKLY CHECKS
+    </div>
+
+<div class="grid grid-cols-4 gap-4">
+  <% combined_scales = @weekly_pan_scale_names + @weekly_individual_scale_names %>
+  <% combined_scales.each do |scale_name| %>
+    <% check = @weekly_pan_checks.find { |sc| sc.scale_name == scale_name } || @weekly_individual_checks.find { |sc| sc.scale_name == scale_name } %>
+    
+    <%= link_to (check.present? ? edit_scale_check_path(check) : new_scale_check_path(scale_name: scale_name, check_date: Date.today, frequency: 'Weekly')), class: "block" do %>
+      <div class="bg-white border border-gray-300 p-4 shadow transition-transform transform hover:scale-105 hover:shadow-lg hover:border-gray-800">
+        <!-- Header -->
+        <% scale_type = @weekly_pan_scale_names.include?(scale_name) ? "Pan" : "Individual" %>
+        <p class="font-semibold text-gray-700"> <%= scale_name %></p>
+        <p class="text-md text-gray-800">Date: <%= check&.check_date&.strftime("%d %B %Y") || 'N/A' %></p>
+        
+        <!-- Weights Table -->
+        <table class="table-auto w-full text-sm mt-2">
+          <tbody>
+             <tr>
+                <th>Weights</th>
+                <th>Tolerance</th>
+                <th>5 POINT CHECK</th>
+              </tr>
+            <% weights = scale_type == "Pan" ? [["10kg", "+ / - 10g"], ["20kg", "+ / - 10g"]] : [["100g", "+ / - 2g"], ["500g", "+ / - 2g"]] %>
+            <% weights.each do |weight, tolerance| %>
+              
+              <tr>
+                <td class="text-center px-2 py-1"><%= weight %></td>
+                <td class="text-center px-2 py-1"><%= tolerance %></td>
+                <td class="px-2 py-1 text-center"><%= "✅" if check&.send("scale_#{weight}") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+
+<div class="text-sm text-black my-4">First check balance is level - check bubble. For each sized weight, the weight should be placed in the middle of the weigh pan for the 1st check.<br>
+Then place the weight in each corner of the weigh pan, in a clockwise direction starting on the top right hand corner. <br>
+Record as 'OK' ONLY if all 5 weights are within tolerance.
+<hr class="my-2">
+  </div>
+

@@ -1,0 +1,72 @@
+<%# form: the form builder %>
+<%# fields: array of scale fields (e.g., [:scale_100g, :scale_500g]) %>
+<%# shared_fields: true/false to include the common fields %>
+
+<% if shared_fields %>
+  <!-- Check Date -->
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label :check_date %>
+  </label>
+  <div class="text-left">
+    <%= form.date_field :check_date, class: field_class_flex_med %>
+  </div>
+
+  <!-- Scale Name -->
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label :scale_name %>
+  </label>
+  <div class="text-left">
+   <%= form.select :scale_name, options_for_select(scale_name_serial, @scale_check.scale_name), { prompt: "Select Scale" }, class: field_class_flex_lg %>
+
+  </div>
+
+  <!-- Frequency -->
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label :frequency %>
+  </label>
+  <div class="text-left">
+   <%= form.select :frequency, options_for_select(scalecheck_frequency, @scale_check.frequency), { prompt: "Select Frequency" }, class: field_class_flex_med %>
+
+  </div>
+<% end %>
+
+<!-- Scale Fields -->
+<% fields.each do |field| %>
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label field %>
+  </label>
+  <div class="text-left">
+    <%= form.check_box field, class: field_class_flex_small %>
+  </div>
+<% end %>
+
+<% if shared_fields %>
+  <!-- Comments -->
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label :comments %>
+  </label>
+  <div class="text-left">
+    <%= form.text_area :comments, rows: 3, class: field_class_flex %>
+  </div>
+
+  <!-- Staff -->
+  <label class="text-right font-semibold text-gray-700">
+    <%= form.label :staff_id %>
+  </label>
+  <div class="text-left">
+    <%= form.collection_select :staff_id, @staffs, :id, :full_name, { prompt: true }, class: field_class_flex %>
+  </div>
+
+  <!-- Signature -->
+ <div class="col-span-2 mt-4 flex justify-center">
+  <div class="w-full md:max-w-md" data-controller="signature">
+    <div class="flex flex-col items-center space-y-4 p-4 border border-gray-300 rounded bg-gray-50">
+      <canvas width="400" height="200" class="border border-gray-400 rounded-lg shadow-sm bg-white"></canvas>
+      <%= form.hidden_field :signature, class: "signature-input" %>
+      <button type="button" class="clear-signature text-sm text-gray-500 hover:text-gray-700 underline">
+        Clear Signature
+      </button>
+    </div>
+  </div>
+</div>
+<% end %>

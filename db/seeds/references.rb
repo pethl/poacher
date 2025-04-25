@@ -38,6 +38,19 @@ reference_data = [
   { group: 'employment_status', value: 'Active', model: 'Staff' },
   { group: 'employment_status', value: 'Inactive', model: 'Staff' },
 
+  # Scale Check frequency
+  { group: 'scalecheck_frequency', value: 'Daily', model: 'ScaleCheck' },
+  { group: 'scalecheck_frequency', value: 'Weekly', model: 'ScaleCheck' },
+
+   # Scale name and number
+   { group: 'scale_name_serial', value: 'AVERY XTi101 - Serial Number: 23320102', description: 'Daily', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'AVERY XTi101 - Serial Number: 23320103', description: 'Daily', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'AVERY XTi101 - Serial Number: 23320104', description: 'Daily', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'CHEESE IN - DISPLAY SALTER DP25 (003020) / PAN H205  (20-360974)', description: 'Pan', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'CHEESE OUT - DISPLAY E1005 (112550301) / PAN H205 (11-430113) ',  description: 'Pan', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'Individual Portion Scale Yanti Super SS S/No: 1512085',  description: 'Individual', model: 'ScaleCheck' },
+   { group: 'scale_name_serial', value: 'Individual Portion Scale Yanti MARSDEN Super SS S/No: 202306019',  description: 'Individual', model: 'ScaleCheck' },
+
   # Pick Status
   { group: 'pick_status', value: 'Open', model: 'PickSheet' },
   { group: 'pick_status', value: 'Assigned', model: 'PickSheet' },

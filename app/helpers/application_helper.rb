@@ -73,6 +73,10 @@ module ApplicationHelper
    def field_class
     "outline:none shadow rounded-lg border border-gray-800 bg-gray-100 outline-none font-gray-800 px-3 w-60"
    end
+
+   def field_class_flex_lg
+    "shadow outline:none w-96 rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-800 "
+   end
    
    def field_class_unsized
     "w-full outline:none shadow rounded-lg border border-gray-800 bg-gray-100 font-gray-800 px-3 focus:border-gray-800 "
@@ -123,8 +127,8 @@ module ApplicationHelper
    end
    
    def gray_button
-     "mt-2 rounded-lg py-2 px-4 bg-gray-100 inline-block font-medium"
-   end 
+    "my-4 rounded-lg py-2 px-4 bg-gray-100 inline-block font-semibold"
+  end
  
    def clear_button_class
      "bg-transparent text-sm hover:bg-gray-200 hover:text-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
@@ -306,6 +310,19 @@ module ApplicationHelper
   def grade_taste
     Reference.where(active: true, group: 'grade_taste').order(:description).pluck(:value)
   end
+
+  def scalecheck_frequency
+    Reference.where(active: true, group: 'scalecheck_frequency').order(:description).pluck(:value)
+  end
+
+  def scale_name_serial
+    Reference.where(active: true, group: 'scale_name_serial').order(:description).pluck(:value)
+  end
+
+  def scale_check_type(scale_name) #needed in the form vital dont delete
+    Reference.find_by(group: 'scale_name_serial', value: scale_name)&.description
+  end
+  
 
 
   

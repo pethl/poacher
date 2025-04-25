@@ -157,7 +157,7 @@ class MakesheetsController < ApplicationController
               filename: "makesheet_#{makesheet.id}.pdf",
               type: "application/pdf",
               disposition: "inline" # or "attachment" to force download
-  end
+  end 
   
   
 

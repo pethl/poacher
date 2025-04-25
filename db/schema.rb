@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_23_100548) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_25_083510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -358,6 +358,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_100548) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scale_checks", force: :cascade do |t|
+    t.string "frequency"
+    t.date "check_date"
+    t.string "scale_name"
+    t.boolean "scale_100g"
+    t.boolean "scale_500g"
+    t.boolean "scale_1kg"
+    t.boolean "scale_5kg"
+    t.boolean "scale_10kg"
+    t.boolean "scale_20kg"
+    t.string "comments"
+    t.text "signature"
+    t.bigint "staff_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_scale_checks_on_staff_id"
+  end
+
   create_table "staffs", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -480,6 +498,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_23_100548) do
   add_foreign_key "picksheet_items", "picksheets"
   add_foreign_key "picksheets", "contacts"
   add_foreign_key "picksheets", "users"
+  add_foreign_key "scale_checks", "staffs"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "turns", "makesheets"
   add_foreign_key "wash_picksheets", "picksheets"

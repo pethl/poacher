@@ -1,0 +1,29 @@
+<%= form_with(model: @scale_check, data: { turbo: "false" }, local: true) do |form| %>
+  <%= form_errors_for(@scale_check) %>
+
+ <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+  <% scale_type = scale_check_type(@scale_check.scale_name) %>
+
+  <% case scale_type %>
+  <% when 'Daily' %>
+    <%= render "daily", form: form %>
+  <% when 'Pan' %>
+    <%= render "weekly_pan", form: form %>
+  <% when 'Individual' %>
+    <%= render "weekly_individual", form: form %>
+  <% else %>
+    <p class="text-red-500">Unknown scale type</p>
+  <% end %>
+</div>
+
+
+  <!-- Back & Submit -->
+ <div class="col-span-2 mt-4 flex justify-center">
+  <div class="w-full md:max-w-md flex justify-between">
+    <%= link_to "← Back", week_view_scale_checks_path, class: gray_button %>
+    <%= form.submit "Save Scale Check", class: fill_button_class %>
+    <br>
+  </div>
+</div>
+<% end %>
+

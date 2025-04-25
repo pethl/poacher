@@ -12,20 +12,19 @@ class Makesheet < ApplicationRecord
   validates :make_date, presence: true, uniqueness: { message: "has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
   
+  # Scopes
   scope :ordered, -> { order(make_date: :asc) }
   scope :ordered_reverse, -> { order(make_date: :desc) }
-
-  # Scope to filter out "Finished" status
   scope :not_finished, -> { where.not(status: "Finished") }
-
   scope :filter_by_month_and_year, ->(month, year) {
     where('EXTRACT(MONTH FROM make_date) = ? AND EXTRACT(YEAR FROM make_date) = ?', month, year)
   }
 
-    def progress
-      if make_type.present? && milk_used.present?
-        if first_cut_time.present? && second_cut_time.present?
-          if total_weight.present? && number_of_cheeses.present?
+
+  def progress
+      if make_type.present? && milk_used.present? && salt_weight_net? && type_of_starter_culture_used? && qty_of_starter_used?
+        if first_cut_time.present? && second_cut_time.present? && third_cut_time? && fourth_cut_time?
+          if total_weight.present? && number_of_cheeses.present? 
             if pre_start_inspection_by_staff_id.present?
               return "IV"  # All conditions met
             end
@@ -51,7 +50,7 @@ class Makesheet < ApplicationRecord
     self.make_date.to_formatted_s(:uk_clean_date) + " ["+self.batch_and_grade+"]"
   end
 
-  def yield
+  def yield 
     (self.total_weight.to_f/(self.milk_used.to_f)*100)
   end
   

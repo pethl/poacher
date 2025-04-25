@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
+  
+  resources :scale_checks do
+    collection do
+      get :week_view
+    end
+  end
+  
+  
   resources :grading_notes do
     collection do
       get :preload
       post :create_preloaded
     end
   end
+  
   resources :invoices do
     collection do
       get :summary
     end
   end
+  
   resources :market_sales do
     collection do
       get :summary

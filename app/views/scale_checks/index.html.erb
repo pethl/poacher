@@ -1,0 +1,75 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Scale Checks List" %>
+  <% content_for :page_title, "SCALE CHECKS" %>
+  <% content_for :page_button, "scale_checks/new" %>
+
+  <div id="scale_checks" class="space-y-4">
+    <!-- Table for large screens -->
+    <div class="hidden lg:block">
+      <table class="mx-auto table-fixed relative w-full border border-gray-400 text-sm text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+          <tr class="bg-gray-200 sticky top-0">
+            <th class="sticky top-0 px-4 py-2 text-left">Date</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Scale Name</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Frequency</th>
+            <th class="sticky top-0 px-4 py-2 text-center">100g</th>
+            <th class="sticky top-0 px-4 py-2 text-center">500g</th>
+            <th class="sticky top-0 px-4 py-2 text-center">1kg</th>
+            <th class="sticky top-0 px-4 py-2 text-center">5kg</th>
+            <th class="sticky top-0 px-4 py-2 text-center">10kg</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Staff</th>
+            <th class="sticky top-0 px-4 py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @scale_checks.each do |scale_check| %>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="px-4 py-2 whitespace-nowrap"><%= scale_check.check_date %></td>
+              <td class="px-4 py-2 whitespace-nowrap"><%= scale_check.scale_name %></td>
+              <td class="px-4 py-2 whitespace-nowrap"><%= scale_check.frequency %></td>
+              <td class="px-4 py-2 text-center"><%= scale_check.scale_100g ? "✓" : "✗" %></td>
+              <td class="px-4 py-2 text-center"><%= scale_check.scale_500g ? "✓" : "✗" %></td>
+              <td class="px-4 py-2 text-center"><%= scale_check.scale_1kg ? "✓" : "✗" %></td>
+              <td class="px-4 py-2 text-center"><%= scale_check.scale_5kg ? "✓" : "✗" %></td>
+              <td class="px-4 py-2 text-center"><%= scale_check.scale_10kg ? "✓" : "✗" %></td>
+              <td class="px-4 py-2 whitespace-nowrap"><%= scale_check.staff&.full_name %></td>
+              <td class="px-4 py-2 whitespace-nowrap">
+                <%= link_to "Show", scale_check_path(scale_check), class: "text-blue-600 hover:underline" %>
+                <%= link_to "Edit", edit_scale_check_path(scale_check), class: "text-blue-600 hover:underline ml-2" %>
+                <%= link_to "Delete", scale_check_path(scale_check), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:underline ml-2" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Fallback for smaller screens -->
+    <div class="block lg:hidden">
+      <% @scale_checks.each do |scale_check| %>
+        <div class="border rounded-lg p-4 mb-2 shadow-sm bg-white">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <p class="font-semibold text-gray-700"><%= scale_check.scale_name %> - <%= scale_check.check_date %></p>
+              <p class="text-xs text-gray-500"><%= scale_check.frequency %></p>
+            </div>
+            <div>
+              <%= link_to "Show", scale_check_path(scale_check), class: "text-blue-600 hover:underline" %>
+            </div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-600">
+            <div>100g: <%= scale_check.scale_100g ? "✓" : "✗" %></div>
+            <div>500g: <%= scale_check.scale_500g ? "✓" : "✗" %></div>
+            <div>1kg: <%= scale_check.scale_1kg ? "✓" : "✗" %></div>
+            <div>5kg: <%= scale_check.scale_5kg ? "✓" : "✗" %></div>
+            <div>10kg: <%= scale_check.scale_10kg ? "✓" : "✗" %></div>
+          </div>
+          <div class="mt-2 text-xs text-gray-500">
+            Staff: <%= scale_check.staff&.full_name %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
