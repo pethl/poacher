@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
   describe 'associations' do
-    it { should belong_to(:makesheet).optional }
+    it { should have_and_belong_to_many(:makesheets) }
   end
 
   describe 'validations' do
     subject { FactoryBot.build(:sample) } # Needed for uniqueness
     it { should validate_uniqueness_of(:sample_no) }
-  end
+  end 
 
   describe 'scopes' do
     it 'orders by sample_no ascending (test records only)' do

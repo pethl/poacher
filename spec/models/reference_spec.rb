@@ -10,8 +10,8 @@ RSpec.describe Reference, type: :model do
     it 'returns records in ascending ID order' do
       Reference.destroy_all
 
-      r1 = Reference.create!(group: "X", value: "First")
-      r2 = Reference.create!(group: "X", value: "Second")
+      r1 = Reference.create!(group: "X", value: "First", model: "TestModel")
+      r2 = Reference.create!(group: "X", value: "Second", model: "TestModel")
 
       expect(Reference.ordered).to eq([r1, r2])
     end

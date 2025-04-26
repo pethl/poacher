@@ -34,7 +34,7 @@ class Makesheet < ApplicationRecord
         end
         return "I"  # Only make_type and milk_used are present
       end
-      return "N"  # No progress
+      return "N"  # No progress 
     end
   
   

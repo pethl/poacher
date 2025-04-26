@@ -5,7 +5,7 @@ RSpec.describe Makesheet, type: :model do
     it { should have_many(:turns) }
     it { should have_many(:traceability_records) }
     it { should have_many(:batch_weights) }
-    it { should have_many(:samples) }
+    it { should have_and_belong_to_many(:samples) }
    
     it { should have_one(:grading_note).dependent(:destroy) }
 
@@ -53,33 +53,22 @@ RSpec.describe Makesheet, type: :model do
     end
 
     it 'returns "I" when only type and milk used are set' do
-      makesheet = FactoryBot.build(:makesheet, make_type: "Standard", milk_used: 100)
+      makesheet = FactoryBot.build(:makesheet, :with_I)
       expect(makesheet.progress).to eq("I")
     end
-
-    it 'returns "II" when cut times are added' do
-      makesheet = FactoryBot.build(
-        :makesheet,
-        make_type: "Standard",
-        milk_used: 100,
-        first_cut_time: Time.now,
-        second_cut_time: Time.now,
-        total_weight: nil,
-        number_of_cheeses: nil,
-        pre_start_inspection_by_staff_id: nil
-      )
     
+    it 'returns "II" when cut times are added' do
+      makesheet = FactoryBot.build(:makesheet, :with_I, :with_II)
       expect(makesheet.progress).to eq("II")
     end
-
+    
     it 'returns "III" when weight and cheese count are present' do
-      makesheet = FactoryBot.build(:makesheet, make_type: "Standard", milk_used: 100, first_cut_time: Time.now, second_cut_time: Time.now, total_weight: 40.0, number_of_cheeses: 20)
+      makesheet = FactoryBot.build(:makesheet, :with_I, :with_II, :with_III)
       expect(makesheet.progress).to eq("III")
     end
-
+    
     it 'returns "IV" when all required fields are set' do
-      staff = FactoryBot.create(:staff)
-      makesheet = FactoryBot.build(:makesheet, make_type: "Standard", milk_used: 100, first_cut_time: Time.now, second_cut_time: Time.now, total_weight: 40.0, number_of_cheeses: 20, pre_start_inspection_by_staff_id: staff.id)
+      makesheet = FactoryBot.create(:makesheet, :with_I, :with_II, :with_III, :with_IV)
       expect(makesheet.progress).to eq("IV")
     end
   end

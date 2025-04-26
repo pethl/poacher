@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :scale_check do
-    frequency { "MyString" }
+    frequency { "Daily" }
     check_date { "2025-04-25" }
-    scale_name { "MyString" }
+    scale_name { "MyScale" }
     scale_100g { false }
     scale_500g { false }
     scale_1kg { false }
@@ -10,6 +10,6 @@ FactoryBot.define do
     scale_10kg { false }
     comments { "MyString" }
     signature { "MyText" }
-    staff { nil }
+    staff 
   end
 end

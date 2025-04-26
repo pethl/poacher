@@ -5,6 +5,9 @@ FactoryBot.define do
     received_date { Date.today }
     indicator { "Test" }
     sample_description { "Test description" }
-    makesheet
+    
+    after(:build) do |sample|
+      sample.makesheets << FactoryBot.build(:makesheet)
+    end
   end
 end
