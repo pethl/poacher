@@ -105,6 +105,10 @@ module ApplicationHelper
    def field_class_flex_small
     "max-w-20 h-10 shadow text-center outline:none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 px-2 w-60 focus:border-gray-800 "
    end
+
+   def checkbox_class
+    "form-checkbox h-5 w-5 text-gray-800 rounded border-gray-800 focus:ring-gray-800 bg-gray-100 transition transform hover:scale-115 hover:shadow"
+  end  
    
    def field_class_fit
     "outline:none shadow bg-gray-50 border border-gray-800 text-gray-900 text-sm rounded-lg focus:ring-gray-600 focus:border-gray-800 block p-2.5 "

@@ -117,7 +117,7 @@ class MakesheetsController < ApplicationController
 
     respond_to do |format|
       if @makesheet.save
-        format.html { redirect_to makesheet_url(@makesheet), notice: "Makesheet was successfully created." }
+        format.html { redirect_to makesheets_path, notice: "Makesheet was successfully created." }
         format.json { render :show, status: :created, location: @makesheet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -130,7 +130,7 @@ class MakesheetsController < ApplicationController
   def update
     respond_to do |format|
       if @makesheet.update(makesheet_params)
-        format.html { redirect_to makesheet_url(@makesheet), notice: "Makesheet was successfully updated." }
+        format.html { redirect_to makesheets_path, notice: "Makesheet was successfully updated." }
         format.json { render :show, status: :ok, location: @makesheet }
       else
         format.html { render :edit, status: :unprocessable_entity }

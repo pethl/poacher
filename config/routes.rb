@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :cleaning_foreign_body_checks do
+    collection do
+      get :week_view
+    end
+  end
   
   resources :scale_checks do
     collection do

@@ -1,0 +1,15 @@
+<% content_for :title, "Poacher: Cleaning and Foreign Body Check" %>
+<% content_for(:page_title, "CLEANING AND FOREIGN BODY CHECK")%>
+<% content_for(:page_button, new_cleaning_foreign_body_check_path)%>
+<div class="w-full">
+  
+
+  <div id="cleaning_foreign_body_checks" class="min-w-full">
+    <% @cleaning_foreign_body_checks.each do |cleaning_foreign_body_check| %>
+      <%= render cleaning_foreign_body_check %>
+      <p>
+        <%= link_to "Show this cleaning foreign body check", cleaning_foreign_body_check, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      </p>
+    <% end %>
+  </div>
+</div>

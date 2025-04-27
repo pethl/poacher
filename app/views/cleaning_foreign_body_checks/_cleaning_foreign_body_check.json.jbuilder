@@ -1,0 +1,2 @@
+json.extract! cleaning_foreign_body_check, :id, :date, :milk_pipeline, :cheese_vat, :used_mill, :cooler_moulds_tables, :hand_equipment, :blue_food_contact_equipment, :plastic_sleeves, :metal_shovels, :aprons, :drain_lower_level, :drain_upper_level, :presses, :sinks, :floor_difficult_areas, :footbaths, :internal_door_handles, :change_chlorine, :floor_under_handwash, :compressors, :additional_comments, :staff_id, :created_at, :updated_at
+json.url cleaning_foreign_body_check_url(cleaning_foreign_body_check, format: :json)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_25_083510) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -89,6 +89,36 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_083510) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["staff_id"], name: "index_chillers_on_staff_id"
+  end
+
+  create_table "cleaning_foreign_body_checks", force: :cascade do |t|
+    t.date "date"
+    t.boolean "milk_pipeline"
+    t.boolean "cheese_vat"
+    t.boolean "used_mill"
+    t.boolean "cooler_moulds_tables"
+    t.boolean "hand_equipment"
+    t.boolean "blue_food_contact_equipment"
+    t.boolean "plastic_sleeves"
+    t.boolean "metal_shovels"
+    t.boolean "aprons"
+    t.boolean "drain_lower_level"
+    t.boolean "drain_upper_level"
+    t.boolean "presses"
+    t.boolean "sinks"
+    t.boolean "floor_difficult_areas"
+    t.boolean "footbaths"
+    t.boolean "internal_door_handles"
+    t.boolean "change_chlorine"
+    t.boolean "floor_under_handwash"
+    t.boolean "compressors"
+    t.text "additional_comments"
+    t.bigint "staff_id"
+    t.bigint "staff_id_2"
+    t.bigint "staff_id_3"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_cleaning_foreign_body_checks_on_staff_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -490,6 +520,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_25_083510) do
   add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
   add_foreign_key "chillers", "staffs"
+  add_foreign_key "cleaning_foreign_body_checks", "staffs"
   add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "milk_quality_monitors", "makesheets"

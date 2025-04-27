@@ -1,0 +1,1 @@
+json.partial! "cleaning_foreign_body_checks/cleaning_foreign_body_check", cleaning_foreign_body_check: @cleaning_foreign_body_check

@@ -1,0 +1,78 @@
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: @cleaning_foreign_body_check, data: { turbo: "false" }, local: true) do |form| %>
+
+    <%= form_errors_for(@cleaning_foreign_body_check) %>
+
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Date -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :date %>
+      </label>
+      <div class="text-left">
+        <%= form.date_field :date, class: field_class_flex_med %>
+      </div>
+
+      <%# Boolean fields %>
+      <% [
+        :milk_pipeline, :cheese_vat, :used_mill, :cooler_moulds_tables, :hand_equipment,
+        :blue_food_contact_equipment, :plastic_sleeves, :metal_shovels, :aprons,
+        :drain_lower_level, :drain_upper_level, :presses, :sinks, :floor_difficult_areas,
+        :footbaths, :internal_door_handles, :change_chlorine, :floor_under_handwash,
+        :compressors
+      ].each do |field| %> 
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label field %>
+        </label>
+        <div class="text-left">
+          <%= form.check_box field, class: checkbox_class %>
+        </div>
+      <% end %>
+
+      <!-- Additional Comments -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :additional_comments %>
+      </label>
+      <div class="text-left">
+        <%= form.text_area :additional_comments, rows: 3, class: field_class_flex %>
+      </div>
+
+     <!-- Staff 1 -->
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label :staff_id, "Staff 1" %>
+        </label>
+        <div class="text-left">
+          <%= form.collection_select :staff_id, @staffs, :id, :full_name, { prompt: true }, class: field_class_flex %>
+        </div>
+
+        <!-- Staff 2 -->
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label :staff_id_2, "Staff 2" %>
+        </label>
+        <div class="text-left">
+          <%= form.collection_select :staff_id_2, @staffs, :id, :full_name, { prompt: true }, class: field_class_flex %>
+        </div>
+
+        <!-- Staff 3 -->
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label :staff_id_3, "Staff 3" %>
+        </label>
+        <div class="text-left">
+          <%= form.collection_select :staff_id_3, @staffs, :id, :full_name, { prompt: true }, class: field_class_flex %>
+        </div>
+
+
+      <!-- Back to Index (left column) -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to Week View", cleaning_foreign_body_checks_path, class: gray_button %>
+      </div>
+
+      <!-- Submit (right column) -->
+      <div class="text-left mt-2">
+        <%= form.submit class: fill_button_class %>
+      </div>
+
+    </div>
+
+  <% end %>
+</div>
