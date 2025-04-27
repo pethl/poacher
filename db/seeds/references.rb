@@ -61,9 +61,22 @@ reference_data = [
   { group: 'make_type', value: 'Red', model: 'MakeSheet', sort_order: 2 },
   { group: 'make_type', value: 'Standard', model: 'MakeSheet', sort_order: 3 },
 
-   # Mill Types
-   { group: 'makesheet_mill', value: 'Mill 1', model: 'MakeSheet', sort_order: 1 },
-   { group: 'makesheet_mill', value: 'Mill 2 (spare)', model: 'MakeSheet', sort_order: 2 },
+  # Mill Types
+  { group: 'makesheet_mill', value: 'Chip Mill - 1', model: 'MakeSheet', sort_order: 1 },
+  { group: 'makesheet_mill', value: 'Chip Mill - spare', model: 'MakeSheet', sort_order: 2 },
+  { group: 'makesheet_mill', value: 'Peg Mill', model: 'MakeSheet', sort_order: 3 },
+
+  # Wedge sizes
+  { group: 'wedges_sizes', value: '200g approx', model: 'PickSheet', sort_order: 1 },
+  { group: 'wedges_sizes', value: '150-175g min', model: 'PickSheet', sort_order: 2 },
+  { group: 'wedges_sizes', value: '200g min', model: 'PickSheet', sort_order: 3 },
+  { group: 'wedges_sizes', value: '200g-230g min', model: 'PickSheet', sort_order: 4 },
+  { group: 'wedges_sizes', value: '400-450g min', model: 'PickSheet', sort_order: 5 },
+
+  # Sale Pricing
+  { group: 'sale_pricing', value: 'Unpriced', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_pricing', value: 'Farmers Market', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_pricing', value: 'London Wholesale', model: 'PickSheet', sort_order: 3 },
 
   # Traffic Lights
   { group: 'trafficlights', value: 'Red', model: 'Samples', sort_order: 1 },
@@ -121,7 +134,33 @@ reference_data = [
   { group: 'grade_appearance', value: 'sagged', model: 'GradingNote', sort_order: 1 },
   { group: 'grade_appearance', value: 'dry', model: 'GradingNote', sort_order: 2 },
   { group: 'grade_appearance', value: 'straight', model: 'GradingNote', sort_order: 3 },
-  { group: 'grade_appearance', value: 'bowed', model: 'GradingNote', sort_order: 4 }
+  { group: 'grade_appearance', value: 'bowed', model: 'GradingNote', sort_order: 4 },
+
+  # Sale Products for PickSheets
+[
+  { group: 'sale_product', value: 'Poacher', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_product', value: 'Vintage', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_product', value: 'P50', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_product', value: 'Knuckle Duster', model: 'PickSheet', sort_order: 4 },
+  { group: 'sale_product', value: 'Double Barrel', model: 'PickSheet', sort_order: 5 },
+  { group: 'sale_product', value: 'Red', model: 'PickSheet', sort_order: 6 },
+  { group: 'sale_product', value: 'Smoked', model: 'PickSheet', sort_order: 7 },
+
+  # Sale Sizes for PickSheets
+
+  { group: 'sale_size', value: 'Whole', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_size', value: '1/2', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_size', value: '1/3 ring', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_size', value: '1/4', model: 'PickSheet', sort_order: 4 },
+  { group: 'sale_size', value: '1/8', model: 'PickSheet', sort_order: 5 },
+  { group: 'sale_size', value: '1/16', model: 'PickSheet', sort_order: 6 },
+  { group: 'sale_size', value: '100g', model: 'PickSheet', sort_order: 7 },
+  { group: 'sale_size', value: '200g', model: 'PickSheet', sort_order: 8 },
+  { group: 'sale_size', value: '250g', model: 'PickSheet', sort_order: 9 },
+  { group: 'sale_size', value: '300g', model: 'PickSheet', sort_order: 10 },
+  { group: 'sale_size', value: '500g', model: 'PickSheet', sort_order: 11 },
+  { group: 'sale_size', value: '750g', model: 'PickSheet', sort_order: 12 },
+  { group: 'sale_size', value: 'wedges', model: 'PickSheet', sort_order: 13 }
 ]
 
 Reference.create!(reference_data)

@@ -93,10 +93,10 @@
                   <%= picksheet.status %>
                 </td>
                 <td scope="row" class="px-3 py-3 border-r-2 underline underline-offset-2 w-32">
-                  <%= link_to picksheet.date_order_placed.to_formatted_s(:uk_time), picksheet %>
+                  <%= link_to picksheet.date_order_placed.to_formatted_s(:uk), picksheet %>
                 </td>
                 <td class="px-2 py-3 border-r-2 w-32">
-                  <%= picksheet.delivery_required_by.to_formatted_s(:uk_time) unless picksheet.delivery_required_by.to_s.empty? %>
+                  <%= picksheet.delivery_required_by.to_formatted_s(:uk) unless picksheet.delivery_required_by.to_s.empty? %>
                 </td>
                 <td class="px-2 py-3 border-r-2 w-64 whitespace-nowrap underline underline-offset-2">
                   <% unless picksheet.contact.to_s.empty? %>

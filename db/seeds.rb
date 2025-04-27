@@ -1,5 +1,6 @@
 # db/seeds.rb
 # 🔧 Clean slate
+CleaningForeignBodyCheck.destroy_all
 WashPicksheet.destroy_all;
 BatchWeight.delete_all
 PicksheetItem.destroy_all;
