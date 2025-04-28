@@ -5,29 +5,42 @@
 
 <%= render 'navigation' %>
 
- <!-- Filter Section -->
-<div class="mb-4 p-2 w-full text-left">
-  <%= form_with(url: picksheets_path, method: :get, local: true, class: "flex gap-2") do %>
+ <div class="mb-4 p-2 w-full text-left">
+  <div class="flex flex-wrap gap-2">
+    <%= form_with(url: picksheets_path, method: :get, local: true, class: "flex flex-wrap gap-2 grow") do %>
+      
+      <!-- Date Picker for Filtering by Date Order Placed -->
+      <div class="w-48">
+        <label for="date_order_placed" class="block mt-1 mr-2 text-sm font-medium text-gray-800">Date Order Placed</label>
+        <%= date_field_tag :date_order_placed, params[:date_order_placed], class: filter_drop_down %>
+      </div>
+      
+      <!-- Date Picker for Filtering by Delivery Required By -->
+      <div class="w-48"> 
+        <label for="delivery_required_by" class="block mt-1 mr-2 text-sm font-medium text-gray-800">Delivery Required By</label>
+        <%= date_field_tag :delivery_required_by, params[:delivery_required_by], class: filter_drop_down %>
+      </div>
 
-    <!-- Date Picker for Filtering by Date Order Placed -->
-    <div class="w-48">
-      <label for="date_order_placed" class="block mt-1 mr-2 text-sm font-medium text-gray-800">Date Order Placed</label>
-      <%= date_field_tag :date_order_placed, params[:date_order_placed], class: filter_drop_down %>
-    </div>
-    
-    <!-- Date Picker for Filtering by Delivery Required By -->
-    <div class="w-48"> 
-      <label for="delivery_required_by" class="block mt-1 mr-2 text-sm font-medium text-gray-800">Delivery Required By</label>
-      <%= date_field_tag :delivery_required_by, params[:delivery_required_by], class: filter_drop_down %>
-    </div>
+      <!-- Submit Button for Date Filter -->
+      <div class="pt-2 flex place-items-center">
+        <%= submit_tag "Filter", class: filter_button %>
+      </div>
 
-    <!-- Submit Button for Date Filter -->
-    <div class="pt-6 flex place-items-center">
-      <%= submit_tag "Filter", class: filter_button %>
-    </div>
+    <% end %>
 
-  <% end %>
+    <!-- "Move to Cutting Room" Button -->
+    <% if @type == "ASSIGNED" %>
+      <div class="pt-6 flex place-items-center">
+        <%= button_to "Move Orders to Cutting Room",
+              move_to_cutting_room_picksheets_path,
+              method: :patch,
+              data: { turbo_confirm: "Are you sure you want to move all picking sheets to the Cutting Room?" },
+              class: "bg-red-600 hover:bg-red-700 text-white text-lg font-bold px-6 py-3 rounded-lg shadow-lg" %>
+      </div>
+    <% end %>
+  </div>
 </div>
+
 
 <!-- Table Section -->
   <div class="text-left text-sm ml-4 m-1">

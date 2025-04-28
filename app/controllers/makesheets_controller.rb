@@ -10,6 +10,33 @@ class MakesheetsController < ApplicationController
   end
   def overview
   end  
+
+  def yield_dashboard
+    @make_types = Makesheet.distinct.pluck(:make_type)
+  
+    @projected_yields = @make_types.each_with_object({}) do |make_type, hash|
+      avg_yield = Makesheet.average_yield_for(make_type)
+      hash[make_type] = avg_yield.round(2) if avg_yield
+    end
+  
+    @yield_data = @make_types.each_with_object({}) do |make_type, hash|
+      sheets = Makesheet.where(make_type: make_type)
+                        .where.not(milk_used: [nil, 0])
+                        .order(make_date: :desc)
+                        .limit(10)
+  
+      data = sheets.reverse.map do |sheet|
+        {
+          x: sheet.make_date.strftime("%Y-%m-%d"),
+          y: (sheet.total_weight.to_f / sheet.milk_used.to_f * 100).round(2)
+        }
+      end
+  
+      hash[make_type] = data
+    end
+  end
+  
+  
   
   def batch_turns
     @turns = @makesheet.turns.ordered

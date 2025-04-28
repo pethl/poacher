@@ -1,15 +1,21 @@
+// Turbo and Stimulus imports
 import { Turbo } from "@hotwired/turbo-rails"
 import { Application } from "@hotwired/stimulus"
-import { Controller } from "stimulus"
 
+// Chart.js (auto) and adapters/plugins
 import Chart from "chart.js/auto"
+import "chartjs-adapter-date-fns"
 import ChartDataLabels from "chartjs-plugin-datalabels"
-import Chartkick from "chartkick"
 
+// Register Chart.js plugins immediately after importing Chart.js
 Chart.register(ChartDataLabels)
+
+// Chartkick (after Chart.js setup!)
+import Chartkick from "chartkick"
 Chartkick.use(Chart)
 
-import Highcharts from "highcharts" // ✅ Still ok to import for other uses, just not used by Chartkick
+// Optional (Highcharts for separate use-cases)
+import Highcharts from "highcharts"
 
 // Start Stimulus
 const application = Application.start()
@@ -24,6 +30,7 @@ import AccordionController from "./controllers/accordion_controller"
 import SearchController from "./controllers/search_controller"
 import ClickToVisitController from "./controllers/click_to_visit_controller"
 import ScoreSliderController from "./controllers/score_slider_controller"
+import YieldchartController from "./controllers/yieldchart_controller"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -33,6 +40,7 @@ application.register("accordion", AccordionController)
 application.register("search", SearchController)
 application.register("click-to-visit", ClickToVisitController)
 application.register("score-slider", ScoreSliderController)
+application.register("yieldchart", YieldchartController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

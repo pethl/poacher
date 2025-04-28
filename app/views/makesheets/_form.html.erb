@@ -378,22 +378,28 @@
       <%= form.number_field :total_weight, placeholder: "kgs", step: :any, class: field_class_flex_med %>
     </div>
     <div class="col-span-2 self-center">
-      <%= form.label :yield, "Yield %", class: label_class %>
+      <%= form.label :yield, "Calculated Yield %", class: label_class %>
     </div>
    <div class="text-left">
       <%= form.number_field :calc_yield, 
              value: number_with_precision(@makesheet.yield,  precision: 2), 
             step: :any, 
             disabled: true, 
-            class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-8" %>
+            class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
     </div>
     <!-- New field based on calc yield -->
     <div class="col-span-2 self-center">
-      <%= form.label :yield, "Projected Yield %", class: label_class %>
+      <%= form.label :predicted_yield, "Projected Yield %", class: label_class %>
     </div>
+
     <div class="text-left">
-      <%= form.number_field :total_weight, placeholder: "TBC", step: :any, class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-8" %>
+      <%= number_field_tag :predicted_yield,
+            @makesheet.predicted_yield&.round(2),
+            step: :any,
+            readonly: true,
+            class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
     </div>
+
     <div class="col-span-2 self-center">
       <%= form.label :number_of_cheeses, class: label_class %>
     </div>

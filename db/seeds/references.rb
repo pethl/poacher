@@ -52,9 +52,10 @@ reference_data = [
   { group: 'scale_name_serial', value: 'AVERY XTi101 - Serial Number: 23320102', description: 'Daily', model: 'ScaleCheck', sort_order: 7 },
 
   # Pick Status
-  { group: 'pick_status', value: 'Shipped', model: 'PickSheet', sort_order: 1 },
+  { group: 'pick_status', value: 'Shipped', model: 'PickSheet', sort_order: 4 },
+  { group: 'pick_status', value: 'Cutting', model: 'PickSheet', sort_order: 3 },
   { group: 'pick_status', value: 'Assigned', model: 'PickSheet', sort_order: 2 },
-  { group: 'pick_status', value: 'Open', model: 'PickSheet', sort_order: 3 },
+  { group: 'pick_status', value: 'Open', model: 'PickSheet', sort_order: 1 },
 
   # Make Types
   { group: 'make_type', value: 'P50', model: 'MakeSheet', sort_order: 1 },

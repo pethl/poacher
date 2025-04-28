@@ -99,12 +99,17 @@ Rails.application.routes.draw do
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
 # get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"
   
-  resources :makesheets  do
+resources :makesheets  do
   member do
     get 'batch_turns'
   end
+
+  collection do
+    get 'yield_dashboard' #  new collection route (for the dashboard)
+  end
  end
-  resources :turns
+
+ resources :turns
    
   resources :picksheets do
     resources :picksheet_items, except: [:index, :show]
@@ -118,6 +123,7 @@ Rails.application.routes.draw do
       get :print_manifest_pdf
       get :print_dispatch_pdf
       get :dispatch_and_collection
+      patch :move_to_cutting_room 
     end
   end
    

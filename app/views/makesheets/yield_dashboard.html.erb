@@ -1,0 +1,62 @@
+  <% content_for :title, "Poacher: Yield Management" %>
+  <% content_for(:page_title, "YIELD DASHBOARD")%>
+
+<div class="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <% @make_types.each do |make_type| %>
+    <div class="bg-white rounded-2xl shadow p-4 flex flex-col text-center">
+      <!-- Make Type Title -->
+      <h2 class="text-xl font-bold text-gray-800 mb-2"><%= make_type %></h2>
+
+      <!-- Projected Yield -->
+      <% if @projected_yields[make_type] %>
+        <p class="text-3xl font-extrabold text-green-600 mb-4">
+          <%= number_to_percentage(@projected_yields[make_type], precision: 2) %><br>
+           <span class="text-xs text-gray-600 font-light">averaged from last 10 makes</span>
+        </p>
+       
+      <% else %>
+        <p class="text-gray-400 mb-4">Not enough data</p>
+      <% end %>
+
+      <% chart_data = @yield_data[make_type] || [] %>
+
+
+      <% if chart_data.any? %>
+     <%= line_chart chart_data.map { |d| [d[:x], d[:y]] },
+          xtitle: "Date", ytitle: "Yield (%)",
+          points: false,
+          curve: false, 
+          height: "200px",
+          library: { 
+            borderColor: "#166534",
+            backgroundColor: "rgba(22,101,52,0.2)",
+            scales: { 
+              y: { 
+                min: 0, 
+                max: 15, 
+                ticks: { stepSize: 1 } 
+              } 
+            },
+            elements: {
+              line: {
+                tension: 0
+              }
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: "Last 10 actual yields",
+                font: {
+                  size: 16,
+                  weight: "bold"
+                }
+              }
+            }
+          } %>
+
+      <% else %>
+        <p class="text-gray-400 text-center mt-4">No yield data available</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -18,6 +18,13 @@ class PicksheetsController < ApplicationController
     render :index
   end
 
+  def move_to_cutting_room
+    @picksheets = Picksheet.where(status: "Assigned")
+    @picksheets.update_all(status: "Cutting")
+  
+    redirect_to assigned_picksheets_picksheets_path, notice: "Picksheets moved to Cutting Room!"
+  end
+
   def cutting_picksheets
     @picksheets = @picksheets.where(status: "Cutting")
     @type = "CUTTING"
@@ -78,6 +85,7 @@ class PicksheetsController < ApplicationController
   # GET /picksheets/1 or /picksheets/1.json
   def show
      @picksheet_items = @picksheet.picksheet_items.ordered
+    
   end
 
   # GET /picksheets/new
@@ -101,6 +109,8 @@ class PicksheetsController < ApplicationController
 
     respond_to do |format|
       if @picksheet.save
+       # 2.times { @picksheet.picksheet_items.create } doesnt work because of turbo
+
         format.html { redirect_to picksheet_url(@picksheet), notice: "Picking Sheet was successfully created." }
         format.json { render :show, status: :created, location: @picksheet }
       else
