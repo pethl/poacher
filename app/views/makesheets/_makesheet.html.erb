@@ -69,6 +69,20 @@
 
       <hr class="col-span-2 my-2">
 
+      <p><strong>Calculated Salt Weight Net:</strong></p>
+      <p><%= number_with_precision(makesheet.calc_salt_net, precision: 3) %> kg</p>
+
+      <p><strong>Sale Weight Net:</strong></p>
+      <p><%= makesheet.salt_weight_net %> kg</p>
+
+      <p><strong>Calculated Salt Weight Net:</strong></p>
+      <p><%= number_with_precision(makesheet.calc_salt_gross, precision: 3) %> kg</p>
+
+      <p><strong>Salt Weight Gross:</strong></p>
+      <p><%= makesheet.salt_weight_gross %> kg</p>
+
+     <hr class="col-span-2 my-2">
+
       <p><strong>Cold Milk IN Time:</strong></p>
       <p><%= makesheet.cold_milk_in_time&.strftime("%I:%M %p") %></p>
     
@@ -170,18 +184,8 @@
       <p><strong>6th Cut Titration:</strong></p>
       <p><%= makesheet.sixth_cut_titration %></p>
 
-      <hr class="col-span-2 my-2">
-
       <p><strong>Mill Used:</strong></p>
       <p><%= makesheet.identify_mill_used %></p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Sale Weight Net:</strong></p>
-      <p><%= makesheet.salt_weight_net %></p>
-
-      <p><strong>Salt Weight Gross:</strong></p>
-      <p><%= makesheet.salt_weight_gross %></p>
 
     </div>
   </div>

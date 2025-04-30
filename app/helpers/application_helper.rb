@@ -279,6 +279,10 @@ module ApplicationHelper
     def makesheet_mill
       Reference.where(active: true, group: 'makesheet_mill').order(:sort_order).pluck(:value)
     end
+
+    def bucket_weight
+      Reference.where(active: true, group: 'bucket_weight').pluck(:value)
+    end
     
     def sale_product
       Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value)

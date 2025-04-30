@@ -28,6 +28,7 @@ user = User.find_or_create_by!(email: "seed@example.com") do |u|
 end
 
 # ✨ Modular seed files
+load Rails.root.join("db/seeds/users.rb")
 load Rails.root.join("db/seeds/references.rb")
 load Rails.root.join("db/seeds/staff.rb")
 load Rails.root.join("db/seeds/contacts.rb")

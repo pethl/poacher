@@ -48,7 +48,29 @@ class PicksheetsController < ApplicationController
     @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
 
     # Group data by product, size, and wedge_size
+   
     @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
+
+    #code for product > customer table
+    # Define desired product order
+    @product_names =  Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value)# Customize this order
+
+    # Build a hash of product => list of business_names
+    @product_to_business_names = Hash.new { |h, k| h[k] = [] }
+
+    # Fetch all assigned picksheets with their items and contacts
+    assigned_picksheets = Picksheet.includes(:contact, :picksheet_items).where(status: "Assigned")
+
+    assigned_picksheets.each do |picksheet|
+      contact_name = picksheet.contact.business_name
+
+      picksheet.picksheet_items.each do |item|
+        product_name = item.product.strip
+        if @product_names.include?(product_name)
+          @product_to_business_names[product_name] << contact_name
+        end
+      end
+    end
   end
 
   def dispatch_and_collection
@@ -157,7 +179,19 @@ class PicksheetsController < ApplicationController
     @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
     @final_grouped_items = group_picksheet_items(@assigned_picksheet_items)
 
-    pdf_data = PicksheetManifestPdfService.new(@final_grouped_items).generate
+    @product_names =  Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value)# Customize this order
+    @product_to_business_names = Hash.new { |h, k| h[k] = [] }
+    @assigned_picksheets.each do |picksheet|
+      business_name = picksheet.contact&.business_name
+      picksheet.picksheet_items.each do |item|
+        product_name = item.product.strip
+        if @product_names.include?(product_name)
+          @product_to_business_names[product_name] << business_name
+        end
+      end
+    end
+
+      pdf_data = PicksheetManifestPdfService.new(@final_grouped_items, @product_names, @product_to_business_names).generate
 
     if pdf_data.present?
       send_data pdf_data, filename: 'manifest_sheet.pdf', type: 'application/pdf', disposition: 'inline'
@@ -240,8 +274,11 @@ class PicksheetsController < ApplicationController
 
    def group_picksheet_items(items)
     # Fetch the size order from the Reference model (group = "sale_size")
-    size_order = Reference.where(group: "sale_size").order(:description).pluck(:value, :description).to_h
-  
+    size_order = Reference
+    .where(group: "sale_size")
+    .pluck(:value, :sort_order)
+    .to_h
+
     # Debugging: Check what size_order looks like
     Rails.logger.debug "Size Order: #{size_order.inspect}"
   

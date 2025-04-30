@@ -24,8 +24,11 @@ reference_data = [
   # Weight Types
   { group: 'weight_type', value: '2.5kg', description: '2.5kg', model: 'Calculations', sort_order: 1 },
   { group: 'weight_type', value: 'Midi (8 kgs)', description: 'Midi (8 kgs)', model: 'Calculations', sort_order: 2 },
-  { group: 'weight_type', value: 'Half Truckle (10kgs)', description: 'Half Truckle (10kgs), for Red only', model: 'Calculations', sort_order: 3 },
+  { group: 'weight_type', value: 'Half Truckle (10 kgs)', description: 'Half Truckle (10kgs), for Red only', model: 'Calculations', sort_order: 3 },
   { group: 'weight_type', value: 'Standard (20 kgs)', description: 'Standard (20 kgs)', model: 'Calculations', sort_order: 4 },
+
+  #Bucket - 
+  { group: 'bucket_weight', value: '1.6', description: 'Standard Dairy Bucket', model: 'Makesheet', sort_order: 1 },
 
   # Departments
   { group: 'department', value: 'Cutting Room', model: 'Staff', sort_order: 1 },
@@ -138,7 +141,7 @@ reference_data = [
   { group: 'grade_appearance', value: 'bowed', model: 'GradingNote', sort_order: 4 },
 
   # Sale Products for PickSheets
-[
+
   { group: 'sale_product', value: 'Poacher', model: 'PickSheet', sort_order: 1 },
   { group: 'sale_product', value: 'Vintage', model: 'PickSheet', sort_order: 2 },
   { group: 'sale_product', value: 'P50', model: 'PickSheet', sort_order: 3 },

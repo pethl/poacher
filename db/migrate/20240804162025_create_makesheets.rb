@@ -5,6 +5,7 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.datetime :make_date
       t.string :make_type
       t.integer :milk_used
+      t.decimal :expected_yield, precision: 6, scale: 2
       t.float :total_weight, precision: 6, scale: 3
       t.integer :number_of_cheeses
       t.string :weight_type
@@ -14,7 +15,7 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.time  :cold_milk_in_time
       t.string  :cold_milk_in_state
       t.time  :warm_milk_finish_time
-      t.float  :warm_milk_finish_titration, precision: 6, scale: 3
+      t.decimal  :warm_milk_finish_titration, precision: 6, scale: 4
       t.time  :starter_in_time
       t.float :starter_in_temp, precision: 6, scale: 3
       t.time  :heat_off_1_time
@@ -30,19 +31,19 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.float  :heat_off_2_temp, precision: 6, scale: 3
       t.time  :pitch_time
       t.time  :whey_time
-      t.float  :whey_titration, precision: 6, scale: 3
+      t.decimal  :whey_titration, precision: 6, scale: 3
       t.time  :first_cut_time
-      t.float  :first_cut_titration, precision: 6, scale: 3
+      t.decimal  :first_cut_titration, precision: 6, scale: 4
       t.time  :second_cut_time
-      t.float  :second_cut_titration, precision: 6, scale: 3
+      t.decimal  :second_cut_titration, precision: 6, scale: 4
       t.time  :third_cut_time
-      t.float  :third_cut_titration, precision: 6, scale: 3
+      t.decimal  :third_cut_titration, precision: 6, scale: 4
       t.time  :fourth_cut_time
-      t.float  :fourth_cut_titration, precision: 6, scale: 3
+      t.decimal  :fourth_cut_titration, precision: 6, scale: 4
       t.time  :fifth_cut_time
-      t.float  :fifth_cut_titration, precision: 6, scale: 3
+      t.decimal  :fifth_cut_titration, precision: 6, scale: 4
       t.time  :sixth_cut_time
-      t.float  :sixth_cut_titration, precision: 6, scale: 3
+      t.decimal  :sixth_cut_titration, precision: 6, scale: 4
       t.string  :identify_mill_used
       t.boolean  :warm_am 
       t.boolean  :twelve_hr_pm
@@ -50,7 +51,7 @@ class CreateMakesheets < ActiveRecord::Migration[7.0]
       t.integer  :number_of_bottles_from_fm
       t.datetime :use_by_date_milk_from_fm
       t.string  :type_of_starter_culture_used
-      t.float  :qty_of_starter_used, precision: 6, scale: 4
+      t.decimal  :qty_of_starter_used, precision: 6, scale: 3
       t.boolean  :pre_start_inspection_of_high_risk_items
       t.integer :pre_start_inspection_by_staff_id
       t.text  :ingredient_batch_change

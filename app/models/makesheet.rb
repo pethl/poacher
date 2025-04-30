@@ -70,6 +70,19 @@ class Makesheet < ApplicationRecord
   def predicted_yield
     Makesheet.average_yield_for(self.make_type, 10, self.id)
   end
+
+  def calc_salt_net
+    yield_value = expected_yield.presence || predicted_yield
+    return 0 if milk_used.to_f.zero? || yield_value.to_f.zero?
+  
+    salt_factor = (make_type == "Red") ? 0.00021 : 0.0002
+    milk_used.to_f * yield_value.to_f * salt_factor
+  end
+
+  def calc_salt_gross
+    bucket_weight_value = Reference.where(active: true, group: 'bucket_weight').pluck(:value).first.to_f
+    calc_salt_net.to_f + bucket_weight_value
+  end
   
   def age_in_days
     (Date.today - self.make_date.to_date).to_i 

@@ -1,18 +1,7 @@
 <div class="mx-auto text-right">
   <%= form_with(model: makesheet) do |form| %>
 
-  <% if makesheet.errors.any? %>
-  <div style="color: red">
-    <h2>
-      <%= pluralize(makesheet.errors.count, "error") %> prohibited this makesheet from being saved:
-    </h2>
-    <ul>
-      <% makesheet.errors.each do |error| %>
-      <li><%= error.full_message %></li>
-      <% end %>
-    </ul>
-  </div>
-  <% end %>
+  <%= form_errors_for(makesheet) %>
 
   <!-- Summary Navigation (Sticky) -->
   <div class="col-span-4 text-left font-light pb-2 mb-4 bg-white py-1 px-4 sticky top-[77px] z-50">
@@ -27,7 +16,9 @@
   </div>
 
   <!-- Main Grid Container -->
-  <div class="grid grid-cols-4 gap-2 mt-8">
+
+    <div data-controller="makesheet"
+     data-makesheet-make-type-value="<%= @makesheet.make_type %>" class="grid grid-cols-4 gap-2 mt-8">
 
     <!-- SUMMARY Section -->
     <div class="col-span-4">
@@ -138,7 +129,16 @@
       <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
     </div>
     <div class="text-left">
-      <%= form.number_field :milk_used, placeholder: "litres", class: field_class_flex_small %>
+       <%= form.number_field :milk_used,
+        placeholder: "litres",
+        class: field_class_flex_small,
+        step: :any,
+        data: {
+          action: "input->makesheet#updateSaltWeights",
+          makesheet_target: "milkUsed",
+          predicted_yield: makesheet.predicted_yield,
+          bucket_weight: Reference.where(active: true, group: 'bucket_weight').pluck(:value).first.to_f
+        } %>
     </div>
     <div class="col-span-2 self-center">
       <%= form.label :warm_am, class: label_class %>
@@ -180,19 +180,40 @@
     <div class="col-span-1 text-left font-light">
       SALT <span class="text-sm">(Gross assumes 1.6kg bucket)</span>
     </div>
-    <div class="col-span-1 self-center">
     
-       <%= form.label :salt_weight_gross, class: label_class %>
+    <div class="col-span-1 self-center">
+      <%= form.label :expected_yield, "Expected Yield %", class: label_class %>
     </div>
     <div class="text-left">
-       <%= form.number_field :salt_weight_gross, step: :any, class: field_class_flex_small %>
+      <%= form.number_field :expected_yield,
+        class: field_class_flex_small,
+        step: 0.01,
+        data: {
+          action: "input->makesheet#updateSaltWeights",
+          makesheet_target: "expectedYield",
+          bucket_weight: Reference.where(active: true, group: 'bucket_weight').pluck(:value).first.to_f
+        } %>
     </div>
+
     <div class="col-span-2 self-center">
       <%= form.label :salt_weight_net, class: label_class %>
     </div>
     <div class="text-left">
-       <%= form.number_field :salt_weight_net, step: :any, class: field_class_flex_small %>
+      <%= form.number_field :salt_weight_net,
+          class: field_class_flex_small,
+          step: :any,
+          data: { makesheet_target: "saltNet" } %>
     </div>
+     <div class="col-span-2 self-center">
+      <%= form.label :salt_weight_gross, class: label_class %>
+    </div>
+    <div class="text-left">
+        <%= form.number_field :salt_weight_gross,
+          class: field_class_flex_small,
+          step: :any,
+          data: { makesheet_target: "saltGross" } %>
+    </div>
+    
 
     <!-- MAKE RECIPE Section -->
     <div class="col-span-4 mt-8">
