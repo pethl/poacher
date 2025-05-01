@@ -42,13 +42,14 @@ class Makesheet < ApplicationRecord
     self.make_date.to_formatted_s(:uk_clean_date)
   end
 
-  def make_date_formatted_batch_grade
+  def make_date_formatted_and_grade
     "#{make_date.strftime('%d-%b')} – Batch #{batch} (#{grade.presence || 'Ungraded'})"
   end
 
   def make_date_formatted_batch_grade
-    self.make_date.to_formatted_s(:uk_clean_date) + " ["+self.batch_and_grade+"]"
+    "#{make_date.strftime('%d-%b')} – Batch #{batch} (#{grade.presence || 'Ungraded'})"
   end
+
 
   def yield
     return 0 if milk_used.to_f.zero?

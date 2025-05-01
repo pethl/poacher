@@ -1,5 +1,5 @@
 <div class="w-full max-w-4xl mx-auto mt-4 bg-white p-4">
-  <%= form_with(model: traceability_record, local: true) do |form| %>
+  <%= form_with(model: traceability_record, local: true, data: { controller: "traceability" }) do |form| %>
 
     <%= form_errors_for(traceability_record) %>
 
@@ -11,9 +11,16 @@
         <%= form.label :makesheet_id %>
       </label>
       <div class="col-span-1 text-left">
-        <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade,
-              { prompt: true },
-              { class: field_class_flex_med, disabled: !form.object.new_record? } %>
+       <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade,
+            { prompt: true },
+            {
+              class: field_class_flex,
+              disabled: !form.object.new_record?,
+              data: {
+                action: "change->traceability#fetch",
+                traceability_target: "select"
+              }
+            } %>
       </div>
 
       <!-- Date Started Batch -->
@@ -30,11 +37,9 @@
         <%= form.label :batch_code %>
       </label>
       <div class="col-span-1 text-left">
-        <% if traceability_record.makesheet.present? %>
-          <p><%= traceability_record.makesheet.batch %></p>
-        <% else %>
-          <p>--</p>
-        <% end %>
+        <%= form.text_field :batch_code,
+              class: field_class_flex,
+              data: { traceability_target: "batchCode" } %>
       </div>
 
       <!-- Date Finished Batch -->
@@ -59,43 +64,58 @@
     <div class="my-1 flex justify-center">
       <% field_name = "individual_cheese_weight_#{i}" %>
       <% error_class = traceability_record.errors.include?(field_name.to_sym) ? "border-red-500 ring-1 ring-red-300" : "" %>
-      <%= form.number_field field_name,
-            step: :any,
-            class: "#{field_class_flex_small} #{error_class}" %>
+     <%= form.number_field field_name,
+          step: :any,
+          class: "#{field_class_flex_small} #{error_class}",
+          data: {
+            action: "input->traceability#updateCheeseStats",
+            traceability_target: "cheeseWeight"
+          } %>
     </div>
   <% end %>
 </div>
 
 
-   <!-- From Batch Ticket Details-->
-   <hr class="my-2">
-     <div class= "mb-1 text-base font-bold text-left underline underline-offset-2">
-    From Batch Ticket:
-   </div>
-
-    <div class="grid md:grid-cols-4 ">
-      <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Number in Batch:</span></div>
-      <div class="text-right pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
-          <% if traceability_record.makesheet.present? %>
-            <p><%= traceability_record.makesheet.number_of_cheeses %></p>
-          <% else %>
-            <p>--</p>
-          <% end %>
-          </div>
-      <div class="text-left pl-4 pt-2 "> <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span></div>
-      <div class="text-right pt-2 pr-10 "> <%= traceability_record.calculated_batch_cheese_count %></div>
-    
-      <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800"> <span class="font-bold mb-1">Total Weight of Batch:</span></div>
-      <div class="text-right pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
-        <% if traceability_record.makesheet.present? %>
-            <p><%= traceability_record.makesheet.total_weight %></p>
-          <% else %>
-            <p>--</p>
-          <% end %>
-        </div>
-      <div class="text-left pl-4 pt-2"> <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span></div>
-      <div class="text-right pt-2 pr-10">  <%= traceability_record.calculated_batch_cheese_weight_total %></div>
+  <!-- From Batch Ticket Details-->
+    <hr class="my-2">
+    <div class="mb-1 text-base font-bold text-left underline underline-offset-2">
+      From Batch Ticket:
     </div>
+
+    <div class="grid md:grid-cols-4">
+      <!-- Number in Batch -->
+      <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800">
+        <span class="font-bold mb-1">Number in Batch:</span>
+      </div>
+      <div class="text-right pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
+        <span data-traceability-target="numberOfCheeses"><%= traceability_record.makesheet&.number_of_cheeses || "--" %></span>
+      </div>
+
+      <!-- Total No. of Cheeses of Batch -->
+      <div class="text-left pl-4 pt-2">
+        <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span>
+      </div>
+      <div class="text-right pt-2 pr-10">
+        <span data-traceability-target="cheeseCountDisplay">0</span>
+      </div>
+
+      <!-- Total Weight of Batch -->
+      <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800">
+        <span class="font-bold mb-1">Total Weight of Batch:</span>
+      </div>
+      <div class="text-right pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
+        <span data-traceability-target="totalWeight"><%= traceability_record.makesheet&.total_weight || "--" %></span>
+      </div>
+
+      <!-- Total Weight of Batch(Kg) -->
+      <div class="text-left pl-4 pt-2">
+        <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span>
+      </div>
+      <div class="text-right pt-2 pr-10">
+        <span data-traceability-target="cheeseWeightTotalDisplay">0.00</span>
+      </div>
+    </div>
+
 
   <hr class="mb-2 mt-2">
 
@@ -107,7 +127,7 @@
       </div>
 
       <div class="inline col-span-2">
-        <%= form.submit "Save", class: fill_button_class %>
+        <%= form.submit "Save", class: fill_button_large_class %>
       </div>
     <% end %>
   <!-- Back to Index -->

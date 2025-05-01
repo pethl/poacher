@@ -102,8 +102,8 @@ Rails.application.routes.draw do
 resources :makesheets  do
   member do
     get 'batch_turns'
+    get 'summary'
   end
-
   collection do
     get 'yield_dashboard' #  new collection route (for the dashboard)
   end

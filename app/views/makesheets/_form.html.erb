@@ -370,7 +370,7 @@
       <%= form.label :identify_mill_used, "Identify Mill Used", class: label_class %>
     </div>
     <div>
-      <%= form.select :identify_mill_used, options_for_select(makesheet_mill, selected: makesheet.identify_mill_used), { prompt: true }, class: field_class_flex_full_disabled %>
+      <%= form.select :identify_mill_used, options_for_select(makesheet_mill, selected: makesheet.identify_mill_used), { prompt: true }, class: field_class_flex_full %>
     </div>
     <div class="col-span-2 self-center">
       <%= form.label :unusual_smell_appearance, class: label_class %>
@@ -496,7 +496,7 @@
       <%= form.label :weather_today, class: label_class %>
     </div>
     <div class="text-left">
-      <%= form.select :weather_today, options_for_select(weather, selected: makesheet.weather_today), { prompt: true }, class: field_class_flex_disabled %>
+      <%= form.select :weather_today, options_for_select(weather, selected: makesheet.weather_today), { prompt: true }, class: field_class_flex %>
     </div>
     <div class="col-span-2 self-center">
       <%= form.label :weather_temp, "Temperature °C", class: label_class %>

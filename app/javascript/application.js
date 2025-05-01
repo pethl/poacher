@@ -31,6 +31,7 @@ import SearchController from "./controllers/search_controller"
 import ClickToVisitController from "./controllers/click_to_visit_controller"
 import ScoreSliderController from "./controllers/score_slider_controller"
 import MakesheetController from "./controllers/makesheet_controller"
+import TraceabilityController from "./controllers/traceability_controller"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -41,6 +42,7 @@ application.register("search", SearchController)
 application.register("click-to-visit", ClickToVisitController)
 application.register("score-slider", ScoreSliderController)
 application.register("makesheet", MakesheetController)
+application.register("traceability", TraceabilityController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

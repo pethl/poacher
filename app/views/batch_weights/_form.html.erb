@@ -28,7 +28,7 @@
                                    :id,
                                    :make_date_formatted_and_grade,
                                    { prompt: "Select.." },
-                                   { class: field_class_flex_med, disabled: !batch_weight.new_record? } %>
+                                   { class: field_class_flex, disabled: !batch_weight.new_record? } %>
         <%= field_error_for(batch_weight, :makesheet_id) %>
       </div>
 
@@ -41,24 +41,28 @@
         <%= field_error_for(batch_weight, :washed_batch_weight) %>
       </div>
 
-      <!-- All Rinds Visually Clean -->
+     <!-- All Rinds Visually Clean -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :all_rinds_visually_clean %>
+        <%= form.label :all_rinds_visually_clean, "All rinds visually cleaned?" %>
       </label>
-      <div class="text-left">
-        <%= form.select :all_rinds_visually_clean,
-                        options_for_select([["Yes", "Yes"], ["No", "No"]], selected: batch_weight.all_rinds_visually_clean),
-                        { prompt: "Select..." },
-                        class: field_class_flex_med %>
-        <%= field_error_for(batch_weight, :all_rinds_visually_clean) %>
+      <div class="text-left flex items-center gap-4">
+        <label class="inline-flex items-center gap-2">
+          <%= form.radio_button :all_rinds_visually_clean, true, class: "h-6 w-6 text-gray-800 accent-gray-800" %>
+          <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">Yes</span>
+        </label>
+        <label class="inline-flex items-center gap-2">
+          <%= form.radio_button :all_rinds_visually_clean, false, class: "h-6 w-6 text-gray-800 accent-gray-800" %>
+          <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">No</span>
+        </label>
       </div>
 
+     
       <!-- Comments -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :comments %>
       </label>
       <div class="text-left">
-        <%= form.text_area :comments, class: field_class_flex_med, rows: 5 %>
+        <%= form.text_area :comments, class: field_class_flex, rows: 5 %>
         <%= field_error_for(batch_weight, :comments) %>
       </div>
 

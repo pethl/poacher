@@ -189,6 +189,16 @@ class MakesheetsController < ApplicationController
               type: "application/pdf",
               disposition: "inline" # or "attachment" to force download
   end 
+
+   #used in JS by traceability records form
+  def summary
+    makesheet = Makesheet.find(params[:id])
+    render json: {
+      batch: makesheet.batch,
+      number_of_cheeses: makesheet.number_of_cheeses,
+      total_weight: makesheet.total_weight
+    }
+  end
   
   
 
