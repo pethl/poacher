@@ -1,0 +1,13 @@
+<% content_for :title, "Signed Out" %>
+
+<div class="max-w-3xl mx-auto mt-24 text-center px-4">
+  <h1 class="text-3xl md:text-4xl font-semibold text-gray-800 mb-4">
+    You have been signed out
+  </h1>
+
+  <p class="text-gray-600 text-lg mb-8">
+    Thank you for visiting. Your session has ended securely. We hope to see you again soon.
+  </p>
+
+  <%= link_to "Return to Sign In", new_user_session_path, class: fill_button_class %>
+</div>

@@ -46,7 +46,7 @@ RSpec.describe Staff, type: :model do
   describe '#initials' do
     it 'returns the initials' do
       staff = described_class.new(first_name: "Jane", last_name: "Doe")
-      expect(staff.initials).to eq("J. D")
+      expect(staff.initials).to eq("J. D.")
     end
   end
 end

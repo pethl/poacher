@@ -689,25 +689,26 @@
     <hr>
   </div>
 
-  <!-- CLEANING SCHEDULE Accordion -->
-  <div class="col-span-4 my-2">
-    <div data-controller="accordion">
-      <div class="col-span-2 cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
+    <!-- CLEANING SCHEDULE -->
+    <div class="col-span-4 my-2">
+      <div class="col-span-2 font-light text-left flex items-center">
         <span>CLEANING SCHEDULE</span>
-        <span class="text-gray-600 ml-4">(Click to expand)</span>
       </div>
-      <div data-accordion-target="section" class="hidden col-span-4">
-        <div class="grid grid-cols-4 gap-4 mt-2">
-          <div class="col-span-2 self-center text-right">
-            <%= form.label :metal_contamination, class: label_class %>
-          </div>
-          <div class="col-span-1 col-start-3 text-left">
-            <%= form.select :metal_contamination, options_for_select(yes_no, selected: makesheet.metal_contamination), { include_blank: true }, class: field_class_flex_small %>
-          </div>
+
+      <div class="grid grid-cols-4 gap-4 mt-2">
+        <div class="col-span-2 self-center text-right">
+          <%= form.label :cleaning_complete, class: label_class %>
+        </div>
+        <div class="col-span-1 col-start-3 text-left">
+          <%= @makesheet.cleaning_status %><br>
+          <%= link_to "Go to Cleaning Sheet", week_view_cleaning_foreign_body_checks_path, 
+              class: "text-blue-600 underline" %>
+
         </div>
       </div>
     </div>
-  </div>
+
+
 
   <div class="col-span-4 my-2">
     <hr>

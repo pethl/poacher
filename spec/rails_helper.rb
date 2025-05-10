@@ -30,7 +30,7 @@ Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f 
 # === RSpec Configuration ===
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
-  #config.include AuthHelpers, type: :feature
+  config.include AuthHelpers, type: :feature
   #config.include FormHelpers, type: :feature
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -41,6 +41,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include Warden::Test::Helpers
+  config.include Rails.application.routes.url_helpers
 
   config.after :each do
     Warden.test_reset!

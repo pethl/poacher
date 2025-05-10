@@ -5,14 +5,14 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
       <div class="text-right">
         <div class="field">
-          <%= f.label :username, class: "block" %>
+          <%= f.label :username, class: "block" %><br>
           <%= f.text_field :username, class: "border p-2 w-full" %>
         </div>
 
         <br>
 
         <div class="field">
-          <%= f.label :password, " Password", class: "block" %>
+          <%= f.label :password, " Password", class: "block" %><br>
           <%= f.password_field :password, autocomplete: "current-password", class: "border p-2 w-full" %>
         </div>
 

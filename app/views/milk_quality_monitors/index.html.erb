@@ -3,9 +3,31 @@
 <% content_for(:page_title, "MILK QUALITY MONITOR")%>
 <% content_for(:print_button, "browser-print")%>
 <% content_for(:page_button, "milk_quality_monitors/new")%>
-<br> 
 
-<div class="flex flex-col h-screen pr-2">
+<div class="mx-auto lg:w-4/5">
+<div class="flex flex-col h-screen pr-2 ">
+
+  <div class="flex justify-between items-start mb-4">
+  <!-- Left: Import Form -->
+    <div class="">
+        <%= form_tag import_milk_quality_monitors_path, multipart: true do %>
+          <div class="flex items-center space-x-2">
+            <%= file_field_tag :file, class: "h-10 p-2 bg-gray-200 rounded-lg text-sm" %>
+            <%= submit_tag "Import", class: "#{fill_button_class} h-10" %>
+          </div>
+        <% end %>
+      </div>
+
+
+
+    <!-- Right: Rolling Geo Average Button -->
+    <div class="p-2">
+      <%= link_to "Rolling Geo Average", rolling_geo_average_milk_quality_monitors_path,
+                  class: "bg-yellow-400 hover:bg-yellow-600 text-gray-600 hover:text-white font-semibold py-2 px-4 rounded inline-block" %>
+    </div>
+  </div>
+
+
     <div class="flex-grow overscroll-none">
       <table class="mx-auto table-fixed relative w-full 2xllg:w-2/3 border text-sm text-center text-gray-500  ">
        <thead class="text-xs text-gray-800  bg-gray-200 ">
@@ -50,11 +72,13 @@
                 
             </tr>
             
-        </thead>
-        <tbody class="overflow-contain">
-          <%= render @milk_quality_monitors %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="overflow-contain">
+              <%= render @milk_quality_monitors %>
+            </tbody>
+        </table>
+    </div> 
+
 </div> 
-<br><br>
+</div> 
 

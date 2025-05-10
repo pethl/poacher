@@ -61,6 +61,20 @@ class MilkQualityMonitorsController < ApplicationController
     end
   end
 
+  def import
+    if params[:file].present?
+      result = MilkQualityMonitor.import(params[:file])
+      flash[:notice] = "Import complete: #{result[:added]} added, #{result[:skipped]} skipped."
+    else
+      flash[:alert] = "Please attach a CSV file."
+    end
+    redirect_to milk_quality_monitors_path
+  end
+
+  def rolling_geo_average
+    
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_milk_quality_monitor
@@ -71,4 +85,4 @@ class MilkQualityMonitorsController < ApplicationController
     def milk_quality_monitor_params
       params.require(:milk_quality_monitor).permit(:sample_date, :makesheet_id, :cell_count, :bactoscan, :butterfat, :lactose, :protein, :casein, :urea, :total_viable_colonies, :therms, :coliforms)
     end
-end
+end 

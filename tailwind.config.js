@@ -7,7 +7,37 @@ module.exports = {
     "./app/javascript/**/*.js",
     "./node_modules/flowbite/**/*.js"
   ],
-  safelist: ["hidden", "flex", "flex-col"],
+  safelist: [
+    "hidden",
+    "flex",
+    "flex-col",
+    "fixed",
+    "top-[76px]",
+    "left-1/2",
+    "-translate-x-1/2",
+    "transform",
+    "z-50",
+    "bg-red-100",
+    "text-red-800",
+    "bg-green-100",
+    "text-green-800",
+    "bg-blue-100",
+    "bg-gray-100",
+    "bg-yellow-400",
+    "bg-yellow-800",
+    "text-gray-400",
+    "text-gray-600",
+    "text-gray-800",
+    "shadow-md",
+    "rounded-lg",
+    "px-4",
+    "py-2",
+    "text-white",
+    "text-base",
+    "font-medium",
+    "max-w-md",
+    "mx-auto"
+  ],
   theme: {
     extend: {
       screens: {

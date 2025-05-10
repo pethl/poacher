@@ -21,7 +21,6 @@ class PagesController < ApplicationController
   end
   
   def mgmt_home
-
       makesheets_data = Makesheet.where.not(status: "Finished")
       .where.not(grade: [nil, ""])
       .group(:grade)
@@ -45,6 +44,10 @@ class PagesController < ApplicationController
     #redirect_to print_makesheet_pdf_path(:id => @makesheet)
      redirect_to print_makesheet_pdf_path(:id => @makesheet)
      return
+  end
+
+  def goodbye
+  
   end
 
 end

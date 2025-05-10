@@ -1,0 +1,5 @@
+spec/features/
+spec/features/page_smoke_spec.rb
+spec/features/auth
+spec/models
+spec/routing

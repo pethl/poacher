@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :cleaning_foreign_body_check do
     date { "2025-04-26" }
+
     milk_pipeline { false }
     cheese_vat { false }
     used_mill { false }
@@ -20,7 +21,12 @@ FactoryBot.define do
     change_chlorine { false }
     floor_under_handwash { false }
     compressors { false }
-    additional_comments { "MyText" }
-    staff { nil }
+
+    additional_comments { "Routine check completed." }
+
+    association :staff, factory: :staff
+    association :staff_2, factory: :staff
+    association :staff_3, factory: :staff
   end
 end
+

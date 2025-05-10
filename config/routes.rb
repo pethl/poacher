@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :cleaning_foreign_body_checks do
     collection do
       get :week_view
+      get :edit_by_date
     end
   end
   
@@ -32,7 +33,14 @@ Rails.application.routes.draw do
   end
 
   resources :palletised_distributions
-  resources :milk_quality_monitors
+  
+  resources :milk_quality_monitors do
+    collection do
+      post :import
+      get :rolling_geo_average
+    end
+  end
+
   resources :batch_weights
   
   get "breakages/create_month"
@@ -83,6 +91,7 @@ Rails.application.routes.draw do
   get "pages/sales_home"
   get "pages/mgmt_home"
   get "pages/credits"
+  get "/goodbye", to: "pages#goodbye", as: :goodbye
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   #get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
@@ -98,7 +107,7 @@ Rails.application.routes.draw do
   
 #  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
 # get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"
-  
+   
 resources :makesheets  do
   member do
     get 'batch_turns'

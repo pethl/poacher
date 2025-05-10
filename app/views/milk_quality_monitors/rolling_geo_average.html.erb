@@ -1,0 +1,64 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Rolling Geo Average" %>
+  <% content_for :page_title, "ROLLING GEO AVERAGE" %>
+  <% content_for :print_button, "browser-print" %>
+
+  <div class="mx-auto lg:w-4/5">
+    <div class="flex justify-between items-start mb-4">
+      <!-- Left: Import Form -->
+      <div></div>
+
+      <!-- Right: Navigation Button -->
+      <div class="p-2">
+        <%= link_to "Milk Quality Monitor", milk_quality_monitors_path,
+                    class: "bg-yellow-400 hover:bg-yellow-600 text-gray-600 hover:text-white font-semibold py-2 px-4 rounded inline-block" %>
+      </div>
+    </div>
+
+  <div data-controller="toggle-view">
+  <div class="inline-flex mb-4 border border-gray-300 rounded overflow-hidden">
+    <button
+      data-action="click->toggle-view#showGraph"
+      data-toggle-view-target="graphTab"
+      class="tab-button px-4 py-2 text-sm font-medium">
+      Graph
+    </button>
+    <button
+      data-action="click->toggle-view#showTable"
+      data-toggle-view-target="tableTab"
+      class="tab-button px-4 py-2 text-sm font-medium">
+      Table
+    </button>
+  </div>
+
+  <!-- Graph Section -->
+  <div data-toggle-view-target="graph">
+    <h2 class="text-xl font-bold mb-2">Rolling Geometric Mean (Graph)</h2>
+    <%= line_chart MilkQualityMonitor.rolling_geo_avg_bactoscan.map { |e| [e[:date], e[:geo_mean]] },
+                   xtitle: "Date",
+                   ytitle: "Geo Mean (Bactoscan ×1000/mL)" %>
+  </div>
+
+  <!-- Table Section -->
+  <div data-toggle-view-target="table" class="hidden">
+    <h2 class="text-xl font-bold mb-2">Rolling Geometric Mean (Table)</h2>
+    <table class="table-auto w-full border border-gray-300">
+      <thead>
+        <tr class="bg-gray-200 text-center">
+          <th class="px-4 py-2">Date</th>
+          <th class="px-4 py-2">Geo Mean</th>
+          <th class="px-4 py-2">Data Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% MilkQualityMonitor.rolling_geo_avg_bactoscan.each do |row| %>
+          <tr class="border-t text-center">
+            <td class="px-4 py-2"><%= row[:date] %></td>
+            <td class="px-4 py-2"><%= row[:geo_mean] %></td>
+            <td class="px-4 py-2"><%= row[:count] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

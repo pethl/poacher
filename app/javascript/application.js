@@ -32,6 +32,7 @@ import ClickToVisitController from "./controllers/click_to_visit_controller"
 import ScoreSliderController from "./controllers/score_slider_controller"
 import MakesheetController from "./controllers/makesheet_controller"
 import TraceabilityController from "./controllers/traceability_controller"
+import ToggleViewController from "./controllers/toggle_view_controller"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -43,6 +44,7 @@ application.register("click-to-visit", ClickToVisitController)
 application.register("score-slider", ScoreSliderController)
 application.register("makesheet", MakesheetController)
 application.register("traceability", TraceabilityController)
+application.register("toggle-view", ToggleViewController)
 
 document.addEventListener("turbo:load", () => {
   console.log(
