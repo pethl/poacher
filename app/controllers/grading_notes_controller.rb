@@ -3,8 +3,8 @@ class GradingNotesController < ApplicationController
   before_action :set_makesheets, only: %i[ new edit update create ]
 
   def preload_form
-    @staffs = Staff.where(employment_status: "Active").ordered
-  end
+    @staffs = Staff.all_active.ordered
+  end 
   
   def preload
     @grading_note = GradingNote.new
@@ -15,7 +15,7 @@ class GradingNotesController < ApplicationController
     # Default the start date to that makesheet’s make_date, or today if none found
     @start_date = @starting_makesheet&.make_date || Date.today
   
-    @staffs = Staff.all.order(:last_name)
+    @staffs = Staff.all_active.ordered
   end
   
   def create_preloaded

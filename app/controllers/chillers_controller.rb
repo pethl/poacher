@@ -35,18 +35,18 @@ class ChillersController < ApplicationController
   # GET /chillers/new
   def new
     @chiller = Chiller.new
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
   end
 
   # GET /chillers/1/edit
   def edit
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
   end
 
   # POST /chillers or /chillers.json
   def create
     @chiller = Chiller.new(chiller_params)
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
      Rails.logger.debug "Params: #{params.inspect}"
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class ChillersController < ApplicationController
         format.html { redirect_to chillers_path, notice: "Chiller was successfully created." }
         format.json { render :show, status: :created, location: @chiller }
       else
-        @staffs = Staff.where(employment_status: "Active").ordered
+        @staffs = Staff.cutting_room.ordered
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @chiller.errors, status: :unprocessable_entity }
       end

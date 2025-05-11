@@ -3,9 +3,10 @@ class ScaleChecksController < ApplicationController
 
   def index
     @scale_checks = ScaleCheck.all
-  end
+  end 
 
   def week_view
+   
     @week_start = Date.today.beginning_of_week(:monday)
     start_date = Date.today.beginning_of_week
     end_date = Date.today.end_of_week
@@ -15,7 +16,6 @@ class ScaleChecksController < ApplicationController
     @weekly_individual_scale_names = Reference.where(active: true, group: 'scale_name_serial', description: 'Individual').order(:id).pluck(:value)
   
     @scale_checks = ScaleCheck.where(frequency: 'Daily', check_date: start_date..end_date)
-    
 
     @daily_checks = ScaleCheck.where(frequency: 'Daily', check_date: start_date..end_date)
     @weekly_pan_checks = ScaleCheck.where(frequency: 'Weekly', scale_name: @weekly_pan_scale_names, check_date: start_date..end_date)
@@ -27,7 +27,7 @@ class ScaleChecksController < ApplicationController
   end
 
   def new
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
     @scale_check = ScaleCheck.new(
       scale_name: params[:scale_name],
       check_date: params[:check_date],
@@ -37,12 +37,12 @@ class ScaleChecksController < ApplicationController
 
 
   def edit
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
   end
 
   def create
     @scale_check = ScaleCheck.new(scale_check_params)
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
 
     if @scale_check.save
       redirect_to week_view_scale_checks_path, notice: "Scale check was successfully created."
@@ -52,7 +52,7 @@ class ScaleChecksController < ApplicationController
   end
 
   def update
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @staffs = Staff.cutting_room.ordered
     if @scale_check.update(scale_check_params)
       redirect_to week_view_scale_checks_path, notice: "Scale check was successfully updated."
     else

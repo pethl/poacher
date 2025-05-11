@@ -137,7 +137,9 @@
 
     <% if grading_note.persisted? %>
       <!-- Save and See Next (only on edit) -->
-      <%= form.submit "Save and See Next", name: "commit", class: "#{fill_button_class} bg-yellow-500 hover:bg-yellow-600" %>
+    <button type="submit" name="commit" value="save_next" class="<%= fill_button_class %> bg-yellow-500 hover:bg-yellow-600">
+      Save and See Next
+    </button>
     <% end %>
   </div>
 </div>

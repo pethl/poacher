@@ -29,7 +29,10 @@
                   <tr>
                     <th>Weights</th>
                     <th>Tolerance</th>
-                    <th>5 POINT CHECK</th>
+                    <th class="text-center">
+                      <span class="block md:hidden" title="5 Point Check">5PC</span>
+                      <span class="hidden md:block">5 Point Check</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,7 +59,10 @@
                   <tr>
                     <th class="text-xs">Weights</th>
                     <th>Tolerance</th>
-                    <th>5 Point Check</th>
+                    <th class="text-center">
+                      <span class="block md:hidden" title="5 Point Check">5PC</span>
+                      <span class="hidden md:block">5 Point Check</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -101,7 +107,10 @@
              <tr class="text-sm">
               <th class="hidden sm:table-cell">Weights</th><td class="table-cell sm:hidden">WGT</td>
                 <th>Tolerance</th>
-                <th>5 Point Check</th>
+                <th class="text-center">
+                <span class="block md:hidden" title="5 Point Check">5PC</span>
+                <span class="hidden md:block">5 Point Check</span>
+              </th>
               </tr>
             <% weights = scale_type == "Pan" ? [["10kg", "+ / - 10g"], ["20kg", "+ / - 10g"]] : [["100g", "+ / - 2g"], ["500g", "+ / - 2g"]] %>
             <% weights.each do |weight, tolerance| %>
