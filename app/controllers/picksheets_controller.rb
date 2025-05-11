@@ -43,8 +43,9 @@ class PicksheetsController < ApplicationController
   end
 
   def daily_cheese_manifest
+    @type = 'MANIFEST'
     # Fetch the assigned picksheets and their items
-    @assigned_picksheets = @picksheets.where(status: "Assigned")
+    @assigned_picksheets = Picksheet.where(status: "Assigned")
     @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @assigned_picksheets.pluck(:id))
 
     # Group data by product, size, and wedge_size
@@ -74,6 +75,8 @@ class PicksheetsController < ApplicationController
   end
 
   def dispatch_and_collection
+
+     @type = 'DISPATCH'
 
       @assigned_picksheets = Picksheet.includes(:contact)
                                       .where(status: 'Assigned')
