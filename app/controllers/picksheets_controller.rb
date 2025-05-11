@@ -38,8 +38,13 @@ class PicksheetsController < ApplicationController
   end
 
   def index
-    # All picksheets (no status filter)
-    @type = "ALL"
+    if params[:start_date].present? && params[:end_date].present? && params[:include_asap].present?
+      @type = "DUE_THIS_WEEK"
+    elsif params[:start_date].present? && params[:end_date].nil?
+      @type = "DUE_LATER"
+    else
+      @type = "ALL"
+    end
   end
 
   def daily_cheese_manifest
