@@ -1,4 +1,4 @@
-<div class="max-w-2xl mx-auto mt-8 bg-white p-6 ">
+<div class="max-w-2xl mx-auto mt-8 bg-white p-6 " data-controller="batch-weight">
   <%= form_with(model: batch_weight, local: true) do |form| %>
 
     <%= form_errors_for(batch_weight) %>
@@ -6,57 +6,87 @@
     <div class="grid grid-cols-2 gap-x-6 gap-y-5 items-center">
 
       <!-- Date (only editable on new) -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :date %>
-      </label>
-      <div class="text-left">
+     <label class="text-right font-semibold text-gray-700">
+      <%= form.label :date %>
+    </label>
+    <div class="text-left">
+      <% if batch_weight.new_record? %>
         <%= form.date_field :date,
-                            value: batch_weight.date || Date.today,
-                            placeholder: Time.now.strftime('%Y-%m-%d'),
-                            class: field_class_flex_med,
-                            disabled: !batch_weight.new_record? %>
-        <%= field_error_for(batch_weight, :date) %>
-      </div>
+              value: batch_weight.date || Date.today,
+              placeholder: Time.now.strftime('%Y-%m-%d'),
+              class: field_class_flex_med %>
+      <% else %>
+       <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800 bg-gray-100">
+          <%= batch_weight.date&.to_formatted_s(:uk_clean_date) || batch_weight.date %>
+        </div>
+        <%= form.hidden_field :date %>
+      <% end %>
+      <%= field_error_for(batch_weight, :date) %>
+    </div>
 
       <!-- Makesheet Select (only editable on new) -->
+      <!-- Makesheet Display (dropdown only on new) -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :makesheet_id, "Production Date / Batch" %>
       </label>
       <div class="text-left">
-        <%= form.collection_select :makesheet_id,
-                                   @makesheets,
-                                   :id,
-                                   :make_date_formatted_and_grade,
-                                   { prompt: "Select.." },
-                                   { class: field_class_flex, disabled: !batch_weight.new_record? } %>
+        <% if batch_weight.new_record? %>
+          <%= form.collection_select :makesheet_id,
+            @makesheets,
+            :id,
+            :make_date_formatted_and_grade,
+            { prompt: "Select.." },
+            {
+              class: field_class_flex,
+              data: {
+                action: "change->batch-weight#fetch",
+                batch_weight_target: "makesheetSelect" 
+              }
+            } %>
+        <% else %>
+         <div class="border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-800 bg-gray-100">
+            <%= batch_weight.makesheet.make_date_formatted_and_grade %>
+          </div>
+          <%= form.hidden_field :makesheet_id %>
+        <% end %>
         <%= field_error_for(batch_weight, :makesheet_id) %>
       </div>
 
-      <!-- Washed Batch Weight -->
+      <!--  Grade Label -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :washed_batch_weight %>
+        Grade
       </label>
       <div class="text-left">
-        <%= form.number_field :washed_batch_weight, class: field_class_flex_med %>
-        <%= field_error_for(batch_weight, :washed_batch_weight) %>
+        <div data-batch-weight-target="gradeHeading" class="text-lg font-semibold text-gray-800"></div>
       </div>
 
-     <!-- All Rinds Visually Clean -->
+      <!-- Label -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :all_rinds_visually_clean, "All rinds visually cleaned?" %>
+        Washed Batch Weight
       </label>
-      <div class="text-left flex items-center gap-4">
-        <label class="inline-flex items-center gap-2">
-          <%= form.radio_button :all_rinds_visually_clean, true, class: "h-6 w-6 text-gray-800 accent-gray-800" %>
-          <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">Yes</span>
-        </label>
-        <label class="inline-flex items-center gap-2">
-          <%= form.radio_button :all_rinds_visually_clean, false, class: "h-6 w-6 text-gray-800 accent-gray-800" %>
-          <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">No</span>
-        </label>
+      <!-- Display value -->
+      <div class="text-left">
+        <div data-batch-weight-target="washedBatchWeightDisplay" class="font-semibold text-gray-800"></div>
+        <%= form.hidden_field :washed_batch_weight, data: { batch_weight_target: "washedBatchWeight" } %>
       </div>
 
-     
+      <label class="text-right font-semibold text-gray-700">
+        Total Waste
+      </label>
+      <div class="text-left">
+        <div data-batch-weight-target="totalWasteDisplay" class="font-semibold text-gray-800"></div>
+        <%= form.hidden_field :total_waste, data: { batch_weight_target: "totalWaste" } %>
+      </div>
+
+
+      <!--  Waste Percentage -->
+      <label class="text-right font-semibold text-gray-700">
+        Waste Percentage
+      </label>
+     <div class="text-left">
+      <div data-batch-weight-target="wastePercentage" class="text-gray-800 font-semibold"></div>
+    </div>
+
       <!-- Comments -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :comments %>
@@ -66,10 +96,9 @@
         <%= field_error_for(batch_weight, :comments) %>
       </div>
 
-      <!-- Submit -->
-       <!-- Back to Index (1st col, label side) -->
+      <!-- Back to Index (1st col, label side) -->
       <div class="text-left">
-        <%= link_to "← Back to Calculations", batch_weights_path, class: gray_button %>
+        <%= link_to "← Back to Index", batch_weights_path, class: gray_button %>
       </div>
 
       <!-- Submit Button (2nd col, input side) -->
@@ -80,3 +109,4 @@
 
   <% end %>
 </div>
+

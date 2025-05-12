@@ -3,6 +3,10 @@
 
     <%= form_errors_for(traceability_record) %>
 
+    <div data-traceability-target="gradeHeading" class="text-3xl font-semibold text-left text-gray-800">
+      <%= traceability_record.makesheet&.grade || "" %>
+    </div>
+
   <!-- Label/Field Grid Layout: Clean 2-column pairing in 4-column grid -->
   <div class="grid grid-cols-4 gap-x-6 gap-y-2 items-center w-full">
 
@@ -11,10 +15,10 @@
         <%= form.label :makesheet_id %>
       </label>
       <div class="col-span-1 text-left">
-       <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_formatted_batch_grade,
+       <%= form.collection_select :makesheet_id, @makesheets, :id, :make_date_batch_grade,
             { prompt: true },
             {
-              class: field_class_flex,
+              class: field_class_flex_med,
               disabled: !form.object.new_record?,
               data: {
                 action: "change->traceability#fetch",
@@ -38,7 +42,7 @@
       </label>
       <div class="col-span-1 text-left">
         <%= form.text_field :batch_code,
-              class: field_class_flex,
+              class: field_class_flex_med,
               data: { traceability_target: "batchCode" } %>
       </div>
 
@@ -52,6 +56,25 @@
 
     </div>
     
+  <hr class="mb-2 mt-2">
+
+    <!-- All Rinds Visually Clean (Inline) -->
+    <div class="flex items-center justify-center gap-6 my-4">
+      <label class="font-semibold text-gray-700 whitespace-nowrap">
+        <%= form.label :all_rinds_visually_clean, "All rinds visually cleaned?" %>
+      </label>
+
+      <label class="inline-flex items-center gap-2">
+        <%= form.radio_button :all_rinds_visually_clean, true, class: "h-5 w-5 text-gray-800 accent-gray-800" %>
+        <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">Yes</span>
+      </label>
+
+      <label class="inline-flex items-center gap-2">
+        <%= form.radio_button :all_rinds_visually_clean, false, class: "h-5 w-5 text-gray-800 accent-gray-800" %>
+        <span class="px-2 py-1 rounded hover:bg-gray-200 cursor-pointer">No</span>
+      </label>
+    </div>
+
     <hr class="mb-2 mt-2">
   
    <!-- Individual Batch weights-->
@@ -82,40 +105,37 @@
       From Batch Ticket:
     </div>
 
-    <div class="grid md:grid-cols-4">
-      <!-- Number in Batch -->
-      <div class="text-left pl-4 pt-2 border-t-2 border-l-2 border-gray-800">
-        <span class="font-bold mb-1">Number in Batch:</span>
-      </div>
-      <div class="text-right pt-2 pr-10 border-t-2 border-r-2 border-gray-800">
-        <span data-traceability-target="numberOfCheeses"><%= traceability_record.makesheet&.number_of_cheeses || "--" %></span>
+      <div class="flex flex-col md:grid md:grid-cols-4">
+      <!-- Left Column - Bordered container for static data -->
+      <div class="md:col-span-2 border-2 border-gray-800 p-2">
+        <!-- Number in Batch -->
+        <div class="flex justify-between border-b border-gray-300 py-1">
+          <span class="font-bold">Number in Batch:</span>
+          <span data-traceability-target="numberOfCheeses"><%= traceability_record.makesheet&.number_of_cheeses || "--" %></span>
+        </div>
+
+        <!-- Total Weight of Batch -->
+        <div class="flex justify-between py-1">
+          <span class="font-bold">Total Weight of Batch:</span>
+          <span data-traceability-target="totalWeight"><%= traceability_record.makesheet&.total_weight || "--" %></span>
+        </div>
       </div>
 
-      <!-- Total No. of Cheeses of Batch -->
-      <div class="text-left pl-4 pt-2">
-        <span class="font-bold mb-1 whitespace-nowrap">Total No. of Cheeses of Batch:</span>
-      </div>
-      <div class="text-right pt-2 pr-10">
-        <span data-traceability-target="cheeseCountDisplay">0</span>
-      </div>
+      <!-- Right Column - Unboxed, stack underneath on small screens -->
+      <div class="md:col-span-2 mt-4 md:mt-0 md:ml-4">
+        <!-- Total No. of Cheeses of Batch -->
+        <div class="flex justify-between py-1">
+          <span class="font-bold">Total No. of Cheeses of Batch:</span>
+          <span data-traceability-target="cheeseCountDisplay">0</span>
+        </div>
 
-      <!-- Total Weight of Batch -->
-      <div class="text-left pl-4 pt-2 border-b-2 border-l-2 border-gray-800">
-        <span class="font-bold mb-1">Total Weight of Batch:</span>
-      </div>
-      <div class="text-right pt-2 pr-10 border-b-2 border-r-2 border-gray-800">
-        <span data-traceability-target="totalWeight"><%= traceability_record.makesheet&.total_weight || "--" %></span>
-      </div>
-
-      <!-- Total Weight of Batch(Kg) -->
-      <div class="text-left pl-4 pt-2">
-        <span class="font-bold mb-1 whitespace-nowrap">Total Weight of Batch(Kg):</span>
-      </div>
-      <div class="text-right pt-2 pr-10">
-        <span data-traceability-target="cheeseWeightTotalDisplay">0.00</span>
+        <!-- Total Weight of Batch(Kg) -->
+        <div class="flex justify-between py-1">
+          <span class="font-bold">Total Weight of Batch (Kg):</span>
+          <span data-traceability-target="cheeseWeightTotalDisplay">0.00</span>
+        </div>
       </div>
     </div>
-
 
   <hr class="mb-2 mt-2">
 
@@ -123,7 +143,19 @@
   <div class="grid grid-cols-4 gap-x-6 gap-y-2 items-center w-full">
 
     <div class="inline col-span-2">
-        <%= link_to "Add Waste Details", traceability_record, class: gray_button %> 
+      <% if traceability_record.persisted? %>
+        <%= link_to "Add Waste Details", traceability_record, class: gray_button %>
+      <% else %>
+        <span class="relative group inline-block">
+          <button class="cursor-not-allowed opacity-50 bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg" disabled>
+            Add Waste Details
+          </button>
+          <div class="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 hidden group-hover:block bg-black text-white text-xs rounded px-2 py-1 z-10 whitespace-nowrap">
+            Save before adding waste records
+          </div>
+        </span>
+      <% end %>
+      <p class="ml-4">Waste Records Count: <%= traceability_record.waste_records.count %> </p>
       </div>
 
       <div class="inline col-span-2">
@@ -131,7 +163,7 @@
       </div>
     <% end %>
   <!-- Back to Index -->
-      <div class="text-left mt-2">
+      <div class="text-left">
         <%= link_to "← Back to Index", traceability_records_path, class: gray_button %>
       </div>
   </div>

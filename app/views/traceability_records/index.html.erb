@@ -17,31 +17,55 @@
                 <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Make Date
                 </th>
+
                  <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Batch Code
                 </th>
+
                  <th scope="col" class="sticky top-0 px-4 py-2 text-left">
                     Grade
                 </th>
+
                 <th scope="col" class="sticky top-0 px-4 py-2 w-30  underline underline-offset-2">
                    <%= traceability_show_sort_indicator_for("date_started_batch") %>
                    <%= traceability_sort_link(column: "date_started_batch", label: "Date Batch Started") %>
                 </th>
+
                 <th id="batch" class="sticky top-0 px-4 py-2 text-left w-32  underline underline-offset-2">
                    <%= traceability_show_sort_indicator_for("date_finished_batch") %>
                    <%= traceability_sort_link(column: "date_finished_batch", label: "Date Batch Finished ") %>
                 </th>
+
+                <th scope="col" class="sticky top-0 px-4 py-2 text-right align-top">
+                  <span 
+                    title="All rinds visually clean from mould/debris (*)"
+                    class="block 
+                          text-xs 
+                          whitespace-normal 
+                          lg:whitespace-normal 
+                          sm:truncate md:truncate 
+                          overflow-hidden 
+                          text-ellipsis 
+                          max-w-[8rem] 
+                          lg:max-w-none">
+                    All rinds visually clean from mould/debris (*)
+                  </span>
+                </th>
+
                 <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     [From Batch Ticket]<br>
-                    Total Weight of Cheese
+                    Total Weight
                 </th>
+
                 <th scope="col" class="sticky top-0 px-4 py-2 text-right">
-                    Total Weight of Cheese
+                    Total Weight
                 </th>
+
                 <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     [From Batch Ticket]<br>
                     Number of Cheeses
                 </th>
+
                  <th scope="col" class="sticky top-0 px-4 py-2 text-right">
                     Number of Cheeses
                 </th>
@@ -55,8 +79,8 @@
                    <%= traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date) %>
                 </td>
 
-                <td scope="row" class="px-4 py-4 whitespace-nowrap ">
-                   <%= traceability_record.makesheet.batch %>
+                <td scope="row" class="px-4 py-4 whitespace-nowrap underline underline-offset-2">
+                   <%= link_to traceability_record.makesheet.batch, traceability_record %>
                 </td>
 
                  <td scope="row" class="px-4 py-4 whitespace-nowrap ">
@@ -66,23 +90,31 @@
                 <td class="px-4 py-4 text-left underline underline-offset-2">
                   <%= link_to traceability_record.date_started_batch.to_formatted_s(:uk_clean_date), edit_traceability_record_path(traceability_record) %>
                 </td>
+
                 <td class="px-4 py-4 text-left whitespace-nowrap">
                   <%=  traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %>
                 </td>
+
+                <td class="px-4 py-4 text-center">
+                  <%= traceability_record.all_rinds_visually_clean.nil? ? "—" : (traceability_record.all_rinds_visually_clean ? "Yes" : "No") %>
+                </td>
+
                 <td class="px-4 py-4 text-right">
                   <%= traceability_record.makesheet.total_weight %>
                 </td>
+
                  <td class="px-4 py-4 text-right">
                   <%=  traceability_record.calculated_batch_cheese_weight_total %> 
                 </td>
+
                  <td class="px-4 py-4 text-right ">
                   <%=  traceability_record.makesheet.number_of_cheeses %>
                 </td>
+
                 <td class="px-4 py-4 text-right ">
                   <%=  traceability_record.calculated_batch_cheese_count %>
                 </td>
-               
-               
+                              
              </tr>
               <% end %>
         </tbody>

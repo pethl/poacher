@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
     t.date "date"
     t.bigint "makesheet_id"
     t.decimal "washed_batch_weight", precision: 7, scale: 2
-    t.string "all_rinds_visually_clean"
+    t.decimal "total_waste", precision: 7, scale: 2
     t.string "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -423,6 +423,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
     t.datetime "date_finished_batch"
     t.integer "total_weight_of_batch"
     t.integer "confirmed_number_of_cheeses"
+    t.string "all_rinds_visually_clean"
     t.decimal "individual_cheese_weight_1", precision: 7, scale: 2
     t.decimal "individual_cheese_weight_2", precision: 7, scale: 2
     t.decimal "individual_cheese_weight_3", precision: 7, scale: 2

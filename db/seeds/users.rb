@@ -2,7 +2,7 @@ puts "✨ Seeding Users..."
 
 User.destroy_all
 
-User.create!(
+user = User.create!(
   first_name: "Lisa",
   last_name: "Pethick",
   email: "pethicklisa@gmail.com",

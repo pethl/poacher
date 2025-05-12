@@ -1,6 +1,6 @@
 class BatchWeightsController < ApplicationController
   before_action :set_batch_weight, only: %i[ show edit update destroy ]
-  before_action :set_makesheets, only: %i[new edit create update]
+  before_action :set_makesheets, only: %i[new create]
 
 
   # GET /batch_weights or /batch_weights.json
@@ -20,7 +20,7 @@ class BatchWeightsController < ApplicationController
 
   # GET /batch_weights/1/edit
   def edit
-    @makesheets = Makesheet.not_finished
+   
   end
 
   # POST /batch_weights or /batch_weights.json
@@ -41,7 +41,7 @@ class BatchWeightsController < ApplicationController
 
   # PATCH/PUT /batch_weights/1 or /batch_weights/1.json
   def update
-    @makesheets = Makesheet.not_finished
+   
     respond_to do |format|
       if @batch_weight.update(batch_weight_params)
         format.html { redirect_to batch_weights_path, notice: "Batch weight was successfully updated." }
@@ -62,7 +62,7 @@ class BatchWeightsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+ 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_batch_weight
@@ -71,7 +71,7 @@ class BatchWeightsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def batch_weight_params
-      params.require(:batch_weight).permit(:date, :makesheet_id, :washed_batch_weight, :all_rinds_visually_clean, :comments)
+      params.require(:batch_weight).permit(:date, :makesheet_id, :washed_batch_weight, :total_waste, :all_rinds_visually_clean, :comments)
     end
 
     def set_makesheets

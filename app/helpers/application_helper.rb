@@ -67,54 +67,54 @@ module ApplicationHelper
   end
 
   # --- Field Input Classes ---
-  BASE_FIELD_CLASS = "shadow outline:none rounded-lg border border-gray-800"
+  BASE_FIELD_CLASS = "shadow outline-none rounded-lg border border-gray-800"
 
   def field_class
-    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60"
+    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_lg
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-96 focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-96 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_unsized
-    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-full focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_full
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-full focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_disabled
-    "#{BASE_FIELD_CLASS} bg-gray-300 text-gray-800 py-2 px-3 w-60 focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-300 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_full_disabled
-    "#{BASE_FIELD_CLASS} bg-gray-300 text-gray-800 py-2 px-3 w-full focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-300 text-gray-800 py-2 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_med
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-44 py-2 px-2 text-right w-60 focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-44 py-2 px-2 text-right w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def field_class_flex_small
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-20 h-10 px-2 text-center w-60 focus:border-gray-800"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-20 h-10 px-2 text-center w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   def checkbox_class
-    "form-checkbox h-5 w-5 text-gray-800 rounded border-gray-800 focus:ring-gray-800 bg-gray-100 transition transform hover:scale-115 hover:shadow"
+    "form-checkbox h-5 w-5 text-gray-800 rounded border-gray-800 focus:ring-1 focus:ring-gray-500 bg-gray-100 transition transform hover:scale-115 hover:shadow"
   end
 
   def field_class_fit
-    "#{BASE_FIELD_CLASS} bg-gray-50 text-gray-900 text-sm focus:ring-gray-600 focus:border-gray-800 block p-2.5"
+    "#{BASE_FIELD_CLASS} bg-gray-50 text-gray-900 text-sm focus:ring-1 focus:ring-gray-300 focus:border-gray-500 block p-2.5 focus:outline-none"
   end
 
   def field_class_no_block
-    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60"
+    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
   # --- Filter and Button Classes ---

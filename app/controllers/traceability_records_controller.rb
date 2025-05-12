@@ -38,6 +38,7 @@ class TraceabilityRecordsController < ApplicationController
     @makesheets = Makesheet.where.not(status: "Finished")
                            .where.not(id: TraceabilityRecord.pluck(:makesheet_id))
                            .ordered
+   
   end 
 
   # POST /traceability_records or /traceability_records.json
@@ -82,6 +83,8 @@ class TraceabilityRecordsController < ApplicationController
     end
   end
 
+ 
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_traceability_record
@@ -91,6 +94,6 @@ class TraceabilityRecordsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def traceability_record_params
-      params.require(:traceability_record).permit(:makesheet_id, :date_started_batch, :date_finished_batch, :total_weight_of_batch,:confirmed_number_of_cheeses, :individual_cheese_weight_1, :individual_cheese_weight_2, :individual_cheese_weight_3, :individual_cheese_weight_4, :individual_cheese_weight_5, :individual_cheese_weight_6, :individual_cheese_weight_7, :individual_cheese_weight_8, :individual_cheese_weight_9, :individual_cheese_weight_10, :individual_cheese_weight_11, :individual_cheese_weight_12, :individual_cheese_weight_13, :individual_cheese_weight_14, :individual_cheese_weight_15, :individual_cheese_weight_16, :individual_cheese_weight_17, :individual_cheese_weight_18, :individual_cheese_weight_19, :individual_cheese_weight_20, :individual_cheese_weight_21, :individual_cheese_weight_22, :individual_cheese_weight_23, :individual_cheese_weight_24, :individual_cheese_weight_25, :individual_cheese_weight_26, :individual_cheese_weight_27, :individual_cheese_weight_28, :individual_cheese_weight_29, :individual_cheese_weight_30, :individual_cheese_weight_31, :individual_cheese_weight_32, :individual_cheese_weight_33, :individual_cheese_weight_34, :individual_cheese_weight_35) 
+      params.require(:traceability_record).permit(:makesheet_id, :date_started_batch, :date_finished_batch, :total_weight_of_batch,:confirmed_number_of_cheeses, :all_rinds_visually_clean, :individual_cheese_weight_1, :individual_cheese_weight_2, :individual_cheese_weight_3, :individual_cheese_weight_4, :individual_cheese_weight_5, :individual_cheese_weight_6, :individual_cheese_weight_7, :individual_cheese_weight_8, :individual_cheese_weight_9, :individual_cheese_weight_10, :individual_cheese_weight_11, :individual_cheese_weight_12, :individual_cheese_weight_13, :individual_cheese_weight_14, :individual_cheese_weight_15, :individual_cheese_weight_16, :individual_cheese_weight_17, :individual_cheese_weight_18, :individual_cheese_weight_19, :individual_cheese_weight_20, :individual_cheese_weight_21, :individual_cheese_weight_22, :individual_cheese_weight_23, :individual_cheese_weight_24, :individual_cheese_weight_25, :individual_cheese_weight_26, :individual_cheese_weight_27, :individual_cheese_weight_28, :individual_cheese_weight_29, :individual_cheese_weight_30, :individual_cheese_weight_31, :individual_cheese_weight_32, :individual_cheese_weight_33, :individual_cheese_weight_34, :individual_cheese_weight_35) 
     end
 end

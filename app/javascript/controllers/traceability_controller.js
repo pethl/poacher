@@ -9,7 +9,8 @@ export default class extends Controller {
     "totalWeight",
     "cheeseCountDisplay",
     "cheeseWeightTotalDisplay",
-    "cheeseWeight"
+    "cheeseWeight",
+    "gradeHeading"
   ]
 
   connect() {
@@ -42,6 +43,7 @@ export default class extends Controller {
         this.batchCodeTarget.value = data.batch || ""
         this.numberOfCheesesTarget.textContent = data.number_of_cheeses || "--"
         this.totalWeightTarget.textContent = data.total_weight || "--"
+        this.gradeHeadingTarget.textContent = data.grade || ""
       })
       .catch((error) => {
         console.error("Failed to fetch makesheet data:", error)

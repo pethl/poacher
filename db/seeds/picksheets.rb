@@ -2,8 +2,13 @@ puts "✨ Seeding Picksheets..."
 
 Picksheet.destroy_all
 
-user = User.find_by(email: "seed@example.com") # the Devise-seeded user
-contacts = Contact.limit(6).to_a # or however many you want to sample from
+user = User.find_by(email: "seed@example.com") || User.first
+unless user
+  puts "❌ No user found for Picksheets — skipping."
+  return
+end
+
+contacts = Contact.limit(6).to_a
 
 picksheet_data = [
   { date_order_placed: '08/11/2024', delivery_required_by: '24/11/2024', order_number: 'PD123455', contact_telephone_number: '07803 293 552', invoice_number: '6674876', carrier: 'DPD', carrier_delivery_date: '03/07/2024', number_of_boxes: 2 },
@@ -20,3 +25,4 @@ picksheet_data.each_with_index do |attrs, i|
 end
 
 puts "✅ Picksheets seeded: #{Picksheet.count}"
+

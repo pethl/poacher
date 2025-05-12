@@ -3,31 +3,50 @@
 
     <%= form_errors_for(@cleaning_foreign_body_check) %>
 
-    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+   <div class="grid grid-cols-[350px_auto] gap-x-6 gap-y-3 items-start">
+
 
       <!-- Date -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :date %>
       </label>
       <div class="text-left">
-        <%= form.date_field :date, class: field_class_flex_med %>
+        <%= form.date_field :date, class: field_class_flex_med, readonly: true  %>
       </div>
 
-      <%# Boolean fields %>
-      <% [
-        :milk_pipeline, :cheese_vat, :used_mill, :cooler_moulds_tables, :hand_equipment,
-        :blue_food_contact_equipment, :plastic_sleeves, :metal_shovels, :aprons,
-        :drain_lower_level, :drain_upper_level, :presses, :sinks, :floor_difficult_areas,
-        :footbaths, :internal_door_handles, :change_chlorine, :floor_under_handwash,
-        :compressors
-      ].each do |field| %> 
-        <label class="text-right font-semibold text-gray-700">
-          <%= form.label field %>
-        </label>
-        <div class="text-left">
-          <%= form.check_box field, class: checkbox_class %>
+     <% equipment_list = [
+        { field: :cheese_vat, label: "Cheese Vat", description: "including outlet, butterfly valve, balance tank & pipework, Vat Stirring & Cutting Blades" },
+        { field: :used_mill, label: "Used Mill", description: "plus frame" },
+        { field: :cooler_moulds_tables, label: "Cooler, Cheese Moulds and Tables" },
+        { field: :hand_equipment, label: "Hand equipment", description: "trimming knives & hand cut cutting knives - single & multiple blade" },
+        { field: :blue_food_contact_equipment, label: "Blue Food Contact Equipment", description: "Shovels/Scrapers" },
+        { field: :plastic_sleeves, label: "Plastic Sleeves", description: "tabs, frames and mesh" },
+        { field: :metal_shovels, label: "Metal Shovels" },
+        { field: :aprons, label: "Aprons", description: "plus submerge in chlorine and allow to dry" },
+        { field: :drain_lower_level, label: "Drain - lower level", description: "disinfectant sluice" },
+        { field: :drain_upper_level, label: "Drain - upper level", description: "disinfectant sluice" },
+        { field: :presses, label: "Presses", description: "clean and disinfect" },
+        { field: :sinks, label: "Sinks", description: "Hand Wash/Washing Up & Dip Tank" },
+        { field: :floor_difficult_areas, label: "Floor - difficult areas", description: "disinfectant sluice" },
+        { field: :footbaths, label: "Footbaths x 2", description: "clean & refresh VS2" },
+        { field: :internal_door_handles, label: "Internal Door Handles" },
+        { field: :change_chlorine, label: "Change chlorine", description: "for scourers" },
+        { field: :floor_under_handwash, label: "Floor under Handwash", description: "Washing Up & Dip Tank" },
+        { field: :compressors, label: "Compressors", description: "empty pressure vessel" }
+      ] %>
+
+      <% equipment_list.each do |item| %>
+        <div class="text-right">
+          <%= form.label item[:field], item[:label], class: "font-semibold text-gray-700" %><br>
+          <% if item[:description].present? %>
+            <span class="text-sm text-gray-500"><%= item[:description] %></span>
+          <% end %>
+        </div>
+        <div class="text-left flex items-start pt-1">
+          <%= form.check_box item[:field], class: field_class_flex_small %>
         </div>
       <% end %>
+
 
       <!-- Additional Comments -->
       <label class="text-right font-semibold text-gray-700">

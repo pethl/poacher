@@ -19,6 +19,13 @@
       <p class="font-bold mb-1">Date Finished Batch:</p>
       <p><%= traceability_record.date_finished_batch.to_formatted_s(:uk_clean_date) unless traceability_record.date_finished_batch.to_s.empty? %></p>
 
+      <p class="font-bold mb-1">Grade</p>
+      <p><%= traceability_record.makesheet.grade %></p>
+
+      <p class="font-bold mb-1">Rinds Clean?:</p>
+      <p><%= traceability_record.all_rinds_visually_clean.nil? ? "—" : (traceability_record.all_rinds_visually_clean ? "Yes" : "No") %>
+</p>
+
     </div>
     <hr class="mb-2">
 

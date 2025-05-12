@@ -51,15 +51,15 @@
                     SMALL
               </th>
             </tr>
-            <tr class="bg-gray-200 sticky top-10 0 border border-gray-400">
-              <th scope="col" class="sticky top-0 px-6 py-2 text-center border border-gray-400">
-                  Date
+            <tr class="bg-gray-200 sticky top-[4rem] border-b border-gray-400">
+              <th scope="col" class="sticky top-0 px-6 py-2 text-right border-b border-t border-l border-r border-gray-400">
+                Date
               </th>
-              <th scope="col" class="sticky top-0 px-6 py-2 text-right border border-gray-400">
-                  Litres
+              <th scope="col" class="sticky top-0 px-6 py-2 text-right border-b border-t border-r border-gray-400">
+                Litres
               </th>
-              <th scope="col" class="sticky top-0 px-6 py-2 text-right ">
-                  No. Made
+              <th scope="col" class="sticky top-0 px-6 py-2 text-right border-b border-gray-400">
+                No. Made
               </th>
               <th scope="col" class="sticky top-0 px-6 py-2 text-right border-b border-r border-gray-400 ">
                   Weight (kg)
@@ -141,7 +141,7 @@
        
             <tr class="text-right font-bold border-b bg-gray-200 hover:bg-gray-100">
               <td class="px-6 py-2 text-xs text-gray-700 uppercase bg-gray-200 border-b border-l border-r border-gray-400 ">
-                 Totals:
+                  TOTAL
               </td>
               <td class="px-6 py-2 text-right border-b border-r border-gray-400  ">
                 <%= number_with_delimiter(@total_monthly_milk_litres) %>
@@ -170,6 +170,39 @@
                 <%= number_with_delimiter(@small_cheese_weight) %>
               </td>
             </tr>
+            <tr class="text-right font-semibold bg-gray-100 hover:bg-gray-50">
+          <td class="px-6 py-2 text-xs text-gray-700 uppercase border-b border-l border-r border-gray-400">
+             AVERAGE
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400">
+            <%= number_with_delimiter(@average_milk_used.round) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-gray-400">
+            <%= number_with_delimiter(@average_large_poacher_count.round) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400">
+            <%= number_with_precision(@average_large_poacher_weight, precision: 1, delimiter: ',') %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-gray-400">
+            <%= number_with_delimiter(@average_red_poacher_count.round) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400">
+            <%= number_with_precision(@average_red_poacher_weight, precision: 1, delimiter: ',') %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-gray-400">
+            <%= number_with_delimiter(@average_medium_cheese_count.round) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400">
+            <%= number_with_precision(@average_medium_cheese_weight, precision: 1, delimiter: ',') %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-gray-400">
+            <%= number_with_delimiter(@average_small_cheese_count.round) %>
+          </td>
+          <td class="px-6 py-2 text-right border-b border-r border-gray-400">
+            <%= number_with_precision(@average_small_cheese_weight, precision: 1, delimiter: ',') %>
+          </td>
+        </tr>
+
         </tbody>  
       </table>
     </div>

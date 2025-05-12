@@ -111,6 +111,43 @@ start_date = Date.today - 364
             end
   end
 
+  # Progress logic for last 4 days
+  progress_attrs = {}
+days_from_today = (Date.today - make_date).to_i
+progress_stage_index = days_from_today # will be 0 to 3 for last 4 days
+
+if progress_stage_index.between?(0, 3)
+  expected_yield = case make_type
+                   when 'Red' then 9.15
+                   when 'P50' then 9.72
+                   else 9.86
+                   end
+
+  progress_attrs[:expected_yield] = expected_yield
+  progress_attrs[:salt_weight_net] = (milk_used.to_f * expected_yield / 100 * (make_type == "Red" ? 0.00021 : 0.0002)).round(3)
+  progress_attrs[:type_of_starter_culture_used] = "RA24"
+  progress_attrs[:qty_of_starter_used] = (15.010 + rand(-0.5..0.5)).round(3)
+
+  if progress_stage_index >= 1
+    cut_base_time = Time.zone.local(make_date.year, make_date.month, make_date.day, 14, 30)
+    progress_attrs[:first_cut_time] = cut_base_time
+    progress_attrs[:second_cut_time] = cut_base_time + 25.minutes
+    progress_attrs[:third_cut_time] = cut_base_time + 50.minutes
+    progress_attrs[:fourth_cut_time] = cut_base_time + 75.minutes
+  end
+
+  if progress_stage_index >= 2
+    # these fields are already set in the base makesheet
+    progress_attrs[:total_weight] = total_weight
+    progress_attrs[:number_of_cheeses] = cheese_count
+  end
+
+  if progress_stage_index >= 3
+    progress_attrs[:pre_start_inspection_by_staff_id] = cheesemakers.sample
+  end
+end
+
+
   Makesheet.create!(
     make_date: make_date,
     status: status,
@@ -124,7 +161,8 @@ start_date = Date.today - 364
     weather_today: weather_today,
     weather_temp: weather_temp,
     weather_humidity: weather_humidity,
-    cheese_made_by_staff_id: cheesemakers.sample
+    cheese_made_by_staff_id: cheesemakers.sample,
+    **progress_attrs
   )
 end
 

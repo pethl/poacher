@@ -5,31 +5,35 @@
     </td>
 
    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.makesheet_id? ? batch_weight.makesheet.make_date.to_formatted_s(:uk_clean_date) : "Select batch" %> 
+    <%= batch_weight.makesheet_id? ? batch_weight.makesheet.batch_and_grade : "Select batch" %> 
    </td>
 
-  <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-      <%= batch_weight.makesheet_id? ? batch_weight.makesheet.number_of_cheeses : "Select batch" %> 
-  </td>
-
-   <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.washed_batch_weight %>
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.makesheet_id? ? batch_weight.makesheet.grade : "Select batch" %> 
    </td>
 
-   <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.makesheet_id? ? batch_weight.makesheet.total_weight : "Select batch" %> 
-   </td>
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+        <%= batch_weight.makesheet_id? ? batch_weight.makesheet.number_of_cheeses : "Select batch" %> 
+    </td>
 
-   <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.makesheet_id? ? batch_weight.makesheet.grade : "Select batch" %> 
-   </td>
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.makesheet_id? ? batch_weight.makesheet.total_weight : "Select batch" %> 
+    </td>
 
-   <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.all_rinds_visually_clean %>
-   </td>
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.washed_batch_weight %>
+    </td>
 
-   <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
-    <%= batch_weight.comments %>
-   </td>
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.total_waste %>
+    </td>
+
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.waste_percentage %>
+    </td>
+  
+    <td class="px-2 py-2 border border-gray-400 text-center whitespace-nowrap text-xs">
+      <%= batch_weight.comments %>
+    </td>
 
 </div>

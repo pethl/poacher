@@ -52,6 +52,12 @@ class TraceabilityRecord < ApplicationRecord
     return total
   end
 
+  def total_waste #used by cheese batch weights dont delete ever
+    waste_types = %i[wedges cooking blue t_and_bs waste]
+    waste_values = WasteRecord.where(traceability_record_id: id).pluck(*waste_types)
+    waste_values.flatten.compact.sum
+  end
+
   def calculated_batch_cheese_count
     # Define an array with a mix of integers, nil, and empty strings
     values = [self.individual_cheese_weight_1, 

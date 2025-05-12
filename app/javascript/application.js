@@ -33,6 +33,7 @@ import ScoreSliderController from "./controllers/score_slider_controller"
 import MakesheetController from "./controllers/makesheet_controller"
 import TraceabilityController from "./controllers/traceability_controller"
 import ToggleViewController from "./controllers/toggle_view_controller"
+import BatchWeightController from "./controllers/batch_weight_controller"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -45,6 +46,7 @@ application.register("score-slider", ScoreSliderController)
 application.register("makesheet", MakesheetController)
 application.register("traceability", TraceabilityController)
 application.register("toggle-view", ToggleViewController)
+application.register("batch-weight", BatchWeightController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

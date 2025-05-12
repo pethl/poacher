@@ -4,7 +4,7 @@ class CreateBatchWeights < ActiveRecord::Migration[7.0]
       t.date :date
       t.references :makesheet, index: true, foreign_key: true
       t.decimal :washed_batch_weight, precision: 7, scale: 2
-      t.string :all_rinds_visually_clean
+      t.decimal :total_waste, precision: 7, scale: 2
       t.string :comments
 
       t.timestamps

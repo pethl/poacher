@@ -1,5 +1,5 @@
 <% content_for(:page_title, "TRACEABILITY INDIVIDUAL BATCH  #{@traceability_record.makesheet.make_date.to_formatted_s(:uk_clean_date)}")%>
-<% content_for :title, "Poacher: Individual Batch Traveability Report" %>
+<% content_for :title, "Poacher: Individual Batch Traceability Report" %>
 <% content_for(:print_button, "browser-print")%>
 
 <div class="mx-auto w-full lg:w-2/3 flex">
@@ -38,6 +38,7 @@
   </div>
 
    <% if @traceability_record.waste_records.any? %>
+   
      <%= render @waste_records, traceability_record: @traceability_record %>
      <%= render 'waste_record_totals' %>
    <% end %>
@@ -46,4 +47,4 @@
     <%= link_to "All Batch Traceability Records", traceability_records_path, class:clear_button_class %>
    <br><br>
   </div>
-</div>
+</div> 

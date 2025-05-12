@@ -43,11 +43,19 @@ class Makesheet < ApplicationRecord
   end
 
   def make_date_formatted_and_grade
-    "#{make_date.strftime('%d-%b')} – Batch #{batch} (#{grade.presence || 'Ungraded'})"
+    "#{make_date.strftime('%d-%b')} – Batch #{batch} #{grade.presence || 'Ungraded'}"
   end
 
   def make_date_formatted_batch_grade
-    "#{make_date.strftime('%d-%b')} – Batch #{batch} (#{grade.presence || 'Ungraded'})"
+    "#{make_date.strftime('%d-%b')} – Batch #{batch} #{grade.presence || 'Ungraded'}"
+  end
+
+  def make_date_batch_grade
+    "#{make_date.strftime('%d-%b')} [Batch #{batch}] #{grade.presence || 'Ungraded'}"
+  end
+
+  def batch_and_grade
+    "#{make_date.strftime('%d-%b')} [#{batch}]"
   end
 
 
@@ -99,14 +107,6 @@ class Makesheet < ApplicationRecord
 
   def make_month
     self.make_date.strftime("%B %Y")
-  end
-  
-  def batch_and_grade
-    if self.grade?
-     self.batch + " " + self.grade
-    else
-      self.batch
-    end 
   end
 
   def cleaning_status

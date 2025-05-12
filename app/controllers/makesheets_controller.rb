@@ -83,7 +83,36 @@ class MakesheetsController < ApplicationController
       @data = @makesheets.ordered.pluck(:make_date, :milk_used).map do |make_date, milk_used|
         [make_date&.strftime("%-d"), milk_used] if make_date.present?
       end.compact.to_h
-     
+
+     # Total number of makesheets for averaging milk used
+        milk_record_count = @makesheets.where.not(milk_used: nil).count.nonzero? || 1
+        @average_milk_used = @total_monthly_milk_litres / milk_record_count.to_f
+
+        # For large poacher
+        large_poacher_scope = @makesheets.where(weight_type: "Standard (20 kgs)", make_type: ["Standard", "P50"])
+        large_poacher_count = large_poacher_scope.count.nonzero? || 1
+        @average_large_poacher_count = large_poacher_scope.pluck(:number_of_cheeses).compact.sum / large_poacher_count.to_f
+        @average_large_poacher_weight = large_poacher_scope.pluck(:total_weight).compact.sum / large_poacher_count.to_f
+
+        # For red poacher
+        red_scope = @makesheets.where(weight_type: "Half Truckle (10kgs)", make_type: "Red")
+        red_count = red_scope.count.nonzero? || 1
+        @average_red_poacher_count = red_scope.pluck(:number_of_cheeses).compact.sum / red_count.to_f
+        @average_red_poacher_weight = red_scope.pluck(:total_weight).compact.sum / red_count.to_f
+
+        # For medium
+        medium_scope = @makesheets.where(weight_type: "Midi (8 kgs)")
+        medium_count = medium_scope.count.nonzero? || 1
+        @average_medium_cheese_count = medium_scope.pluck(:number_of_cheeses).compact.sum / medium_count.to_f
+        @average_medium_cheese_weight = medium_scope.pluck(:total_weight).compact.sum / medium_count.to_f
+
+        # For small
+        small_scope = @makesheets.where(weight_type: "2.5kg")
+        small_count = small_scope.count.nonzero? || 1
+        @average_small_cheese_count = small_scope.pluck(:number_of_cheeses).compact.sum / small_count.to_f
+        @average_small_cheese_weight = small_scope.pluck(:total_weight).compact.sum / small_count.to_f
+
+          
   end
   
   
@@ -190,15 +219,21 @@ class MakesheetsController < ApplicationController
               disposition: "inline" # or "attachment" to force download
   end 
 
-   #used in JS by traceability records form
-  def summary
+   #used in JS by traceability records form - very important never delete
+   def summary
     makesheet = Makesheet.find(params[:id])
+    traceability = makesheet.traceability_records.first
+  
     render json: {
       batch: makesheet.batch,
       number_of_cheeses: makesheet.number_of_cheeses,
-      total_weight: makesheet.total_weight
+      total_weight: makesheet.total_weight,
+      grade: makesheet.grade,
+      total_weight_of_batch: traceability&.total_weight_of_batch || nil,
+      total_waste: traceability&.total_waste || nil
     }
   end
+  
   
   
 
