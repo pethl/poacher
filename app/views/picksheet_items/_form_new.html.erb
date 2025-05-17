@@ -1,97 +1,108 @@
-<hr>
-<br>
+<hr> 
+<div class="mt-4 w-full box-border p-6 bg-white shadow-xl rounded-2xl border-4 border-black">
   <%= form_for [picksheet, picksheet_item], html: { class: "form line-item-date" } do |form| %>
-  
-  <% if picksheet_item.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(picksheet_item.errors.count, "error") %> prohibited this picksheet_item from being saved:</h2>
 
-      <ul>
-        <% picksheet_item.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-<div class="w-full flex flex-row gap-4">
-  <!-- Product Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
-    <%= form.label :product, class:"font-semibold text-sm" %><br>
-    <div class="w-full">
-      <% sale_product.each do |product| %>
-        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
-          <%= form.radio_button :product, product %> <%= product %>
-        </p>
-      <% end %>
-    </div>
-     <!-- Makesheet Select only for customers with special batches -->
-        <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>%
-          <div class="my-5">
-            <%= form.label :makesheet_id, "Production Date/Batch" %>
-            <%= form.collection_select(:makesheet_id, 
-                                        @makesheets, 
-                                        :id, 
-                                        :make_date_formatted_and_grade, 
-                                        { prompt: true }, 
-                                        { class: field_class_flex_med }) %>  
-          </div>
+    <% if picksheet_item.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(picksheet_item.errors.count, "error") %> prohibited this picksheet_item from being saved:</h2>
+        <ul>
+          <% picksheet_item.errors.each do |error| %>
+            <li><%= error.full_message %></li>
           <% end %>
-  </div>
+        </ul>
+      </div>
+    <% end %>
 
-  <!-- Size Column -->
-  <div class="border-l-2 px-4 py-2 w-1/5">
-    <%= form.label :size, class:"font-semibold text-sm" %><br>
-    <div class="w-full">
-      <% sale_size.each do |size| %>
-        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
-          <%= form.radio_button :size, size %> <%= size %>
-        </p>
-      <% end %>
+    <div class="w-full flex flex-row gap-4">
+      <!-- Product Column -->
+      <div class="px-4 py-2 basis-1/5">
+        <%= form.label :product, class:"font-bold text-base text-black" %><br>
+        <div class="w-full">
+          <% sale_product.each do |product| %>
+            <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+              <%= form.radio_button :product, product, class: checkbox_class %>
+              <%= product %>
+            </p>
+          <% end %>
+
+          <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>
+            <div class="my-5">
+              <%= form.label :makesheet_id, "Production Date/Batch" %>
+              <%= form.collection_select(:makesheet_id,
+                                          @makesheets,
+                                          :id,
+                                          :make_date_formatted_and_grade,
+                                          { prompt: true },
+                                          { class: field_class_flex_med }) %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Size Column -->
+      <div class="border-l-2 px-4 py-2 basis-[17%]">
+        <%= form.label :size, class:"font-bold text-base text-black" %><br>
+        <div class="w-full">
+          <% sale_size.each do |size| %>
+            <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+              <%= form.radio_button :size, size, class: checkbox_class %>
+              <%= size %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Wedge Size Column -->
+      <div class="border-l-2 px-4 py-2 basis-1/5">
+        <%= form.label :wedge_size, class:"font-bold text-base text-black" %><br>
+        <div class="w-full">
+          <% wedges_sizes.each do |wedge| %>
+            <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+              <%= form.radio_button :wedge_size, wedge, class: checkbox_class %>
+              <%= wedge %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Pricing Column -->
+      <div class="border-l-2 px-4 py-2 basis-1/5">
+        <%= form.label :pricing, class:"font-bold text-base text-black" %><br>
+        <div class="w-full">
+          <% sale_pricing.each do |price| %>
+            <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+              <%= form.radio_button :pricing, price, class: checkbox_class %>
+              <%= price %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Count + Notes Column -->
+      <div class="border-l-2 px-4 py-2 grow">
+        <%= form.label :count, class:"font-bold text-base text-black" %><br>
+        <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %><br><br>
+        <%= form.label :custom_notes, "Custom Size, Weight or Price", class:"font-bold text-base text-black" %><br>
+        <%= form.text_area :custom_notes, rows: 5, class: "text-green-800 rounded-lg w-full max-w-xs" %>
+
+        <!-- Optional checkbox example, remove if not needed -->
+        <!--
+        <div class="mt-4 flex items-center">
+          <%= form.check_box :special_batch, {}, "1", "0", class: checkbox_class %>
+          <%= form.label :special_batch, "Special Batch", class: "ml-2 text-sm font-medium text-gray-800" %>
+        </div>
+        -->
+      </div>
     </div>
-  </div>
 
-  <!-- Wedge Size Column -->
-  <div class="border-l-2 px-4 py-2 w-1/6">
-    <%= form.label :wedge_size, class:"font-semibold text-sm" %><br>
-    <div class="w-full">
-      <% wedges_sizes.each do |wedge| %>
-        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
-          <%= form.radio_button :wedge_size, wedge %> <%= wedge %>
-        </p>
-      <% end %>
+    <div class="mt-4 flex justify-end space-x-2">
+      <%= form.submit "Save Line Item", class: tight_fill_button_class %>
+      <%= link_to "Cancel", picksheet_path(picksheet), class: tight_clear_button_class %>
     </div>
-  </div>
 
-   <!-- Pricing  Column -->
-  <div class="border-l-2 px-4 py-2 w-1/7">
-    <%= form.label :pricing, class:"font-semibold text-sm" %><br>
-    <div class="w-full">
-      <% sale_pricing.each do |price| %>
-        <p class="my-4 hover:bg-gray-100 whitespace-nowrap">
-          <%= form.radio_button :pricing, price %> <%= price %>
-        </p>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Count Column -->
-  <div class="border-l-2 px-4 py-2 w-1/6">
-    <%= form.label :count, class:"font-semibold text-sm" %><br>
-    <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %>
-    <br>
-    <br>
-     <%= form.label :custom_notes, "Custom Size, Weight or Price", class:"font-semibold text-sm" %><br>
-    <%= form.text_area :custom_notes, rows: 5, class: "text-green-800 rounded-lg w-60" %>
-  </div>
+  <% end %>
 </div>
 
-<div class="mt-4">
-  <%= form.submit "Save Line Item", class: tight_fill_button_class %>
-  <%= link_to "Cancel", picksheet_path(picksheet), class: tight_clear_button_class %>
-</div>
-
-<% end %>
 <br>
 <hr>
 <br>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'vacuum_pouch_calculator/new'
+  get 'vacuum_pouch_calculator/create'
   resources :cleaning_foreign_body_checks do
     collection do
       get :week_view
@@ -137,5 +139,9 @@ resources :makesheets  do
   end
    
   match '/users',   to: 'users#index',   via: 'get'
+
+  get  'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#new'
+  post 'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#create'
+
  
 end

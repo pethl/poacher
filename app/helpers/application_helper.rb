@@ -109,6 +109,10 @@ module ApplicationHelper
     "form-checkbox h-5 w-5 text-gray-800 rounded border-gray-800 focus:ring-1 focus:ring-gray-500 bg-gray-100 transition transform hover:scale-115 hover:shadow"
   end
 
+  def checkbox_input_class
+    "h-5 w-5 text-gray-800 border-gray-800 rounded focus:ring-gray-500 focus:ring-1"
+  end
+
   def field_class_fit
     "#{BASE_FIELD_CLASS} bg-gray-50 text-gray-900 text-sm focus:ring-1 focus:ring-gray-300 focus:border-gray-500 block p-2.5 focus:outline-none"
   end
@@ -139,11 +143,11 @@ module ApplicationHelper
   end
 
   def tight_clear_button_class
-    "bg-transparent hover:bg-gray-600 font-semibold hover:text-white p-2 w-full border border-gray-900 hover:border-transparent rounded-lg"
+    "bg-transparent hover:bg-gray-600 text-gray-800 font-semibold hover:text-white py-2 px-4 w-auto border border-gray-900 hover:border-transparent rounded-lg text-sm leading-tight"
   end
-
+  
   def tight_fill_button_class
-    "bg-gray-800 hover:bg-gray-600 text-white font-semibold hover:text-white mt-2 mb-2 p-2 border border-gray-900 hover:border-transparent rounded-lg"
+    "bg-gray-800 hover:bg-gray-600 text-white font-semibold hover:text-white py-2 px-4 w-auto border border-gray-900 hover:border-transparent rounded-lg text-sm leading-tight"
   end
 
   def fill_button_class
@@ -228,6 +232,7 @@ module ApplicationHelper
   def grade_taste; Reference.where(active: true, group: 'grade_taste').order(:sort_order).pluck(:value); end
   def scalecheck_frequency; Reference.where(active: true, group: 'scalecheck_frequency').order(:sort_order).pluck(:value); end
   def scale_name_serial; Reference.where(active: true, group: 'scale_name_serial').order(:sort_order).pluck(:value); end
+  def vacuum_pouches; Reference.where(active: true, group: 'vacuum_pouches').order(:sort_order).pluck(:value); end
 
   def scale_check_type(scale_name)
     Reference.find_by(group: 'scale_name_serial', value: scale_name)&.description

@@ -164,8 +164,20 @@ reference_data = [
   { group: 'sale_size', value: '300g', model: 'PickSheet', sort_order: 10 },
   { group: 'sale_size', value: '500g', model: 'PickSheet', sort_order: 11 },
   { group: 'sale_size', value: '750g', model: 'PickSheet', sort_order: 12 },
-  { group: 'sale_size', value: 'wedges', model: 'PickSheet', sort_order: 13 }
+  { group: 'sale_size', value: 'wedges', model: 'PickSheet', sort_order: 13 },
+
+  #picking sheet vac puches
+ 
+  { group: 'vacuum_pouches', value: '160x300 Parchment', model: 'GradingNote', sort_order: 1, description: '10' },
+  { group: 'vacuum_pouches', value: '200x250 Parchment', model: 'GradingNote', sort_order: 2, description: '10' },
+  { group: 'vacuum_pouches', value: '250x300 Parchment', model: 'GradingNote', sort_order: 3, description: '15' },
+  { group: 'vacuum_pouches', value: '250x300 Clear', model: 'GradingNote', sort_order: 4, description: '15' },
+  { group: 'vacuum_pouches', value: '300x350 Clear', model: 'GradingNote', sort_order: 5, description: '15' },
+  { group: 'vacuum_pouches', value: '340x450 Clear', model: 'GradingNote', sort_order: 6, description: '20' },
+  { group: 'vacuum_pouches', value: '360x520 Clear', model: 'GradingNote', sort_order: 7, description: '20' },
+  { group: 'vacuum_pouches', value: '530x650 Clear', model: 'GradingNote', sort_order: 8, description: '20' }
 ]
+
 
 Reference.create!(reference_data)
 
