@@ -12,18 +12,18 @@
     </div>
   <% end %> 
 
-  <div class="my-5">
-    <%= form.label :who %>
-    <%= form.text_field :who, 
-                    class: field_class_flex,
-                    list: "who-list",
-                    autocomplete: "off" %>
-        <datalist id="who-list">
-          <% @existing_names.each do |name| %>
-          <option value="<%= name %>">
-          <% end %>
-        </datalist>  
-  </div>
+ <div class="my-5">
+  <%= form.label :who %>
+  <%= form.text_field :who, 
+                      class: field_class_flex,
+                      list: "who-list",
+                      autocomplete: "off" %>
+  <datalist id="who-list">
+    <% Array(@existing_names).each do |name| %>
+      <option value="<%= name %>">
+    <% end %>
+  </datalist>  
+</div>
 
   <div class="my-5">
     <%= form.label :market %>

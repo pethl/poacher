@@ -13,15 +13,12 @@ export default class extends Controller {
   ]
 
   connect() {
-    // console.log("✅ BatchWeightController connected")
+    this.updateDisplayFromHiddenFields()
   }
 
   fetch() {
-    // Ensure makesheetSelect is present and enabled
-    if (!this.hasMakesheetSelectTarget || this.makesheetSelectTarget.disabled) {
-      console.warn("⚠️ Makesheet select field not available or disabled.")
+    if (!this.hasMakesheetSelectTarget || this.makesheetSelectTarget.disabled)
       return
-    }
 
     const makesheetId = this.makesheetSelectTarget.value
     if (!makesheetId) return
@@ -32,19 +29,10 @@ export default class extends Controller {
         return response.json()
       })
       .then((data) => {
-        console.log("🎯 Fetched summary data:", data)
-        console.log("🧪 Washed batch weight check", {
-          targetExists: this.hasWashedBatchWeightTarget,
-          displayExists: this.hasWashedBatchWeightDisplayTarget,
-          valueInData: data.total_weight_of_batch
-        })
-
-        // Grade
         if (this.hasGradeHeadingTarget) {
           this.gradeHeadingTarget.textContent = data.grade || ""
         }
 
-        // Washed batch weight
         if (
           this.hasWashedBatchWeightTarget &&
           this.hasWashedBatchWeightDisplayTarget &&
@@ -55,7 +43,6 @@ export default class extends Controller {
           this.washedBatchWeightDisplayTarget.textContent = `${value} Kg`
         }
 
-        // Total waste
         if (
           this.hasTotalWasteTarget &&
           this.hasTotalWasteDisplayTarget &&
@@ -69,7 +56,7 @@ export default class extends Controller {
         this.recalculateWaste()
       })
       .catch((error) => {
-        console.error("❌ Failed to fetch summary:", error)
+        console.error("Failed to fetch makesheet summary:", error)
       })
   }
 
@@ -90,5 +77,26 @@ export default class extends Controller {
     } else {
       this.wastePercentageTarget.textContent = ""
     }
+  }
+
+  updateDisplayFromHiddenFields() {
+    if (
+      this.hasWashedBatchWeightTarget &&
+      this.hasWashedBatchWeightDisplayTarget
+    ) {
+      const washed = parseFloat(this.washedBatchWeightTarget.value)
+      if (!isNaN(washed)) {
+        this.washedBatchWeightDisplayTarget.textContent = `${washed.toFixed(2)} Kg`
+      }
+    }
+
+    if (this.hasTotalWasteTarget && this.hasTotalWasteDisplayTarget) {
+      const waste = parseFloat(this.totalWasteTarget.value)
+      if (!isNaN(waste)) {
+        this.totalWasteDisplayTarget.textContent = `${waste.toFixed(2)} Kg`
+      }
+    }
+
+    this.recalculateWaste()
   }
 }

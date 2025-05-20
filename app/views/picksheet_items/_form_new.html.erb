@@ -84,16 +84,8 @@
         <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %><br><br>
         <%= form.label :custom_notes, "Custom Size, Weight or Price", class:"font-bold text-base text-black" %><br>
         <%= form.text_area :custom_notes, rows: 5, class: "text-green-800 rounded-lg w-full max-w-xs" %>
-
-        <!-- Optional checkbox example, remove if not needed -->
-        <!--
-        <div class="mt-4 flex items-center">
-          <%= form.check_box :special_batch, {}, "1", "0", class: checkbox_class %>
-          <%= form.label :special_batch, "Special Batch", class: "ml-2 text-sm font-medium text-gray-800" %>
-        </div>
-        -->
-      </div>
     </div>
+     </div>
 
     <div class="mt-4 flex justify-end space-x-2">
       <%= form.submit "Save Line Item", class: tight_fill_button_class %>

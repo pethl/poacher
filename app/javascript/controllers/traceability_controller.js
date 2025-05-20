@@ -14,7 +14,16 @@ export default class extends Controller {
   ]
 
   connect() {
-    // Clean, no unsaved-change logic
+    console.log("✅ TraceabilityController connected")
+
+    // Only run fetch if select is enabled (i.e., on new form)
+    if (!this.selectTarget.disabled) {
+      this.fetch()
+    }
+
+    requestAnimationFrame(() => {
+      this.updateCheeseStats()
+    })
   }
 
   updateCheeseStats() {
@@ -40,7 +49,14 @@ export default class extends Controller {
     fetch(`/makesheets/${makesheetId}/summary.json`)
       .then((response) => response.json())
       .then((data) => {
-        this.batchCodeTarget.value = data.batch || ""
+        if (
+          this.hasBatchCodeTarget &&
+          data.batch !== null &&
+          data.batch !== ""
+        ) {
+          this.batchCodeTarget.value = data.batch
+        }
+
         this.numberOfCheesesTarget.textContent = data.number_of_cheeses || "--"
         this.totalWeightTarget.textContent = data.total_weight || "--"
         this.gradeHeadingTarget.textContent = data.grade || ""
