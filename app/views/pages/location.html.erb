@@ -83,5 +83,31 @@
       // Optionally give user feedback
       alert("Scanned: " + decodedText);
     });
+  });<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const qrCodeRegionId = "qr-reader";
+    const html5QrCode = new Html5Qrcode(qrCodeRegionId);
+    const config = { fps: 10, qrbox: 250 };
+
+    function onScanSuccess(decodedText, decodedResult) {
+      const locationInput = document.getElementById("location-input");
+      locationInput.value = decodedText;
+
+      // Optional: Stop scanning after success
+      html5QrCode.stop().then(() => {
+        document.getElementById("qr-reader").innerHTML = "<p class='text-green-600'>Scan complete!</p>";
+      });
+    }
+
+    Html5Qrcode.getCameras().then(devices => {
+      if (devices && devices.length) {
+        // Start the scanner on the first camera (usually rear-facing on iPhone)
+        html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+      }
+    }).catch(err => {
+      document.getElementById("qr-reader").innerText = "Camera access error: " + err;
+    });
   });
 </script>
+
