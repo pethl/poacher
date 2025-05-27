@@ -7,6 +7,12 @@ Rails.application.routes.draw do
       get :edit_by_date
     end
   end
+
+  resources :cheese_wash_records, only: [:new, :create, :edit, :show, :index]
+  
+
+  # Optional: root page (if relevant)
+  # root "cheese_wash_records#index"
   
   resources :scale_checks do
     collection do
@@ -94,6 +100,7 @@ Rails.application.routes.draw do
   get "pages/mgmt_home"
   get "pages/credits"
   get "/goodbye", to: "pages#goodbye", as: :goodbye
+  get "pages/location"
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   #get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 

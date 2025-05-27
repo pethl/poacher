@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_26_125247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,6 +77,63 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cheese_wash_records", force: :cascade do |t|
+    t.bigint "makesheet_id", null: false
+    t.date "date_batch_started"
+    t.date "date_batch_finished"
+    t.date "wash_date_1"
+    t.integer "number_washed_1", default: 0
+    t.date "wash_date_2"
+    t.integer "number_washed_2", default: 0
+    t.date "wash_date_3"
+    t.integer "number_washed_3", default: 0
+    t.date "wash_date_4"
+    t.integer "number_washed_4", default: 0
+    t.date "wash_date_5"
+    t.integer "number_washed_5", default: 0
+    t.date "wash_date_6"
+    t.integer "number_washed_6", default: 0
+    t.date "wash_date_7"
+    t.integer "number_washed_7", default: 0
+    t.date "wash_date_8"
+    t.integer "number_washed_8", default: 0
+    t.date "wash_date_9"
+    t.integer "number_washed_9", default: 0
+    t.date "wash_date_10"
+    t.integer "number_washed_10", default: 0
+    t.date "wash_date_11"
+    t.integer "number_washed_11", default: 0
+    t.date "wash_date_12"
+    t.integer "number_washed_12", default: 0
+    t.date "wash_date_13"
+    t.integer "number_washed_13", default: 0
+    t.date "wash_date_14"
+    t.integer "number_washed_14", default: 0
+    t.date "wash_date_15"
+    t.integer "number_washed_15", default: 0
+    t.date "wash_date_16"
+    t.integer "number_washed_16", default: 0
+    t.date "wash_date_17"
+    t.integer "number_washed_17", default: 0
+    t.date "wash_date_18"
+    t.integer "number_washed_18", default: 0
+    t.date "wash_date_19"
+    t.integer "number_washed_19", default: 0
+    t.date "wash_date_20"
+    t.integer "number_washed_20", default: 0
+    t.date "wash_date_21"
+    t.integer "number_washed_21", default: 0
+    t.date "wash_date_22"
+    t.integer "number_washed_22", default: 0
+    t.date "wash_date_23"
+    t.integer "number_washed_23", default: 0
+    t.date "wash_date_24"
+    t.integer "number_washed_24", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["makesheet_id"], name: "index_cheese_wash_records_on_makesheet_id"
   end
 
   create_table "chillers", force: :cascade do |t|
@@ -521,6 +578,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_26_095826) do
 
   add_foreign_key "batch_weights", "makesheets"
   add_foreign_key "breakages", "staffs"
+  add_foreign_key "cheese_wash_records", "makesheets"
   add_foreign_key "chillers", "staffs"
   add_foreign_key "cleaning_foreign_body_checks", "staffs"
   add_foreign_key "grading_notes", "makesheets"

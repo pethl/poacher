@@ -1,5 +1,6 @@
 class MakesheetPdfGenerator
   require 'prawn'
+  include ActionView::Helpers::TextHelper
 
   def initialize(makesheet)
     @makesheet = makesheet
@@ -7,6 +8,11 @@ class MakesheetPdfGenerator
     @raleway_bold_font_path = 'app/assets/fonts/raleway/Raleway-Bold.ttf'
     @logo_img_path = 'app/assets/images/poacher_logo.jpeg'
   end
+
+  def format_titration(value)
+    value ? sprintf('%.3f', value) : ""
+  end
+
 
   def generate
     pdf = Prawn::Document.new(page_size: "A4", page_layout: :landscape)
@@ -24,7 +30,10 @@ class MakesheetPdfGenerator
     pdf.image @logo_img_path, 
     width: 70, 
     height: 70, 
-    at: [pdf.bounds.left, pdf.bounds.bottom + 50] # Adjust Y position to keep it visible
+    at: [
+    pdf.bounds.left + (pdf.bounds.width - 70) / 2 -130 , # Centered horizontally
+    pdf.bounds.bottom + 50                         # Keep vertical offset
+  ]
   
      pdf.text "\n", size: 8  
 
@@ -52,7 +61,7 @@ class MakesheetPdfGenerator
        
                first_column = Array.new 
                first_column << ["", "<b>TIME</b>", "<b>TEMP (°C)</b>"]
-               first_column << ["BOILER ON",  "#{@makesheet.boiler_on_time&.strftime('%I:%M %p')}", ""]
+               #first_column << ["BOILER ON",  "#{@makesheet.boiler_on_time&.strftime('%I:%M %p')}", ""]
                first_column << ["STEAM / HOT WATER ON", "#{@makesheet.steam_hot_water_on_time&.strftime('%I:%M %p')}", ""]
                first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "#{@makesheet.cold_milk_in_time&.strftime('%I:%M %p')}", "#{@makesheet.cold_milk_in_state}"]
                first_column << ["WARM MILK FINISH",  "#{@makesheet.warm_milk_finish_time&.strftime('%I:%M %p')}", "#{@makesheet.warm_milk_finish_titration}"]
@@ -65,11 +74,18 @@ class MakesheetPdfGenerator
                first_column << ["HEAT OFF", "#{@makesheet.heat_off_2_time&.strftime('%I:%M %p')}", "#{@makesheet.heat_off_2_temp}"]
                first_column << ["PITCH", "#{@makesheet.pitch_time&.strftime('%I:%M %p')}", "<sup>Titration</sup>"]
                first_column << ["WHEY", "#{@makesheet.whey_time&.strftime('%I:%M %p')}", "#{@makesheet.whey_titration}"]
-               first_column << ["1ST CUT","#{@makesheet.first_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.first_cut_titration}"]
-               first_column << ["2ND CUT", "#{@makesheet.second_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.second_cut_titration}"]
-               first_column << ["3RD CUT","#{@makesheet.third_cut_time&.strftime('%I:%M %p')}", "#{@makesheet.third_cut_titration}"]
-               first_column << ["MILL\nXXXXXX MILL USED", "#{@makesheet.identify_mill_used}", ""]
-      
+               first_column << ["1ST CUT", @makesheet.first_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.first_cut_titration)]
+               first_column << ["2ND CUT", @makesheet.second_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.second_cut_titration)]
+               first_column << ["3RD CUT", @makesheet.third_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.third_cut_titration)]
+               first_column << ["4TH CUT", @makesheet.fourth_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.fourth_cut_titration)]
+               first_column << ["5TH CUT", @makesheet.fifth_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.fifth_cut_titration)]
+               first_column << ["6TH/MILL", @makesheet.sixth_cut_time&.strftime('%I:%M %p'), format_titration(@makesheet.sixth_cut_titration)]
+
+               first_column << [
+                    "MILL\nXXXXXX MILL USED",
+                    { content: "<font size='8'>#{@makesheet.identify_mill_used}</font>", colspan: 2 }
+                  ]
+                        
                     pdf.table(first_column) do 
                       self.width = 210
                        self.cell_style = { :inline_format => true, size: 10, :height => 24   } 
@@ -124,7 +140,10 @@ class MakesheetPdfGenerator
          starter_box = Array.new
          starter_box << ["<b>STARTER CULTURE USED</b>",""]
          starter_box << ["Type of Starter Culture Used","Qty Used"]
-         starter_box << ["#{@makesheet.type_of_starter_culture_used}","#{@makesheet.qty_of_starter_used}"]
+         starter_box << [
+          "#{@makesheet.type_of_starter_culture_used}",
+          "#{@makesheet.qty_of_starter_used ? sprintf('%.3f', @makesheet.qty_of_starter_used) : ''}"
+        ]
 
                 pdf.table(starter_box)  do 
                   self.width = 200
@@ -166,7 +185,7 @@ class MakesheetPdfGenerator
              pdf.text "\n", size: 8         
              ib_change_box = Array.new
              ib_change_box << ["<b>INGREDIENT BATCH CHANGE</b>"]
-             ib_change_box << ["#{@makesheet.ingredient_batch_change ? "YES" : "NO"}"]
+             ib_change_box << ["<font size='7'>#{truncate(@makesheet.ingredient_batch_change.present? ? @makesheet.ingredient_batch_change : "NO", length:50)}"]
 
                     pdf.table(ib_change_box)  do 
                       self.width = 200
@@ -181,11 +200,14 @@ class MakesheetPdfGenerator
                        rows(1).size = 12
                      end  
                      
-               pdf.text "\n", size: 8         
-               thermo_box = Array.new
-               thermo_box << ["<b>THERMOMETER CHANGE</b>", "<b>SCALE CHANGE</b>"]
-               thermo_box << ["#{@makesheet.thermometer_change ? "YES" : "NO"}", "#{@makesheet.scale_change ? "YES" : "NO"}"]
+                     pdf.text "\n", size: 8         
 
+                     thermo_box = []
+                     thermo_box << ["<b>THERMOMETER CHANGE</b>", "<b>SCALE CHANGE</b>"]
+                     thermo_box << [
+                       "<font size='7'>#{truncate(@makesheet.thermometer_change.presence || 'NO', length: 44)}</font>",
+                       "<font size='7'>#{truncate(@makesheet.scale_change.present? ? @makesheet.scale_change : "NO", length:44)}</font>"
+                     ]
                       pdf.table(thermo_box)  do 
                         self.width = 200
                          self.cell_style = { :inline_format => true } 
@@ -222,8 +244,12 @@ class MakesheetPdfGenerator
                        
                pdf.text "\n", size: 8         
                sign_box = Array.new
+               assistant = Staff.find_by(id: @makesheet.assistant_staff_id)
                sign_box << ["<b>CHEESE MADE BY:</b>", "<b>MILLING HELP</b>"]
-               sign_box << ["#{@makesheet.cheese_made_by_staff&.full_name || ""}", "#{@makesheet.milling_help}"]
+               sign_box << [
+                  "<font size='12'>#{@makesheet.cheese_made_by_staff&.full_name}</font><br/><br/><font size='8'>#{assistant&.full_name}</font>",
+                  "<font size='8'>#{@makesheet.milling_help}</font>"
+                ]
 
                       pdf.table(sign_box)  do 
                         self.width = 200

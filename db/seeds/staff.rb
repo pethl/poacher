@@ -16,6 +16,7 @@ staff_data = [
   { employment_status: 'Active', first_name: 'Angela', last_name: 'Rigden', dept: 'Office', role: 'Administrator' },
   { employment_status: 'Active', first_name: 'Jo', last_name: 'Day', dept: 'Office', role: 'Technical Manager' },
   { employment_status: 'Active', first_name: 'Tim', last_name: 'Jones', dept: 'Office', role: 'Owner' },
+  { employment_status: 'Active', first_name: 'Simon', last_name: 'Jones', dept: 'Office', role: 'Owner' },
   { employment_status: 'Active', first_name: 'Andy', last_name: 'Hutchinson', dept: 'Cheese Store', role: 'Store Manager' },
   { employment_status: 'Active', first_name: 'Sally', last_name: 'Tagg', dept: 'Cutting Room', role: 'Cutting Room Supervisor' },
   { employment_status: 'Active', first_name: 'Stephen', last_name: 'Bailey', dept: 'Cutting Room', role: 'Cutting Room Personnel' },

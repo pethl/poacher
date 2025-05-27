@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  require 'ostruct'
   def home
   end
   
@@ -49,5 +50,10 @@ class PagesController < ApplicationController
   def goodbye
   
   end
+
+  def location
+    @location_movement = OpenStruct.new(makesheet_id: nil, location_id: nil, moved_at: Date.today)
+  end
+  
 
 end
