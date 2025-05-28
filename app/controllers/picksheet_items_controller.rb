@@ -80,7 +80,26 @@ class PicksheetItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_item_params
-      params.require(:picksheet_item).permit(:picksheet_id, :makesheet_id, :product, :size, :wedge_size, :pricing, :count, :custom_notes, :weight, :code, :sp_price, :bb_date)
+      raw = params.require(:picksheet_item)
+    
+      selected_product =
+        raw[:product_radio].presence ||
+        raw[:product_other].presence ||
+        raw[:product_butter].presence
+    
+      # Permit only real attributes — do NOT include the virtual ones
+      raw.permit(:picksheet_id,
+                 :makesheet_id,
+                 :size,
+                 :wedge_size,
+                 :pricing,
+                 :count,
+                 :custom_notes,
+                 :weight,
+                 :code,
+                 :sp_price,
+                 :bb_date)
+         .merge(product: selected_product)
     end
 
     def set_contact_ids

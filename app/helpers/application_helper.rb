@@ -223,6 +223,9 @@ module ApplicationHelper
   def makesheet_mill; Reference.where(active: true, group: 'makesheet_mill').order(:sort_order).pluck(:value); end
   def bucket_weight; Reference.where(active: true, group: 'bucket_weight').pluck(:value); end
   def sale_product; Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value); end
+  def sale_product_other; Reference.where(active: true, group: 'sale_product_other').order(:sort_order).pluck(:value); end
+  def sale_product_butter; Reference.where(active: true, group: 'sale_product_butter').order(:sort_order).pluck(:value); end
+
   def sale_size; Reference.where(active: true, group: 'sale_size').order(:sort_order).pluck(:value); end
   def wedges_sizes; Reference.where(active: true, group: 'wedges_sizes').order(:sort_order).pluck(:value); end
   def sale_pricing; Reference.where(active: true, group: 'sale_pricing').order(:sort_order).pluck(:value); end

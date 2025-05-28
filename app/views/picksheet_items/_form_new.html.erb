@@ -1,4 +1,4 @@
-<hr> 
+<hr>
 <div class="mt-4 w-full box-border p-6 bg-white shadow-xl rounded-2xl border-4 border-black">
   <%= form_for [picksheet, picksheet_item], html: { class: "form line-item-date" } do |form| %>
 
@@ -6,8 +6,8 @@
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(picksheet_item.errors.count, "error") %> prohibited this picksheet_item from being saved:</h2>
         <ul>
-          <% picksheet_item.errors.each do |error| %>
-            <li><%= error.full_message %></li>
+          <% picksheet_item.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
           <% end %>
         </ul>
       </div>
@@ -16,14 +16,32 @@
     <div class="w-full flex flex-row gap-4">
       <!-- Product Column -->
       <div class="px-4 py-2 basis-1/5">
-        <%= form.label :product, class:"font-bold text-base text-black" %><br>
+        <label class="font-bold text-base text-black">Product</label><br>
         <div class="w-full">
           <% sale_product.each do |product| %>
             <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
-              <%= form.radio_button :product, product, class: checkbox_class %>
-              <%= product %>
+              <%= radio_button_tag 'picksheet_item[product_radio]', product, picksheet_item.product == product, class: checkbox_class, id: "product_radio_#{product.parameterize}" %>
+              <%= label_tag "product_radio_#{product.parameterize}", product %>
             </p>
           <% end %>
+
+          <hr class="my-4">
+
+          <div class="my-4">
+            <%= label_tag :product_other, "Other Products (select one)", class: "font-bold text-sm text-gray-700" %>
+            <%= select_tag 'picksheet_item[product_other]',
+                            options_for_select(sale_product_other, picksheet_item.product),
+                            include_blank: "-- Select product --",
+                            class: field_class_flex_med %>
+          </div>
+
+          <div class="my-4">
+            <%= label_tag :product_butter, "Butter Products (select one)", class: "font-bold text-sm text-yellow-800" %>
+            <%= select_tag 'picksheet_item[product_butter]',
+                            options_for_select(sale_product_butter, picksheet_item.product),
+                            include_blank: "-- Select butter --",
+                            class: field_class_flex_med %>
+          </div>
 
           <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>
             <div class="my-5">
@@ -84,8 +102,8 @@
         <%= form.number_field :count, class: "text-green-800 rounded-lg w-16" %><br><br>
         <%= form.label :custom_notes, "Custom Size, Weight or Price", class:"font-bold text-base text-black" %><br>
         <%= form.text_area :custom_notes, rows: 5, class: "text-green-800 rounded-lg w-full max-w-xs" %>
+      </div>
     </div>
-  </div>
 
     <div class="mt-4 flex justify-end space-x-2">
       <%= form.submit "Save Line Item", class: tight_fill_button_class %>
@@ -94,9 +112,6 @@
 
   <% end %>
 </div>
-
 <br>
 <hr>
 <br>
-
-
