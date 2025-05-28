@@ -48,7 +48,7 @@ application.register("makesheet", MakesheetController)
 application.register("traceability", TraceabilityController)
 application.register("toggle-view", ToggleViewController)
 application.register("batch-weight", BatchWeightController)
-application.register("qr_scanner", QrScannerController)
+application.register("qr-scanner", QrScannerController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

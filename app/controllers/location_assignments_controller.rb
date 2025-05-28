@@ -1,4 +1,6 @@
 class LocationAssignmentsController < ApplicationController
+  require "ostruct"
+
 
   def new
     @location_assignment = OpenStruct.new(location_id: params[:location_id])
