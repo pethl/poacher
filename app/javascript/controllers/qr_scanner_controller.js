@@ -1,11 +1,12 @@
-// app/javascript/controllers/qr_scanner_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["select"]
 
   connect() {
-    const html5QrCode = new Html5Qrcode(this.element.id) // now global
+    console.log("📦 QR Scanner connected")
+
+    const html5QrCode = new Html5Qrcode("qr-reader")
     const config = { fps: 10, qrbox: 250 }
 
     html5QrCode
@@ -15,29 +16,43 @@ export default class extends Controller {
         this.onScanSuccess.bind(this)
       )
       .catch((err) => {
-        this.element.innerText = "Camera access error: " + err
+        console.error("❌ Camera access error:", err)
+        document.getElementById("qr-reader").innerText =
+          "Camera access error: " + err
       })
 
     this.html5QrCode = html5QrCode
   }
 
   onScanSuccess(decodedText) {
+    console.log("✅ QR Code detected:", decodedText)
+
     const select = this.selectTarget
     const options = select.options
+    const scanned = decodedText.trim().toLowerCase()
+
+    let matchFound = false
 
     for (let i = 0; i < options.length; i++) {
-      if (
-        options[i].text.trim().toLowerCase() ===
-        decodedText.trim().toLowerCase()
-      ) {
+      const text = options[i].text.trim().toLowerCase()
+      console.log("🔍 Comparing with option:", text)
+
+      if (text === scanned) {
         select.selectedIndex = i
+        console.log("🎯 Match found, selected:", options[i].text)
         alert(`Scanned: ${options[i].text}`)
+        matchFound = true
         break
       }
     }
 
+    if (!matchFound) {
+      console.warn("⚠️ No match found for:", scanned)
+      alert("No matching location found.")
+    }
+
     this.html5QrCode.stop().then(() => {
-      this.element.innerHTML =
+      document.getElementById("qr-reader").innerHTML =
         "<p class='text-green-600 text-sm'>Scan complete</p>"
     })
   }

@@ -2,12 +2,6 @@
   <%= form_with url: location_assignments_path, method: :post, local: true do |form| %>
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
 
-      <!-- Date (optional, you can remove if not used) -->
-      <label class="text-right font-semibold text-gray-700">Date</label>
-      <div class="text-left">
-        <%= form.date_field :moved_at, value: Date.today, class: field_class_flex %>
-      </div>
-
       <!-- Makesheet -->
       <label class="text-right font-semibold text-gray-700">Make Date</label>
       <div class="text-left">
@@ -20,25 +14,27 @@
       <!-- Location -->
       <label class="text-right font-semibold text-gray-700">Location</label>
       <div class="text-left">
-       <%= form.select :location_id,
-          options_from_collection_for_select(Location.active.order(:sort_order), :id, :name, @location_assignment.location_id),
-          { prompt: "Select Location" },
-          class: field_class_flex,
-          id: "location-id-select",
-          data: { qr_scanner_target: "select" } %>
-
+        <%= form.select :location_id,
+              options_from_collection_for_select(Location.active.order(:sort_order), :id, :name, @location_assignment[:location_id]),
+              { prompt: "Select Location" },
+              class: field_class_flex_med,
+              id: "location-id-select",
+              data: {
+                controller: "qr-scanner",
+                qr_scanner_target: "select"
+              } %>
       </div>
 
       <!-- QR Scanner UI -->
-      <div class="col-span-2 text-center mt-4" data-controller="qr-scanner" id="qr-reader">
+      <div class="col-span-2 text-center mt-4">
+        <div id="qr-reader" class="mx-auto" style="width: 250px; height: auto;"></div>
         <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
       </div>
 
-      <!-- Submit -->
+      <!-- Submit Button -->
       <div class="col-span-2 text-center mt-4">
         <%= form.submit "Assign Location", class: fill_button_class %>
       </div>
     </div>
   <% end %>
 </div>
-
