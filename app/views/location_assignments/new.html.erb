@@ -1,0 +1,44 @@
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with url: location_assignments_path, method: :post, local: true do |form| %>
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Date (optional, you can remove if not used) -->
+      <label class="text-right font-semibold text-gray-700">Date</label>
+      <div class="text-left">
+        <%= form.date_field :moved_at, value: Date.today, class: field_class_flex %>
+      </div>
+
+      <!-- Makesheet -->
+      <label class="text-right font-semibold text-gray-700">Make Date</label>
+      <div class="text-left">
+        <%= form.select :makesheet_id,
+              options_from_collection_for_select(Makesheet.all.order(make_date: :desc), :id, :make_date_formatted),
+              { prompt: "Select Makesheet" },
+              class: field_class_flex %>
+      </div>
+
+      <!-- Location -->
+      <label class="text-right font-semibold text-gray-700">Location</label>
+      <div class="text-left">
+       <%= form.select :location_id,
+          options_from_collection_for_select(Location.active.order(:sort_order), :id, :name, @location_assignment.location_id),
+          { prompt: "Select Location" },
+          class: field_class_flex,
+          id: "location-id-select",
+          data: { qr_scanner_target: "select" } %>
+
+      </div>
+
+      <!-- QR Scanner UI -->
+      <div class="col-span-2 text-center mt-4" data-controller="qr-scanner" id="qr-reader">
+        <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
+      </div>
+
+      <!-- Submit -->
+      <div class="col-span-2 text-center mt-4">
+        <%= form.submit "Assign Location", class: fill_button_class %>
+      </div>
+    </div>
+  <% end %>
+</div>
+

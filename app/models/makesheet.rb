@@ -8,9 +8,12 @@ class Makesheet < ApplicationRecord
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   belongs_to :contact, optional: true
+  belongs_to :location, optional: true
   
   validates :make_date, presence: true, uniqueness: { message: "has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
+  validates :location_id, uniqueness: true, allow_nil: true
+
   
   # Scopes
   scope :ordered, -> { order(make_date: :asc) }

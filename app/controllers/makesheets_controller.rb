@@ -208,6 +208,8 @@ class MakesheetsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  
   
   def print_makesheet_pdf
     makesheet = Makesheet.find(params[:id]) # Fetch the makesheet

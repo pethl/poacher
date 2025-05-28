@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+ 
+  get  "/location_assignments/new", to: "location_assignments#new",  as: "new_location_assignment"
+  post "/location_assignments",     to: "location_assignments#create", as: "location_assignments"
+  get "/location_report", to: "location_assignments#location_report", as: :location_report
+
+  
+
+  resources :locations
   get 'vacuum_pouch_calculator/new'
   get 'vacuum_pouch_calculator/create'
   resources :cleaning_foreign_body_checks do

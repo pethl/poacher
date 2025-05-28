@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_26_125247) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_27_160541) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -224,6 +224,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_125247) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.string "location_type"
+    t.integer "sort_order"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "makesheets", force: :cascade do |t|
     t.string "status", default: "Created"
     t.datetime "make_date"
@@ -309,7 +318,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_125247) do
     t.datetime "updated_at", null: false
     t.string "batch"
     t.bigint "contact_id"
+    t.bigint "location_id"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
+    t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
     t.index ["status"], name: "index_makesheets_on_status"
   end
@@ -583,6 +594,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_26_125247) do
   add_foreign_key "cleaning_foreign_body_checks", "staffs"
   add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "makesheets", "contacts"
+  add_foreign_key "makesheets", "locations"
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "palletised_distributions", "staffs"
   add_foreign_key "picksheet_items", "makesheets"

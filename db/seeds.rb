@@ -1,5 +1,6 @@
 # db/seeds.rb
 # 🔧 Clean slate
+CheeseWashRecord.destroy_all
 CleaningForeignBodyCheck.destroy_all
 ScaleCheck.destroy_all
 WashPicksheet.destroy_all;
@@ -38,6 +39,7 @@ load Rails.root.join("db/seeds/makesheets.rb")
 load Rails.root.join("db/seeds/turns.rb")
 load Rails.root.join("db/seeds/picksheets.rb")
 load Rails.root.join("db/seeds/traceability_records.rb")
+load Rails.root.join("db/seeds/locations.rb")
 
 user = User.find_by(email: "pethicklisa@gmail.com")
 puts "🌱 Base seed completed."

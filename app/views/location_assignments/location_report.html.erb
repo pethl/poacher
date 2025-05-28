@@ -1,0 +1,62 @@
+<% content_for(:page_title, "WHAT WHERE?") %>
+
+<div class="mx-auto w-full md:w-2/3">
+
+  <div class="grid grid-cols-2 gap-6 mb-6">
+  <div>
+    <h3 class="font-semibold text-lg mb-2">Trolley Status</h3>
+    <%= pie_chart @trolley_data, height: "200px", colors: ["#FFD700", "#2ECC71"] %>
+  </div>
+
+  <div>
+    <h3 class="font-semibold text-lg mb-2">Alley Status</h3>
+   <%= pie_chart @alley_data, height: "200px", colors: ["#FFD700", "#2ECC71"] %>
+
+  </div>
+</div>
+
+<%= form_with url: location_report_path, method: :get, local: true, class: "mb-6" do |form| %>
+  <div class="flex items-center gap-4">
+    <div>
+      <%= form.label :location_type, "Filter by: ", class: "font-semibold" %>
+    </div>
+    <div>
+      <%= form.select :location_type,
+                      options_for_select(@location_types, selected: @selected_type),
+                      { prompt: "All Types" },
+                      class: field_class_flex %>
+    </div>
+    <div>
+      <%= form.submit "Filter", class: fill_button_class %>
+    </div>
+  </div>
+<% end %>
+
+<table class="min-w-full table-auto border border-gray-300">
+  <thead>
+    <tr class="bg-gray-200">
+      <th class="px-4 py-2 text-left">Location</th>
+      <th class="px-4 py-2 text-left">Status</th>
+     
+      <th class="px-4 py-2 text-left">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @locations.each do |location| %>
+      <tr class="border-t">
+        <td class="px-4 py-2"><%= link_to location.name, new_location_assignment_path(location_id: location.id), class: "text-gray-600 underline" %></td>
+        <% if location.makesheet %>
+          <td class="px-4 py-2 text-green-600">Occupied</td>
+         
+          <td class="px-4 py-2"><%= location.makesheet.make_date_formatted_and_grade %></td>
+        <% else %>
+          <td class="px-4 py-2 text-gray-500">Empty</td>
+         
+          <td class="px-4 py-2">—</td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>

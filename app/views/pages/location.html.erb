@@ -1,12 +1,9 @@
 <div class="max-w-xl mx-auto mt-4 bg-white p-4">
- 
-<%= form_with(url: "#", local: true) do |form| %>
 
-
-
+  <%= form_with(url: "#", local: true) do |form| %>
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
 
-      <!-- Date (defaults to today) -->
+      <!-- Date -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :moved_at, "Date" %>
       </label>
@@ -25,89 +22,35 @@
                         class: field_class_flex %>
       </div>
 
-      <!-- Location (scanned or selected) -->
-<label class="text-right font-semibold text-gray-700">
-  <%= form.label :location_id, "Location (Scan or Select)" %>
-</label>
-<div class="text-left">
-  <%= form.text_field :location_id,
-                      value: @location_movement.location_id,
-                      class: field_class_flex,
-                      id: "location-input" %>
-</div>
+      <!-- Location Select -->
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label :location_id, "Location (Scan or Select)" %>
+        </label>
+        <div class="text-left">
+          <%= form.select :location_id,
+              options_from_collection_for_select(Location.where(active: true).order(:name), :id, :name, @location_movement.location_id),
+              { prompt: "Select Location" },
+              class: field_class_flex,
+              id: "location-id-select",
+              data: { qr_scanner_target: "select" } %>
+        </div>
 
-<div class="col-span-2 text-center mt-4">
-  <div id="qr-reader" style="width: 250px; margin: auto;"></div>
-  <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-fill location</p>
-</div>
+        <!-- QR Scanner -->
+        <div data-controller="qr-scanner" id="qr-reader" class="col-span-2 text-center mt-4">
+          <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
+        </div>
 
-      <!-- Location -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :location_id, "Location" %>
-      </label>
-      <div class="text-left">
-       <%= form.select :location_id,
-    options_for_select(Reference.where(group: "store_location", active: true).pluck(:value).uniq, selected: @location_movement.location_id),
-    { prompt: "Select Location" },
-    class: field_class_flex %>
-      </div>
 
-      <!-- Back to Index (1st col, label side) -->
+      <!-- Back Button -->
       <div class="text-left">
         <%= link_to "← Back", pages_wash_home_path, class: gray_button %>
       </div>
 
-      <!-- Submit Button (2nd col, input side) -->
+      <!-- Submit Button -->
       <div class="text-left">
         <%= form.submit "Save", class: fill_button_class %>
       </div>
 
     </div>
-
   <% end %>
 </div>
-
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const qrReader = new Html5QrcodeScanner("qr-reader", {
-      fps: 10,
-      qrbox: 250
-    });
-
-    qrReader.render(function (decodedText, decodedResult) {
-      // Assume decodedText is the location ID or name
-      const locationInput = document.getElementById("location-input");
-      locationInput.value = decodedText;
-
-      // Optionally give user feedback
-      alert("Scanned: " + decodedText);
-    });
-  });<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const qrCodeRegionId = "qr-reader";
-    const html5QrCode = new Html5Qrcode(qrCodeRegionId);
-    const config = { fps: 10, qrbox: 250 };
-
-    function onScanSuccess(decodedText, decodedResult) {
-      const locationInput = document.getElementById("location-input");
-      locationInput.value = decodedText;
-
-      // Optional: Stop scanning after success
-      html5QrCode.stop().then(() => {
-        document.getElementById("qr-reader").innerHTML = "<p class='text-green-600'>Scan complete!</p>";
-      });
-    }
-
-    Html5Qrcode.getCameras().then(devices => {
-      if (devices && devices.length) {
-        // Start the scanner on the first camera (usually rear-facing on iPhone)
-        html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
-      }
-    }).catch(err => {
-      document.getElementById("qr-reader").innerText = "Camera access error: " + err;
-    });
-  });
-</script>
-

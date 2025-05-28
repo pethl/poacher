@@ -34,6 +34,7 @@ import MakesheetController from "./controllers/makesheet_controller"
 import TraceabilityController from "./controllers/traceability_controller"
 import ToggleViewController from "./controllers/toggle_view_controller"
 import BatchWeightController from "./controllers/batch_weight_controller"
+import QrScannerController from "./controllers/qr_scanner_controller"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -47,6 +48,7 @@ application.register("makesheet", MakesheetController)
 application.register("traceability", TraceabilityController)
 application.register("toggle-view", ToggleViewController)
 application.register("batch-weight", BatchWeightController)
+application.register("qr_scanner", QrScannerController)
 
 document.addEventListener("turbo:load", () => {
   console.log(
