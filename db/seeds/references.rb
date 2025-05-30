@@ -70,17 +70,13 @@ reference_data = [
   { group: 'makesheet_mill', value: 'Chip Mill - spare', model: 'MakeSheet', sort_order: 2 },
   { group: 'makesheet_mill', value: 'Peg Mill', model: 'MakeSheet', sort_order: 3 },
 
-  # Wedge sizes
-  { group: 'wedges_sizes', value: '200g approx', model: 'PickSheet', sort_order: 1 },
-  { group: 'wedges_sizes', value: '150-175g min', model: 'PickSheet', sort_order: 2 },
-  { group: 'wedges_sizes', value: '200g min', model: 'PickSheet', sort_order: 3 },
-  { group: 'wedges_sizes', value: '200g-230g min', model: 'PickSheet', sort_order: 4 },
-  { group: 'wedges_sizes', value: '400-450g min', model: 'PickSheet', sort_order: 5 },
 
   # Sale Pricing
-  { group: 'sale_pricing', value: 'Unpriced', model: 'PickSheet', sort_order: 1 },
-  { group: 'sale_pricing', value: 'Farmers Market', model: 'PickSheet', sort_order: 2 },
-  { group: 'sale_pricing', value: 'London Wholesale', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_pricing', value: 'Priced', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_pricing', value: 'Unpriced', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_pricing', value: 'Retail', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_pricing', value: 'Wholesale', model: 'PickSheet', sort_order: 3 },
+
 
   # Traffic Lights
   { group: 'trafficlights', value: 'Red', model: 'Samples', sort_order: 1 },
@@ -142,13 +138,61 @@ reference_data = [
 
   # Sale Products for PickSheets
 
-  { group: 'sale_product', value: 'Poacher', model: 'PickSheet', sort_order: 1 },
-  { group: 'sale_product', value: 'Vintage', model: 'PickSheet', sort_order: 2 },
-  { group: 'sale_product', value: 'P50', model: 'PickSheet', sort_order: 3 },
-  { group: 'sale_product', value: 'Knuckle Duster', model: 'PickSheet', sort_order: 4 },
-  { group: 'sale_product', value: 'Double Barrel', model: 'PickSheet', sort_order: 5 },
-  { group: 'sale_product', value: 'Red', model: 'PickSheet', sort_order: 6 },
-  { group: 'sale_product', value: 'Smoked', model: 'PickSheet', sort_order: 7 },
+  { group: 'sale_product', value: 'Grated', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_product', value: 'Poacher', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_product', value: 'Vintage', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_product', value: 'P50', model: 'PickSheet', sort_order: 4 },
+  { group: 'sale_product', value: 'Knuckle Duster', model: 'PickSheet', sort_order: 5 },
+  { group: 'sale_product', value: 'Double Barrel', model: 'PickSheet', sort_order: 6 },
+  { group: 'sale_product', value: 'Red', model: 'PickSheet', sort_order: 7 },
+  { group: 'sale_product', value: 'Smoked', model: 'PickSheet', sort_order: 8 },
+
+  
+    { group: 'sale_product_other', value: 'Baron Bigod - Baby', model: 'PickSheet', sort_order: 1 },
+    { group: 'sale_product_other', value: 'Buffalicious', model: 'PickSheet', sort_order: 2 },
+    { group: 'sale_product_other', value: 'Chabis', model: 'PickSheet', sort_order: 3 },
+    { group: 'sale_product_other', value: 'Cote Hill Baby', model: 'PickSheet', sort_order: 4 },
+    { group: 'sale_product_other', value: 'Dorstone', model: 'PickSheet', sort_order: 5 },
+    { group: 'sale_product_other', value: 'Fetish', model: 'PickSheet', sort_order: 6 },
+    { group: 'sale_product_other', value: 'Finn', model: 'PickSheet', sort_order: 7 },
+    { group: 'sale_product_other', value: 'Flower Marie', model: 'PickSheet', sort_order: 8 },
+    { group: 'sale_product_other', value: 'Golden Cross', model: 'PickSheet', sort_order: 9 },
+    { group: 'sale_product_other', value: 'Eve', model: 'PickSheet', sort_order: 10 },
+    { group: 'sale_product_other', value: 'Halloumi (Somerset)', model: 'PickSheet', sort_order: 11 },
+    { group: 'sale_product_other', value: 'Katherine', model: 'PickSheet', sort_order: 12 },
+    { group: 'sale_product_other', value: 'Little Lily', model: 'PickSheet', sort_order: 13 },
+    { group: 'sale_product_other', value: 'Little She', model: 'PickSheet', sort_order: 14 },
+    { group: 'sale_product_other', value: "Michael's Mount", model: 'PickSheet', sort_order: 15 },
+    { group: 'sale_product_other', value: 'Perroche', model: 'PickSheet', sort_order: 16 },
+    { group: 'sale_product_other', value: 'Ragstone', model: 'PickSheet', sort_order: 17 },
+    { group: 'sale_product_other', value: 'Snowdrop', model: 'PickSheet', sort_order: 18 },
+    { group: 'sale_product_other', value: 'St. Jude', model: 'PickSheet', sort_order: 19 },
+    { group: 'sale_product_other', value: 'Stilton Half – Baby', model: 'PickSheet', sort_order: 20 },
+    { group: 'sale_product_other', value: 'Stilton Whole - Baby', model: 'PickSheet', sort_order: 21 },
+    { group: 'sale_product_other', value: 'Tor', model: 'PickSheet', sort_order: 22 },
+    { group: 'sale_product_other', value: 'Wigmore – Baby', model: 'PickSheet', sort_order: 23 },
+
+
+  { group: 'sale_product_butter', value: 'Salted', model: 'PickSheet', sort_order: 1 },
+  { group: 'sale_product_butter', value: 'HM 2%', model: 'PickSheet', sort_order: 2 },
+  { group: 'sale_product_butter', value: 'HM 3%', model: 'PickSheet', sort_order: 3 },
+  { group: 'sale_product_butter', value: 'HM 4%', model: 'PickSheet', sort_order: 4 },
+  { group: 'sale_product_butter', value: 'Unsalted', model: 'PickSheet', sort_order: 5 },
+
+  { group: 'cut_guest_cheeses', value: 'Colston', model: 'PickSheet', sort_order: 1 },
+  { group: 'cut_guest_cheeses', value: 'Cote Hill', model: 'PickSheet', sort_order: 2 },
+  { group: 'cut_guest_cheeses', value: 'Cropwell Bishop', model: 'PickSheet', sort_order: 3 },
+  { group: 'cut_guest_cheeses', value: 'Gorwydd Caerphilly', model: 'PickSheet', sort_order: 4 },
+  { group: 'cut_guest_cheeses', value: 'Wyfe of Bath', model: 'PickSheet', sort_order: 5 },
+  { group: 'cut_guest_cheeses', value: 'Shropshire Blue', model: 'PickSheet', sort_order: 6 },
+  { group: 'cut_guest_cheeses', value: 'Stichelton', model: 'PickSheet', sort_order: 7 },
+  { group: 'cut_guest_cheeses', value: 'Yarg', model: 'PickSheet', sort_order: 8 },
+
+  { group: 'cheese_accompaniments', value: 'Plum Bread', model: 'PickSheet', sort_order: 1 },
+  { group: 'cheese_accompaniments', value: 'Stockans', model: 'PickSheet', sort_order: 2 },
+  { group: 'cheese_accompaniments', value: 'Damsel Millers Waffers', model: 'PickSheet', sort_order: 3 },
+  { group: 'cheese_accompaniments', value: 'Old Yorkshire Chutney', model: 'PickSheet', sort_order: 4 },
+  { group: 'cheese_accompaniments', value: 'Tracklements Chutney', model: 'PickSheet', sort_order: 5 },
 
   # Sale Sizes for PickSheets
 
@@ -158,13 +202,27 @@ reference_data = [
   { group: 'sale_size', value: '1/4', model: 'PickSheet', sort_order: 4 },
   { group: 'sale_size', value: '1/8', model: 'PickSheet', sort_order: 5 },
   { group: 'sale_size', value: '1/16', model: 'PickSheet', sort_order: 6 },
-  { group: 'sale_size', value: '100g', model: 'PickSheet', sort_order: 7 },
-  { group: 'sale_size', value: '200g', model: 'PickSheet', sort_order: 8 },
-  { group: 'sale_size', value: '250g', model: 'PickSheet', sort_order: 9 },
-  { group: 'sale_size', value: '300g', model: 'PickSheet', sort_order: 10 },
-  { group: 'sale_size', value: '500g', model: 'PickSheet', sort_order: 11 },
-  { group: 'sale_size', value: '750g', model: 'PickSheet', sort_order: 12 },
-  { group: 'sale_size', value: 'wedges', model: 'PickSheet', sort_order: 13 },
+  
+
+   # Wedge sizes
+   { group: 'wedges_sizes', value: '10 x 200g', model: 'PickSheet', sort_order: 1 },
+   { group: 'wedges_sizes', value: '100g', model: 'PickSheet', sort_order: 2 },
+   { group: 'wedges_sizes', value: '150-175g min', model: 'PickSheet', sort_order: 3 },
+   { group: 'wedges_sizes', value: '170-200g min', model: 'PickSheet', sort_order: 4 },
+   { group: 'wedges_sizes', value: '180-250g min', model: 'PickSheet', sort_order: 5 },
+   { group: 'wedges_sizes', value: '200g', model: 'PickSheet', sort_order: 6 },
+   { group: 'wedges_sizes', value: '200g min', model: 'PickSheet', sort_order: 7 },
+   { group: 'wedges_sizes', value: '200g approx', model: 'PickSheet', sort_order: 8 },
+   { group: 'wedges_sizes', value: '200g-230g min', model: 'PickSheet', sort_order: 9 },
+   { group: 'wedges_sizes', value: '200g-250g min', model: 'PickSheet', sort_order: 10 },
+   { group: 'wedges_sizes', value: '200g-400g min', model: 'PickSheet', sort_order: 11 },
+   { group: 'wedges_sizes', value: '225g-275g min', model: 'PickSheet', sort_order: 12 },
+   { group: 'wedges_sizes', value: '250g', model: 'PickSheet', sort_order: 12 },
+   { group: 'wedges_sizes', value: '250g-350g', model: 'PickSheet', sort_order: 14 },
+   { group: 'wedges_sizes', value: '300g', model: 'PickSheet', sort_order: 15 },
+   { group: 'wedges_sizes', value: '400-450g min', model: 'PickSheet', sort_order: 16 },
+   { group: 'wedges_sizes', value: '500g', model: 'PickSheet', sort_order: 17 },
+   { group: 'wedges_sizes', value: '750g', model: 'PickSheet', sort_order: 18 },
 
   #picking sheet vac puches
  

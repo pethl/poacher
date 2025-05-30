@@ -25,9 +25,9 @@
         <%= makesheets_show_sort_indicator_for("age_in_days") %>
         <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
       </th>
-      <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 underline underline-offset-2">
-        <%= makesheets_show_sort_indicator_for("milk_used") %>
-        <%= make_sheets_sort_link(column: "milk_used", label: "Milk (l)") %>
+      <th scope="col" class="sticky top-0 px-4 py-3 text-left underline underline-offset-2">
+        <%= makesheets_show_sort_indicator_for("location.name") %>
+        <%= make_sheets_sort_link(column: "location.name", label: "Location") %>
       </th>
       <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 underline underline-offset-2">
         <%= makesheets_show_sort_indicator_for("total_weight") %>
@@ -75,8 +75,8 @@
         <td class="px-4 py-2 text-right">
           <%= makesheet.age_in_months %>m
         </td>
-        <td class="px-4 py-2 text-right">
-          <%= makesheet.milk_used %> ltrs
+        <td class="px-4 py-2 text-left">
+          <%= makesheet.location&.name || "—" %>
         </td>
         <td class="px-4 py-2 text-right">
           <%= makesheet.total_weight %> kg

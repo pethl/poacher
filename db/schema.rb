@@ -396,7 +396,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_160541) do
     t.string "code"
     t.decimal "sp_price", precision: 7, scale: 2
     t.datetime "bb_date"
-    t.string "wedge_size"
     t.string "pricing"
     t.string "custom_notes"
     t.datetime "created_at", null: false

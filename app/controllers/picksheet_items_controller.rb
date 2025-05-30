@@ -29,6 +29,9 @@ class PicksheetItemsController < ApplicationController
   def create
     @picksheet_item = @picksheet.picksheet_items.build(picksheet_item_params)
 
+     # Reassign the virtual wedge_size param explicitly
+  @picksheet_item.wedge_size = params.dig(:picksheet_item, :wedge_size)
+
     if @contact_ids.include?(@picksheet_item.picksheet.contact_id)
      @makesheets = Makesheet.not_finished.where(contact_id: @picksheet_item.picksheet.contact_id)
     end 
@@ -47,15 +50,18 @@ class PicksheetItemsController < ApplicationController
   # PATCH/PUT /picksheet_items/1 or /picksheet_items/1.json
   def update
     @makesheets = Makesheet.not_finished.where(contact_id: @picksheet_item.picksheet.contact_id)
+  
     if @picksheet_item.update(picksheet_item_params)
       respond_to do |format|
         format.html { redirect_to picksheet_path(@picksheet), notice: "Line item was successfully updated." }
         format.turbo_stream { flash.now[:notice] = "Line Item was successfully updated." }
-     end
-    else
-          render :edit, status: :unprocessable_entity
       end
+    else
+      # Restore the virtual attr manually for redisplay after failed update
+      @picksheet_item.wedge_size = params.dig(:picksheet_item, :wedge_size)
+      render :edit, status: :unprocessable_entity
     end
+  end
 
   # DELETE /picksheet_items/1 or /picksheet_items/1.json
   def destroy
@@ -80,27 +86,46 @@ class PicksheetItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def picksheet_item_params
-      raw = params.require(:picksheet_item)
+      raw = params.require(:picksheet_item).permit(
+        :product_radio,
+        :product_other,
+        :product_butter,
+        :product_cut_guest,
+        :product_cheese_accompaniments,
+        :picksheet_id,
+        :makesheet_id,
+        :size,
+        :wedge_size,
+        :pricing,
+        :count,
+        :custom_notes,
+        :weight,
+        :code,
+        :sp_price,
+        :bb_date
+      )
     
       selected_product =
         raw[:product_radio].presence ||
         raw[:product_other].presence ||
-        raw[:product_butter].presence
+        raw[:product_butter].presence ||
+        raw[:product_cut_guest].presence ||
+        raw[:product_cheese_accompaniments].presence
     
-      # Permit only real attributes — do NOT include the virtual ones
-      raw.permit(:picksheet_id,
-                 :makesheet_id,
-                 :size,
-                 :wedge_size,
-                 :pricing,
-                 :count,
-                 :custom_notes,
-                 :weight,
-                 :code,
-                 :sp_price,
-                 :bb_date)
-         .merge(product: selected_product)
+      selected_size =
+        raw[:wedge_size].presence || raw[:size]
+    
+      raw.except(
+        :product_radio, :product_other, :product_butter,
+        :product_cut_guest, :product_cheese_accompaniments,
+        :wedge_size, :size
+      ).merge(
+        product: selected_product,
+        size: selected_size
+      )
     end
+    
+    
 
     def set_contact_ids
       @contact_ids = Makesheet.where.not(status: "Finished").pluck(:contact_id).compact.uniq

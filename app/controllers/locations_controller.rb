@@ -6,6 +6,18 @@ class LocationsController < ApplicationController
     @locations = Location.all
   end
 
+  def shed_map
+    shed_number = params[:shed] # expects "4" or "5"
+    @shed_name = "Shed #{shed_number}"
+  
+    @shed_locations = Location
+      .where("name LIKE ?", "%Shed #{shed_number}%")
+      .includes(:makesheet)
+      .group_by(&:row_label)
+  
+    @max_columns = @shed_locations.values.flatten.map(&:column_number).compact.max
+  end
+
   # GET /locations/1 or /locations/1.json
   def show
   end

@@ -7,7 +7,7 @@ module MakesheetsHelper
   
   def next_direction
      params[:direction] == 'asc' ? 'desc' : 'asc'
-   end
+   end 
    
    def makesheet_sort_indicator
      tag.span(class: "sort sort-#{params[:direction]}")

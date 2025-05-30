@@ -18,6 +18,16 @@ class Picksheet < ApplicationRecord
     self.picksheet_items.count
   end
 
+  def number_of_items
+    picksheet_items.sum(:count)
+  end
+
+  def total_weight_kg
+    picksheet_items.includes(:picksheet).sum do |item|
+      item.get_weight.to_f
+    end.round(2)
+  end
+
   def full_delivery_info
     return "" unless delivery_required_by.present?
   

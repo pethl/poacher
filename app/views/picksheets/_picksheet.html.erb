@@ -74,12 +74,28 @@
     <div class="font-semibold mb-1 text-right self-center">
       Carrier Delivery Date:
     </div>
-      <div class="border border-gray-800 rounded-lg text-left  h-9 py-1 px-2 bg-gray-100">
+    <div class="border border-gray-800 rounded-lg text-left  h-9 py-1 px-2 bg-gray-100">
       <%= picksheet.carrier_delivery_date.to_formatted_s(:uk_day) unless picksheet.carrier_delivery_date.to_s.empty? %>
     </div>
 
-    <div></div>
-    <div></div>
+  <% total_weight = picksheet.total_weight_kg.to_f.round(2) %>
+
+<div class="font-semibold mb-1 text-right self-center">Approx Total Weight:</div>
+<div class="text-left text-lg font-bold
+  <%= total_weight < 10 ? 'text-red-600' : total_weight < 16 ? 'text-gray-500' : 'text-green-600' %>">
+  <%= total_weight %>kg
+
+  <% if total_weight < 10 %>
+    <span class="text-sm font-semibold ml-2">(Below min order)</span>
+  <% elsif total_weight < 16 %>
+    <% remaining = (16 - total_weight).round(2) %>
+    <span class="text-sm font-semibold ml-2 text-blue-600">
+      (<%= remaining %>kg to free delivery)
+    </span>
+  <% else %>
+    <span class="text-sm font-semibold ml-2 text-green-700">(Free Delivery!)</span>
+  <% end %>
+</div>
 
     <div class="font-semibold mb-1 text-right self-center">
        No of Boxes:
@@ -87,6 +103,13 @@
     <div class="border border-gray-800 rounded-lg text-left h-9 w-20 py-1 px-2 bg-gray-100">
       <%= picksheet.number_of_boxes %>
     </div>
+
+ <div></div>
+    <div></div>
+     <div></div>
+    <div class="text-left"> <%= link_to "Edit header", edit_picksheet_path(@picksheet), class: fill_button_small_class %></div>
+   
+
  
   </div>
 </div>

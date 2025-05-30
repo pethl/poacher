@@ -15,31 +15,22 @@
 
      <div class="header">
       <%= render @picksheet %>
-     </div>
+      </div>
 
-     <div class="new_line_item text-left">
-       <div class="mt-4 mb-4">
-          <%= link_to " Add New Line Item ",
-                  new_picksheet_picksheet_item_path(@picksheet),
-               data: { turbo_frame: dom_id(PicksheetItem.new) },
-               class: tight_fill_button_class %>
-          </div>
-     </div>
   <hr>
      <div class="relative overflow-x-auto">
          <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 ">
              <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
                  <tr>
-                     <th scope="col" class="px-2 py-2 w-32">
+                     <th scope="col" class="px-2 py-2 w-64">
                          Product
                      </th>
-                     <th scope="col" class="px-2 py-2 text-left w-32">
+
+                     <th scope="col" class="px-2 py-2 text-left w-40">
                          Size
                      </th>
-                     <th scope="col" class="px-2 py-2 text-right w-24">
-                        Wedge Size
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-right w-32">
+                    
+                     <th scope="col" class="px-2 py-2 text-center w-48">
                         Pricing
                      </th>
                      <th scope="col" class="px-2 py-2 text-center w-[30px]">
@@ -48,16 +39,16 @@
                      <th scope="col" class="px-2 py-2 text-center w-24">
                         Weight
                      </th>
-                     <th scope="col" class="px-2 py-2 text-center w-24">
+                     <th scope="col" class="px-2 py-2 text-center w-32">
                         Code
                      </th>
-                     <th scope="col" class="px-2 py-2 text-center w-24">
+                     <th scope="col" class="px-2 py-2 text-center w-32">
                         Sp Price
                      </th>
                      <th scope="col" class="px-2 py-2 text-center w-32">
                         B/b Date
                      </th>
-                      <th scope="col" class="px-2 py-2 text-center w-24">
+                      <th scope="col" class="px-2 py-2 text-center w-32">
                         ""
                      </th>
                   </tr>
@@ -79,16 +70,15 @@
           </table>  
      
       <br>
-     
-    <%= link_to "Edit this Picking Sheet", edit_picksheet_path(@picksheet), class: fill_button_class %>
-    <%= link_to "Back to Picking sheets", picksheets_path, class: clear_button_class %>
-    <div class="inline-block ml-2">
-        <%= button_to "Delete Picking Sheet",
-                        @picksheet,
-                        method: :delete,
-                        form: { data: { turbo_confirm: "Are you sure?" } },
-                        class: gray_button %>
-    </div>
+      <div class="new_line_item text-left">
+       <div class="mt-4 mb-4">
+          <%= link_to " Add New Line Item ",
+                  new_picksheet_picksheet_item_path(@picksheet),
+               data: { turbo_frame: dom_id(PicksheetItem.new) },
+               class: tight_fill_button_class %>
+          </div>
+     </div>
+   
   </div>
   </div>
 </div>

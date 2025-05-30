@@ -36,7 +36,19 @@ module.exports = {
     "text-base",
     "font-medium",
     "max-w-md",
-    "mx-auto"
+    "mx-auto",
+
+    // Grade color classes (ensure Tailwind keeps these)
+    "bg-emerald-500",
+    "bg-sky-500",
+    "bg-amber-500",
+    "bg-orange-500",
+    "bg-rose-500",
+    "bg-red-600",
+    "bg-gray-300",
+    "bg-white",
+    "border",
+    "border-gray-400"
   ],
   theme: {
     extend: {

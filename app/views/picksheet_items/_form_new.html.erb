@@ -25,25 +25,7 @@
             </p>
           <% end %>
 
-          <hr class="my-4">
-
-          <div class="my-4">
-            <%= label_tag :product_other, "Other Products (select one)", class: "font-bold text-sm text-gray-700" %>
-            <%= select_tag 'picksheet_item[product_other]',
-                            options_for_select(sale_product_other, picksheet_item.product),
-                            include_blank: "-- Select product --",
-                            class: field_class_flex_med %>
-          </div>
-
-          <div class="my-4">
-            <%= label_tag :product_butter, "Butter Products (select one)", class: "font-bold text-sm text-yellow-800" %>
-            <%= select_tag 'picksheet_item[product_butter]',
-                            options_for_select(sale_product_butter, picksheet_item.product),
-                            include_blank: "-- Select butter --",
-                            class: field_class_flex_med %>
-          </div>
-
-          <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>
+           <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>
             <div class="my-5">
               <%= form.label :makesheet_id, "Production Date/Batch" %>
               <%= form.collection_select(:makesheet_id,
@@ -54,10 +36,56 @@
                                           { class: field_class_flex_med }) %>
             </div>
           <% end %>
+
+           <hr class="my-4">
+
+      <div class="my-4">
+        <%= label_tag :product_butter, "Butter", class: "font-bold text-sm text-yellow-800" %>
+        <% sale_product_butter.each do |butter| %>
+          <p class="my-2 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+            <%= radio_button_tag 'picksheet_item[product_butter]', butter, picksheet_item.product == butter, class: checkbox_class, id: "product_butter_#{butter.parameterize}" %>
+            <%= label_tag "product_butter_#{butter.parameterize}", butter %>
+          </p>
+        <% end %>
+      </div>
+
+          <hr class="my-4">
+
+          <div class="my-4">
+            <%= label_tag :product_other, "Other Products", class: "font-bold text-sm text-gray-700" %>
+            <%= select_tag 'picksheet_item[product_other]',
+                            options_for_select(sale_product_other, picksheet_item.product),
+                            include_blank: "-- Select --",
+                            class: field_class_flex_med %>
+          </div>
+
+         
+
+     <hr class="my-4">
+
+      <div class="my-4">
+        <%= label_tag :product_cut_guest, "Cut Guest Cheeses", class: "font-bold text-sm text-blue-700" %>
+        <%= select_tag 'picksheet_item[product_cut_guest]',
+                        options_for_select(cut_guest_cheeses, picksheet_item.product),
+                        include_blank: "-- Select --",
+                        class: field_class_flex_med %>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="my-4">
+        <%= label_tag :product_cheese_accompaniments, "Cheese Accompaniments", class: "font-bold text-sm " %>
+        <%= select_tag 'picksheet_item[product_cheese_accompaniments]',
+                        options_for_select(cheese_accompaniments, picksheet_item.product),
+                        include_blank: "-- Select --",
+                        class: field_class_flex_med %>
+      </div>
+
+         
         </div>
       </div>
 
-      <!-- Size Column -->
+     <!-- Size Column (now includes Wedge Size as select) -->
       <div class="border-l-2 px-4 py-2 basis-[17%]">
         <%= form.label :size, class:"font-bold text-base text-black" %><br>
         <div class="w-full">
@@ -68,18 +96,15 @@
             </p>
           <% end %>
         </div>
-      </div>
 
-      <!-- Wedge Size Column -->
-      <div class="border-l-2 px-4 py-2 basis-1/5">
-        <%= form.label :wedge_size, class:"font-bold text-base text-black" %><br>
-        <div class="w-full">
-          <% wedges_sizes.each do |wedge| %>
-            <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
-              <%= form.radio_button :wedge_size, wedge, class: checkbox_class %>
-              <%= wedge %>
-            </p>
-          <% end %>
+        <hr class="my-4">
+
+        <div class="mt-2">
+          <%= form.label :wedge_size, "Wedge Size", class: "font-bold text-sm text-gray-700" %><br>
+          <%= form.select :wedge_size,
+                          options_for_select(wedges_sizes, selected: picksheet_item.wedge_size),
+                          { include_blank: "-- Select size --" },
+                          { class: field_class_flex_med } %>
         </div>
       </div>
 

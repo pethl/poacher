@@ -8,7 +8,7 @@
         <%= form.select :makesheet_id,
               options_from_collection_for_select(Makesheet.all.order(make_date: :desc), :id, :make_date_formatted),
               { prompt: "Select Makesheet" },
-              class: field_class_flex %>
+              class: field_class_flex_med %>
       </div>
 
       <!-- Location -->

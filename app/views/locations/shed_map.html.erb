@@ -1,0 +1,77 @@
+<% content_for(:page_title, @shed_name) %>
+
+<div class="w-full max-w-[1024px] mx-auto px-4 py-6">
+  <!-- Tab Navigation -->
+  <div class="flex justify-center space-x-4 mb-6">
+    <% [4, 5].each do |n| %>
+      <%= link_to "Shed #{n}", shed_map_path(shed: n),
+        class: "px-4 py-2 rounded-t-lg font-semibold border-b-2 #{params[:shed].to_i == n ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-blue-600'}" %>
+    <% end %>
+  </div>
+
+  <!-- Legend -->
+  <div class="mb-8 flex flex-wrap justify-center gap-6">
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-emerald-500"></span>Poacher</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-sky-500"></span>Vintage</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-amber-500"></span>P50</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-orange-500"></span>Red</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-rose-500"></span>Knuckle Duster</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-red-600"></span>Double Barrel</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-gray-300"></span>Ungraded</div>
+    <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded border border-gray-400 bg-white text-gray-800 flex items-center justify-center">–</span>Empty</div>
+  </div>
+
+  <!-- Responsive Table Container -->
+  <div class="overflow-x-auto">
+    <% min_width = @shed_name == "Shed 4" ? "min-w-[1024px]" : "min-w-[800px]" %>
+    <table class="table-auto border border-gray-300 text-sm mx-auto <%= min_width %>">
+      <thead>
+        <tr>
+          <th class="border px-2 py-1 bg-gray-100 text-left">Alley</th>
+          <% (1..@max_columns).each do |col| %>
+            <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% sorted_keys = @shed_locations.keys.sort %>
+        <% sorted_keys.each_with_index do |alley, i| %>
+          <% row_locations = @shed_locations[alley] %>
+          <tr>
+            <td class="border px-2 py-1 font-semibold text-left"><%= alley %></td>
+            <% (1..@max_columns).each do |col_num| %>
+              <% location = row_locations.find { |loc| loc.column_number == col_num } %>
+              <% if location %>
+                <% if location.makesheet %>
+                  <% grade = location.makesheet.grade %>
+                  <% color_class = grade.present? ? grade_color(grade) : 'bg-gray-300 text-white' %>
+                <% else %>
+                  <% color_class = 'bg-white border border-gray-400 text-gray-800' %>
+                <% end %>
+                <td class="border px-1 py-1 text-center">
+                 <%= link_to new_location_assignment_path(location_id: location.id),
+                  class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                  title: location.makesheet&.make_date&.strftime("%d %b %Y") || "No date" do %>
+                  <%= col_num %>
+                <% end %>
+                </td>
+              <% else %>
+                <td class="border px-1 py-1 text-center bg-gray-100">–</td>
+              <% end %>
+            <% end %>
+          </tr>
+
+          <%# Insert walkway row after each Left/Right pair %>
+          <% if i.odd? %>
+            <tr>
+              <td></td>
+              <% @max_columns.times do %>
+                <td class="bg-white h-4"></td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -119,17 +119,22 @@ class MakesheetsController < ApplicationController
   # GET /makesheets or /makesheets.json
   def index
     @makesheets = Makesheet.all
-
-    # Apply search filter if a date is provided
+  
+    # Filter by date if provided
     @makesheets = @makesheets.where(make_date: params[:search]) if params[:search].present?
   
-    # Apply sorting if column and direction are provided
-    if params[:column].present? && params[:direction].present?
-      @makesheets = @makesheets.order("#{params[:column]} #{params[:direction]}")
+    # Include locations for joins and eager loading
+    @makesheets = @makesheets.includes(:location)
+  
+    if params[:column] == "location.name"
+      @makesheets = @makesheets.joins(:location).order("locations.name #{sort_direction}")
+    elsif params[:column].present? && Makesheet.column_names.include?(params[:column])
+      @makesheets = @makesheets.order("#{params[:column]} #{sort_direction}")
     else
       @makesheets = @makesheets.ordered_reverse
     end
   end
+  
 
   # GET /makesheets/1 or /makesheets/1.json
   def show
@@ -261,6 +266,10 @@ class MakesheetsController < ApplicationController
 
     def set_cheese_makers
       @cheese_makers = Staff.where(dept: "Cheesemaking Team").where(employment_status: "Active").ordered
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 
      # Private method to prepare chart data

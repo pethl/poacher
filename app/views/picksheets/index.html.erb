@@ -64,14 +64,21 @@
               <%= show_sort_indicator_for("date_order_placed") %>
               <%= sort_link(column: "date_order_placed", label: "Order Placed") %>
             </th>
+
             <th scope="col" class="px-2 pl-4 py-3 underline underline-offset-2 w-32">
               <%= show_sort_indicator_for("delivery_required_by") %>
               <%= sort_link(column: "delivery_required_by", label: "Delivery By") %>
             </th>
+
             <th scope="col" class="px-2 py-3 w-64 text-left underline underline-offset-2 text-nowrap">
               <%= show_sort_indicator_for("business_name") %>
               <%= sort_link(column: "business_name", label: "Customer") %>
             </th>
+
+            <th scope="col" class="px-2 py-3 w-24 text-center">
+               Items/Weight
+            </th>
+
             <th scope="col" class="px-2 py-3 w-48">
                Carrier / Del Date
             </th>
@@ -79,12 +86,15 @@
             <th scope="col" class="px-2 py-3 w-24 text-center">
               No of Boxes
             </th>
+
             <th scope="col" class="px-2 py-3 w-24">
               Order Taken By
             </th>
+
              <th scope="col" class="px-2 py-3 w-24">
               Order Number
             </th>
+
             <th scope="col" class="px-2 py-3 w-24 underline underline-offset-2">
               <%= show_sort_indicator_for("invoice_number") %>
               <%= sort_link(column: "invoice_number", label: "Invoice No.") %>
@@ -105,17 +115,25 @@
                  <%= 'text-blue-600' if picksheet.status == 'Cutting' %>">
                   <%= picksheet.status %>
                 </td>
+
                 <td scope="row" class="px-3 py-3 border-r-2 underline underline-offset-2 w-32">
                   <%= link_to picksheet.date_order_placed.to_formatted_s(:uk), picksheet %>
                 </td>
+
                 <td class="px-2 py-3 border-r-2 w-32">
                   <%= picksheet.delivery_required_by.to_formatted_s(:uk) unless picksheet.delivery_required_by.to_s.empty? %>
                 </td>
+
                 <td class="px-2 py-3 border-r-2 w-64 whitespace-nowrap underline underline-offset-2">
                   <% unless picksheet.contact.to_s.empty? %>
                     <%= link_to picksheet.contact.business_name, edit_picksheet_path(picksheet) %>
                   <% end %>
                 </td>
+
+                <td class="px-2 py-3 border-r-2 w-24 text-center">
+                  <%=  picksheet.number_of_items %> /  <%=  picksheet.total_weight_kg %> kg
+                </td>
+
                 <td class="px-2 py-3 border-r-2 w-48">
                  <%= picksheet.carrier %>
                  <%= "(#{picksheet.carrier_delivery_date.to_formatted_s(:uk)})" unless picksheet.carrier_delivery_date.to_s.empty? %>
@@ -124,12 +142,15 @@
                 <td class="px-2 py-3 border-r-2 w-24 text-center">
                   <%= picksheet.number_of_boxes %>
                 </td>
+
                 <td class="px-2 py-3 border-r-2 w-24">
                   <%= picksheet.user.full_name %>
                 </td>
+
                  <td class="px-2 py-3 border-r-2 w-24">
                   <%= picksheet.order_number %>
                 </td>
+
                 <td class="px-2 py-3 border-r-2 w-24">
                   <%= picksheet.invoice_number %>
                 </td>

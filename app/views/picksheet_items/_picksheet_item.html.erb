@@ -4,19 +4,15 @@
     <div class="picksheet_item__header">
   <table class="w-full table-fixed text-left rtl:text-right text-gray-500">
     <tr class="bg-white border-b">
-        <td scope="row" class="text-sm p-2  border-r whitespace-nowrap w-32">
+        <td scope="row" class="text-sm p-2  border-r whitespace-nowrap w-48 truncate">
           <%= picksheet_item.display_product_or_grade %>
         </td>
     
-        <td scope="row" class="p-2  border-r whitespace-nowrap text-left w-[60px]">
+        <td scope="row" class="p-2  border-r whitespace-nowrap text-left w-40">
            <%= picksheet_item.size %>
         </td>
 
-         <td scope="row" class="p-2  border-r whitespace-nowrap text-right w-32">
-           <%= picksheet_item.wedge_size %>
-        </td>
-
-         <td scope="row" class="p-2  border-r text-right text-sm w-32">
+         <td scope="row" class="p-2  border-r text-left text-sm w-32">
            <%= picksheet_item.pricing %>
         </td>
     
@@ -32,11 +28,11 @@
            <%= picksheet_item.code %>
         </td>
     
-        <td scope="row" class="p-2  border-r whitespace-nowrap w-24">
+        <td scope="row" class="p-2  border-r whitespace-nowrap w-32">
            <%= picksheet_item.sp_price %>
         </td>
     
-        <td scope="row" class="p-2  border-r whitespace-nowrap w-24">
+        <td scope="row" class="p-2  border-r whitespace-nowrap text-center w-24">
            <%= picksheet_item.bb_date.to_formatted_s(:uk) unless picksheet_item.bb_date.to_s.empty? %>
         </td>
     </div>

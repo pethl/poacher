@@ -1,37 +1,58 @@
-# db/seeds/calculations.rb
-
 puts "✨ Seeding Calculations..."
 
 Calculation.destroy_all
 
-calculations_data = [
-  # Poacher
-  ['Poacher', 'Whole', 20000], ['Poacher', '1/2', 10100], ['Poacher', '1/4', 5050], ['Poacher', '1/8', 2500],
-  ['Poacher', '100g', 100], ['Poacher', '200g', 200], ['Poacher', '300g', 300],
+products = ['Grated', 'Poacher', 'Vintage', 'P50', 'Knuckle Duster', 'Double Barrel', 'Red', 'Smoked']
 
-  # Vintage
-  ['Vintage', 'Whole', 20200], ['Vintage', '1/2', 10200], ['Vintage', '1/4', 5100], ['Vintage', '1/8', 2500],
-  ['Vintage', '100g', 100], ['Vintage', '200g', 200], ['Vintage', '300g', 300],
-
-  # P50
-  ['P50', 'Whole', 20200], ['P50', '1/2', 10200], ['P50', '1/4', 5100], ['P50', '1/8', 2500],
-  ['P50', '100g', 100], ['P50', '200g', 200], ['P50', '300g', 300],
-
-  # Red
-  ['Red', 'Whole', 10200], ['Red', '1/2', 5200], ['Red', '1/4', 2500], ['Red', '1/8', 1200],
-  ['Red', '100g', 100], ['Red', '200g', 200], ['Red', '300g', 300],
-
-  # Smoked
-  ['Smoked', 'Whole', 10200], ['Smoked', '1/2', 5200], ['Smoked', '1/4', 2500], ['Smoked', '1/8', 1200],
-  ['Smoked', '100g', 100], ['Smoked', '200g', 200], ['Smoked', '300g', 300],
-
-  # Double Barrel
-  ['Double Barrel', 'Whole', 10200], ['Double Barrel', '1/2', 5200], ['Double Barrel', '1/4', 2500], ['Double Barrel', '1/8', 1200],
-  ['Double Barrel', '100g', 100], ['Double Barrel', '200g', 200], ['Double Barrel', '300g', 300]
+cut_sizes = ['Whole', '1/2', '1/3 ring', '1/4', '1/8', '1/16']
+wedge_sizes = [
+  '10 x 200g', '100g', '150-175g min', '170-200g min', '180-250g min',
+  '200g', '200g min', '200g approx', '200g-230g min', '200g-250g min',
+  '200g-400g min', '225g-275g min', '250g', '250g-350g',
+  '300g', '400-450g min', '500g', '750g', '1kg' # ← Added here
 ]
 
-calculations_data.each do |product, size, weight|
-  Calculation.create!(product: product, size: size, weight: weight)
+def wedge_weight(size)
+  return 2000 if size.strip.downcase == '10 x 200g'
+  return 1000 if size.strip.downcase == '1kg'
+
+  size = size.strip.downcase
+
+  if size =~ /(\d{2,4})g\s*[-–]\s*(\d{2,4})g/
+    low, high = size.match(/(\d{2,4})g\s*[-–]\s*(\d{2,4})g/).captures.map(&:to_i)
+    ((low + high) / 2.0).round
+  elsif size =~ /(\d{2,4})g/ && size !~ /-/
+    size.match(/(\d{2,4})g/)[1].to_i
+  elsif size =~ /(\d+)\s*x\s*(\d+)g/
+    count, gram = size.match(/(\d+)\s*x\s*(\d+)g/).captures.map(&:to_i)
+    count * gram
+  else
+    0
+  end
+end
+
+def fractional_weight(product, size)
+  base_weight = product == "Red" ? 10200 : 20000
+  case size
+  when 'Whole' then base_weight
+  when '1/2' then (base_weight / 2.0).round
+  when '1/3 ring' then (base_weight / 3.0).round
+  when '1/4' then (base_weight / 4.0).round
+  when '1/8' then (base_weight / 8.0).round
+  when '1/16' then (base_weight / 16.0).round
+  else 0
+  end
+end
+
+# Add Grated manually with its own 1kg entry
+Calculation.create!(product: 'Grated', size: '1kg', weight: 1000)
+
+# All other products
+(products - ['Grated']).each do |product|
+  (cut_sizes + wedge_sizes).each do |size|
+    weight = cut_sizes.include?(size) ? fractional_weight(product, size) : wedge_weight(size)
+    Calculation.create!(product: product, size: size, weight: weight)
+  end
 end
 
 puts "✅ Calculations seeded: #{Calculation.count}"
