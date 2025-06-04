@@ -1,0 +1,105 @@
+<% content_for(:page_title, "LABEL PRINTER") %>
+
+<div class="flex justify-center">
+  <div class="w-full lg:w-2/3 px-4">
+    <%= form_with url: print_labels_locations_path, method: :get, class: "space-y-10" do %>
+
+      <!-- INDIVIDUAL PRINT -->
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Individual Print</h2>
+        <div class="grid grid-cols-4 gap-4 items-end">
+          <div class="col-span-2">
+            <label class="block font-medium mb-1">Select individual location:</label>
+            <%= select_tag :id,
+                  options_from_collection_for_select(Location.order(:sort_order), :id, :name),
+                  prompt: "Choose one",
+                  class: field_class_flex %>
+          </div>
+        </div>
+      </div>
+
+      <!-- TROLLEY PRINT -->
+      <div class="border-t pt-4 mt-6">
+        <h2 class="text-lg font-semibold mb-2">Trolley Print</h2>
+        <div class="grid grid-cols-4 gap-4 items-end">
+          <div>
+            <label class="block font-medium mb-1">Start at:</label>
+            <%= select_tag :trolley_start,
+                  options_for_select((1..100).map { |n| ["Trolley #{n}", n] }),
+                  prompt: "Start",
+                  class: field_class_flex_med %>
+          </div>
+
+          <div>
+            <label class="block font-medium mb-1">End at:</label>
+            <%= select_tag :trolley_end,
+                  options_for_select((1..100).map { |n| ["Trolley #{n}", n] }),
+                  prompt: "End",
+                  class: field_class_flex_med %>
+          </div>
+        </div>
+      </div>
+
+     <!-- ALLEY PRINT -->
+<div class="border-t pt-6 mt-6">
+  <h2 class="text-lg font-semibold mb-2">Alley Print</h2>
+   <!-- Shed -->
+    <div class="mb-4">
+      <label class="block font-medium mb-1">Shed:</label>
+      <%= select_tag :shed,
+            options_for_select([["Shed 4", "4"], ["Shed 5", "5"]]),
+            prompt: "Choose shed",
+            class: field_class_flex_med %>
+    </div>
+ 
+  <div class="grid grid-cols-4 gap-4 items-end">
+   
+    <!-- Start Alley -->
+    <div>
+      <label class="block font-medium mb-1">Start Alley:</label>
+      <%= select_tag :alley_start,
+            options_for_select((1..20).to_a),
+            prompt: "Start alley",
+            class: field_class_flex_med %>
+    </div>
+
+    <!-- Start Side -->
+    <div>
+      <label class="block font-medium mb-1">Start Side:</label>
+      <%= select_tag :side_start,
+            options_for_select([["Left", "Left"], ["Right", "Right"]]),
+            prompt: "Side",
+            class: field_class_flex_med %>
+    </div>
+
+    <!-- End Alley -->
+    <div>
+      <label class="block font-medium mb-1">End Alley:</label>
+      <%= select_tag :alley_end,
+            options_for_select((1..20).to_a),
+            prompt: "End alley",
+            class: field_class_flex_med %>
+    </div>
+
+    <!-- End Side -->
+    <div>
+      <label class="block font-medium mb-1">End Side:</label>
+      <%= select_tag :side_end,
+            options_for_select([["Left", "Left"], ["Right", "Right"]]),
+            prompt: "Side",
+            class: field_class_flex_med %>
+    </div>
+  </div>
+</div>
+
+      <!-- Submit & clear-->
+     <div class="flex gap-4 pt-6">
+      <%= submit_tag "Print Labels", class: fill_button_class %>
+
+      <%= button_tag "Clear", type: "reset", class: clear_button_class %>
+    </div>
+
+
+    <% end %>
+  </div>
+</div>

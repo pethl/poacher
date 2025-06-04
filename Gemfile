@@ -122,4 +122,8 @@ gem 'httparty'
 #for samples import
 gem 'activerecord-import'
 
+#qr code
+gem 'rqrcode'         # generates the QR code
+gem 'rqrcode_svg'
+gem 'chunky_png'      # renders the QR code to PNG
 

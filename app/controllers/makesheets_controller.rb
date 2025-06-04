@@ -140,7 +140,17 @@ class MakesheetsController < ApplicationController
   def show
     @samples = @makesheet.samples
 
-    prepare_chart_data # Call the reusable method
+    @makesheet = Makesheet.find(params[:id])
+    @qr_data = "28-05-2025 #{@makesheet.id}" # adjust as needed
+
+  end
+
+  def qr_code
+    makesheet = Makesheet.find(params[:id])
+    data = "28-05-2025 #{makesheet.id}"
+
+    png_data = CheeseQrCodeGenerator.new(data).render_png
+    send_data png_data, type: 'image/png', disposition: 'inline'
   end
 
   # GET /makesheets/new

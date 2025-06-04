@@ -1,0 +1,52 @@
+<div class="print-area grid grid-cols-3 gap-6 p-6">
+<% @locations.each do |location| %>
+  <% if location.location_type == "Trolley" %>
+    <% number = location.name.match(/\d+/)&.to_s %>
+
+    <div class="w-[384px] h-[192px] border border-black flex items-center justify-between mb-4 break-inside-avoid-page">
+      
+      <!-- QR Code -->
+      <div class="basis-1/2 h-full flex items-center justify-center border-r border-black px-2">
+        <%= raw RQRCode::QRCode.new(location_url(location)).as_svg(module_size: 3) %>
+      </div>
+
+      <!-- Trolley label -->
+      <div class="basis-1/2 h-full flex flex-col items-center justify-center px-4 pt-1">
+        <p class="text-5xl font-bold leading-tight">Trolley</p>
+        <p class="text-7xl font-extrabold leading-none"><%= number %></p>
+      </div>
+    </div>
+
+  <% else %>
+    <% shed = location.name.match(/Shed \d+/)&.to_s %>
+    <% alley = location.name.match(/Alley \d+/)&.to_s %>
+    <% side = location.name.include?("Left") ? "Left" : "Right" %>
+    <% col = location.name.match(/Col \d+/)&.to_s&.split&.last.to_i %>
+    <% arrow = col.odd? ? "→" : "←" %>
+
+    <div class="w-[384px] h-[192px] border border-black flex items-center justify-between mb-4 break-inside-avoid-page">
+      
+      <!-- QR Code (50%) -->
+      <div class="basis-1/2 h-full flex items-center justify-center border-r border-black px-2">
+        <%= raw RQRCode::QRCode.new(location_url(location)).as_svg(module_size: 3) %>
+      </div>
+
+      <!-- Middle: Shed Info (25%) -->
+      <div class="basis-1/4 h-full flex flex-col items-center justify-center text-left px-2 pt-1">
+        <p class="text-lg font-bold leading-snug"><%= shed %></p>
+        <p class="text-lg font-bold leading-snug"><%= alley %></p>
+        <p class="text-lg font-bold leading-snug"><%= side %></p>
+      </div>
+
+      <!-- Right: Column Info (25%) -->
+      <div class="basis-1/4 h-full flex flex-col items-center justify-center pr-2 text-center pt-1">
+        <p class="text-sm text-gray-600 font-medium leading-tight">Column:</p>
+        <p class="text-5xl font-extrabold leading-none"><%= col %></p>
+        <p class="text-4xl font-bold leading-none"><%= arrow %></p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
+</div>

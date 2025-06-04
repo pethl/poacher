@@ -21,6 +21,11 @@ reference_data = [
   { group: 'turned_by', value: 'Hand', description: 'Method by which Cheese was turned on the racks', model: 'Turns', sort_order: 1 },
   { group: 'turned_by', value: 'Florence', description: 'Method by which Cheese was turned on the racks', model: 'Turns', sort_order: 2 },
 
+ # Locaitons
+ { group: 'location_type_options', value: 'Trolley', description: '', model: 'Location', sort_order: 2 },
+ { group: 'location_type_options', value: 'Alley', description: '', model: 'Location', sort_order: 1 },
+
+
   # Weight Types
   { group: 'weight_type', value: '2.5kg', description: '2.5kg', model: 'Calculations', sort_order: 1 },
   { group: 'weight_type', value: 'Midi (8 kgs)', description: 'Midi (8 kgs)', model: 'Calculations', sort_order: 2 },

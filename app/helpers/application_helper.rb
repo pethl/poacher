@@ -205,39 +205,40 @@ module ApplicationHelper
     Reference.order(:group).pluck(:group).uniq
   end
 
-  def weight_type; Reference.where(active: true, group: 'weight_type').order(:sort_order).pluck(:value); end
-  def grade; Reference.where(active: true, group: 'grade').order(:sort_order).pluck(:value); end
-  def turned_by; Reference.where(active: true, group: 'turned_by').order(:sort_order).pluck(:value); end
-  def wash_status; Reference.where(active: true, group: 'wash_status').order(:sort_order).pluck(:value); end
-  def carrier; Reference.where(active: true, group: 'carrier').order(:sort_order).pluck(:value); end
-  def pick_status; Reference.where(active: true, group: 'pick_status').order(:sort_order).pluck(:value); end
-  def department; Reference.where(active: true, group: 'department').order(:sort_order).pluck(:value); end
-  def employment_status; Reference.where(active: true, group: 'employment_status').order(:sort_order).pluck(:value); end
-  def trafficlights; Reference.where(active: true, group: 'trafficlights').order(:sort_order).pluck(:value); end
   def batch_status; Reference.where(active: true, group: 'batch_status').order(:sort_order).pluck(:value); end
-  def make_type; Reference.where(active: true, group: 'make_type').order(:sort_order).pluck(:value); end
-  def weather; Reference.where(active: true, group: 'weather').order(:sort_order).pluck(:value); end
-  def starter_culture; Reference.where(active: true, group: 'starter_culture').order(:sort_order).pluck(:value); end
-  def yes_no; [["Yes", true], ["No", false]]; end
-  def farmers_markets; Reference.where(active: true, group: 'farmers_markets').order(:sort_order).pluck(:value); end
-  def makesheet_mill; Reference.where(active: true, group: 'makesheet_mill').order(:sort_order).pluck(:value); end
   def bucket_weight; Reference.where(active: true, group: 'bucket_weight').pluck(:value); end
-  def sale_product; Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value); end
-  def sale_product_other; Reference.where(active: true, group: 'sale_product_other').order(:sort_order).pluck(:value); end
-  def sale_product_butter; Reference.where(active: true, group: 'sale_product_butter').order(:sort_order).pluck(:value); end
+  def carrier; Reference.where(active: true, group: 'carrier').order(:sort_order).pluck(:value); end
   def cheese_accompaniments; Reference.where(active: true, group: 'cheese_accompaniments').order(:sort_order).pluck(:value); end
   def cut_guest_cheeses; Reference.where(active: true, group: 'cut_guest_cheeses').order(:sort_order).pluck(:value); end
-  def sale_size; Reference.where(active: true, group: 'sale_size').order(:sort_order).pluck(:value); end
-  def wedges_sizes; Reference.where(active: true, group: 'wedges_sizes').order(:sort_order).pluck(:value); end
-  def sale_pricing; Reference.where(active: true, group: 'sale_pricing').order(:sort_order).pluck(:value); end
+  def department; Reference.where(active: true, group: 'department').order(:sort_order).pluck(:value); end
+  def employment_status; Reference.where(active: true, group: 'employment_status').order(:sort_order).pluck(:value); end
+  def farmers_markets; Reference.where(active: true, group: 'farmers_markets').order(:sort_order).pluck(:value); end
+  def grade; Reference.where(active: true, group: 'grade').order(:sort_order).pluck(:value); end
   def grade_appearance; Reference.where(active: true, group: 'grade_appearance').order(:sort_order).pluck(:value); end
   def grade_bore; Reference.where(active: true, group: 'grade_bore').order(:sort_order).pluck(:value); end
-  def grade_texture; Reference.where(active: true, group: 'grade_texture').order(:sort_order).pluck(:value); end
   def grade_taste; Reference.where(active: true, group: 'grade_taste').order(:sort_order).pluck(:value); end
-  def scalecheck_frequency; Reference.where(active: true, group: 'scalecheck_frequency').order(:sort_order).pluck(:value); end
+  def grade_texture; Reference.where(active: true, group: 'grade_texture').order(:sort_order).pluck(:value); end
+  def location_type_options; Reference.where(active: true, group: 'location_type_options').order(:sort_order).pluck(:value); end
+  def make_type; Reference.where(active: true, group: 'make_type').order(:sort_order).pluck(:value); end
+  def makesheet_mill; Reference.where(active: true, group: 'makesheet_mill').order(:sort_order).pluck(:value); end
+  def pick_status; Reference.where(active: true, group: 'pick_status').order(:sort_order).pluck(:value); end
+  def sale_pricing; Reference.where(active: true, group: 'sale_pricing').order(:sort_order).pluck(:value); end
+  def sale_product; Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value); end
+  def sale_product_butter; Reference.where(active: true, group: 'sale_product_butter').order(:sort_order).pluck(:value); end
+  def sale_product_other; Reference.where(active: true, group: 'sale_product_other').order(:sort_order).pluck(:value); end
+  def sale_size; Reference.where(active: true, group: 'sale_size').order(:sort_order).pluck(:value); end
   def scale_name_serial; Reference.where(active: true, group: 'scale_name_serial').order(:sort_order).pluck(:value); end
+  def scalecheck_frequency; Reference.where(active: true, group: 'scalecheck_frequency').order(:sort_order).pluck(:value); end
+  def starter_culture; Reference.where(active: true, group: 'starter_culture').order(:sort_order).pluck(:value); end
+  def trafficlights; Reference.where(active: true, group: 'trafficlights').order(:sort_order).pluck(:value); end
+  def turned_by; Reference.where(active: true, group: 'turned_by').order(:sort_order).pluck(:value); end
   def vacuum_pouches; Reference.where(active: true, group: 'vacuum_pouches').order(:sort_order).pluck(:value); end
-
+  def wash_status; Reference.where(active: true, group: 'wash_status').order(:sort_order).pluck(:value); end
+  def weather; Reference.where(active: true, group: 'weather').order(:sort_order).pluck(:value); end
+  def weight_type; Reference.where(active: true, group: 'weight_type').order(:sort_order).pluck(:value); end
+  def wedges_sizes; Reference.where(active: true, group: 'wedges_sizes').order(:sort_order).pluck(:value); end
+  def yes_no; [["Yes", true], ["No", false]]; end
+  
   def scale_check_type(scale_name)
     Reference.find_by(group: 'scale_name_serial', value: scale_name)&.description
   end

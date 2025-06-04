@@ -1,32 +1,62 @@
-<%= form_with(model: location, class: "contents") do |form| %>
-  <% if location.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with(model: location, class: "contents", local: true) do |form| %>
 
-      <ul>
-        <% location.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <% if location.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(location.errors.count, "error") %> prohibited this location from being saved:</h2>
+        <ul>
+          <% location.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Name -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :name %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :name, class: field_class_flex %>
+      </div>
+
+      <!-- Location Type -->
+       <label class="text-right font-semibold text-gray-700">
+        <%= form.label :location_type %>
+      </label>
+      <div class="text-left">
+        <%= form.select :location_type, location_type_options, { prompt: "Please select" }, class: field_class_flex %>
+      </div>
+
+      <!-- Sort Order -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :sort_order, "Sort Order" %>
+    </label>
+    <div class="text-left">
+      <%= form.number_field :sort_order, step: 1, class: field_class_flex_med %>
+    </div>
+
+     
+    <!-- Active Checkbox -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :active %>
+      </label>
+      <div class="text-left">
+        <%= form.check_box :active, class: checkbox_input_class %>
+      </div>
+
+      <!-- Optional Back Button -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to Locations", locations_path, class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded" %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-left mt-2">
+        <%= form.submit "Save Location", class: fill_button_class %>
+      </div>
+
     </div>
   <% end %>
-
-  <div class="my-5">
-    <%= form.label :name %>
-    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :location_type %>
-    <%= form.text_field :location_type, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= form.label :active %>
-    <%= form.check_box :active, class: "block mt-2 h-5 w-5" %>
-  </div>
-
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
-<% end %>
+</div>

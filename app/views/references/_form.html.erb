@@ -37,13 +37,14 @@
         <%= form.number_field :sort_order, class: field_class_flex_med %>
       </div>
 
-      <!-- Active Checkbox -->
+    <!-- Active Checkbox -->
       <label class="text-right font-semibold text-gray-700">
         <%= form.label :active %>
       </label>
       <div class="text-left">
-        <%= form.check_box :active, class: "h-5 w-5 m-2" %>
+        <%= form.check_box :active, class: checkbox_input_class %>
       </div>
+
 
       <!-- Back Button -->
       <div class="text-left mt-2">

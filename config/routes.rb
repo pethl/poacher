@@ -5,8 +5,13 @@ Rails.application.routes.draw do
   get "/location_report", to: "location_assignments#location_report", as: :location_report
   get "shed/:shed/map", to: "locations#shed_map", as: :shed_map
   
+  resources :locations do
+    collection do
+      get :print_labels
+      get :print_wizard
+    end
+  end
 
-  resources :locations
   get 'vacuum_pouch_calculator/new'
   get 'vacuum_pouch_calculator/create'
   resources :cleaning_foreign_body_checks do
@@ -27,7 +32,6 @@ Rails.application.routes.draw do
       get :week_view
     end
   end
-  
   
   resources :grading_notes do
     collection do
@@ -117,23 +121,22 @@ Rails.application.routes.draw do
   get "makesheets_search" => "makesheets#makesheet_search" 
   get "/print_washsheet_pdf" => "washes#print_washsheet_pdf"
  
-  get "makesheets/makesheet_search"
-  get "makesheets/graded_blackboard"
-  get "makesheets/monthly_summary"
-  get "makesheets/overview"
+  resources :makesheets do
+    member do
+      get 'batch_turns'
+      get 'summary'
+      get :qr_code
+      get :print_pdf
+    end
   
-#  get "makesheets/batch_turns/:id", :controller => "makesheets", :action => "batch_turns"
-# get "makesheets/:id/batch_turns", to: "makesheets/batch_turns"
-   
-resources :makesheets  do
-  member do
-    get 'batch_turns'
-    get 'summary'
+    collection do
+      get 'yield_dashboard'
+      get 'makesheet_search'
+      get 'graded_blackboard'
+      get 'monthly_summary'
+      get 'overview'
+    end
   end
-  collection do
-    get 'yield_dashboard' #  new collection route (for the dashboard)
-  end
- end
 
  resources :turns
    
@@ -158,5 +161,4 @@ resources :makesheets  do
   get  'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#new'
   post 'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#create'
 
- 
 end

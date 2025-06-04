@@ -2,9 +2,13 @@ class Location < ApplicationRecord
   has_one :makesheet
 
   validates :name, presence: true, uniqueness: true
+  validates :sort_order, presence: true, uniqueness: true
 
   scope :active, -> { where(active: true) }
+   # New scope: active and sorted
+  scope :active_sorted, -> { active.order(:sort_order) }
 
+  
   def shed
     name[/Shed (\d+)/i, 1]
   end

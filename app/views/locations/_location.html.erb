@@ -1,17 +1,35 @@
-<div id="<%= dom_id location %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= location.name %>
-  </p>
+<div class="text-left">
+  <div id="<%= dom_id location %>">
+    <p class="mt-4">
+      <strong class="block font-medium mb-1">Name:</strong>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-30 min-h-[2.5rem]">
+        <%= location.name %>
+      </div>
+    </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Location type:</strong>
-    <%= location.location_type %>
-  </p>
+    <p class="mt-4">
+      <strong class="block font-medium mb-1">Location Type:</strong>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-30 min-h-[2.5rem]">
+        <%= location.location_type %>
+      </div>
+    </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Active:</strong>
-    <%= location.active %>
-  </p>
+      <p class="mt-4">
+      <strong class="block font-medium mb-1">Sort Order:</strong>
+      <div class="border border-green-800 rounded-lg text-left p-2 bg-gray-100 w-30 min-h-[2.5rem]">
+        <%= location.sort_order %>
+      </div>
+    </p>
 
+   <p class="mt-4">
+      <strong class="block font-medium mb-1">Active:</strong>
+      <div>
+        <input type="checkbox" disabled <%= "checked" if location.active %> class="<%= checkbox_input_class %>">
+      </div>
+    </p>
+
+
+    <br>
+  </div>
 </div>
+

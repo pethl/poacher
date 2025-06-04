@@ -69,6 +69,67 @@ class LocationsController < ApplicationController
     end
   end
 
+  def print_labels
+
+    shed_param       = params[:shed].presence || "4"        # Default to Shed 4
+    alley_start      = params[:alley_start].to_i
+    alley_end        = params[:alley_end].to_i
+    side_start_param = params[:side_start].presence || "Left"
+    side_end_param   = params[:side_end].presence || "Right"
+
+    if params[:id].present?
+      @locations = [Location.find(params[:id])]
+  
+    elsif params[:trolley_start].present? && params[:trolley_end].present?
+      start = params[:trolley_start].to_i
+      finish = params[:trolley_end].to_i
+      range = (start..finish)
+  
+      @locations = Location.where(location_type: "Trolley")
+                           .where(sort_order: range)
+                           .order(:sort_order)
+  
+    elsif params[:shed].present? && params[:alley_start].present? && params[:alley_end].present?
+      shed = "Shed #{params[:shed]}"
+      alley_range = (params[:alley_start].to_i)..(params[:alley_end].to_i)
+    
+      side_start = params[:side_start].presence || "Left"
+      side_end   = params[:side_end].presence || "Right"
+    
+      side_range = [side_start, side_end]
+    
+      # Generate all possible location strings (Alley X Side) within the given range
+      queries = alley_range.flat_map do |alley|
+        side_range.map { |side| "Alley #{alley} #{side}" }
+      end
+    
+      query_regex = queries.join("|")
+    
+      @locations = Location.where(location_type: "Shed")
+                            .where("name LIKE ?", "%#{shed}%")
+                            .where("name ~* ?", query_regex)
+                            .order(:sort_order)
+                          
+  
+      shed = "Shed #{params[:shed]}"
+      side = params[:side]
+      alley_range = (params[:alley_start].to_i)..(params[:alley_end].to_i)
+  
+      query = alley_range.map { |a| "Alley #{a} #{side}" }.join("|")
+  
+      @locations = Location.where(location_type: "Shed")
+                           .where("name LIKE ?", "%#{shed}%")
+                           .where("name ~* ?", query)
+                           .order(:sort_order)
+  
+    else
+      @locations = []
+    end
+  end
+  
+  
+  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_location
@@ -77,6 +138,6 @@ class LocationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def location_params
-      params.require(:location).permit(:name, :location_type, :active)
+      params.require(:location).permit(:name, :location_type, :sort_order, :active)
     end
 end

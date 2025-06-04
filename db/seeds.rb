@@ -1,22 +1,24 @@
 # db/seeds.rb
 # 🔧 Clean slate
-CheeseWashRecord.destroy_all
-CleaningForeignBodyCheck.destroy_all
-ScaleCheck.destroy_all
+
+CheeseWashRecord.destroy_all;
+CleaningForeignBodyCheck.destroy_all;
+ScaleCheck.destroy_all;
 WashPicksheet.destroy_all;
-BatchWeight.delete_all
+BatchWeight.delete_all;
 PicksheetItem.destroy_all;
-Sample.delete_all
-Chiller.destroy_all
-Breakage.destroy_all
-MarketSale.destroy_all
+Sample.delete_all;
+Chiller.destroy_all;
+Breakage.destroy_all;
+MarketSale.destroy_all;
 TraceabilityRecord.destroy_all;
 Picksheet.destroy_all;
 Turn.destroy_all;
 Makesheet.destroy_all;
 Calculation.destroy_all;
 Reference.destroy_all;
-Makesheet.delete_all
+Makesheet.delete_all;
+Location.delete_all;
 #Wash.destroy_all;
 #Contact.destroy_all;
 #PalletisedDistribution.destroy_all;
