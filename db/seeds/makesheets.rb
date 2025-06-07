@@ -1,5 +1,3 @@
-# db/seeds/makesheets.rb
-
 puts "✨ Seeding Makesheets..."
 
 Makesheet.destroy_all
@@ -12,12 +10,16 @@ weather_options = Reference.where(group: 'weather').pluck(:value)
 # Select active cheesemakers
 cheesemakers = Staff.where(dept: 'Cheesemaking Team', employment_status: 'Active').pluck(:id)
 
+# Get all location IDs and ensure uniqueness
+unique_location_ids = Location.pluck(:id).shuffle
+raise "Not enough unique locations! Only #{unique_location_ids.size} available." if unique_location_ids.size < 365
+
 # UK seasonal weather mapping
 SEASONAL_WEATHER = {
   winter: %w[Snow Fog Overcast Rain\ \(heavy\) Stormy],
   spring: %w[Sunny Cloudy Rain\ \(light\) Overcast],
   summer: %w[Sunny Cloudy Rain\ \(light\) Hail],
-  autumn: %w[Overcast Cloudy Rain\ \(heavy\) Fog Stormy]
+  autumn: %w[Overcast Cloudy Rain\ (heavy\) Fog Stormy]
 }
 
 # Determine season from month
@@ -102,7 +104,6 @@ start_date = Date.today - 364
             end
   end
 
-  # Enforce grading for Wash or Finished
   if ['Wash', 'Finished'].include?(status) && grade.nil?
     grade = case make_type
             when 'P50' then GRADES[:p50]
@@ -111,42 +112,39 @@ start_date = Date.today - 364
             end
   end
 
-  # Progress logic for last 4 days
   progress_attrs = {}
-days_from_today = (Date.today - make_date).to_i
-progress_stage_index = days_from_today # will be 0 to 3 for last 4 days
+  days_from_today = (Date.today - make_date).to_i
+  progress_stage_index = days_from_today
 
-if progress_stage_index.between?(0, 3)
-  expected_yield = case make_type
-                   when 'Red' then 9.15
-                   when 'P50' then 9.72
-                   else 9.86
-                   end
+  if progress_stage_index.between?(0, 3)
+    expected_yield = case make_type
+                     when 'Red' then 9.15
+                     when 'P50' then 9.72
+                     else 9.86
+                     end
 
-  progress_attrs[:expected_yield] = expected_yield
-  progress_attrs[:salt_weight_net] = (milk_used.to_f * expected_yield / 100 * (make_type == "Red" ? 0.00021 : 0.0002)).round(3)
-  progress_attrs[:type_of_starter_culture_used] = "RA24"
-  progress_attrs[:qty_of_starter_used] = (15.010 + rand(-0.5..0.5)).round(3)
+    progress_attrs[:expected_yield] = expected_yield
+    progress_attrs[:salt_weight_net] = (milk_used.to_f * expected_yield / 100 * (make_type == "Red" ? 0.00021 : 0.0002)).round(3)
+    progress_attrs[:type_of_starter_culture_used] = "RA24"
+    progress_attrs[:qty_of_starter_used] = (15.010 + rand(-0.5..0.5)).round(3)
 
-  if progress_stage_index >= 1
-    cut_base_time = Time.zone.local(make_date.year, make_date.month, make_date.day, 14, 30)
-    progress_attrs[:first_cut_time] = cut_base_time
-    progress_attrs[:second_cut_time] = cut_base_time + 25.minutes
-    progress_attrs[:third_cut_time] = cut_base_time + 50.minutes
-    progress_attrs[:fourth_cut_time] = cut_base_time + 75.minutes
+    if progress_stage_index >= 1
+      cut_base_time = Time.zone.local(make_date.year, make_date.month, make_date.day, 14, 30)
+      progress_attrs[:first_cut_time] = cut_base_time
+      progress_attrs[:second_cut_time] = cut_base_time + 25.minutes
+      progress_attrs[:third_cut_time] = cut_base_time + 50.minutes
+      progress_attrs[:fourth_cut_time] = cut_base_time + 75.minutes
+    end
+
+    if progress_stage_index >= 2
+      progress_attrs[:total_weight] = total_weight
+      progress_attrs[:number_of_cheeses] = cheese_count
+    end
+
+    if progress_stage_index >= 3
+      progress_attrs[:pre_start_inspection_by_staff_id] = cheesemakers.sample
+    end
   end
-
-  if progress_stage_index >= 2
-    # these fields are already set in the base makesheet
-    progress_attrs[:total_weight] = total_weight
-    progress_attrs[:number_of_cheeses] = cheese_count
-  end
-
-  if progress_stage_index >= 3
-    progress_attrs[:pre_start_inspection_by_staff_id] = cheesemakers.sample
-  end
-end
-
 
   Makesheet.create!(
     make_date: make_date,
@@ -162,6 +160,7 @@ end
     weather_temp: weather_temp,
     weather_humidity: weather_humidity,
     cheese_made_by_staff_id: cheesemakers.sample,
+    location_id: unique_location_ids[i],
     **progress_attrs
   )
 end

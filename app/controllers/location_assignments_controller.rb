@@ -27,36 +27,42 @@ class LocationAssignmentsController < ApplicationController
   end
 
   def location_report
-    @location_types = Location.distinct.pluck(:location_type).compact
-    @selected_type = params[:location_type]
-  
     @locations = Location.includes(:makesheet)
-    @locations = @locations.where(location_type: @selected_type) if @selected_type.present?
-
-     # Simple counts by type
-    @trolley_data = chart_data_for_type("trolley")
-    @alley_data = chart_data_for_type("alley")
+  
+    trolley_locs = @locations.select { |l| l.location_type == "Trolley" }
+    @trolley_data = chart_data_for_scope(trolley_locs)
+    @trolley_percent = percentage_full(trolley_locs)
+  
+    shed_4 = @locations.select { |l| l.name.include?("Shed 4") && l.location_type == "Aisle" }
+    shed_5 = @locations.select { |l| l.name.include?("Shed 5") && l.location_type == "Aisle" }
+  
+    @shed_4_locations = shed_4
+    @shed_5_locations = shed_5
+  
+    @shed_4_aisle_data = chart_data_for_scope(shed_4)
+    @shed_5_aisle_data = chart_data_for_scope(shed_5)
+  
+    @shed_4_percent = percentage_full(shed_4)
+    @shed_5_percent = percentage_full(shed_5)
   end
-
+  
   private
-
-  def chart_data_for_type(type)
-    all_locations = Location.where("LOWER(location_type) = ?", type.downcase)
-    total = all_locations.count.to_f
   
-    used_location_ids = Makesheet.where.not(location_id: nil).pluck(:location_id).uniq
-    full = all_locations.where(id: used_location_ids).count
-    empty = total - full
+  def chart_data_for_scope(locations)
+    ids = locations.map(&:id)
+    occupied_ids = Makesheet.where(location_id: ids).pluck(:location_id).uniq
   
-    if total.zero?
-      { "Full" => 0, "Empty" => 0 }
-    else
-      {
-        "Full" => ((full / total) * 100).round(1),
-        "Empty" => ((empty / total) * 100).round(1)
-      }
-    end
+    full_count = ids.count { |id| occupied_ids.include?(id) }
+    empty_count = ids.size - full_count
+  
+    { "Full" => full_count, "Empty" => empty_count }
   end
   
+  def percentage_full(locations)
+    return 0 if locations.empty?
+  
+    ids = locations.map(&:id)
+    occupied_ids = Makesheet.where(location_id: ids).pluck(:location_id).uniq
+    ((occupied_ids.size.to_f / ids.size) * 100).round
+  end
 end
-

@@ -70,65 +70,78 @@ class LocationsController < ApplicationController
   end
 
   def print_labels
-
-    shed_param       = params[:shed].presence || "4"        # Default to Shed 4
-    alley_start      = params[:alley_start].to_i
-    alley_end        = params[:alley_end].to_i
-    side_start_param = params[:side_start].presence || "Left"
-    side_end_param   = params[:side_end].presence || "Right"
-
+    locations = []
+  
     if params[:id].present?
-      @locations = [Location.find(params[:id])]
+      locations = [Location.find_by(id: params[:id])].compact
   
     elsif params[:trolley_start].present? && params[:trolley_end].present?
       start = params[:trolley_start].to_i
       finish = params[:trolley_end].to_i
       range = (start..finish)
   
-      @locations = Location.where(location_type: "Trolley")
-                           .where(sort_order: range)
-                           .order(:sort_order)
+      locations = Location.where(location_type: "Trolley")
+                          .where(sort_order: range)
+                          .order(:sort_order)
   
-    elsif params[:shed].present? && params[:alley_start].present? && params[:alley_end].present?
-      shed = "Shed #{params[:shed]}"
-      alley_range = (params[:alley_start].to_i)..(params[:alley_end].to_i)
-    
-      side_start = params[:side_start].presence || "Left"
-      side_end   = params[:side_end].presence || "Right"
-    
-      side_range = [side_start, side_end]
-    
-      # Generate all possible location strings (Alley X Side) within the given range
-      queries = alley_range.flat_map do |alley|
-        side_range.map { |side| "Alley #{alley} #{side}" }
+    elsif params[:shed].present? && params[:aisle_start].present? && params[:aisle_end].present?
+      shed_number = params[:shed]
+      shed_prefix = "Shed #{shed_number}"
+      aisle_start = params[:aisle_start].to_i
+      aisle_end   = params[:aisle_end].to_i
+      side_start  = params[:side_start].presence || "Left"
+      side_end    = params[:side_end].presence || "Right"
+  
+      # Ensure valid side range regardless of order
+      sides = ["Left", "Right"]
+      side_order = { "Left" => 0, "Right" => 1 }
+      side_range = sides.select do |side|
+        side_order[side] >= side_order[side_start] && side_order[side] <= side_order[side_end]
       end
-    
-      query_regex = queries.join("|")
-    
-      @locations = Location.where(location_type: "Shed")
-                            .where("name LIKE ?", "%#{shed}%")
-                            .where("name ~* ?", query_regex)
+  
+      # Build match patterns like "%Shed 4 - Aisle 2 Right%"
+      name_patterns = (aisle_start..aisle_end).flat_map do |aisle|
+        side_range.map { |side| "%#{shed_prefix} - Aisle #{aisle} #{side}%" }
+      end
+  
+      conditions = name_patterns.map { "name ILIKE ?" }.join(" OR ")
+  
+      locations = Location.where(location_type: "Aisle")
+                          .where(conditions, *name_patterns)
+                          .order(:sort_order)
+  
+    elsif params[:location_start].present? && params[:location_end].present?
+      start_id = params[:location_start].to_i
+      end_id   = params[:location_end].to_i
+  
+      start_location = Location.find_by(id: start_id, location_type: "Aisle")
+      end_location   = Location.find_by(id: end_id, location_type: "Aisle")
+  
+      if start_location && end_location
+        start_order = [start_location.sort_order, end_location.sort_order].min
+        end_order   = [start_location.sort_order, end_location.sort_order].max
+  
+        locations = Location.where(location_type: "Aisle")
+                            .where(sort_order: start_order..end_order)
                             .order(:sort_order)
-                          
+      end
+    end
   
-      shed = "Shed #{params[:shed]}"
-      side = params[:side]
-      alley_range = (params[:alley_start].to_i)..(params[:alley_end].to_i)
+    if locations.any?
+      label_data = locations.map { |loc| { location: loc, url: location_url(loc) } }
   
-      query = alley_range.map { |a| "Alley #{a} #{side}" }.join("|")
+      pdf_data = LocationLabelPdfService.new(label_data).generate
   
-      @locations = Location.where(location_type: "Shed")
-                           .where("name LIKE ?", "%#{shed}%")
-                           .where("name ~* ?", query)
-                           .order(:sort_order)
-  
+      send_data pdf_data,
+                filename: "location-labels.pdf",
+                type: "application/pdf",
+                disposition: "inline"
     else
-      @locations = []
+      redirect_to locations_path, alert: "No matching locations found to print."
     end
   end
   
-  
-  
+      
 
   private
     # Use callbacks to share common setup or constraints between actions.

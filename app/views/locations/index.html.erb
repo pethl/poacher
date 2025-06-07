@@ -3,15 +3,18 @@
 <% content_for :page_button, "locations/new" %>
 <div data-controller="filter" class="w-full flex flex-col items-center space-y-4">
 
- <!-- Filter Input -->
-<input
-  type="text"
-  placeholder="Filter locations..."
-  class="<%= field_class_flex %>"
-  data-filter-target="input"
-  data-action="input->filter#filter"
-/>
+ <div class="flex items-center gap-4 mb-4">
+  <!-- Filter Input -->
+  <input
+    type="text"
+    placeholder="Filter locations..."
+    class="<%= field_class_flex %>"
+    data-filter-target="input"
+    data-action="input->filter#filter"
+  />
 
+  <%= link_to "Print Labels", print_wizard_locations_path, class: fill_button_class %>
+</div>
 
   <!-- Table -->
   <table class="w-full md:w-4/5 lg:w-2/3 table-auto border text-sm text-left text-gray-600">

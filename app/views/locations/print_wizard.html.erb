@@ -2,11 +2,11 @@
 
 <div class="flex justify-center">
   <div class="w-full lg:w-2/3 px-4">
-    <%= form_with url: print_labels_locations_path, method: :get, class: "space-y-10" do %>
+    <%= form_with url: print_labels_locations_path, method: :get, data: { turbo: false }, class: "space-y-8" do %>
 
       <!-- INDIVIDUAL PRINT -->
       <div>
-        <h2 class="text-lg font-semibold mb-2">Individual Print</h2>
+        <h2 class="text-base font-semibold mb-1">Individual Print</h2>
         <div class="grid grid-cols-4 gap-4 items-end">
           <div class="col-span-2">
             <label class="block font-medium mb-1">Select individual location:</label>
@@ -19,8 +19,8 @@
       </div>
 
       <!-- TROLLEY PRINT -->
-      <div class="border-t pt-4 mt-6">
-        <h2 class="text-lg font-semibold mb-2">Trolley Print</h2>
+      <div class="border-t pt-4 mt-4">
+        <h2 class="text-base font-semibold mb-1">Trolley Print</h2>
         <div class="grid grid-cols-4 gap-4 items-end">
           <div>
             <label class="block font-medium mb-1">Start at:</label>
@@ -40,66 +40,89 @@
         </div>
       </div>
 
-     <!-- ALLEY PRINT -->
-<div class="border-t pt-6 mt-6">
-  <h2 class="text-lg font-semibold mb-2">Alley Print</h2>
-   <!-- Shed -->
-    <div class="mb-4">
-      <label class="block font-medium mb-1">Shed:</label>
-      <%= select_tag :shed,
-            options_for_select([["Shed 4", "4"], ["Shed 5", "5"]]),
-            prompt: "Choose shed",
-            class: field_class_flex_med %>
-    </div>
- 
-  <div class="grid grid-cols-4 gap-4 items-end">
-   
-    <!-- Start Alley -->
-    <div>
-      <label class="block font-medium mb-1">Start Alley:</label>
-      <%= select_tag :alley_start,
-            options_for_select((1..20).to_a),
-            prompt: "Start alley",
-            class: field_class_flex_med %>
-    </div>
+      <!-- AISLE PRINT -->
+      <div class="border-t pt-4 mt-4">
+        <h2 class="text-base font-semibold mb-1">Aisle Print</h2>
 
-    <!-- Start Side -->
-    <div>
-      <label class="block font-medium mb-1">Start Side:</label>
-      <%= select_tag :side_start,
-            options_for_select([["Left", "Left"], ["Right", "Right"]]),
-            prompt: "Side",
-            class: field_class_flex_med %>
-    </div>
+        <!-- Shed -->
+        <div class="mb-2">
+          <label class="block font-medium mb-1">Shed:</label>
+          <%= select_tag :shed,
+                options_for_select([["Shed 4", "4"], ["Shed 5", "5"]]),
+                prompt: "Choose shed",
+                class: field_class_flex_med %>
+        </div>
 
-    <!-- End Alley -->
-    <div>
-      <label class="block font-medium mb-1">End Alley:</label>
-      <%= select_tag :alley_end,
-            options_for_select((1..20).to_a),
-            prompt: "End alley",
-            class: field_class_flex_med %>
-    </div>
+        <div class="grid grid-cols-4 gap-4 items-end">
+          <!-- Start Aisle -->
+          <div>
+            <label class="block font-medium mb-1">Start Aisle:</label>
+            <%= select_tag :aisle_start,
+                  options_for_select((1..20).to_a),
+                  prompt: "Start aisle",
+                  class: field_class_flex_med %>
+          </div>
 
-    <!-- End Side -->
-    <div>
-      <label class="block font-medium mb-1">End Side:</label>
-      <%= select_tag :side_end,
-            options_for_select([["Left", "Left"], ["Right", "Right"]]),
-            prompt: "Side",
-            class: field_class_flex_med %>
-    </div>
-  </div>
-</div>
+          <!-- Start Side -->
+          <div>
+            <label class="block font-medium mb-1">Start Side:</label>
+            <%= select_tag :side_start,
+                  options_for_select([["Left", "Left"], ["Right", "Right"]]),
+                  prompt: "Side",
+                  class: field_class_flex_med %>
+          </div>
+
+          <!-- End Aisle -->
+          <div>
+            <label class="block font-medium mb-1">End Aisle:</label>
+            <%= select_tag :aisle_end,
+                  options_for_select((1..20).to_a),
+                  prompt: "End aisle",
+                  class: field_class_flex_med %>
+          </div>
+
+          <!-- End Side -->
+          <div>
+            <label class="block font-medium mb-1">End Side:</label>
+            <%= select_tag :side_end,
+                  options_for_select([["Left", "Left"], ["Right", "Right"]]),
+                  prompt: "Side",
+                  class: field_class_flex_med %>
+          </div>
+        </div>
+      </div>
+
+      <!-- RANGE BY LOCATION -->
+      <div class="border-t pt-4 mt-4">
+        <h2 class="text-base font-semibold mb-1">Aisle Range (by Location)</h2>
+        <div class="grid grid-cols-2 gap-4 items-end">
+          <!-- Start Location -->
+          <div>
+            <label class="block font-medium mb-1">Start Location:</label>
+            <%= select_tag :location_start,
+                  options_from_collection_for_select(Location.where(location_type: "Aisle").order(:sort_order), :id, :name),
+                  prompt: "Start location",
+                  class: field_class_flex_med %>
+          </div>
+
+          <!-- End Location -->
+          <div>
+            <label class="block font-medium mb-1">End Location:</label>
+            <%= select_tag :location_end,
+                  options_from_collection_for_select(Location.where(location_type: "Aisle").order(:sort_order), :id, :name),
+                  prompt: "End location",
+                  class: field_class_flex_med %>
+          </div>
+        </div>
+      </div>
 
       <!-- Submit & clear-->
-     <div class="flex gap-4 pt-6">
-      <%= submit_tag "Print Labels", class: fill_button_class %>
-
-      <%= button_tag "Clear", type: "reset", class: clear_button_class %>
-    </div>
-
+      <div class="flex gap-4 pt-4">
+        <%= submit_tag "Print Labels", class: fill_button_class %>
+        <%= button_tag "Clear", type: "reset", class: clear_button_class %>
+      </div>
 
     <% end %>
   </div>
 </div>
+

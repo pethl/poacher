@@ -1,62 +1,32 @@
-<% content_for(:page_title, "WHAT WHERE?") %>
-
-<div class="mx-auto w-full md:w-2/3">
-
-  <div class="grid grid-cols-2 gap-6 mb-6">
-  <div>
-    <h3 class="font-semibold text-lg mb-2">Trolley Status</h3>
-    <%= pie_chart @trolley_data, height: "200px", colors: ["#FFD700", "#2ECC71"] %>
-  </div>
-
-  <div>
-    <h3 class="font-semibold text-lg mb-2">Alley Status</h3>
-   <%= pie_chart @alley_data, height: "200px", colors: ["#FFD700", "#2ECC71"] %>
-
-  </div>
-</div>
-
-<%= form_with url: location_report_path, method: :get, local: true, class: "mb-6" do |form| %>
-  <div class="flex items-center gap-4">
-    <div>
-      <%= form.label :location_type, "Filter by: ", class: "font-semibold" %>
+<div class="mx-auto max-w-6xl px-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- Trolleys -->
+    <div class="rounded-2xl border border-gray-800 p-4">
+      <h3 class="text-xl font-semibold text-center mb-2 ">Trolleys</h3>
+      <div class="w-[240px] mx-auto">
+        <%= pie_chart @trolley_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
+      </div>
+      <p class="text-center text-xl text-gray-800 font-semibold mt-2"><%= @trolley_percent %>% full</p>
     </div>
-    <div>
-      <%= form.select :location_type,
-                      options_for_select(@location_types, selected: @selected_type),
-                      { prompt: "All Types" },
-                      class: field_class_flex %>
+
+    <!-- Shed 4 -->
+    <div class="rounded-2xl border border-gray-800 p-4">
+      <h3 class="text-xl font-semibold text-center mb-2">Shed 4</h3>
+      <div class="w-[240px] mx-auto">
+        <%= pie_chart @shed_4_aisle_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
+      </div>
+      <p class="text-center text-xl text-gray-800 font-semibold mt-2"><%= @shed_4_percent %>% full</p>
     </div>
-    <div>
-      <%= form.submit "Filter", class: fill_button_class %>
+
+    <!-- Shed 5 -->
+    <div class="rounded-2xl border border-gray-800 p-4">
+      <h3 class="text-xl font-semibold text-center mb-2">Shed 5</h3>
+      <div class="w-[240px] mx-auto">
+        <%= pie_chart @shed_5_aisle_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
+      </div>
+      <p class="text-center text-xl text-gray-800 font-semibold mt-2"><%= @shed_5_percent %>% full</p>
     </div>
+
   </div>
-<% end %>
-
-<table class="min-w-full table-auto border border-gray-300">
-  <thead>
-    <tr class="bg-gray-200">
-      <th class="px-4 py-2 text-left">Location</th>
-      <th class="px-4 py-2 text-left">Status</th>
-     
-      <th class="px-4 py-2 text-left">Details</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @locations.each do |location| %>
-      <tr class="border-t">
-        <td class="px-4 py-2"><%= link_to location.name, new_location_assignment_path(location_id: location.id), class: "text-gray-600 underline" %></td>
-        <% if location.makesheet %>
-          <td class="px-4 py-2 text-green-600">Occupied</td>
-         
-          <td class="px-4 py-2"><%= location.makesheet.make_date_formatted_and_grade %></td>
-        <% else %>
-          <td class="px-4 py-2 text-gray-500">Empty</td>
-         
-          <td class="px-4 py-2">—</td>
-        <% end %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
 </div>

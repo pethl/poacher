@@ -34,6 +34,7 @@ end
 # ✨ Modular seed files
 load Rails.root.join("db/seeds/users.rb")
 load Rails.root.join("db/seeds/references.rb")
+load Rails.root.join("db/seeds/locations.rb")
 load Rails.root.join("db/seeds/staff.rb")
 load Rails.root.join("db/seeds/contacts.rb")
 load Rails.root.join("db/seeds/calculations.rb")
@@ -41,7 +42,6 @@ load Rails.root.join("db/seeds/makesheets.rb")
 load Rails.root.join("db/seeds/turns.rb")
 load Rails.root.join("db/seeds/picksheets.rb")
 load Rails.root.join("db/seeds/traceability_records.rb")
-load Rails.root.join("db/seeds/locations.rb")
 
 user = User.find_by(email: "pethicklisa@gmail.com")
 puts "🌱 Base seed completed."

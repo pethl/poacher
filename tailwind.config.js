@@ -65,6 +65,11 @@ module.exports = {
       },
       animation: {
         "open-menu": "open-menu 0.5s ease-in-out forwards"
+      },
+      spacing: {
+        // Label size in millimeters
+        "label-w": "99mm",
+        "label-h": "139mm"
       }
     }
   },

@@ -1,13 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   html {
     font-family: "Raleway", system-ui, sans-serif;
   }
 }
+
 @import "components/flash";
 @import "config/animations";
+
 .sort {
   position: absolute;
   top: 1rem;
@@ -24,4 +27,31 @@
 
 .sort-asc {
   border-bottom: 8px solid #386628;
+}
+
+@layer utilities {
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .print-area {
+      @apply flex flex-wrap justify-start items-start;
+      gap: 0mm;
+      page-break-inside: avoid;
+    }
+
+    .label {
+      width: 99mm;
+      height: 139mm;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
 }

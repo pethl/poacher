@@ -122,8 +122,13 @@ gem 'httparty'
 #for samples import
 gem 'activerecord-import'
 
-#qr code
-gem 'rqrcode'         # generates the QR code
-gem 'rqrcode_svg'
-gem 'chunky_png'      # renders the QR code to PNG
+# QR generation
+gem 'rqrcode'          # Core QR generation
+
+# HTML support
+gem 'rqrcode_svg'      # For rendering SVGs in HTML views
+
+# PDF support
+gem 'prawn-qrcode'     # For rendering QR codes in Prawn PDFs
+
 

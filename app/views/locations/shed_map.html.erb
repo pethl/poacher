@@ -1,6 +1,6 @@
 <% content_for(:page_title, @shed_name) %>
 
-<div class="w-full max-w-[1024px] mx-auto px-4 py-6">
+<div class="w-full max-w-screen-xl mx-auto px-6 py-6 lg:px-12">
   <!-- Tab Navigation -->
   <div class="flex justify-center space-x-4 mb-6">
     <% [4, 5].each do |n| %>
@@ -27,7 +27,7 @@
     <table class="table-auto border border-gray-300 text-sm mx-auto <%= min_width %>">
       <thead>
         <tr>
-          <th class="border px-2 py-1 bg-gray-100 text-left">Alley</th>
+          <th class="border px-2 py-1 bg-gray-100 text-left">Aisle</th>
           <% (1..@max_columns).each do |col| %>
             <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
           <% end %>
@@ -35,10 +35,10 @@
       </thead>
       <tbody>
         <% sorted_keys = @shed_locations.keys.sort %>
-        <% sorted_keys.each_with_index do |alley, i| %>
-          <% row_locations = @shed_locations[alley] %>
+        <% sorted_keys.each_with_index do |aisle, i| %>
+          <% row_locations = @shed_locations[aisle] %>
           <tr>
-            <td class="border px-2 py-1 font-semibold text-left"><%= alley %></td>
+            <td class="border px-2 py-1 font-semibold text-left"><%= aisle %></td>
             <% (1..@max_columns).each do |col_num| %>
               <% location = row_locations.find { |loc| loc.column_number == col_num } %>
               <% if location %>
@@ -49,14 +49,14 @@
                   <% color_class = 'bg-white border border-gray-400 text-gray-800' %>
                 <% end %>
                 <td class="border px-1 py-1 text-center">
-                 <%= link_to new_location_assignment_path(location_id: location.id),
-                  class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                  title: location.makesheet&.make_date&.strftime("%d %b %Y") || "No date" do %>
-                  <%= col_num %>
-                <% end %>
+                  <%= link_to new_location_assignment_path(location_id: location.id),
+                    class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                    title: location.makesheet&.make_date&.strftime("%d %b %Y") || "No date" do %>
+                    <%= col_num %>
+                  <% end %>
                 </td>
               <% else %>
-                <td class="border px-1 py-1 text-center bg-gray-100">–</td>
+                <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
               <% end %>
             <% end %>
           </tr>
@@ -75,3 +75,4 @@
     </table>
   </div>
 </div>
+
