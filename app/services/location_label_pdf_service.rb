@@ -29,25 +29,44 @@ class LocationLabelPdfService
     label_height = (297.mm - (2 * margin_y) - gap_y) / 2.0
 
 
-    @location_data.each_slice(4).with_index do |page_locations, page_index|
-      page_locations.each_with_index do |entry, i|
-        location = entry[:location]
-        url = entry[:url]
-
-        col = i % 2
-        row = i / 2
-
-        x = margin_x + col * (label_width + gap_x)
-        y = pdf.bounds.top - margin_y - row * (label_height + gap_y)
-
-        pdf.bounding_box([x, y], width: label_width, height: label_height) do
-          pdf.stroke_bounds
-          draw_label(pdf, location, url)
+    @location_data.each_slice(1_000).with_index do |batch, _batch_index|
+      batch.each_slice(6).with_index do |page_locations, page_index|
+        page_locations.each_with_index do |entry, i|
+          location = entry[:location]
+          url = entry[:url]
+    
+          is_trolley = location.location_type == "Trolley"
+    
+          # Determine layout: 6-per-page for Trolley, else 4-per-page
+          if is_trolley
+            columns = 2
+            rows = 3
+            gap_y_override = 12.mm
+          else
+            columns = 2
+            rows = 2
+            gap_y_override = gap_y
+          end
+    
+          label_width = (210.mm - (2 * margin_x) - gap_x * (columns - 1)) / columns
+          label_height = (297.mm - (2 * margin_y) - gap_y_override * (rows - 1)) / rows
+    
+          col = i % columns
+          row = i / columns
+    
+          x = margin_x + col * (label_width + gap_x)
+          y = pdf.bounds.top - margin_y - row * (label_height + gap_y_override)
+    
+          pdf.bounding_box([x, y], width: label_width, height: label_height) do
+            pdf.stroke_bounds
+            draw_label(pdf, location, url)
+          end
         end
+    
+        pdf.start_new_page unless page_index == (batch.size - 1) / 6
       end
-
-      pdf.start_new_page unless page_index == (@location_data.size - 1) / 4
     end
+    
 
     pdf.render
   end

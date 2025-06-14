@@ -12,7 +12,7 @@ used_orders = Set.new
 # --- TROLLEYS ---
 puts "🚚 Seeding Trolleys..."
 trolley_order = 1
-(1..95).each do |n|
+(1..96).each do |n|
   name = "Trolley #{n}"
   raise "Duplicate name: #{name}" if used_names.include?(name)
   raise "Duplicate sort_order: #{trolley_order}" if used_orders.include?(trolley_order)
@@ -33,9 +33,17 @@ end
 puts "🏠 Seeding Shed 4..."
 shed4_order = 4000
 (1..6).each do |aisle|
-  sides = aisle == 6 ? ["Left"] : %w[Left Right]
+  sides =
+    if aisle == 1
+      ["Right"]
+    elsif aisle == 6
+      ["Left"]
+    else
+      %w[Left Right]
+    end
+
   sides.each do |side|
-    (1..23).each do |col|
+    (1..28).each do |col| # Changed to 28 columns
       name = "Shed 4 - Aisle #{aisle} #{side} - Col #{col}"
       raise "Duplicate name: #{name}" if used_names.include?(name)
       raise "Duplicate sort_order: #{shed4_order}" if used_orders.include?(shed4_order)
@@ -58,7 +66,15 @@ end
 puts "🏠 Seeding Shed 5..."
 shed5_order = 5000
 (1..6).each do |aisle|
-  sides = aisle == 6 ? ["Left"] : %w[Left Right]
+  sides =
+    if aisle == 1
+      ["Right"]
+    elsif aisle == 6
+      ["Left"]
+    else
+      %w[Left Right]
+    end
+
   sides.each do |side|
     (1..20).each do |col|
       name = "Shed 5 - Aisle #{aisle} #{side} - Col #{col}"
@@ -80,3 +96,4 @@ shed5_order = 5000
 end
 
 puts "✅ Done seeding locations: #{Location.count} total"
+
