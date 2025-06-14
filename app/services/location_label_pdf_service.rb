@@ -37,18 +37,12 @@ class LocationLabelPdfService
     
           is_trolley = location.location_type == "Trolley"
     
-          # Determine layout: 6-per-page for Trolley, else 4-per-page
-          if is_trolley
-            columns = 2
-            rows = 3
-            gap_y_override = 12.mm
-          else
-            columns = 2
-            rows = 2
-            gap_y_override = gap_y
-          end
+          columns = 2
+          rows = 3
+          gap_y_override = 12.mm
     
           label_width = (210.mm - (2 * margin_x) - gap_x * (columns - 1)) / columns
+          label_width = [label_width, 90.mm].min
           label_height = (297.mm - (2 * margin_y) - gap_y_override * (rows - 1)) / rows
     
           col = i % columns
@@ -101,16 +95,22 @@ class LocationLabelPdfService
   
       else
         shed_number  = location.name.match(/Shed (\d+)/)&.captures&.first.to_s
-        aisle_number = location.name.match(/Aisle (\d+)/)&.captures&.first.to_s
+        aisle_number = location.name.match(/Aisle (\d+)/)&.captures&.first.to_i
         side         = location.name.include?("Left") ? "Left" : "Right"
         col          = location.name.match(/Col (\d+)/)&.captures&.first.to_i
-  
+
+        # Base direction logic
         arrow_direction =
           if side == "Left"
             col.odd? ? "left" : "right"
           else
             col.odd? ? "right" : "left"
           end
+
+        # 🔁 Override for Shed 5 + odd-numbered aisle
+        if shed_number == "5" && aisle_number.odd?
+          arrow_direction = (arrow_direction == "left" ? "right" : "left")
+        end
 
         arrow_filename = "#{arrow_direction}-long-solid.png"
         arrow_path = Rails.root.join("app/assets/images", arrow_filename)
@@ -144,7 +144,7 @@ class LocationLabelPdfService
         end
       end
   
-      pdf.move_down 6
+     # pdf.move_down 2
       pdf.stroke_horizontal_rule
     end
   end
