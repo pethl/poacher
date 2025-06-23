@@ -7,7 +7,7 @@ class AisleMarkerPdfService
   end
 
   def generate
-    pdf = Prawn::Document.new(page_size: 'A4', page_layout: :landscape, margin: 0)
+    pdf = Prawn::Document.new(page_size: 'A4', page_layout: :portrait, margin: 0)
 
     pdf.font_families.update(
       "DejaVu" => {
@@ -17,20 +17,32 @@ class AisleMarkerPdfService
     )
     pdf.font "DejaVu"
 
-    # Marker size: 2cm smaller than A5 on all sides
-    marker_width  = 118.mm
-    marker_height = 180.mm
+    # Full page dimensions and outer margins
+    outer_margin_x = 20.mm
+    outer_margin_y = 20.mm
 
-    page_width  = 297.mm
-    page_height = 210.mm
+    page_width  = 210.mm
+    page_height = 297.mm
 
-    horizontal_spacing = (page_width - (2 * marker_width)) / 3.0
-    vertical_margin    = (page_height - marker_height) / 2.0
+    printable_width  = page_width - (2 * outer_margin_x)  # 170 mm
+    printable_height = page_height - (2 * outer_margin_y) # 257 mm
 
-    @locations.each_slice(2).with_index do |pair, page_index|
-      pair.each_with_index do |location, i|
-        x = horizontal_spacing + i * (marker_width + horizontal_spacing)
-        y = page_height - vertical_margin
+    spacing_x = 10.mm
+    spacing_y = 10.mm
+
+    columns = 2
+    rows = 2
+
+    marker_width  = (printable_width  - spacing_x) / columns  # 80 mm
+    marker_height = (printable_height - spacing_y) / rows     # 123.5 mm
+
+    @locations.each_slice(4).with_index do |page_locations, page_index|
+      page_locations.each_with_index do |location, i|
+        col = i % columns
+        row = i / columns
+
+        x = outer_margin_x + col * (marker_width + spacing_x)
+        y = page_height - outer_margin_y - row * (marker_height + spacing_y)
 
         pdf.bounding_box([x, y], width: marker_width, height: marker_height) do
           pdf.stroke_bounds
@@ -38,7 +50,7 @@ class AisleMarkerPdfService
         end
       end
 
-      pdf.start_new_page unless page_index == (@locations.size - 1) / 2
+      pdf.start_new_page unless page_index == (@locations.size - 1) / 4
     end
 
     pdf.render
@@ -50,38 +62,25 @@ class AisleMarkerPdfService
     shed         = location.name[/Shed\s\d+/i]&.upcase || "SHED"
     aisle_number = location.name[/Aisle\s(\d+)/i, 1] || "?"
     side         = location.name[/\b(Left|Right)\b/i]&.capitalize || ""
-  
-    # Reversed arrow direction
-    arrow = case side
-            when "Left"  then "→"
-            when "Right" then "←"
-            else ""
-            end
-  
+    arrow        = side == "Left" ? "→" : side == "Right" ? "←" : ""
+
     pdf.font "DejaVu"
-  
-    # Layout estimates for vertical centering
-    content_height = 32 + 40 + +20+20 +88 + 30 + 32
-    box_height = pdf.bounds.height
-    start_offset = (box_height - content_height) / 2.0
-  
-    pdf.move_down start_offset
-  
-    pdf.text shed, align: :center, size: 32, style: :bold
-    pdf.move_down 40
-    pdf.text "Aisle", align: :center, size: 20, style: :bold
-    pdf.move_down 20
-  
-    pdf.text aisle_number.to_s, align: :center, size: 88, style: :bold
-    pdf.move_down 30
-  
-    pdf.text side.upcase, align: :center, size: 32, style: :bold
+
+    # Vertical spacing adjustment for new size
+    pdf.move_down 50
+    pdf.text shed, align: :center, size: 18, style: :bold
+    pdf.move_down 14
+
+    pdf.text "Aisle", align: :center, size: 12, style: :bold
+    pdf.move_down 10
+
+    pdf.text aisle_number.to_s, align: :center, size: 80, style: :bold
+    pdf.move_down 14
+
+    pdf.text side.upcase, align: :center, size: 24, style: :bold
     pdf.move_down 6
-  
-    pdf.text arrow, align: :center, size: 32, style: :bold
+
+    pdf.text arrow, align: :center, size: 20, style: :bold
   end
-  
 end
-
-
 
