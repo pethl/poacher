@@ -29,6 +29,7 @@
     "dayjs": "^1.11.13",
     "flowbite": "^2.4.1",
     "highcharts": "^12.1.2",
+    "html5-qrcode": "^2.3.8",
     "postcss": "^8.4.40",
     "primereact": "^10.8.4",
     "react": "^18.3.1",

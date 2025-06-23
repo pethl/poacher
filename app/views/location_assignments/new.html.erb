@@ -2,6 +2,9 @@
   <%= form_with url: location_assignments_path, method: :post, local: true do |form| %>
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
 
+      <p class="text-red-600 text-sm">DEBUG: location_id param = <%= params[:location_id] %></p>
+
+
       <!-- Makesheet -->
       <label class="text-right font-semibold text-gray-700">Make Date</label>
       <div class="text-left">
