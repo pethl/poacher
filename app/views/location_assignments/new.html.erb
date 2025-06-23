@@ -2,10 +2,7 @@
   <%= form_with url: location_assignments_path, method: :post, local: true do |form| %>
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
 
-      <p class="text-red-600 text-sm">DEBUG: location_id param = <%= params[:location_id] %></p>
-
-
-      <!-- Makesheet -->
+      <!-- Make Date -->
       <label class="text-right font-semibold text-gray-700">Make Date</label>
       <div class="text-left">
         <%= form.select :makesheet_id,
@@ -14,30 +11,29 @@
               class: field_class_flex_med %>
       </div>
 
-      <!-- Location -->
+      <!-- Location + QR Scanner + Message all inside Stimulus wrapper -->
       <label class="text-right font-semibold text-gray-700">Location</label>
-      <div class="text-left">
+      <div class="text-left" data-controller="qr-scanner">
         <%= form.select :location_id,
               options_from_collection_for_select(Location.active.order(:sort_order), :id, :name, @location_assignment[:location_id]),
               { prompt: "Select Location" },
               class: field_class_flex_med,
               id: "location-id-select",
-              data: {
-                controller: "qr-scanner",
-                qr_scanner_target: "select"
-              } %>
-      </div>
+              data: { qr_scanner_target: "select" } %>
 
-      <!-- QR Scanner UI -->
-      <div class="col-span-2 text-center mt-4">
-        <div id="qr-reader" class="mx-auto" style="width: 250px; height: auto;"></div>
-        <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
+        <!-- QR Scanner UI -->
+        <div class="text-center mt-4">
+          <div id="qr-reader" class="mx-auto" style="width: 250px; height: auto;"></div>
+          <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
+          <p data-qr-scanner-target="message" class="text-sm mt-2 text-center text-green-600"></p>
+        </div>
       </div>
 
       <!-- Submit Button -->
       <div class="col-span-2 text-center mt-4">
         <%= form.submit "Assign Location", class: fill_button_class %>
       </div>
+
     </div>
   <% end %>
 </div>

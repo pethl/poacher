@@ -7,9 +7,6 @@ Rails.application.routes.draw do
   get  "/location_assignments/new", to: "location_assignments#new",  as: "new_location_assignment"
   post "/location_assignments",     to: "location_assignments#create", as: "location_assignments"
   get "/location_report", to: "location_assignments#location_report", as: :location_report
-  #this is critical never delete
-  get '/locations/:id', to: redirect('/location_assignments/new?location_id=%{id}') 
-
   get "shed/:shed/map", to: "locations#shed_map", as: :shed_map
   
   resources :locations do
