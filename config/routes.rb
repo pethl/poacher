@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
  
   get  "/location_assignments/new", to: "location_assignments#new",  as: "new_location_assignment"
   post "/location_assignments",     to: "location_assignments#create", as: "location_assignments"
@@ -103,7 +107,6 @@ Rails.application.routes.draw do
   
   get "pages/home"
   get "pages/dairy_home"
-  get "pages/nursery_home"
   get "pages/store_home"
   get "pages/wash_home"
   get "pages/cutting_home"
@@ -112,7 +115,6 @@ Rails.application.routes.draw do
   get "pages/mgmt_home"
   get "pages/credits"
   get "/goodbye", to: "pages#goodbye", as: :goodbye
-  get "pages/location"
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   #get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 

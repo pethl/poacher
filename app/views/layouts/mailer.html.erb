@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style>
-      /* Email styles need to be inline */
-    </style>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <title><%= content_for?(:title) ? yield(:title) : "Lincolnshire Poacher Cheese" %></title>
   </head>
+  <body style="font-family: sans-serif; padding: 20px; background: #f9f9f9;">
+    <div style="max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+      <div style="text-align: center; margin-bottom: 20px;">
+       <%= image_tag "poacher_logo.jpeg", alt: "Lincolnshire Poacher Cheese", style: "max-width: 200px;" %>
+  </div>
 
-  <body>
-    <%= yield %>
+      <%= yield %>
+
+      <hr style="margin-top: 30px; margin-bottom: 10px;">
+      <p style="font-size: 12px; color: #888; text-align: center;">
+        This email was sent by Lincolnshire Poacher Cheese. If you didn’t request it, you can safely ignore it.
+      </p>
+    </div>
   </body>
 </html>
+

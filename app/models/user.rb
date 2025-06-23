@@ -4,9 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-         def email_required?
-          false
-        end
+  after_create :send_welcome_email, :notify_admin
 
   has_many :picksheets, foreign_key: :contact_id
 
@@ -14,4 +12,16 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}".strip
   end
 
-end 
+  # ✅ Move the method BEFORE marking it private
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_later
+  end
+
+  def notify_admin
+    UserMailer.new_user_notification(self).deliver_later
+  end
+
+  private
+  # Nothing below here unless it's meant to be private
+end
+

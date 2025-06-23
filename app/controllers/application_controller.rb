@@ -22,13 +22,9 @@ class ApplicationController < ActionController::Base
   protected
   
   def configure_permitted_parameters
-    # Permit additional sign_up params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:email, :encrypted_password])
-
-     # Permit the email for sign in explicitly
-     devise_parameter_sanitizer.permit(:sign_in, keys: [:email])
-    
-    # If you allow editing account info as well:
-    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :password, :password_confirmation])
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:email])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :email, :password, :password_confirmation, :current_password])
   end
+  
 end 

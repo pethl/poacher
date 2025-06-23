@@ -1,16 +1,27 @@
-<h2>Forgot your password?</h2>
+<% content_for(:page_title, "Forgot Password") %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="mx-auto md:w-1/3 w-full pt-12 flex justify-center">
+  <div class="border border-gray-400 rounded-lg p-8 text-right">
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    <h2 class="text-xl font-semibold mb-6 text-left">Reset Your Password</h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+
+      <div class="field my-6">
+        <%= f.label :email, class: label_class %><br>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: field_class %>
+      </div>
+
+      <div class="actions mt-6">
+        <%= f.submit "Send Reset Instructions", class: fill_button_class %>
+      </div>
+
+    <% end %>
+
+    <div class="mt-4 text-sm text-left">
+      <%= link_to "Back to sign in", new_session_path(resource_name), class: "text-amber-500 hover:underline" %>
+    </div>
+
   </div>
+</div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>

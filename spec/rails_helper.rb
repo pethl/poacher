@@ -22,7 +22,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
-#require 'capybara/email/rspec'
+require 'capybara/email/rspec'
 
 # Load support files
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
@@ -42,6 +42,9 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :feature
   config.include Warden::Test::Helpers
   config.include Rails.application.routes.url_helpers
+  config.include ActiveJob::TestHelper
+  config.before(:each) { ActionMailer::Base.deliveries.clear }
+  config.around(:each) { |example| perform_enqueued_jobs { example.run } }
 
   config.after :each do
     Warden.test_reset!

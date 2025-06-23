@@ -1,6 +1,6 @@
-<% content_for(:page_title, @shed_name) %>
+<% content_for :page_title, @shed_name.to_s %>
 
-<div class="w-full max-w-screen-xl mx-auto px-6 py-6 lg:px-12">
+<div class="w-full max-w-screen-xl mx-auto px-6 py-6 lg:px-8">
   <!-- Tab Navigation -->
   <div class="flex justify-center space-x-4 mb-6">
     <% [4, 5].each do |n| %>
@@ -34,35 +34,39 @@
         </tr>
       </thead>
       <tbody>
-        <% sorted_keys = @shed_locations.keys.sort %>
-        <% sorted_keys.each_with_index do |aisle, i| %>
-          <% row_locations = @shed_locations[aisle] %>
-          <tr>
-            <td class="border px-2 py-1 font-semibold text-left"><%= aisle %></td>
-            <% (1..@max_columns).each do |col_num| %>
-              <% location = row_locations.find { |loc| loc.column_number == col_num } %>
-              <% if location %>
-                <% if location.makesheet %>
-                  <% grade = location.makesheet.grade %>
-                  <% color_class = grade.present? ? grade_color(grade) : 'bg-gray-300 text-white' %>
-                <% else %>
-                  <% color_class = 'bg-white border border-gray-400 text-gray-800' %>
-                <% end %>
-                <td class="border px-1 py-1 text-center">
-                  <%= link_to new_location_assignment_path(location_id: location.id),
-                    class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                    title: location.makesheet&.make_date&.strftime("%d %b %Y") || "No date" do %>
-                    <%= col_num %>
-                  <% end %>
-                </td>
-              <% else %>
-                <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
-              <% end %>
-            <% end %>
-          </tr>
+        <% sorted_keys = @shed_locations.keys.sort_by { |a| a[/\d+/].to_i } %>
+        <% grouped_keys = [sorted_keys.first] + sorted_keys[1..].each_slice(2).to_a %>
 
-          <%# Insert walkway row after each Left/Right pair %>
-          <% if i.odd? %>
+        <% grouped_keys.each_with_index do |group, group_index| %>
+          <% Array(group).each do |aisle| %>
+            <% row_locations = @shed_locations[aisle] || [] %>
+            <tr>
+              <td class="border px-2 py-1 font-semibold text-left"><%= aisle %></td>
+              <% (1..@max_columns).each do |col_num| %>
+                <% location = row_locations.find { |loc| loc.column_number == col_num } %>
+                <% if location %>
+                  <% if location.makesheet %>
+                    <% grade = location.makesheet.grade %>
+                    <% color_class = grade.present? ? grade_color(grade) : 'bg-gray-300 text-white' %>
+                  <% else %>
+                    <% color_class = 'bg-white border border-gray-400 text-gray-800' %>
+                  <% end %>
+                  <td class="border px-1 py-1 text-center">
+                    <%= link_to new_location_assignment_path(location_id: location.id),
+                      class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                      title: (location.makesheet&.make_date ? location.makesheet.make_date.strftime("%d %b %Y") : "No date") do %>
+                      <%= col_num %>
+                    <% end %>
+                  </td>
+                <% else %>
+                  <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
+                <% end %>
+              <% end %>
+            </tr>
+          <% end %>
+
+          <%# Walkway row after each group except the last %>
+          <% if group_index < grouped_keys.size - 1 %>
             <tr>
               <td></td>
               <% @max_columns.times do %>

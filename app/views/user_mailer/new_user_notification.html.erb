@@ -1,0 +1,11 @@
+<p>A new user has signed up:</p>
+
+<ul>
+  <li><strong>Name:</strong> <%= @user.full_name %></li>
+  <li><strong>Email:</strong> <%= @user.email %></li>
+  <li><strong>Signed up at:</strong> <%= @user.created_at.strftime("%d %B %Y, %H:%M") %></li>
+</ul>
+
+<p>
+  🔍 <a href="<%= users_url %>">View all users in the admin panel</a>
+</p>

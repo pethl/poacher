@@ -75,7 +75,8 @@ group :development do
   # for prettier
   gem "solargraph"
   gem 'ruby-lsp'
-
+  gem 'letter_opener'
+  gem 'letter_opener_web', group: :development
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -84,7 +85,6 @@ group :development do
   # gem "spring"
 
   #for weather app env management
-
 end
 
 group :test do
@@ -92,6 +92,7 @@ group :test do
   #gem "capybara"
  # gem "selenium-webdriver"
  gem 'simplecov', require: false
+ gem 'capybara-email'
 
 end
 

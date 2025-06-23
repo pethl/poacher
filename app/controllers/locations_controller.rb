@@ -16,6 +16,10 @@ class LocationsController < ApplicationController
       .group_by(&:row_label)
   
     @max_columns = @shed_locations.values.flatten.map(&:column_number).compact.max
+
+    unless @shed_locations
+      redirect_to root_path, alert: "Shed not found"
+    end
   end
 
   # GET /locations/1 or /locations/1.json
