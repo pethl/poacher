@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :locations do
     collection do
       get :print_labels
+      get :print_markers
       get :print_wizard
     end
   end

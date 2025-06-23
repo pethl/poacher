@@ -76,61 +76,28 @@ class LocationsController < ApplicationController
   def print_labels
     locations = []
   
+    # Individual location print
     if params[:id].present?
       locations = [Location.find_by(id: params[:id])].compact
   
-    elsif params[:trolley_start].present? && params[:trolley_end].present?
-      start = params[:trolley_start].to_i
-      finish = params[:trolley_end].to_i
-      range = (start..finish)
-  
-      locations = Location.where(location_type: "Trolley")
-                          .where(sort_order: range)
-                          .order(:sort_order)
-  
-    elsif params[:shed].present? && params[:aisle_start].present? && params[:aisle_end].present?
-      shed_number = params[:shed]
-      shed_prefix = "Shed #{shed_number}"
-      aisle_start = params[:aisle_start].to_i
-      aisle_end   = params[:aisle_end].to_i
-      side_start  = params[:side_start].presence || "Left"
-      side_end    = params[:side_end].presence || "Right"
-  
-      # Ensure valid side range regardless of order
-      sides = ["Left", "Right"]
-      side_order = { "Left" => 0, "Right" => 1 }
-      side_range = sides.select do |side|
-        side_order[side] >= side_order[side_start] && side_order[side] <= side_order[side_end]
-      end
-  
-      # Build match patterns like "%Shed 4 - Aisle 2 Right%"
-      name_patterns = (aisle_start..aisle_end).flat_map do |aisle|
-        side_range.map { |side| "%#{shed_prefix} - Aisle #{aisle} #{side}%" }
-      end
-  
-      conditions = name_patterns.map { "name ILIKE ?" }.join(" OR ")
-  
-      locations = Location.where(location_type: "Aisle")
-                          .where(conditions, *name_patterns)
-                          .order(:sort_order)
-  
+    # Range print (all location types)
     elsif params[:location_start].present? && params[:location_end].present?
       start_id = params[:location_start].to_i
       end_id   = params[:location_end].to_i
   
-      start_location = Location.find_by(id: start_id, location_type: "Aisle")
-      end_location   = Location.find_by(id: end_id, location_type: "Aisle")
+      start_location = Location.find_by(id: start_id)
+      end_location   = Location.find_by(id: end_id)
   
       if start_location && end_location
         start_order = [start_location.sort_order, end_location.sort_order].min
         end_order   = [start_location.sort_order, end_location.sort_order].max
   
-        locations = Location.where(location_type: "Aisle")
-                            .where(sort_order: start_order..end_order)
+        locations = Location.where(sort_order: start_order..end_order)
                             .order(:sort_order)
       end
     end
   
+    # Generate PDF or redirect if nothing matched
     if locations.any?
       label_data = locations.map { |loc| { location: loc, url: location_url(loc) } }
   
@@ -144,8 +111,46 @@ class LocationsController < ApplicationController
       redirect_to locations_path, alert: "No matching locations found to print."
     end
   end
+
+  def print_markers
+    aisle_name = params[:aisle_name]
   
-      
+    if aisle_name.present?
+      if aisle_name == "ALL"
+        # Extract unique aisle+side names like "Shed 4 - Aisle 3 Left"
+        unique_marker_names = Location.pluck(:name)
+                                      .map { |n| n[%r{^Shed \d+ - Aisle \d+ (Left|Right)}] }
+                                      .compact
+                                      .uniq
+                                      .sort
+  
+        # For each marker name, find a representative location record
+        matching_locations = unique_marker_names.map do |marker_name|
+          Location.where("name LIKE ?", "#{marker_name}%").first
+        end.compact
+      else
+        # Match specific aisle + side
+        matching_locations = Location.where("name ILIKE ?", "#{aisle_name}%")
+                                     .order(:sort_order)
+      end
+  
+      if matching_locations.any?
+        pdf_data = AisleMarkerPdfService.new(matching_locations).generate
+  
+        send_data pdf_data,
+                  filename: "aisle-markers.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
+      else
+        redirect_to locations_path, alert: "No matching locations found."
+      end
+    else
+      redirect_to locations_path, alert: "Please select an aisle to print."
+    end
+  end
+  
+  
+    
 
   private
     # Use callbacks to share common setup or constraints between actions.
