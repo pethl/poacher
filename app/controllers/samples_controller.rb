@@ -3,12 +3,32 @@ class SamplesController < ApplicationController
 
   # GET /samples or /samples.json
   def index
-    if params[:column].present?
-      @samples = Sample.includes(:makesheets).order("#{params[:column]} #{params[:direction]}")
-    else
-      @samples = Sample.includes(:makesheets).ordered
+    @filter = params[:filter]
+  
+    @samples = Sample.all
+  
+    if @filter.present? && @filter != 'All'
+      if %w[Mature Young].include?(@filter)
+        # Starts with filter for "Mature" and "Young"
+        @samples = @samples.where("sample_description ILIKE ?", "#{@filter}%")
+      else
+        # Standard contains for others like "Butter", "Raw Milk"
+        @samples = @samples.where("sample_description ILIKE ?", "%#{@filter}%")
+      end
     end
+  
+    if params[:column].present?
+      @samples = @samples.order("#{params[:column]} #{params[:direction]}")
+    else
+      @samples = @samples.ordered
+    end
+  
+    @samples = @samples.includes(:makesheets)
+  
+    @filters = ['All', 'Young', 'Mature', 'Butter', 'Raw Milk']
   end
+  
+  
 
   # GET /samples/1 or /samples/1.json
   def show

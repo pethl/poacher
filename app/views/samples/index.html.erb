@@ -3,13 +3,33 @@
   
   <div class="items-center rounded text-sm">
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+<div class="flex justify-between items-center mb-2">
+  <!-- Import Form (Left) -->
+  <div>
+    <%= form_tag import_samples_path, multipart: true do %>
+      <%= file_field_tag :file, class: "h-9 px-2 py-1 bg-gray-200 rounded-lg text-sm" %>
+      <%= submit_tag "Import", class: "#{fill_button_class} text-sm" %>
+    <% end %>
+  </div>
 
-    <div class="">
-      <%= form_tag import_samples_path , multipart: true do %>
-        <%= file_field_tag :file, class:"h-10 p-2 bg-gray-200 rounded-lg" %>
-        <%= submit_tag "Import", class: fill_button_class %>
-      <% end %>
-    </div>
+  <!-- Filter Dropdown (Right) -->
+  <div>
+    <%= form_with url: samples_path, method: :get, local: true do %>
+      <div class="flex items-center space-x-2">
+        <label for="filter" class="text-sm font-medium">Filter:</label>
+        <%= select_tag :filter,
+              options_for_select(@filters, selected: @filter),
+              prompt: "Choose...",
+              onchange: "this.form.submit();",
+              class: "bg-white border border-gray-300 rounded px-2 py-1 text-sm w-64" %>
+        <!-- Preserve sorting -->
+        <%= hidden_field_tag :column, params[:column] %>
+        <%= hidden_field_tag :direction, params[:direction] %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
 
     <div class="sticky top-0 font-normal text-left text-sm m-2">
       <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
