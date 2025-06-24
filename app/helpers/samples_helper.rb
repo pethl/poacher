@@ -27,5 +27,61 @@ module SamplesHelper
        end
      end
    end
+
+
+   def sample_indicator_color(sample)
+    value = sample.coagulase_positive_staphylococcus_37c_umqv9.to_s.strip
+    description = sample.sample_description.to_s.strip
+  
+    if description.starts_with?("Young")
+      return "green" if value.start_with?("<")
+      return "red"   if value.gsub(",", "").to_i > 100_000
+      return "yellow"
+    end
+  
+    if description.starts_with?("Mature")
+      return "green" if value.start_with?("<")
+      return "red"   if value.gsub(",", "").to_i > 50_000
+      return "yellow"
+    end
+  
+    if description.include?("Raw Milk")
+      # Fetch and normalize values
+      
+      apc = sample.aerobic_plate_count_30c.to_s.strip
+      coliforms = sample.presumptive_coliforms.to_s.strip
+      staph = sample.coagulase_positive_staphylococcus_37c_umqv9.to_s.strip
+      salmonella = sample.salmonella.to_s.strip
+  
+      # Rules (adjust thresholds as needed)
+      return "red" if salmonella.present?
+  
+      if numeric_value(apc) > 20_000 ||
+         numeric_value(coliforms) > 100 ||
+         numeric_value(staph) > 20
+        return "red"
+      end
+  
+      if apc.start_with?("<") && coliforms.start_with?("<") && staph.start_with?("<") && salmonella.blank?
+        return "green"
+      end
+  
+      return "yellow"
+    end
+  
+    # Fallback
+    case sample.indicator
+    when "Green" then "green"
+    when "Yellow" then "yellow"
+    when "Red" then "red"
+    else "gray"
+    end
+  end
+  
+  # Helper to handle numeric conversion safely
+  def numeric_value(val)
+    val.gsub(",", "").to_i
+  end
+  
    
 end

@@ -86,30 +86,28 @@ class SamplesController < ApplicationController
   end
 
   def import
-    file = params[:file]
-
-    # Debugging line
-  Rails.logger.debug "File param: #{file.inspect}"
+    upload = params[:file]
   
-    unless file
-      redirect_to samples_path, alert: "Please select a file first." and return
+    unless upload.present?
+      redirect_to samples_path, alert: "Please select a file." and return
     end
-
-     # If file is an Array, grab the first element
-  file = file.first if file.is_a?(Array)
   
-    unless [".csv", ".xlsx", ".xls"].include?(File.extname(file.original_filename).downcase)
-      redirect_to samples_path, alert: "Invalid file type. Please upload a CSV or Excel file." and return
+    if upload.is_a?(Array)
+      upload = upload.first
     end
-
   
-    result = Sample.import(file)
+    unless upload.respond_to?(:original_filename)
+      redirect_to samples_path, alert: "Something went wrong. Invalid file." and return
+    end
+  
+    result = Sample.import(upload)
   
     message = "Imported #{result[:imported_count]} samples."
     message += " Rejected #{result[:rejected_count]} duplicates." if result[:rejected_count].positive?
   
     redirect_to samples_path, notice: message
   end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -119,6 +117,61 @@ class SamplesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sample_params
-      params.require(:sample).permit(:indicator, :sample_no, :received_date, :sample_description, :makesheet_id, :suite, :classification, :schedule, :barcode_count, :coagulase_positive_staphylococcus_37c_umqv9, :coagulase_positive_staphylococcus_37c_umqzw, :escherichia_coli_b_glucuronidase, :Listeria_species, :Listeria_species_37, :presumptive_coliforms, :salmonella, :staphylococcus_aureus_enterotoxins, makesheet_ids: [])
+      params.require(:sample).permit(
+        :indicator,
+        :sample_no,
+        :received_date,
+        :sample_description,
+        :suite,
+        :classification,
+        :schedule,
+        :barcode_count,
+        :coagulase_positive_staphylococcus_37c_umqv9,
+        :coagulase_positive_staphylococcus_37c_umqzw,
+        :escherichia_coli_b_glucuronidase,
+        :listeria_species,
+        :listeria_species_37,
+        :presumptive_coliforms,
+        :salmonella,
+        :staphylococcus_aureus_enterotoxins,
+        :aerobic_plate_count_22c_3_days,
+        :aerobic_plate_count_30c,
+        :aerobic_plate_count_37c_2_days,
+        :ash,
+        :campylobacter_species_10g,
+        :campylobacter_species_25g,
+        :carbohydrates,
+        :crude_protein,
+        :energy_kcal,
+        :energy_kj,
+        :escherichia_coli_100ml,
+        :escherichia_coli_o157,
+        :fructose,
+        :galactose,
+        :glucose,
+        :histamine,
+        :identification_listeria_species_1,
+        :lactose,
+        :listeria_species_swab,
+        :listeria_species_confirmation_maldi,
+        :maltose,
+        :moisture,
+        :monounsaturated_fatty_acids,
+        :ph,
+        :polyunsaturated_fatty_acids,
+        :presumptive_coliforms_swab,
+        :presumptive_enterobacteriaceae,
+        :salt,
+        :saturated_fatty_acids,
+        :sodium,
+        :sucrose,
+        :total_coliforms_100ml,
+        :total_dietary_fibre,
+        :total_fat,
+        :total_sugars,
+        :trans_fatty_acids_per_fat,
+        :trans_fatty_acids,
+        :water_activity
+      )
     end
 end

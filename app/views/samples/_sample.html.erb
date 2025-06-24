@@ -1,17 +1,23 @@
-<div id="<%= dom_id sample %>" >
-    <div class="border border-gray-800 rounded-lg p-4">
-      <div class="grid md:grid-cols-2 lg:grid-cols-4">
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Sample no:</strong>
-          <%= sample.sample_no %>
-        </p>
+<div id="<%= dom_id sample %>">
+  <div class="border border-gray-800 rounded-lg p-4">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4">
 
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Received date:</strong>
-          <%= sample.received_date.to_formatted_s(:uk_clean_date) %>
-        </p>
+       <p class="my-5 col-span-2 lg:col-span-4 text-lg">
+        <strong class="block font-semibold mb-2">Sample description:</strong>
+        <%= sample.sample_description %>
+      </p>
+      
+      <p class="my-5">
+        <strong class="block font-semibold mb-2">Sample no:</strong>
+        <%= sample.sample_no %>
+      </p>
 
-       <div class="my-5">
+      <p class="my-5">
+        <strong class="block font-semibold mb-2">Received date:</strong>
+        <%= sample.received_date.to_formatted_s(:uk_clean_date) %>
+      </p>
+
+      <div class="my-5">
         <strong class="block font-semibold mb-2">MakeSheet/Batches:</strong>
         <% if sample.makesheets.any? %>
           <ul class="list-disc list-inside text-gray-800 ml-4">
@@ -26,70 +32,33 @@
         <% end %>
       </div>
 
-        <p class="my-5 col-span-2 lg:col-span-4">
-          <strong class="block font-semibold mb-2">Sample description:</strong>
-          <%= sample.sample_description %>
-        </p>
+     
 
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Suite:</strong>
-          <%= sample.suite %>
-        </p>
+      <p class="my-5">
+        <strong class="block font-semibold mb-2">Suite:</strong>
+        <%= sample.suite %>
+      </p>
 
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Classification:</strong>
-          <%= sample.classification %>
-        </p>
+      <p class="my-5">
+        <strong class="block font-semibold mb-2">Classification:</strong>
+        <%= sample.classification %>
+      </p>
 
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Schedule:</strong>
-          <%= sample.schedule %>
-        </p>
+      <p class="my-5">
+        <strong class="block font-semibold mb-2">Schedule:</strong>
+        <%= sample.schedule %>
+      </p>
 
+      <% Sample.attribute_names.each do |attr| %>
+        <% next if ["id", "created_at", "updated_at", "sample_no", "received_date", "sample_description", "suite", "classification", "schedule"].include?(attr) %>
+        <% value = sample.send(attr) %>
+        <% next if value.blank? %>
         <p class="my-5">
-          <strong class="block font-semibold mb-2">Barcode count:</strong>
-          <%= sample.barcode_count %>
+          <strong class="block font-semibold mb-2"><%= attr.humanize %>:</strong>
+          <%= value %>
         </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Coagulase positive staphylococcus 37c umqv9:</strong>
-          <%= sample.coagulase_positive_staphylococcus_37c_umqv9 %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Coagulase positive staphylococcus 37c umqzw:</strong>
-          <%= sample.coagulase_positive_staphylococcus_37c_umqzw %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Escherichia coli b-glucuronidase:</strong>
-          <%= sample.escherichia_coli_b_glucuronidase %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Listeria species:</strong>
-          <%= sample.listeria_species %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Listeria species 37:</strong>
-          <%= sample.listeria_species_37 %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Presumptive coliforms:</strong>
-          <%= sample.presumptive_coliforms %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Salmonella:</strong>
-          <%= sample.salmonella %>
-        </p>
-
-        <p class="my-5">
-          <strong class="block font-semibold mb-2">Staphylococcus aureus enterotoxins:</strong>
-          <%= sample.staphylococcus_aureus_enterotoxins %>
-        </p>
-      </div>
+      <% end %>
     </div>
+  </div>
 </div>
+

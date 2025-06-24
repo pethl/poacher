@@ -180,6 +180,11 @@ class MakesheetsController < ApplicationController
      
   end
 
+  def simple_new
+    @makesheet = Makesheet.new(status: "Store", make_type: "Standard", weight_type: "Standard (20 kgs)")
+    render :simple_form
+  end
+
   # GET /makesheets/1/edit
   def edit
     prepare_chart_data # Call the reusable method
@@ -189,13 +194,19 @@ class MakesheetsController < ApplicationController
   def create
     @makesheet = Makesheet.new(makesheet_params)
     @makesheet.batch = (@makesheet.make_date + 6.years).strftime("%d-%m-%y")
-
+  
     respond_to do |format|
       if @makesheet.save
         format.html { redirect_to makesheets_path, notice: "Makesheet was successfully created." }
         format.json { render :show, status: :created, location: @makesheet }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        # Render correct form view depending on where request came from
+        if request.referer&.include?("/simple_new")
+          format.html { render :simple_form, status: :unprocessable_entity }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+        end
+  
         format.json { render json: @makesheet.errors, status: :unprocessable_entity }
       end
     end

@@ -133,6 +133,7 @@ Rails.application.routes.draw do
     end
   
     collection do
+      get 'simple_new'         # moved here
       get 'yield_dashboard'
       get 'makesheet_search'
       get 'graded_blackboard'

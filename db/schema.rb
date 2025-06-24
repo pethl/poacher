@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_27_160541) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -319,6 +319,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_160541) do
     t.string "batch"
     t.bigint "contact_id"
     t.bigint "location_id"
+    t.integer "total_hours"
+    t.integer "total_minutes"
+    t.decimal "final_titration", precision: 6, scale: 4
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
@@ -454,6 +457,44 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_27_160541) do
     t.string "staphylococcus_aureus_enterotoxins"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "aerobic_plate_count_22c_3_days"
+    t.string "aerobic_plate_count_30c"
+    t.string "aerobic_plate_count_37c_2_days"
+    t.string "ash"
+    t.string "campylobacter_species_10g"
+    t.string "campylobacter_species_25g"
+    t.string "carbohydrates"
+    t.string "crude_protein"
+    t.string "energy_kcal"
+    t.string "energy_kj"
+    t.string "escherichia_coli_100ml"
+    t.string "escherichia_coli_o157"
+    t.string "fructose"
+    t.string "galactose"
+    t.string "glucose"
+    t.string "histamine"
+    t.string "identification_listeria_species_1"
+    t.string "lactose"
+    t.string "listeria_species_swab"
+    t.string "listeria_species_confirmation_maldi"
+    t.string "maltose"
+    t.string "moisture"
+    t.string "monounsaturated_fatty_acids"
+    t.string "ph"
+    t.string "polyunsaturated_fatty_acids"
+    t.string "presumptive_coliforms_swab"
+    t.string "presumptive_enterobacteriaceae"
+    t.string "salt"
+    t.string "saturated_fatty_acids"
+    t.string "sodium"
+    t.string "sucrose"
+    t.string "total_coliforms_100ml"
+    t.string "total_dietary_fibre"
+    t.string "total_fat"
+    t.string "total_sugars"
+    t.string "trans_fatty_acids_per_fat"
+    t.string "trans_fatty_acids"
+    t.string "water_activity"
   end
 
   create_table "scale_checks", force: :cascade do |t|

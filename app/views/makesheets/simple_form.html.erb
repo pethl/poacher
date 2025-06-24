@@ -1,0 +1,131 @@
+<% content_for(:page_title, "ARCHIVE MAKE SHEET") %>
+
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+  <%= form_with model: @makesheet, url: makesheets_path, local: true do |form| %>
+
+    <%= form_errors_for(@makesheet) %>
+
+    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+
+      <!-- Status -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :status %>
+      </label>
+      <div class="text-left">
+        <%= form.select :status,
+                        options_for_select(batch_status, selected: @makesheet.status),
+                        { prompt: true },
+                        class: field_class_flex_disabled,
+                        disabled: true %>
+      </div>
+
+      <!-- Make Type -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :make_type %>
+      </label>
+      <div class="text-left">
+        <%= form.select :make_type,
+                        options_for_select(make_type, selected: @makesheet.make_type),
+                        { prompt: true },
+                        class: field_class_flex %>
+      </div>
+
+      <!-- Weight Type -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :weight_type %>
+      </label>
+      <div class="text-left">
+        <%= form.select :weight_type,
+                        options_for_select(weight_type, selected: @makesheet.weight_type),
+                        { prompt: true },
+                        class: field_class_flex %>
+      </div>
+
+<div class="col-span-2">
+  <hr class="my-2">
+</div>
+
+      <!-- Make Date -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :make_date %>
+      </label>
+      <div class="text-left">
+        <%= form.date_field :make_date, value: @makesheet.make_date, class: field_class_flex %>
+      </div>
+
+      <!-- Number of Cheeses -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :number_of_cheeses %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :number_of_cheeses, class: field_class_flex %>
+      </div>
+
+      <!-- Total Weight -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :total_weight, "Total Weight (kg)" %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :total_weight, class: field_class_flex %>
+      </div>
+
+      <!-- Grade -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :grade %>
+      </label>
+      <div class="text-left">
+        <%= form.select :grade,
+                        options_for_select(grade, selected: @makesheet.grade),
+                        { prompt: true },
+                        class: field_class_flex %>
+      </div>
+
+      <div class="col-span-2">
+  <hr class="my-2">
+</div>
+
+      <!-- Type of Starter Culture Used -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :type_of_starter_culture_used, "Starter Culture" %>
+      </label>
+      <div class="text-left">
+        <%= form.select :type_of_starter_culture_used,
+                        options_for_select(starter_culture, selected: @makesheet.type_of_starter_culture_used),
+                        { prompt: true },
+                        class: field_class_flex_med %>
+      </div>
+
+      <!-- Total Time -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :total_hours, "Total Time (hours/mins)" %>
+    </label>
+    <div class="text-left flex gap-2">
+      <%= form.number_field :total_hours, min: 0, class: "shadow outline-none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none text-center w-24" %>
+      <%= form.number_field :total_minutes, in: 0..59, class: "shadow outline-none rounded-lg border border-gray-800 bg-gray-100 text-gray-800 py-2 px-3 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none text-center w-24", placeholder: "mins" %>
+    </div>
+
+      <!-- Final Titration -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :final_titration, "Final Titration" %>
+      </label>
+      <div class="text-left">
+        <%= form.text_field :final_titration, class: field_class_flex %>
+      </div>
+
+
+
+
+      <!-- Back Button -->
+      <div class="text-left">
+        <%= link_to "← Back to Makesheets", makesheets_path, class: gray_button %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-left">
+        <%= form.submit "Save Makesheet", class: fill_button_class %>
+      </div>
+    </div>
+
+  <% end %>
+</div>
+
