@@ -68,85 +68,90 @@ class LocationLabelPdfService
   private
 
   def draw_label(pdf, location, url)
-    qrcode = RQRCode::QRCode.new(url)
-  
-    qr_extent = 35.mm
-    qr_padding = 2.mm
-    qr_box_width = qr_extent + (qr_padding * 2)
-  
-    top_half_height = pdf.bounds.height / 2
-    full_content_width = pdf.bounds.width - qr_box_width - 6.mm
-  
-    pdf.bounding_box([0, pdf.bounds.top], width: pdf.bounds.width, height: top_half_height) do
-      # QR Code
-      pdf.bounding_box([-2.mm, top_half_height], width: qr_box_width, height: qr_extent + qr_padding * 2) do
-        pdf.render_qr_code(qrcode, extent: qr_extent, stroke: false, align: :center)
-      end
-  
-      if location.location_type == "Trolley"
-        number = location.name.match(/\d+/)&.to_s
-  
-        pdf.bounding_box([qr_box_width + 4.mm, top_half_height], width: full_content_width, height: qr_extent + qr_padding * 2) do
-          pdf.move_down (qr_extent / 4)
-          pdf.text "Trolley", size: 16, style: :bold, align: :center
-          pdf.move_down 5
-          pdf.text number.to_s, size: 54, style: :bold, align: :center
-        end
-  
-      else
-        shed_number  = location.name.match(/Shed (\d+)/)&.captures&.first.to_s
-        aisle_number = location.name.match(/Aisle (\d+)/)&.captures&.first.to_i
-        side         = location.name.include?("Left") ? "Left" : "Right"
-        col          = location.name.match(/Col (\d+)/)&.captures&.first.to_i
+  qrcode = RQRCode::QRCode.new(url)
 
-        # Base direction logic
-        arrow_direction =
-          if side == "Left"
-            col.odd? ? "left" : "right"
-          else
-            col.odd? ? "right" : "left"
-          end
+  qr_extent = 35.mm
+  qr_padding = 2.mm
+  qr_box_width = qr_extent + (qr_padding * 2)
 
-        # 🔁 Override for Shed 5 + odd-numbered aisle
-        if shed_number == "5" && aisle_number.odd?
-          arrow_direction = (arrow_direction == "left" ? "right" : "left")
-        end
+  top_half_height = pdf.bounds.height / 2
+  full_content_width = pdf.bounds.width - qr_box_width - 6.mm
 
-        arrow_filename = "#{arrow_direction}-long-solid.png"
-        arrow_path = Rails.root.join("app/assets/images", arrow_filename)
-  
-        left_width  = full_content_width * 0.35
-        right_width = full_content_width * 0.65
-  
-        # Left: shed/aisle/side text + arrow
-        pdf.bounding_box([qr_box_width + 2.mm, top_half_height], width: left_width, height: qr_extent + qr_padding * 2) do
-          pdf.move_down 10
-          pdf.text "Shed #{shed_number}",  size: 10, style: :bold, align: :left
-          pdf.text "Aisle #{aisle_number}", size: 10, style: :bold, align: :left
-          pdf.text side,                   size: 10, style: :bold, align: :left
-          pdf.move_down 6
-  
-          if File.exist?(arrow_path)
-            pdf.image arrow_path, width: 12.mm, position: :left
-          else
-            pdf.text "→", size: 14, style: :bold, align: :left
-          end
-        end
-  
-        # Right: column number only
-        pdf.bounding_box([qr_box_width + 2.mm + left_width, top_half_height], width: right_width, height: qr_extent + qr_padding * 2) do
-          pdf.move_down 10
-          begin
-            pdf.text col.to_s, size: 50, style: :bold, align: :center
-          rescue Prawn::Errors::CannotFit
-            pdf.text col.to_s, size: 36, style: :bold, align: :center
-          end
-        end
-      end
-  
-     # pdf.move_down 2
-      pdf.stroke_horizontal_rule
+  pdf.bounding_box([0, pdf.bounds.top], width: pdf.bounds.width, height: top_half_height) do
+    # QR Code
+    pdf.bounding_box([-2.mm, top_half_height], width: qr_box_width, height: qr_extent + qr_padding * 2) do
+      pdf.render_qr_code(qrcode, extent: qr_extent, stroke: false, align: :center)
     end
+
+    if location.location_type == "Trolley"
+      number = location.name.match(/\d+/)&.to_s
+
+      pdf.bounding_box([qr_box_width + 4.mm, top_half_height], width: full_content_width, height: qr_extent + qr_padding * 2) do
+        pdf.move_down (qr_extent / 4)
+        pdf.text "Trolley", size: 16, style: :bold, align: :center
+        pdf.move_down 5
+        pdf.text number.to_s, size: 54, style: :bold, align: :center
+      end
+
+    else
+      # Parse details from location name
+      shed_number  = location.name.match(/Shed (\d+)/)&.captures&.first.to_s
+      aisle_number = location.name.match(/Aisle (\d+)/)&.captures&.first.to_i
+      side         = location.name.include?("Left") ? "Left" : "Right"
+      col          = location.name.match(/Col (\d+)/)&.captures&.first.to_i
+
+      arrow_direction = "left" # default fallback
+
+      if shed_number == "4"
+        if side == "Left"
+          arrow_direction = col.odd? ? "right" : "left"
+        else
+          arrow_direction = col.odd? ? "left" : "right"
+        end
+      
+      elsif shed_number == "5"
+        if side == "Right"
+          arrow_direction = col.odd? ? "left" : "right"
+        else
+          arrow_direction = col.odd? ? "right" : "left"
+        end
+      end
+
+      arrow_filename = "#{arrow_direction}-long-solid.png"
+      arrow_path = Rails.root.join("app/assets/images", arrow_filename)
+
+      left_width  = full_content_width * 0.35
+      right_width = full_content_width * 0.65
+
+      # Left: shed/aisle/side text + arrow
+      pdf.bounding_box([qr_box_width + 2.mm, top_half_height], width: left_width, height: qr_extent + qr_padding * 2) do
+        pdf.move_down 10
+        pdf.text "Shed #{shed_number}",  size: 10, style: :bold, align: :left
+        pdf.text "Aisle #{aisle_number}", size: 10, style: :bold, align: :left
+        pdf.text side,                   size: 10, style: :bold, align: :left
+        pdf.move_down 6
+
+        if File.exist?(arrow_path)
+          pdf.image arrow_path, width: 12.mm, position: :left
+        else
+          pdf.text "→", size: 14, style: :bold, align: :left
+        end
+      end
+
+      # Right: column number only
+      pdf.bounding_box([qr_box_width + 2.mm + left_width, top_half_height], width: right_width, height: qr_extent + qr_padding * 2) do
+        pdf.move_down 10
+        begin
+          pdf.text col.to_s, size: 50, style: :bold, align: :center
+        rescue Prawn::Errors::CannotFit
+          pdf.text col.to_s, size: 36, style: :bold, align: :center
+        end
+      end
+    end
+
+    pdf.stroke_horizontal_rule
   end
+end
+
   
 end

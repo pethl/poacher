@@ -32,7 +32,7 @@
               <%= select_tag :location_start,
                     options_from_collection_for_select(Location.order(:sort_order), :id, :name),
                     prompt: "Start",
-                    class: field_class_flex_med %>
+                    class: field_class_flex %>
             </div>
 
             <div>
@@ -40,7 +40,7 @@
               <%= select_tag :location_end,
                     options_from_collection_for_select(Location.order(:sort_order), :id, :name),
                     prompt: "End",
-                    class: field_class_flex_med %>
+                    class: field_class_flex %>
             </div>
           </div>
         </div>
