@@ -69,6 +69,10 @@ module ApplicationHelper
   # --- Field Input Classes ---
   BASE_FIELD_CLASS = "shadow outline-none rounded-lg border border-gray-800"
 
+  def field_class_flex
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+
   def field_class
     "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
@@ -81,9 +85,7 @@ module ApplicationHelper
     "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
-  def field_class_flex
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
-  end
+ 
 
   def field_class_flex_full
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"

@@ -31,11 +31,13 @@ import SearchController from "./controllers/search_controller"
 import ClickToVisitController from "./controllers/click_to_visit_controller"
 import ScoreSliderController from "./controllers/score_slider_controller"
 import MakesheetController from "./controllers/makesheet_controller"
+import MakesheetPickerController from "./controllers/makesheet_picker_controller"
 import TraceabilityController from "./controllers/traceability_controller"
 import ToggleViewController from "./controllers/toggle_view_controller"
 import BatchWeightController from "./controllers/batch_weight_controller"
 import QrScannerController from "./controllers/qr_scanner_controller"
-import FilterController from "./controllers/filter_controller" // ✅ NEW
+import FilterController from "./controllers/filter_controller"
+import "flowbite"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)
@@ -46,11 +48,12 @@ application.register("search", SearchController)
 application.register("click-to-visit", ClickToVisitController)
 application.register("score-slider", ScoreSliderController)
 application.register("makesheet", MakesheetController)
+application.register("makesheet-picker", MakesheetPickerController)
 application.register("traceability", TraceabilityController)
 application.register("toggle-view", ToggleViewController)
 application.register("batch-weight", BatchWeightController)
 application.register("qr-scanner", QrScannerController)
-application.register("filter", FilterController) // ✅ NEW
+application.register("filter", FilterController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

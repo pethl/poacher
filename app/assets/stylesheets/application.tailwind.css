@@ -10,6 +10,7 @@
 
 @import "components/flash";
 @import "config/animations";
+@import "flowbite";
 
 .sort {
   position: absolute;

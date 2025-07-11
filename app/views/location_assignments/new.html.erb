@@ -1,39 +1,38 @@
-<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+<div class="max-w-xl mx-auto mt-4 bg-white p-6 text-center" data-controller="qr-scanner">
   <%= form_with url: location_assignments_path, method: :post, local: true do |form| %>
-    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+    <div class="space-y-6">
 
       <!-- Make Date -->
-      <label class="text-right font-semibold text-gray-700">Make Date</label>
-      <div class="text-left">
-        <%= form.select :makesheet_id,
-              options_from_collection_for_select(Makesheet.all.order(make_date: :desc), :id, :make_date_formatted),
-              { prompt: "Select Makesheet" },
-              class: field_class_flex_med %>
+      <div>
+        <label class="block font-semibold text-gray-700 mb-1">Make Date</label>
+        <%= render "shared/makesheet_picker", form: form, makesheets: Makesheet.not_finished.ordered_reverse %>
       </div>
 
-      <!-- Location + QR Scanner + Message all inside Stimulus wrapper -->
-      <label class="text-right font-semibold text-gray-700">Location</label>
-      <div class="text-left" data-controller="qr-scanner">
+      <!-- QR Scanner -->
+      <div>
+        <label class="block font-semibold text-gray-700 mb-1">Scan Location QR Code</label>
+        <div id="qr-reader" style="width: 250px; height: auto;" class="mx-auto"></div>
+        <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
+      </div>
+
+      <!-- Backup Location -->
+      <div>
+        <label class="block font-semibold text-gray-700 mb-1">or Select Location</label>
         <%= form.select :location_id,
               options_from_collection_for_select(Location.active.order(:sort_order), :id, :name, @location_assignment[:location_id]),
               { prompt: "Select Location" },
-              class: field_class_flex_med,
+              class: field_class_flex,
               id: "location-id-select",
               data: { qr_scanner_target: "select" } %>
-
-        <!-- QR Scanner UI -->
-        <div class="text-center mt-4">
-          <div id="qr-reader" class="mx-auto" style="width: 250px; height: auto;"></div>
-          <p class="text-xs text-gray-500 mt-2">Scan a QR code to auto-select a location</p>
-          <p data-qr-scanner-target="message" class="text-sm mt-2 text-center text-green-600"></p>
-        </div>
       </div>
 
       <!-- Submit Button -->
-      <div class="col-span-2 text-center mt-4">
+      <div class="mt-6">
         <%= form.submit "Assign Location", class: fill_button_class %>
       </div>
 
     </div>
   <% end %>
 </div>
+
+
