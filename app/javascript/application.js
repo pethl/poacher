@@ -38,6 +38,7 @@ import BatchWeightController from "./controllers/batch_weight_controller"
 import QrScannerController from "./controllers/qr_scanner_controller"
 import FilterController from "./controllers/filter_controller"
 import "flowbite"
+import "flatpickr/dist/flatpickr.min.css"
 
 application.register("signature", SignatureController)
 application.register("total", TotalController)

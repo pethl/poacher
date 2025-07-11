@@ -11,20 +11,23 @@ class LocationAssignmentsController < ApplicationController
     location_id  = params[:location_id]
   
     if makesheet_id.blank? || location_id.blank?
-      redirect_to new_location_assignment_path, alert: "Please select both a make_date and a location."
+      redirect_to new_location_assignment_path, alert: "❗ Please select both a make date and a location."
       return
     end
   
-    location   = Location.find(location_id)
-    makesheet  = Makesheet.find(makesheet_id)
+    location  = Location.find(location_id)
+    makesheet = Makesheet.find(makesheet_id)
   
     if Makesheet.exists?(location_id: location.id)
-      redirect_to new_location_assignment_path, alert: "That location is already assigned to another make_date."
+      redirect_to new_location_assignment_path, alert: "❗ That location is already assigned to another make date."
     else
       makesheet.update(location: location)
-      redirect_to pages_store_home_path, notice: "Location assigned."
+      redirect_to new_location_assignment_path,  notice: " Make #{makesheet.make_date.strftime("%d-%m-%y")} assigned to #{location.name}"
     end
   end
+  
+  
+  
 
   def location_report
     @locations = Location.includes(:makesheet)

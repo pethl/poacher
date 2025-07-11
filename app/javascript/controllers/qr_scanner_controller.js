@@ -48,8 +48,8 @@ export default class extends Controller {
     if (this.hasMessageTarget) {
       this.messageTarget.textContent = text
       this.messageTarget.className = isError
-        ? "text-red-600 text-sm mt-2"
-        : "text-green-600 text-sm mt-2"
+        ? "text-red-600 text-lg mt-2"
+        : "text-green-600 text-lg mt-2"
     }
   }
 }

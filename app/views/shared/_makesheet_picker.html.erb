@@ -1,7 +1,9 @@
 <%# Required locals: form:, makesheets:, field: %>
 <%
-  makesheet_map = makesheets.index_by(&:make_date).transform_keys(&:to_s).to_json
-  field_name = local_assigns[:field] || :makesheet_id
+  makesheet_map = makesheets.index_by { |m| m.make_date.strftime("%Y-%m-%d") }.transform_values(&:id).to_json
+
+  field_name = field || :makesheet_id
+
 %>
 
 <div
@@ -10,8 +12,6 @@
 >
   <!-- Flowbite date input -->
   <input
-    datepicker
-    datepicker-format="yyyy-mm-dd"
     type="text"
     placeholder="Select make date"
     class="<%= field_class_flex %>"
@@ -19,5 +19,9 @@
   />
 
   <!-- Hidden field to store selected makesheet_id -->
-  <%= form.hidden_field field_name, data: { makesheet_picker_target: "output" } %>
+ 
+  <input type="hidden" name="makesheet_id" data-makesheet-picker-target="output" />
+
+
+  
 </div>

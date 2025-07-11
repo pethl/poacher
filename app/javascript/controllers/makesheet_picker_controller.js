@@ -1,19 +1,39 @@
 import { Controller } from "@hotwired/stimulus"
+import flatpickr from "flatpickr"
 
 export default class extends Controller {
   static targets = ["input", "output"]
   static values = {
-    makesheets: Object // { "2025-07-10": 12, "2025-07-11": 13 }
+    makesheets: Object // e.g., { "2025-07-11": 42, "2025-07-12": 43 }
   }
 
   connect() {
-    this.inputTarget.addEventListener("change", (event) => {
-      const selectedDate = event.target.value
-      const makesheetId = this.makesheetsValue[selectedDate]
-      if (makesheetId) {
-        this.outputTarget.value = makesheetId
-      } else {
-        this.outputTarget.value = ""
+    console.log("🧠 MakesheetPicker connected")
+    const enabledDates = Object.keys(this.makesheetsValue)
+    console.log("📆 Enabled makesheet dates:", enabledDates)
+
+    if (!this.hasInputTarget || !this.hasOutputTarget) {
+      console.error("❌ Missing input or output target!")
+      return
+    }
+
+    flatpickr(this.inputTarget, {
+      enable: enabledDates,
+      dateFormat: "Y-m-d",
+      altInput: true,
+      altFormat: "F j, Y",
+      onChange: (selectedDates) => {
+        const isoDate = selectedDates[0]?.toISOString().split("T")[0]
+        const makesheetId = this.makesheetsValue[isoDate]
+        console.log("📅 Selected:", isoDate)
+        console.log("🔗 Found makesheet ID:", makesheetId)
+
+        if (this.hasOutputTarget) {
+          this.outputTarget.value = makesheetId || ""
+          console.log("✅ Hidden field updated:", this.outputTarget)
+        } else {
+          console.warn("⚠️ Output target not found!")
+        }
       }
     })
   }

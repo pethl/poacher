@@ -27,6 +27,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "chartkick": "^5.0.1",
     "dayjs": "^1.11.13",
+    "flatpickr": "^4.6.13",
     "flowbite": "^2.4.1",
     "highcharts": "^12.1.2",
     "html5-qrcode": "^2.3.8",
