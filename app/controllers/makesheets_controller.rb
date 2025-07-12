@@ -120,12 +120,15 @@ class MakesheetsController < ApplicationController
   def index
     @makesheets = Makesheet.all
   
-    # Filter by date if provided
-    @makesheets = @makesheets.where(make_date: params[:search]) if params[:search].present?
+    # Filter by selected makesheet_id (from makesheet_picker partial)
+    if params[:makesheet_id].present?
+      @makesheets = @makesheets.where(id: params[:makesheet_id])
+    end
   
-    # Include locations for joins and eager loading
+    # Eager load locations
     @makesheets = @makesheets.includes(:location)
   
+    # Sorting logic
     if params[:column] == "location.name"
       @makesheets = @makesheets.joins(:location).order("locations.name #{sort_direction}")
     elsif params[:column].present? && Makesheet.column_names.include?(params[:column])
@@ -134,6 +137,7 @@ class MakesheetsController < ApplicationController
       @makesheets = @makesheets.ordered_reverse
     end
   end
+  
   
 
   # GET /makesheets/1 or /makesheets/1.json

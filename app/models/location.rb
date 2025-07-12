@@ -26,5 +26,16 @@ class Location < ApplicationRecord
   def row_label
     "Aisle #{aisle} #{side}" if aisle && side
   end
+
+  def shed_number
+    # Only extract if it's a shed (e.g., "Shed 5 - Aisle 1 Right")
+    if name =~ /Shed (\d+)/
+      $1.to_i
+    else
+      nil
+    end
+  end
+
+ 
 end
 

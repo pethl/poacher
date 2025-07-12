@@ -7,8 +7,19 @@ class LocationsController < ApplicationController
   end
 
   def shed_map
-    shed_number = params[:shed] # expects "4" or "5"
+    shed_number = params[:shed]
     @shed_name = "Shed #{shed_number}"
+  
+    # 💡 Handle 'Find It' redirect if a makesheet was selected
+    if params[:makesheet_id].present?
+      makesheet = Makesheet.find_by(id: params[:makesheet_id])
+  
+      if makesheet&.location.present?
+        return redirect_to shed_map_path(shed: shed_number, anchor: "location-#{makesheet.location.id}")
+      else
+        flash.now[:alert] = "No location found for that makesheet."
+      end
+    end
   
     @shed_locations = Location
       .where("name LIKE ?", "%Shed #{shed_number}%")
@@ -16,11 +27,13 @@ class LocationsController < ApplicationController
       .group_by(&:row_label)
   
     @max_columns = @shed_locations.values.flatten.map(&:column_number).compact.max
-
-    unless @shed_locations
+  
+    unless @shed_locations.present?
       redirect_to root_path, alert: "Shed not found"
     end
   end
+  
+  
 
   # GET /locations/1 or /locations/1.json
   def show

@@ -1,4 +1,5 @@
 <% content_for :page_title, @shed_name.to_s %>
+<%= render 'shared/store_nav' %>
 
 <!-- Tab Navigation -->
 <div class="flex justify-center space-x-4 mb-6">
@@ -8,8 +9,8 @@
   <% end %>
 </div>
 
-<div class="w-full max-w-screen-xl mx-auto px-6 py-4 lg:px-8">
 
+<div class="w-full max-w-screen-xl mx-auto px-6 py-4 lg:px-8">
   <!-- Legend -->
   <div class="mb-8 flex flex-wrap justify-center gap-6">
     <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded bg-emerald-500"></span>Poacher</div>
@@ -22,124 +23,125 @@
     <div class="flex items-center gap-2"><span class="inline-block w-5 h-5 rounded border border-gray-400 bg-white text-gray-800 flex items-center justify-center">–</span>Empty</div>
   </div>
 
-<!-- Responsive Table Container -->
-<div class="overflow-x-auto">
-  <% min_width = @shed_name == "Shed 4" ? "min-w-[1024px]" : "min-w-[800px]" %>
-  <% column_range = (1..@max_columns).to_a %>
-  <% sorted_keys = @shed_locations.keys.sort_by { |a| a[/\d+/].to_i } %>
-  <% grouped_keys = [[sorted_keys.first]] + sorted_keys[1..].each_slice(2).to_a %>
-  <% grouped_keys.reverse! %> <!-- Visual: Aisle 6 at top, Aisle 1 at bottom -->
+  <!-- Responsive Table Container -->
+  <div data-controller="location-highlight">
+    <div class="overflow-x-auto">
+      <% min_width = @shed_name == "Shed 4" ? "min-w-[1024px]" : "min-w-[800px]" %>
+      <% column_range = (1..@max_columns).to_a %>
+      <% sorted_keys = @shed_locations.keys.sort_by { |a| a[/\d+/].to_i } %>
+      <% grouped_keys = [[sorted_keys.first]] + sorted_keys[1..].each_slice(2).to_a %>
+      <% grouped_keys.reverse! %>
 
-  <table class="table-auto border border-gray-300 text-sm mx-auto <%= min_width %>">
-    <thead>
-      <tr>
-        <% if @shed_name == "Shed 4" %>
-          <th class="border px-2 py-1 bg-gray-100 text-center">Aisle</th>
-          <th class="border px-2 py-1 bg-gray-100 text-left">Side</th>
-          <% column_range.each do |col| %>
-            <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
-          <% end %>
-        <% else %>
-          <% column_range.reverse.each do |col| %>
-            <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
-          <% end %>
-          <th class="border px-2 py-1 bg-gray-100 text-left">Side</th>
-          <th class="border px-2 py-1 bg-gray-100 text-center">Aisle</th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Back Wall Row FIRST -->
-      <tr>
-        <% if @shed_name == "Shed 4" %>
-          <td colspan="<%= 2 + column_range.size %>" class="!bg-gray-800 text-white text-center font-semibold py-2">
-            Back Wall
-          </td>
-        <% else %>
-          <td colspan="<%= column_range.size + 2 %>" class="!bg-gray-800 text-white text-center font-semibold py-2">
-            Back Wall
-          </td>
-        <% end %>
-      </tr>
-
-      <% grouped_keys.each do |group| %>
-        <% aisle_number = group.first[/\d+/] %>
-        <% left_aisle = group.find { |a| a.match?(/Left/i) } %>
-        <% right_aisle = group.find { |a| a.match?(/Right/i) } %>
-        <% left_locations = @shed_locations[left_aisle] || [] %>
-        <% right_locations = @shed_locations[right_aisle] || [] %>
-        <% column_range_used = @shed_name == "Shed 5" ? column_range.reverse : column_range %>
-        <% sides = @shed_name == "Shed 4" ? [:left, :right] : [:right, :left] %>
-
-        <% sides.each_with_index do |side, index| %>
-          <% current_aisle = side == :left ? left_aisle : right_aisle %>
-          <% current_locations = side == :left ? left_locations : right_locations %>
-
-          <% if @shed_name == "Shed 4" %>
-            <tr>
-              <% if index == 0 %>
-                <td class="border px-4 py-2 text-center align-middle text-lg font-bold" rowspan="3"><%= aisle_number %></td>
+      <table class="table-auto border border-gray-300 text-sm mx-auto <%= min_width %>">
+        <thead>
+          <tr>
+            <% if @shed_name == "Shed 4" %>
+              <th class="border px-2 py-1 bg-gray-100 text-center">Aisle</th>
+              <th class="border px-2 py-1 bg-gray-100 text-left">Side</th>
+              <% column_range.each do |col| %>
+                <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
               <% end %>
-              <td class="border px-2 py-1 text-left"><%= side.to_s.capitalize %></td>
-              <% column_range_used.each do |col_num| %>
-                <% location = current_locations.find { |loc| loc.column_number == col_num } %>
-                <% if location %>
-                  <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
-                  <td class="border px-1 py-1 text-center">
-                    <%= link_to new_location_assignment_path(location_id: location.id),
-                      class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                      title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
-                      <%= col_num %>
-                    <% end %>
-                  </td>
-                <% else %>
-                  <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
-                <% end %>
+            <% else %>
+              <% column_range.reverse.each do |col| %>
+                <th class="border px-2 py-1 bg-gray-100 text-center"><%= col %></th>
               <% end %>
-            </tr>
-          <% else %>
-            <tr>
-              <% column_range_used.each do |col_num| %>
-                <% location = current_locations.find { |loc| loc.column_number == col_num } %>
-                <% if location %>
-                  <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
-                  <td class="border px-1 py-1 text-center">
-                    <%= link_to new_location_assignment_path(location_id: location.id),
-                      class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                      title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
-                      <%= col_num %>
-                    <% end %>
-                  </td>
-                <% else %>
-                  <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
-                <% end %>
-              <% end %>
-              <td class="border px-2 py-1 text-left"><%= side.to_s.capitalize %></td>
-              <% if index == 0 %>
-                <td class="border px-4 py-2 text-center align-middle text-lg font-bold" rowspan="3"><%= aisle_number %></td>
-              <% end %>
-            </tr>
-          <% end %>
+              <th class="border px-2 py-1 bg-gray-100 text-left">Side</th>
+              <th class="border px-2 py-1 bg-gray-100 text-center">Aisle</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% if @shed_name == "Shed 4" %>
+              <td colspan="<%= 2 + column_range.size %>" class="!bg-gray-800 text-white text-center font-semibold py-2">
+                Back Wall
+              </td>
+            <% else %>
+              <td colspan="<%= column_range.size + 2 %>" class="!bg-gray-800 text-white text-center font-semibold py-2">
+                Back Wall
+              </td>
+            <% end %>
+          </tr>
 
-          <% if index == 0 %>
-            <tr>
+          <% grouped_keys.each do |group| %>
+            <% aisle_number = group.first[/\d+/] %>
+            <% left_aisle = group.find { |a| a.match?(/Left/i) } %>
+            <% right_aisle = group.find { |a| a.match?(/Right/i) } %>
+            <% left_locations = @shed_locations[left_aisle] || [] %>
+            <% right_locations = @shed_locations[right_aisle] || [] %>
+            <% column_range_used = @shed_name == "Shed 5" ? column_range.reverse : column_range %>
+            <% sides = @shed_name == "Shed 4" ? [:left, :right] : [:right, :left] %>
+
+            <% sides.each_with_index do |side, index| %>
+              <% current_aisle = side == :left ? left_aisle : right_aisle %>
+              <% current_locations = side == :left ? left_locations : right_locations %>
+
               <% if @shed_name == "Shed 4" %>
-                <td></td>
-                <% column_range_used.each do %>
-                  <td class="bg-white h-4"></td>
-                <% end %>
+                <tr>
+                  <% if index == 0 %>
+                    <td class="border px-4 py-2 text-center align-middle text-lg font-bold" rowspan="3"><%= aisle_number %></td>
+                  <% end %>
+                  <td class="border px-2 py-1 text-left"><%= side.to_s.capitalize %></td>
+                  <% column_range_used.each do |col_num| %>
+                    <% location = current_locations.find { |loc| loc.column_number == col_num } %>
+                    <% if location %>
+                      <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
+                      <td class="border px-1 py-1 text-center" id="location-<%= location.id %>">
+                        <%= link_to new_location_assignment_path(location_id: location.id),
+                          class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                          title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
+                          <%= col_num %>
+                        <% end %>
+                      </td>
+                    <% else %>
+                      <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
+                    <% end %>
+                  <% end %>
+                </tr>
               <% else %>
-                <% column_range_used.size.times do %>
-                  <td class="bg-white h-4"></td>
-                <% end %>
-                <td></td>
+                <tr>
+                  <% column_range_used.each do |col_num| %>
+                    <% location = current_locations.find { |loc| loc.column_number == col_num } %>
+                    <% if location %>
+                      <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
+                      <td class="border px-1 py-1 text-center" id="location-<%= location.id %>">
+                        <%= link_to new_location_assignment_path(location_id: location.id),
+                          class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                          title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
+                          <%= col_num %>
+                        <% end %>
+                      </td>
+                    <% else %>
+                      <td class="border px-2 py-1 text-center !bg-gray-800 text-white w-10 rounded">–</td>
+                    <% end %>
+                  <% end %>
+                  <td class="border px-2 py-1 text-left"><%= side.to_s.capitalize %></td>
+                  <% if index == 0 %>
+                    <td class="border px-4 py-2 text-center align-middle text-lg font-bold" rowspan="3"><%= aisle_number %></td>
+                  <% end %>
+                </tr>
               <% end %>
-            </tr>
+
+              <% if index == 0 %>
+                <tr>
+                  <% if @shed_name == "Shed 4" %>
+                    <td></td>
+                    <% column_range_used.each do %>
+                      <td class="bg-white h-4"></td>
+                    <% end %>
+                  <% else %>
+                    <% column_range_used.size.times do %>
+                      <td class="bg-white h-4"></td>
+                    <% end %>
+                    <td></td>
+                  <% end %>
+                </tr>
+              <% end %>
+            <% end %>
           <% end %>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 <br><br><br><hr><br>
-

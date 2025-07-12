@@ -37,6 +37,8 @@ import ToggleViewController from "./controllers/toggle_view_controller"
 import BatchWeightController from "./controllers/batch_weight_controller"
 import QrScannerController from "./controllers/qr_scanner_controller"
 import FilterController from "./controllers/filter_controller"
+import LocationHighlightController from "./controllers/location_highlight_controller"
+
 import "flowbite"
 import "flatpickr/dist/flatpickr.min.css"
 
@@ -55,6 +57,7 @@ application.register("toggle-view", ToggleViewController)
 application.register("batch-weight", BatchWeightController)
 application.register("qr-scanner", QrScannerController)
 application.register("filter", FilterController)
+application.register("location-highlight", LocationHighlightController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

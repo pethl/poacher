@@ -1,0 +1,17 @@
+<!-- app/views/shared/_store_nav.html.erb -->
+<div class="mx-auto flex justify-center gap-4 mb-4 pb-2 border-b-2">
+
+  <%= link_to "Whiteboard", "/makesheets/graded_blackboard", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/makesheets/graded_blackboard')} hover:bg-gray-200" %>
+
+  <%= link_to "Grading Session".html_safe, preload_grading_notes_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?(preload_grading_notes_path)} hover:bg-gray-200" %>
+
+  <%= link_to "All Grading", "/grading_notes", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/grading_notes')} hover:bg-gray-200" %>
+
+  <%= link_to "Location Tracking", "/location_assignments/new", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/location_assignments/new')} hover:bg-gray-200" %>
+
+  <%= link_to "Location Report", "/location_report", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/location_report')} hover:bg-gray-200" %>
+
+  <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?(shed_map_path(shed: 4))} hover:bg-gray-200" %>
+
+  <%= link_to "Turns", "/turns/new", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/turns/new')} hover:bg-gray-200" %>
+</div>

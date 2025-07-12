@@ -6,14 +6,21 @@
   <div id="makesheets">
 
 <div class="mx-auto max-w-[1140px] px-6">
-      <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
+     <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
+    
       <div class="flex items-center space-x-2">
-        <%= label_tag :search, "Search by Make Date", class:"font-semibold" %>
-        <%= date_field_tag :search, params[:search], class: field_class_flex %>
+        <%= label_tag :search, "Search by Make Date", class: "font-semibold" %>
+
+        <%= render "shared/makesheet_picker",
+              form: nil,
+              field: :search,
+              makesheets: Makesheet.ordered_reverse %>
+
         <%= submit_tag "Search", class: fill_button_class %>
         <%= link_to "Clear", makesheets_path, class: clear_button_class %>
       </div>
-      <% end %>
+    <% end %>
+
 
       <%= render "makesheet_table", makesheets: @makesheets %>
     </div>

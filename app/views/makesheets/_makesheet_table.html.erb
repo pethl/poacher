@@ -76,7 +76,13 @@
           <%= makesheet.age_in_months %>m
         </td>
         <td class="px-4 py-2 text-left">
-          <%= makesheet.location&.name || "—" %>
+        <% if makesheet.location.present? && makesheet.location.location_type == "Aisle" %>
+          <%= link_to makesheet.location.name,
+            shed_map_path(shed: makesheet.location.shed_number) + "#location-#{makesheet.location.id}",
+            class: "text-blue-600 underline" %>
+        <% else %>
+          <span class="text-gray-500 italic"><%= makesheet.location&.name || "" %></span>
+        <% end %>
         </td>
         <td class="px-4 py-2 text-right">
           <%= makesheet.total_weight %> kg
