@@ -485,7 +485,9 @@ module MakesheetPdfPage1
                         rows(0).align = :center
                         rows(0).size = 7
                         rows(1).size = 9
-                        end   
+                        end 
+                        pdf.text "Page: 1\n Ref: CD01", size: 8, align: :right
      end
+     
   end
 end

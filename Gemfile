@@ -135,3 +135,4 @@ gem 'rqrcode_svg'      # For rendering SVGs in HTML views
 gem 'prawn-qrcode'     # For rendering QR codes in Prawn PDFs
 
 
+

@@ -134,4 +134,29 @@ class Makesheet < ApplicationRecord
     end
   end
 
+  def the_final_titration
+    [
+      sixth_cut_titration,
+      fifth_cut_titration,
+      fourth_cut_titration,
+      third_cut_titration,
+      second_cut_titration,
+      first_cut_titration
+    ].compact.first
+  end
+
+  def total_time
+    latest_time = [
+      sixth_cut_time,
+      fifth_cut_time,
+      fourth_cut_time,
+      third_cut_time,
+      second_cut_time,
+      first_cut_time
+    ].compact.max
+  
+    latest_time&.strftime("%H:%M")
+  end
+
+
 end

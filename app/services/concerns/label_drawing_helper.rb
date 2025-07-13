@@ -47,8 +47,8 @@ module LabelDrawingHelper
         pdf.move_down row_gap
 
         row_y = pdf.cursor
-        pdf.text_box "#{makesheet.total_minutes}", at: [0, row_y], size: 10, width: col_width
-        pdf.text_box "#{makesheet.final_titration}", at: [col_width, row_y], size: 10, width: col_width
+        pdf.text_box "#{makesheet.total_time}", at: [0, row_y], size: 10, width: col_width
+        pdf.text_box "#{makesheet.the_final_titration}", at: [col_width, row_y], size: 10, width: col_width
         pdf.move_down row_gap + 4
 
         if makesheet.grade.present?

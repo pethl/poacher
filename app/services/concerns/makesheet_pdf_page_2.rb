@@ -1,4 +1,6 @@
 module MakesheetPdfPage2
+
+
   def draw_page_2(pdf, makesheet)
     pdf.font 'raleway'
 
@@ -48,7 +50,26 @@ module MakesheetPdfPage2
         overflow: :truncate,
         inline_format: true
 
-        pdf.move_down 300
+        pdf.move_down 40
+        #------------------------------------------------------------
+        chart_image_path = generate_chart_image(@chart_data)
+
+        if chart_image_path.present?
+          pdf.move_down 20
+          pdf.image chart_image_path, width: 450, position: :center
+          pdf.move_down 10
+        else
+          # Draw a placeholder box
+          pdf.move_down 20
+          pdf.bounding_box([pdf.bounds.left, pdf.cursor], width: 492, height: 230) do
+            pdf.stroke_bounds
+            pdf.fill_color "999999"
+            pdf.text_box "No chart data available", align: :center, valign: :center, size: 12
+            pdf.fill_color "000000"
+          end
+          pdf.move_down 10
+        end
+        #------------------------------------------------------------
 
       #slow cheese steps
          # Step 1: Static header rows
@@ -109,7 +130,7 @@ module MakesheetPdfPage2
     pdf.bounding_box(
       [pdf.bounds.left + left_column_width, start_y],
       width: right_column_width,
-      height: 490 # adjust as needed
+      height: 480 # adjust as needed
     ) do
       pdf.stroke_bounds
       pdf.move_down 4
@@ -132,9 +153,30 @@ module MakesheetPdfPage2
 
       pdf.move_down 120
       pdf.stroke_horizontal_rule
+      pdf.move_down 20
 
-     
-    end
+      side_margin = 10
+      box_width = pdf.bounds.width - (side_margin * 2)
+
+      pdf.bounding_box(
+        [pdf.bounds.left + side_margin, pdf.cursor],
+        width: box_width,
+        height: 120
+      ) do
+        pdf.text_box(
+          makesheet.post_make_notes.to_s,
+          at: [pdf.bounds.left, pdf.cursor],
+          width: box_width,
+          height: 120,
+          size: 10,
+          leading: 2,
+          overflow: :truncate,
+          inline_format: false
+        )
+      end
+         end
+         
+         pdf.text "Page: 2\n Ref: CD01", size: 8, align: :right
   end
 
   # ✅ Helper method for formatting YES/NO
@@ -183,6 +225,20 @@ module MakesheetPdfPage2
       ]
     end
   end
+
+
+  def generate_chart_image(chart_data)
+    base_url = "https://image-charts.com/chart"
+    x = chart_data.map(&:first).join(",")
+    y = chart_data.map(&:last).join(",")
   
+    url = "#{base_url}?cht=lc&chs=600x300&chd=t:#{y}&chxt=x,y&chxl=0:|#{x}&chtt=Acidity+Profile"
+  
+    file_path = Rails.root.join("tmp", "chart_#{SecureRandom.hex(4)}.png")
+    File.open(file_path, 'wb') do |f|
+      f.write URI.open(url).read
+    end
+    file_path.to_s
+  end
   
 end

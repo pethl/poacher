@@ -3,11 +3,13 @@ class MakesheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
   before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
+
   def makesheet_search
     if params[:search_by_batch] && params[:search_by_batch] != ""
       @makesheets = Makesheet.where(batch: params[:search_by_batch])
     end 
   end
+
   def overview
   end  
 
@@ -35,8 +37,6 @@ class MakesheetsController < ApplicationController
       hash[make_type] = data
     end
   end
-  
-  
   
   def batch_turns
     @turns = @makesheet.turns.ordered
@@ -111,8 +111,7 @@ class MakesheetsController < ApplicationController
         small_count = small_scope.count.nonzero? || 1
         @average_small_cheese_count = small_scope.pluck(:number_of_cheeses).compact.sum / small_count.to_f
         @average_small_cheese_weight = small_scope.pluck(:total_weight).compact.sum / small_count.to_f
-
-          
+    
   end
   
   
@@ -138,15 +137,12 @@ class MakesheetsController < ApplicationController
     end
   end
   
-  
-
   # GET /makesheets/1 or /makesheets/1.json
   def show
     @samples = @makesheet.samples
 
     @makesheet = Makesheet.find(params[:id])
     @qr_data = "28-05-2025 #{@makesheet.id}" # adjust as needed
-
   end
 
   def qr_code
@@ -181,7 +177,6 @@ class MakesheetsController < ApplicationController
     else
       flash[:alert] = "Weather data unavailable"
     end
-     
   end
 
   def simple_new
@@ -191,7 +186,7 @@ class MakesheetsController < ApplicationController
 
   # GET /makesheets/1/edit
   def edit
-    prepare_chart_data # Call the reusable method
+    prepare_chart_data(@makesheet)
   end
 
   # POST /makesheets or /makesheets.json
@@ -242,14 +237,16 @@ class MakesheetsController < ApplicationController
   
   
   def print_makesheet_pdf
-    makesheet = Makesheet.find(params[:id]) # Fetch the makesheet
-    pdf_data = MakesheetPdfGenerator.new(makesheet).generate # Get the PDF data
+    makesheet = Makesheet.find(params[:id])
+    chart_data = prepare_chart_data(makesheet) # Call and capture chart data
+  
+    pdf_data = MakesheetPdfGenerator.new(makesheet, chart_data).generate
   
     send_data pdf_data, 
               filename: "makesheet_#{makesheet.id}.pdf",
               type: "application/pdf",
-              disposition: "inline" # or "attachment" to force download
-  end 
+              disposition: "inline"
+  end
 
    #used in JS by traceability records form - very important never delete
    def summary
@@ -298,22 +295,20 @@ class MakesheetsController < ApplicationController
     end
 
      # Private method to prepare chart data
-     def prepare_chart_data
-      
-      # Define the titration values and the corresponding cuts, only including if both are present
-      titration_data = [
-        { cut: @makesheet.first_cut_time, titration: @makesheet.first_cut_titration },
-        { cut: @makesheet.second_cut_time, titration: @makesheet.second_cut_titration },
-        { cut: @makesheet.third_cut_time, titration: @makesheet.third_cut_titration },
-        { cut: @makesheet.fourth_cut_time, titration: @makesheet.fourth_cut_titration },
-        { cut: @makesheet.fifth_cut_time, titration: @makesheet.fifth_cut_titration },
-        { cut: @makesheet.sixth_cut_time, titration: @makesheet.sixth_cut_titration }
-      ]
+     def prepare_chart_data(makesheet)
+        titration_data = [
+          { cut: makesheet.first_cut_time, titration: makesheet.first_cut_titration },
+          { cut: makesheet.second_cut_time, titration: makesheet.second_cut_titration },
+          { cut: makesheet.third_cut_time, titration: makesheet.third_cut_titration },
+          { cut: makesheet.fourth_cut_time, titration: makesheet.fourth_cut_titration },
+          { cut: makesheet.fifth_cut_time, titration: makesheet.fifth_cut_titration },
+          { cut: makesheet.sixth_cut_time, titration: makesheet.sixth_cut_titration }
+        ]
 
-      # Select only the entries where both cut time and titration are present
-      titration_data = titration_data.select do |data|
-        data[:cut].present? && data[:titration].present?
-      end
+        titration_data.select { |d| d[:cut].present? && d[:titration].present? }.map do |data|
+          cut_time = Time.parse(data[:cut].to_s) rescue nil
+          cut_time ? [cut_time.strftime("%H:%M"), data[:titration]] : nil
+        end.compact
 
       # Format the cut time and prepare the data for the chart
       @chart_data = titration_data.map do |data|
