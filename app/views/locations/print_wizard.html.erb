@@ -54,7 +54,7 @@
       <% end %>
     </div>
 
-    <!-- PLACEHOLDER FOR NEW MARKER PRINT SECTION -->
+    <!--  MARKER PRINT SECTION -->
     <div class="bg-white rounded-2xl shadow p-6 border">
       <h2 class="text-lg font-semibold mb-4">Aisle Marker Pages</h2>
      
@@ -79,9 +79,60 @@
     <%= button_tag "Clear", type: "reset", class: clear_button_class %>
   </div>
 <% end %>
-</div>
-
   </div>
-</div>
 
+    <!-- FLEX ROW FOR AISLE MARKERS AND CHEESE LABELS -->
+    <div class="flex flex-cols-2 lg:flex-row gap-8">
+
+      <!-- Aisle Marker Section (left half) -->
+      <div class="bg-white rounded-2xl shadow p-6 border w-full lg:w-1/2">
+        <h2 class="text-lg font-semibold mb-4">Aisle Marker Pages</h2>
+
+        <%= form_with url: print_markers_locations_path, method: :get, data: { turbo: false }, class: "space-y-4" do %>
+          <div>
+            <label class="block font-medium mb-1">Select Aisle + Side:</label>
+            <%= select_tag :aisle_name,
+                  options_for_select(
+                    [["All Aisles", "ALL"]] + Location.pluck(:name)
+                      .map { |n| n[%r{^Shed \d+ - Aisle \d+ (Left|Right)}] }
+                      .compact
+                      .uniq
+                      .sort
+                  ),
+                  prompt: "Choose aisle + side",
+                  class: field_class_flex_med %>
+          </div>
+
+          <div class="flex gap-4 pt-2">
+            <%= submit_tag "Print Markers", class: fill_button_class %>
+            <%= button_tag "Clear", type: "reset", class: clear_button_class %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Cheese Make Labels Section (right half) -->
+      <div class="bg-white rounded-2xl shadow p-6 border w-full lg:w-1/2">
+        <h2 class="text-lg font-semibold mb-4">Cheese Make Labels</h2>
+
+        <%= form_with url: print_cheese_labels_path, method: :get, data: { turbo: false }, class: "space-y-4" do |f| %>
+          <div>
+            <%= f.label :start_date, "Start Date", class: "block font-medium mb-1" %>
+            <%= f.date_field :start_date, required: true, class: field_class_flex_med %>
+          </div>
+
+          <div>
+            <%= f.label :end_date, "End Date", class: "block font-medium mb-1" %>
+            <%= f.date_field :end_date, required: true, class: field_class_flex_med %>
+          </div>
+
+          <div class="flex gap-4 pt-2">
+            <%= f.submit "Print Cheese Labels", class: fill_button_class %>
+            <%= button_tag "Clear", type: "reset", class: clear_button_class %>
+          </div>
+        <% end %>
+      </div>
+    </div> <!-- ends flex row -->
+
+  </div> <!-- ends main content wrapper -->
+</div> <!-- ends flex justify-center -->
 

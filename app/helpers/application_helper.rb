@@ -28,6 +28,13 @@ module ApplicationHelper
     content_tag(:p, record.errors[field].first, class: "text-sm text-red-600 mt-1")
   end
 
+   # --- cheese labels ---
+  def print_label_link(makesheet_id, link_text = "Print Label")
+    return unless makesheet_id.present?
+
+    link_to link_text, print_label_path(makesheet_id: makesheet_id), target: "_blank", class: "btn btn-sm btn-outline-primary"
+  end
+
   # --- Navigation Box Classes ---
   def nav_box_class
     "w-64 h-32 bg-gray-800 text-gray-50 p-6 rounded-lg text-center font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300 transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"

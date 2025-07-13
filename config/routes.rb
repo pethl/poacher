@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get "print_label", to: "labels#print", as: :print_label #single cheese label print
+  get 'print_cheese_labels', to: 'labels#print_cheese_labels' #multi cheese label print
+
+
   get 'vacuum_pouch_calculator/new'
   get 'vacuum_pouch_calculator/create'
   resources :cleaning_foreign_body_checks do

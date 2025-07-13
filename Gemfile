@@ -125,6 +125,8 @@ gem 'activerecord-import'
 
 # QR generation
 gem 'rqrcode'          # Core QR generation
+gem 'barby'
+gem 'chunky_png'
 
 # HTML support
 gem 'rqrcode_svg'      # For rendering SVGs in HTML views
