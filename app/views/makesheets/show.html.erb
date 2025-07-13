@@ -5,20 +5,19 @@
   <!-- Buttons -->
   <div class="text-right space-y-4">
     <%= link_to "Edit this Make Sheet", edit_makesheet_path(@makesheet), class: fill_button_class %>
+    <%= link_to "Print Label", print_label_path(makesheet_id: @makesheet.id), class: gray_button %>
     <%= link_to "Back to Make Sheets", makesheets_path, class: clear_button_class %>
 
-    <% if is_admin? %>
-      <%= button_to "Delete Make Sheet",
-          @makesheet,
-          method: :delete,
-          form: { data: { turbo_confirm: "Are you sure?" } },
-          class: gray_button %>
-    <% end %>
+  <%# if is_admin? %>
+  <%#= button_to "Delete Make Sheet",
+      @makesheet,
+      method: :delete,
+      form: { data: { turbo_confirm: "Are you sure?" } },
+      class: gray_button %>
+<%# end %>
   </div>
 </div>
 
-
-  <br>
 
   <div class="text-left">
     <%= render @makesheet %>

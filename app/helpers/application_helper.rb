@@ -144,11 +144,11 @@ module ApplicationHelper
   end
 
   def gray_button
-    "my-4 rounded-lg py-2 px-4 bg-gray-100 inline-block font-semibold"
+    "my-4 rounded-lg py-2 px-4 bg-gray-100 border border-gray-200 inline-block font-semibold hover:bg-gray-200 hover:text-gray-600 "
   end
 
   def clear_button_class
-    "bg-transparent text-sm hover:bg-gray-200 hover:text-gray-600 font-semibold mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
+    "my-4 rounded-lg py-2 px-4 bg-transparent border border-gray-900 hover:bg-gray-200 hover:border-transparent font-semibold"
   end
 
   def tight_clear_button_class

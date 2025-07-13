@@ -1,0 +1,423 @@
+pg_restore: connecting to database for restore
+pg_restore: dropping FK CONSTRAINT picksheet_items fk_rails_faacc1c15e
+pg_restore: dropping FK CONSTRAINT grading_notes fk_rails_f7d0429772
+pg_restore: dropping FK CONSTRAINT cheese_wash_records fk_rails_f5c405f139
+pg_restore: dropping FK CONSTRAINT milk_quality_monitors fk_rails_f2f4569f0b
+pg_restore: dropping FK CONSTRAINT turns fk_rails_e9fca54821
+pg_restore: dropping FK CONSTRAINT wash_picksheets fk_rails_e8abc13b81
+pg_restore: dropping FK CONSTRAINT breakages fk_rails_db0dda6ed8
+pg_restore: dropping FK CONSTRAINT picksheets fk_rails_c6e7bcfed1
+pg_restore: dropping FK CONSTRAINT makesheets fk_rails_b7b3085680
+pg_restore: dropping FK CONSTRAINT batch_weights fk_rails_a73211c14e
+pg_restore: dropping FK CONSTRAINT wash_picksheets fk_rails_9a87d5f242
+pg_restore: dropping FK CONSTRAINT makesheets fk_rails_95d2bc8eba
+pg_restore: dropping FK CONSTRAINT palletised_distributions fk_rails_843f3ddb29
+pg_restore: dropping FK CONSTRAINT cleaning_foreign_body_checks fk_rails_7bca20a008
+pg_restore: dropping FK CONSTRAINT traceability_records fk_rails_6513117d4d
+pg_restore: dropping FK CONSTRAINT picksheet_items fk_rails_45cb59d723
+pg_restore: dropping FK CONSTRAINT picksheets fk_rails_3b43a658a7
+pg_restore: dropping FK CONSTRAINT scale_checks fk_rails_2296f705c6
+pg_restore: dropping FK CONSTRAINT waste_records fk_rails_16a65ee36e
+pg_restore: dropping FK CONSTRAINT chillers fk_rails_13d70f8a9e
+pg_restore: dropping INDEX index_waste_records_on_traceability_record_id
+pg_restore: dropping INDEX index_wash_picksheets_on_wash_id
+pg_restore: dropping INDEX index_wash_picksheets_on_picksheet_id
+pg_restore: dropping INDEX index_users_on_reset_password_token
+pg_restore: dropping INDEX index_users_on_email
+pg_restore: dropping INDEX index_turns_on_makesheet_id
+pg_restore: dropping INDEX index_traceability_records_on_makesheet_id
+pg_restore: dropping INDEX index_scale_checks_on_staff_id
+pg_restore: dropping INDEX index_picksheets_on_user_id
+pg_restore: dropping INDEX index_picksheets_on_contact_id
+pg_restore: dropping INDEX index_picksheet_items_on_picksheet_id
+pg_restore: dropping INDEX index_picksheet_items_on_makesheet_id
+pg_restore: dropping INDEX index_palletised_distributions_on_staff_id
+pg_restore: dropping INDEX index_milk_quality_monitors_on_makesheet_id
+pg_restore: dropping INDEX index_market_sales_on_sale_date
+pg_restore: dropping INDEX index_market_sales_on_market_and_sale_date
+pg_restore: dropping INDEX index_makesheets_samples_on_sample_id_and_makesheet_id
+pg_restore: dropping INDEX index_makesheets_samples_on_makesheet_id_and_sample_id
+pg_restore: dropping INDEX index_makesheets_on_status
+pg_restore: dropping INDEX index_makesheets_on_make_date
+pg_restore: dropping INDEX index_makesheets_on_location_id
+pg_restore: dropping INDEX index_makesheets_on_contact_id
+pg_restore: dropping INDEX index_grading_notes_on_makesheet_id
+pg_restore: dropping INDEX index_cleaning_foreign_body_checks_on_staff_id
+pg_restore: dropping INDEX index_chillers_on_staff_id
+pg_restore: dropping INDEX index_cheese_wash_records_on_makesheet_id
+pg_restore: dropping INDEX index_breakages_on_staff_id
+pg_restore: dropping INDEX index_batch_weights_on_makesheet_id
+pg_restore: dropping CONSTRAINT waste_records waste_records_pkey
+pg_restore: dropping CONSTRAINT washes washes_pkey
+pg_restore: dropping CONSTRAINT wash_picksheets wash_picksheets_pkey
+pg_restore: dropping CONSTRAINT users users_pkey
+pg_restore: dropping CONSTRAINT turns turns_pkey
+pg_restore: dropping CONSTRAINT traceability_records traceability_records_pkey
+pg_restore: dropping CONSTRAINT staffs staffs_pkey
+pg_restore: dropping CONSTRAINT schema_migrations schema_migrations_pkey
+pg_restore: dropping CONSTRAINT scale_checks scale_checks_pkey
+pg_restore: dropping CONSTRAINT samples samples_pkey
+pg_restore: dropping CONSTRAINT references references_pkey
+pg_restore: dropping CONSTRAINT picksheets picksheets_pkey
+pg_restore: dropping CONSTRAINT picksheet_items picksheet_items_pkey
+pg_restore: dropping CONSTRAINT palletised_distributions palletised_distributions_pkey
+pg_restore: dropping CONSTRAINT milk_quality_monitors milk_quality_monitors_pkey
+pg_restore: dropping CONSTRAINT market_sales market_sales_pkey
+pg_restore: dropping CONSTRAINT makesheets makesheets_pkey
+pg_restore: dropping CONSTRAINT locations locations_pkey
+pg_restore: dropping CONSTRAINT invoices invoices_pkey
+pg_restore: dropping CONSTRAINT grading_notes grading_notes_pkey
+pg_restore: dropping CONSTRAINT contacts contacts_pkey
+pg_restore: dropping CONSTRAINT cleaning_foreign_body_checks cleaning_foreign_body_checks_pkey
+pg_restore: dropping CONSTRAINT chillers chillers_pkey
+pg_restore: dropping CONSTRAINT cheese_wash_records cheese_wash_records_pkey
+pg_restore: dropping CONSTRAINT calculations calculations_pkey
+pg_restore: dropping CONSTRAINT butter_stocks butter_stocks_pkey
+pg_restore: dropping CONSTRAINT butter_makes butter_makes_pkey
+pg_restore: dropping CONSTRAINT breakages breakages_pkey
+pg_restore: dropping CONSTRAINT batch_weights batch_weights_pkey
+pg_restore: dropping CONSTRAINT ar_internal_metadata ar_internal_metadata_pkey
+pg_restore: dropping DEFAULT waste_records id
+pg_restore: dropping DEFAULT washes id
+pg_restore: dropping DEFAULT wash_picksheets id
+pg_restore: dropping DEFAULT users id
+pg_restore: dropping DEFAULT turns id
+pg_restore: dropping DEFAULT traceability_records id
+pg_restore: dropping DEFAULT staffs id
+pg_restore: dropping DEFAULT scale_checks id
+pg_restore: dropping DEFAULT samples id
+pg_restore: dropping DEFAULT references id
+pg_restore: dropping DEFAULT picksheets id
+pg_restore: dropping DEFAULT picksheet_items id
+pg_restore: dropping DEFAULT palletised_distributions id
+pg_restore: dropping DEFAULT milk_quality_monitors id
+pg_restore: dropping DEFAULT market_sales id
+pg_restore: dropping DEFAULT makesheets id
+pg_restore: dropping DEFAULT locations id
+pg_restore: dropping DEFAULT invoices id
+pg_restore: dropping DEFAULT grading_notes id
+pg_restore: dropping DEFAULT contacts id
+pg_restore: dropping DEFAULT cleaning_foreign_body_checks id
+pg_restore: dropping DEFAULT chillers id
+pg_restore: dropping DEFAULT cheese_wash_records id
+pg_restore: dropping DEFAULT calculations id
+pg_restore: dropping DEFAULT butter_stocks id
+pg_restore: dropping DEFAULT butter_makes id
+pg_restore: dropping DEFAULT breakages id
+pg_restore: dropping DEFAULT batch_weights id
+pg_restore: dropping SEQUENCE waste_records_id_seq
+pg_restore: dropping TABLE waste_records
+pg_restore: dropping SEQUENCE washes_id_seq
+pg_restore: dropping TABLE washes
+pg_restore: dropping SEQUENCE wash_picksheets_id_seq
+pg_restore: dropping TABLE wash_picksheets
+pg_restore: dropping SEQUENCE users_id_seq
+pg_restore: dropping TABLE users
+pg_restore: dropping SEQUENCE turns_id_seq
+pg_restore: dropping TABLE turns
+pg_restore: dropping SEQUENCE traceability_records_id_seq
+pg_restore: dropping TABLE traceability_records
+pg_restore: dropping SEQUENCE staffs_id_seq
+pg_restore: dropping TABLE staffs
+pg_restore: dropping TABLE schema_migrations
+pg_restore: dropping SEQUENCE scale_checks_id_seq
+pg_restore: dropping TABLE scale_checks
+pg_restore: dropping SEQUENCE samples_id_seq
+pg_restore: dropping TABLE samples
+pg_restore: dropping SEQUENCE references_id_seq
+pg_restore: dropping TABLE references
+pg_restore: dropping SEQUENCE picksheets_id_seq
+pg_restore: dropping TABLE picksheets
+pg_restore: dropping SEQUENCE picksheet_items_id_seq
+pg_restore: dropping TABLE picksheet_items
+pg_restore: dropping SEQUENCE palletised_distributions_id_seq
+pg_restore: dropping TABLE palletised_distributions
+pg_restore: dropping SEQUENCE milk_quality_monitors_id_seq
+pg_restore: dropping TABLE milk_quality_monitors
+pg_restore: dropping SEQUENCE market_sales_id_seq
+pg_restore: dropping TABLE market_sales
+pg_restore: dropping TABLE makesheets_samples
+pg_restore: dropping SEQUENCE makesheets_id_seq
+pg_restore: dropping TABLE makesheets
+pg_restore: dropping SEQUENCE locations_id_seq
+pg_restore: dropping TABLE locations
+pg_restore: dropping SEQUENCE invoices_id_seq
+pg_restore: dropping TABLE invoices
+pg_restore: dropping SEQUENCE grading_notes_id_seq
+pg_restore: dropping TABLE grading_notes
+pg_restore: dropping SEQUENCE contacts_id_seq
+pg_restore: dropping TABLE contacts
+pg_restore: dropping SEQUENCE cleaning_foreign_body_checks_id_seq
+pg_restore: dropping TABLE cleaning_foreign_body_checks
+pg_restore: dropping SEQUENCE chillers_id_seq
+pg_restore: dropping TABLE chillers
+pg_restore: dropping SEQUENCE cheese_wash_records_id_seq
+pg_restore: dropping TABLE cheese_wash_records
+pg_restore: dropping SEQUENCE calculations_id_seq
+pg_restore: dropping TABLE calculations
+pg_restore: dropping SEQUENCE butter_stocks_id_seq
+pg_restore: dropping TABLE butter_stocks
+pg_restore: dropping SEQUENCE butter_makes_id_seq
+pg_restore: dropping TABLE butter_makes
+pg_restore: dropping SEQUENCE breakages_id_seq
+pg_restore: dropping TABLE breakages
+pg_restore: dropping SEQUENCE batch_weights_id_seq
+pg_restore: dropping TABLE batch_weights
+pg_restore: dropping TABLE ar_internal_metadata
+pg_restore: dropping EXTENSION pg_stat_statements
+pg_restore: dropping SCHEMA public
+pg_restore: creating SCHEMA "public"
+pg_restore: creating EXTENSION "pg_stat_statements"
+pg_restore: creating COMMENT "EXTENSION "pg_stat_statements""
+pg_restore: creating TABLE "public.ar_internal_metadata"
+pg_restore: creating TABLE "public.batch_weights"
+pg_restore: creating SEQUENCE "public.batch_weights_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.batch_weights_id_seq"
+pg_restore: creating TABLE "public.breakages"
+pg_restore: creating SEQUENCE "public.breakages_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.breakages_id_seq"
+pg_restore: creating TABLE "public.butter_makes"
+pg_restore: creating SEQUENCE "public.butter_makes_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.butter_makes_id_seq"
+pg_restore: creating TABLE "public.butter_stocks"
+pg_restore: creating SEQUENCE "public.butter_stocks_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.butter_stocks_id_seq"
+pg_restore: creating TABLE "public.calculations"
+pg_restore: creating SEQUENCE "public.calculations_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.calculations_id_seq"
+pg_restore: creating TABLE "public.cheese_wash_records"
+pg_restore: creating SEQUENCE "public.cheese_wash_records_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.cheese_wash_records_id_seq"
+pg_restore: creating TABLE "public.chillers"
+pg_restore: creating SEQUENCE "public.chillers_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.chillers_id_seq"
+pg_restore: creating TABLE "public.cleaning_foreign_body_checks"
+pg_restore: creating SEQUENCE "public.cleaning_foreign_body_checks_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.cleaning_foreign_body_checks_id_seq"
+pg_restore: creating TABLE "public.contacts"
+pg_restore: creating SEQUENCE "public.contacts_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.contacts_id_seq"
+pg_restore: creating TABLE "public.grading_notes"
+pg_restore: creating SEQUENCE "public.grading_notes_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.grading_notes_id_seq"
+pg_restore: creating TABLE "public.invoices"
+pg_restore: creating SEQUENCE "public.invoices_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.invoices_id_seq"
+pg_restore: creating TABLE "public.locations"
+pg_restore: creating SEQUENCE "public.locations_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.locations_id_seq"
+pg_restore: creating TABLE "public.makesheets"
+pg_restore: creating SEQUENCE "public.makesheets_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.makesheets_id_seq"
+pg_restore: creating TABLE "public.makesheets_samples"
+pg_restore: creating TABLE "public.market_sales"
+pg_restore: creating SEQUENCE "public.market_sales_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.market_sales_id_seq"
+pg_restore: creating TABLE "public.milk_quality_monitors"
+pg_restore: creating SEQUENCE "public.milk_quality_monitors_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.milk_quality_monitors_id_seq"
+pg_restore: creating TABLE "public.palletised_distributions"
+pg_restore: creating SEQUENCE "public.palletised_distributions_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.palletised_distributions_id_seq"
+pg_restore: creating TABLE "public.picksheet_items"
+pg_restore: creating SEQUENCE "public.picksheet_items_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.picksheet_items_id_seq"
+pg_restore: creating TABLE "public.picksheets"
+pg_restore: creating SEQUENCE "public.picksheets_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.picksheets_id_seq"
+pg_restore: creating TABLE "public.references"
+pg_restore: creating SEQUENCE "public.references_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.references_id_seq"
+pg_restore: creating TABLE "public.samples"
+pg_restore: creating SEQUENCE "public.samples_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.samples_id_seq"
+pg_restore: creating TABLE "public.scale_checks"
+pg_restore: creating SEQUENCE "public.scale_checks_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.scale_checks_id_seq"
+pg_restore: creating TABLE "public.schema_migrations"
+pg_restore: creating TABLE "public.staffs"
+pg_restore: creating SEQUENCE "public.staffs_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.staffs_id_seq"
+pg_restore: creating TABLE "public.traceability_records"
+pg_restore: creating SEQUENCE "public.traceability_records_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.traceability_records_id_seq"
+pg_restore: creating TABLE "public.turns"
+pg_restore: creating SEQUENCE "public.turns_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.turns_id_seq"
+pg_restore: creating TABLE "public.users"
+pg_restore: creating SEQUENCE "public.users_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.users_id_seq"
+pg_restore: creating TABLE "public.wash_picksheets"
+pg_restore: creating SEQUENCE "public.wash_picksheets_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.wash_picksheets_id_seq"
+pg_restore: creating TABLE "public.washes"
+pg_restore: creating SEQUENCE "public.washes_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.washes_id_seq"
+pg_restore: creating TABLE "public.waste_records"
+pg_restore: creating SEQUENCE "public.waste_records_id_seq"
+pg_restore: creating SEQUENCE OWNED BY "public.waste_records_id_seq"
+pg_restore: creating DEFAULT "public.batch_weights id"
+pg_restore: creating DEFAULT "public.breakages id"
+pg_restore: creating DEFAULT "public.butter_makes id"
+pg_restore: creating DEFAULT "public.butter_stocks id"
+pg_restore: creating DEFAULT "public.calculations id"
+pg_restore: creating DEFAULT "public.cheese_wash_records id"
+pg_restore: creating DEFAULT "public.chillers id"
+pg_restore: creating DEFAULT "public.cleaning_foreign_body_checks id"
+pg_restore: creating DEFAULT "public.contacts id"
+pg_restore: creating DEFAULT "public.grading_notes id"
+pg_restore: creating DEFAULT "public.invoices id"
+pg_restore: creating DEFAULT "public.locations id"
+pg_restore: creating DEFAULT "public.makesheets id"
+pg_restore: creating DEFAULT "public.market_sales id"
+pg_restore: creating DEFAULT "public.milk_quality_monitors id"
+pg_restore: creating DEFAULT "public.palletised_distributions id"
+pg_restore: creating DEFAULT "public.picksheet_items id"
+pg_restore: creating DEFAULT "public.picksheets id"
+pg_restore: creating DEFAULT "public.references id"
+pg_restore: creating DEFAULT "public.samples id"
+pg_restore: creating DEFAULT "public.scale_checks id"
+pg_restore: creating DEFAULT "public.staffs id"
+pg_restore: creating DEFAULT "public.traceability_records id"
+pg_restore: creating DEFAULT "public.turns id"
+pg_restore: creating DEFAULT "public.users id"
+pg_restore: creating DEFAULT "public.wash_picksheets id"
+pg_restore: creating DEFAULT "public.washes id"
+pg_restore: creating DEFAULT "public.waste_records id"
+pg_restore: processing data for table "public.ar_internal_metadata"
+pg_restore: processing data for table "public.batch_weights"
+pg_restore: processing data for table "public.breakages"
+pg_restore: processing data for table "public.butter_makes"
+pg_restore: processing data for table "public.butter_stocks"
+pg_restore: processing data for table "public.calculations"
+pg_restore: processing data for table "public.cheese_wash_records"
+pg_restore: processing data for table "public.chillers"
+pg_restore: processing data for table "public.cleaning_foreign_body_checks"
+pg_restore: processing data for table "public.contacts"
+pg_restore: processing data for table "public.grading_notes"
+pg_restore: processing data for table "public.invoices"
+pg_restore: processing data for table "public.locations"
+pg_restore: processing data for table "public.makesheets"
+pg_restore: processing data for table "public.makesheets_samples"
+pg_restore: processing data for table "public.market_sales"
+pg_restore: processing data for table "public.milk_quality_monitors"
+pg_restore: processing data for table "public.palletised_distributions"
+pg_restore: processing data for table "public.picksheet_items"
+pg_restore: processing data for table "public.picksheets"
+pg_restore: processing data for table "public.references"
+pg_restore: processing data for table "public.samples"
+pg_restore: processing data for table "public.scale_checks"
+pg_restore: processing data for table "public.schema_migrations"
+pg_restore: processing data for table "public.staffs"
+pg_restore: processing data for table "public.traceability_records"
+pg_restore: processing data for table "public.turns"
+pg_restore: processing data for table "public.users"
+pg_restore: processing data for table "public.wash_picksheets"
+pg_restore: processing data for table "public.washes"
+pg_restore: processing data for table "public.waste_records"
+pg_restore: executing SEQUENCE SET batch_weights_id_seq
+pg_restore: executing SEQUENCE SET breakages_id_seq
+pg_restore: executing SEQUENCE SET butter_makes_id_seq
+pg_restore: executing SEQUENCE SET butter_stocks_id_seq
+pg_restore: executing SEQUENCE SET calculations_id_seq
+pg_restore: executing SEQUENCE SET cheese_wash_records_id_seq
+pg_restore: executing SEQUENCE SET chillers_id_seq
+pg_restore: executing SEQUENCE SET cleaning_foreign_body_checks_id_seq
+pg_restore: executing SEQUENCE SET contacts_id_seq
+pg_restore: executing SEQUENCE SET grading_notes_id_seq
+pg_restore: executing SEQUENCE SET invoices_id_seq
+pg_restore: executing SEQUENCE SET locations_id_seq
+pg_restore: executing SEQUENCE SET makesheets_id_seq
+pg_restore: executing SEQUENCE SET market_sales_id_seq
+pg_restore: executing SEQUENCE SET milk_quality_monitors_id_seq
+pg_restore: executing SEQUENCE SET palletised_distributions_id_seq
+pg_restore: executing SEQUENCE SET picksheet_items_id_seq
+pg_restore: executing SEQUENCE SET picksheets_id_seq
+pg_restore: executing SEQUENCE SET references_id_seq
+pg_restore: executing SEQUENCE SET samples_id_seq
+pg_restore: executing SEQUENCE SET scale_checks_id_seq
+pg_restore: executing SEQUENCE SET staffs_id_seq
+pg_restore: executing SEQUENCE SET traceability_records_id_seq
+pg_restore: executing SEQUENCE SET turns_id_seq
+pg_restore: executing SEQUENCE SET users_id_seq
+pg_restore: executing SEQUENCE SET wash_picksheets_id_seq
+pg_restore: executing SEQUENCE SET washes_id_seq
+pg_restore: executing SEQUENCE SET waste_records_id_seq
+pg_restore: creating CONSTRAINT "public.ar_internal_metadata ar_internal_metadata_pkey"
+pg_restore: creating CONSTRAINT "public.batch_weights batch_weights_pkey"
+pg_restore: creating CONSTRAINT "public.breakages breakages_pkey"
+pg_restore: creating CONSTRAINT "public.butter_makes butter_makes_pkey"
+pg_restore: creating CONSTRAINT "public.butter_stocks butter_stocks_pkey"
+pg_restore: creating CONSTRAINT "public.calculations calculations_pkey"
+pg_restore: creating CONSTRAINT "public.cheese_wash_records cheese_wash_records_pkey"
+pg_restore: creating CONSTRAINT "public.chillers chillers_pkey"
+pg_restore: creating CONSTRAINT "public.cleaning_foreign_body_checks cleaning_foreign_body_checks_pkey"
+pg_restore: creating CONSTRAINT "public.contacts contacts_pkey"
+pg_restore: creating CONSTRAINT "public.grading_notes grading_notes_pkey"
+pg_restore: creating CONSTRAINT "public.invoices invoices_pkey"
+pg_restore: creating CONSTRAINT "public.locations locations_pkey"
+pg_restore: creating CONSTRAINT "public.makesheets makesheets_pkey"
+pg_restore: creating CONSTRAINT "public.market_sales market_sales_pkey"
+pg_restore: creating CONSTRAINT "public.milk_quality_monitors milk_quality_monitors_pkey"
+pg_restore: creating CONSTRAINT "public.palletised_distributions palletised_distributions_pkey"
+pg_restore: creating CONSTRAINT "public.picksheet_items picksheet_items_pkey"
+pg_restore: creating CONSTRAINT "public.picksheets picksheets_pkey"
+pg_restore: creating CONSTRAINT "public.references references_pkey"
+pg_restore: creating CONSTRAINT "public.samples samples_pkey"
+pg_restore: creating CONSTRAINT "public.scale_checks scale_checks_pkey"
+pg_restore: creating CONSTRAINT "public.schema_migrations schema_migrations_pkey"
+pg_restore: creating CONSTRAINT "public.staffs staffs_pkey"
+pg_restore: creating CONSTRAINT "public.traceability_records traceability_records_pkey"
+pg_restore: creating CONSTRAINT "public.turns turns_pkey"
+pg_restore: creating CONSTRAINT "public.users users_pkey"
+pg_restore: creating CONSTRAINT "public.wash_picksheets wash_picksheets_pkey"
+pg_restore: creating CONSTRAINT "public.washes washes_pkey"
+pg_restore: creating CONSTRAINT "public.waste_records waste_records_pkey"
+pg_restore: creating INDEX "public.index_batch_weights_on_makesheet_id"
+pg_restore: creating INDEX "public.index_breakages_on_staff_id"
+pg_restore: creating INDEX "public.index_cheese_wash_records_on_makesheet_id"
+pg_restore: creating INDEX "public.index_chillers_on_staff_id"
+pg_restore: creating INDEX "public.index_cleaning_foreign_body_checks_on_staff_id"
+pg_restore: creating INDEX "public.index_grading_notes_on_makesheet_id"
+pg_restore: creating INDEX "public.index_makesheets_on_contact_id"
+pg_restore: creating INDEX "public.index_makesheets_on_location_id"
+pg_restore: creating INDEX "public.index_makesheets_on_make_date"
+pg_restore: creating INDEX "public.index_makesheets_on_status"
+pg_restore: creating INDEX "public.index_makesheets_samples_on_makesheet_id_and_sample_id"
+pg_restore: creating INDEX "public.index_makesheets_samples_on_sample_id_and_makesheet_id"
+pg_restore: creating INDEX "public.index_market_sales_on_market_and_sale_date"
+pg_restore: creating INDEX "public.index_market_sales_on_sale_date"
+pg_restore: creating INDEX "public.index_milk_quality_monitors_on_makesheet_id"
+pg_restore: creating INDEX "public.index_palletised_distributions_on_staff_id"
+pg_restore: creating INDEX "public.index_picksheet_items_on_makesheet_id"
+pg_restore: creating INDEX "public.index_picksheet_items_on_picksheet_id"
+pg_restore: creating INDEX "public.index_picksheets_on_contact_id"
+pg_restore: creating INDEX "public.index_picksheets_on_user_id"
+pg_restore: creating INDEX "public.index_scale_checks_on_staff_id"
+pg_restore: creating INDEX "public.index_traceability_records_on_makesheet_id"
+pg_restore: creating INDEX "public.index_turns_on_makesheet_id"
+pg_restore: creating INDEX "public.index_users_on_email"
+pg_restore: creating INDEX "public.index_users_on_reset_password_token"
+pg_restore: creating INDEX "public.index_wash_picksheets_on_picksheet_id"
+pg_restore: creating INDEX "public.index_wash_picksheets_on_wash_id"
+pg_restore: creating INDEX "public.index_waste_records_on_traceability_record_id"
+pg_restore: creating FK CONSTRAINT "public.chillers fk_rails_13d70f8a9e"
+pg_restore: creating FK CONSTRAINT "public.waste_records fk_rails_16a65ee36e"
+pg_restore: creating FK CONSTRAINT "public.scale_checks fk_rails_2296f705c6"
+pg_restore: creating FK CONSTRAINT "public.picksheets fk_rails_3b43a658a7"
+pg_restore: creating FK CONSTRAINT "public.picksheet_items fk_rails_45cb59d723"
+pg_restore: creating FK CONSTRAINT "public.traceability_records fk_rails_6513117d4d"
+pg_restore: creating FK CONSTRAINT "public.cleaning_foreign_body_checks fk_rails_7bca20a008"
+pg_restore: creating FK CONSTRAINT "public.palletised_distributions fk_rails_843f3ddb29"
+pg_restore: creating FK CONSTRAINT "public.makesheets fk_rails_95d2bc8eba"
+pg_restore: creating FK CONSTRAINT "public.wash_picksheets fk_rails_9a87d5f242"
+pg_restore: creating FK CONSTRAINT "public.batch_weights fk_rails_a73211c14e"
+pg_restore: creating FK CONSTRAINT "public.makesheets fk_rails_b7b3085680"
+pg_restore: creating FK CONSTRAINT "public.picksheets fk_rails_c6e7bcfed1"
+pg_restore: creating FK CONSTRAINT "public.breakages fk_rails_db0dda6ed8"
+pg_restore: creating FK CONSTRAINT "public.wash_picksheets fk_rails_e8abc13b81"
+pg_restore: creating FK CONSTRAINT "public.turns fk_rails_e9fca54821"
+pg_restore: creating FK CONSTRAINT "public.milk_quality_monitors fk_rails_f2f4569f0b"
+pg_restore: creating FK CONSTRAINT "public.cheese_wash_records fk_rails_f5c405f139"
+pg_restore: creating FK CONSTRAINT "public.grading_notes fk_rails_f7d0429772"
+pg_restore: creating FK CONSTRAINT "public.picksheet_items fk_rails_faacc1c15e"

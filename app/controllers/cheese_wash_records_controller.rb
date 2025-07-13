@@ -7,7 +7,7 @@ class CheeseWashRecordsController < ApplicationController
 
   def new
     @cheese_wash_record = CheeseWashRecord.new(date_batch_started: Date.today)
-    @makesheets = Makesheet.not_finished
+    @makesheets = Makesheet.not_finished.ordered
   end
 
   def create

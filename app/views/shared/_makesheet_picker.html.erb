@@ -20,7 +20,11 @@
 
   <!-- Hidden field to store selected makesheet_id -->
  
-  <input type="hidden" name="makesheet_id" data-makesheet-picker-target="output" required />
+  <% if defined?(form) && form %>
+      <%= form.hidden_field field_name, data: { makesheet_picker_target: "output" } %>
+    <% else %>
+      <input type="hidden" name="<%= field_name %>" data-makesheet-picker-target="output" />
+    <% end %>
 
 
   
