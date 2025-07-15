@@ -31,4 +31,71 @@
     </div>
 
   </div>
+
+<div class="mt-10 space-y-6 max-w-6xl mx-auto px-4">
+
+  <!-- Empty Locations – Shed 4 -->
+<div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden">
+  <button
+    data-action="click->accordion#toggle"
+    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
+  >
+    Empty Locations – Shed 4
+  </button>
+  <div data-accordion-target="section" class="px-4 pb-4 hidden">
+    <% if @empty_shed_4.any? %>
+      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+        <% @empty_shed_4.each do |loc| %>
+          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500">No empty locations in Shed 4.</p>
+    <% end %>
+  </div>
+</div>
+
+<!-- Empty Locations – Shed 5 -->
+<div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">
+  <button
+    data-action="click->accordion#toggle"
+    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
+  >
+    Empty Locations – Shed 5
+  </button>
+  <div data-accordion-target="section" class="px-4 pb-4 hidden">
+    <% if @empty_shed_5.any? %>
+      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+        <% @empty_shed_5.each do |loc| %>
+          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500">No empty locations in Shed 5.</p>
+    <% end %>
+  </div>
+</div>
+
+<!-- Empty Trolleys -->
+<div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">
+  <button
+    data-action="click->accordion#toggle"
+    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
+  >
+    Empty Trolleys
+  </button>
+  <div data-accordion-target="section" class="px-4 pb-4 hidden">
+    <% if @empty_trolleys.any? %>
+      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+        <% @empty_trolleys.each do |loc| %>
+          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-500">No empty trolleys.</p>
+    <% end %>
+  </div>
+</div>
+
+
 </div>

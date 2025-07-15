@@ -112,7 +112,15 @@
         <%= form.text_field :final_titration, class: field_class_flex %>
       </div>
 
-
+      <!-- Location -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :location_id, "Location" %>
+      </label>
+      <div class="text-left">
+        <%= form.collection_select :location_id, Location.order(:name), :id, :name,
+              { include_blank: "Select Location" },
+              { class: field_class_flex } %>
+      </div>
 
 
       <!-- Back Button -->

@@ -47,6 +47,16 @@ class LocationAssignmentsController < ApplicationController
   
     @shed_4_percent = percentage_full(shed_4)
     @shed_5_percent = percentage_full(shed_5)
+
+
+    @empty_shed_4 = Location
+      .left_joins(:makesheet)
+      .where("locations.name ILIKE ?", "Shed 4%")
+      .where(makesheets: { id: nil })
+      .order(:name)
+   @empty_shed_5 = Location.where("name ILIKE ?", "Shed 5%").left_joins(:makesheet).where(makesheets: { id: nil })
+   @empty_trolleys = Location.where("name ILIKE ?", "Trolley%").left_joins(:makesheet).where(makesheets: { id: nil })
+
   end
   
   private
