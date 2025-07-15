@@ -50,7 +50,7 @@
             <% end %>
           </tr>
         </thead>
-        <tbody>
+       <tbody>
           <tr>
             <% if @shed_name == "Shed 4" %>
               <td colspan="<%= 2 + column_range.size %>" class="!bg-gray-800 text-white text-center font-semibold py-2">
@@ -85,11 +85,18 @@
                   <% column_range_used.each do |col_num| %>
                     <% location = current_locations.find { |loc| loc.column_number == col_num } %>
                     <% if location %>
-                      <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
+                      <% color_class =
+                          if location.makesheet.nil?
+                            'bg-white text-gray-800 border border-gray-400'
+                          elsif location.makesheet.grade.present?
+                            grade_color(location.makesheet.grade)
+                          else
+                            'bg-gray-300 text-white'
+                          end %>
                       <td class="border px-1 py-1 text-center" id="location-<%= location.id %>">
                         <%= link_to new_location_assignment_path(location_id: location.id),
-                          class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                          title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
+                            class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                            title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
                           <%= col_num %>
                         <% end %>
                       </td>
@@ -103,11 +110,18 @@
                   <% column_range_used.each do |col_num| %>
                     <% location = current_locations.find { |loc| loc.column_number == col_num } %>
                     <% if location %>
-                      <% color_class = location.makesheet&.grade.present? ? grade_color(location.makesheet.grade) : 'bg-gray-300 text-white' %>
+                      <% color_class =
+                          if location.makesheet.nil?
+                            'bg-white text-gray-800 border border-gray-400'
+                          elsif location.makesheet.grade.present?
+                            grade_color(location.makesheet.grade)
+                          else
+                            'bg-gray-300 text-white'
+                          end %>
                       <td class="border px-1 py-1 text-center" id="location-<%= location.id %>">
                         <%= link_to new_location_assignment_path(location_id: location.id),
-                          class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
-                          title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
+                            class: "block w-8 h-8 rounded #{color_class} text-xs hover:scale-105 transition leading-8",
+                            title: (location.makesheet&.make_date&.strftime("%d %b %Y") || "No date") do %>
                           <%= col_num %>
                         <% end %>
                       </td>
@@ -140,6 +154,7 @@
             <% end %>
           <% end %>
         </tbody>
+
       </table>
     </div>
   </div>
