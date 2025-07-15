@@ -117,17 +117,33 @@ class MakesheetsController < ApplicationController
   
   # GET /makesheets or /makesheets.json
   def index
+    # Allow :search to alias to makesheet_id (from shared picker)
+    params[:makesheet_id] ||= params[:search]
+  
+    # Start with all makesheets
     @makesheets = Makesheet.all
   
-    # Filter by selected makesheet_id (from makesheet_picker partial)
+    # Filter by selected makesheet
     if params[:makesheet_id].present?
       @makesheets = @makesheets.where(id: params[:makesheet_id])
     end
   
-    # Eager load locations
+    # Filter by month (e.g. "Jan-24")
+    if params[:month].present?
+      begin
+        month_date = Date.strptime(params[:month], "%b-%y")
+        start_date = month_date.beginning_of_month
+        end_date = month_date.end_of_month
+        @makesheets = @makesheets.where(make_date: start_date..end_date)
+      rescue ArgumentError
+        # Invalid format — do nothing
+      end
+    end
+  
+    # Eager load associations
     @makesheets = @makesheets.includes(:location)
   
-    # Sorting logic
+    # Sorting
     if params[:column] == "location.name"
       @makesheets = @makesheets.joins(:location).order("locations.name #{sort_direction}")
     elsif params[:column].present? && Makesheet.column_names.include?(params[:column])
@@ -135,7 +151,16 @@ class MakesheetsController < ApplicationController
     else
       @makesheets = @makesheets.ordered_reverse
     end
+  
+    # For the dropdown: all months with makesheets
+    @available_months = Makesheet
+      .pluck(:make_date)
+      .compact
+      .map { |d| d.strftime("%b-%y") }
+      .uniq
+      .sort_by { |m| Date.strptime(m, "%b-%y") }
   end
+  
   
   # GET /makesheets/1 or /makesheets/1.json
   def show
