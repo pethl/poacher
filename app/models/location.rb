@@ -36,6 +36,10 @@ class Location < ApplicationRecord
     end
   end
 
+  def trolley_number
+    name[/Trolley (\d+)/i, 1]&.to_i
+  end
+
  
 end
 

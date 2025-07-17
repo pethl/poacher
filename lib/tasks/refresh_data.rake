@@ -6,6 +6,10 @@ namespace :db do
     dev_db = "poacher_development"
     test_db = "poacher_test"
 
+    # Detect current Postgres user
+    pg_user = ENV["PGUSER"] || `whoami`.strip
+    pg_host = "localhost"
+
     puts "🧹 Checking for existing #{dump_file}..."
     if File.exist?(dump_file)
       puts "⚠️ Found existing #{dump_file}, deleting..."
@@ -16,28 +20,45 @@ namespace :db do
     end
 
     puts "🚀 Starting backup from Heroku (#{app_name})..."
-
     system("heroku pg:backups:capture --app #{app_name}") || abort("❌ Failed to capture backup.")
     puts "✅ Backup captured."
 
     system("heroku pg:backups:download --app #{app_name}") || abort("❌ Failed to download backup.")
     puts "✅ Backup downloaded."
 
-    puts "🛠️ Restoring to development database (#{dev_db})..."
-    success = system("pg_restore ...")
-    unless success
-      puts "⚠️ Restore completed with warnings (likely safe). Check log if unsure."
-    end
-     puts "✅ Development database restored."
+    # Shared restore logic
+    restore_db = lambda do |db_name|
+      puts "🛠️ Restoring to #{db_name}..."
 
-    puts "🛠️ Restoring to test database (#{test_db})..."
-    puts "🛠️ Restoring to test database..."
-    success = system("pg_restore --verbose --clean --if-exists --no-acl --no-owner -h localhost -d poacher_test latest.dump")
+      puts "💣 Terminating active connections to #{db_name}..."
+      disconnect_cmd = <<~SQL
+        SELECT pg_terminate_backend(pg_stat_activity.pid)
+        FROM pg_stat_activity
+        WHERE pg_stat_activity.datname = '#{db_name}'
+          AND pid <> pg_backend_pid();
+      SQL
+      system("psql -U #{pg_user} -h #{pg_host} -d postgres -c \"#{disconnect_cmd.strip}\"") ||
+        puts("⚠️ Could not terminate connections (maybe none existed).")
 
-    unless success
-      puts "⚠️ Restore completed with warnings. Likely safe. Check log/restore_test.log if needed."
+      puts "🧨 Dropping #{db_name}..."
+      system("dropdb -U #{pg_user} -h #{pg_host} #{db_name}") ||
+        puts("⚠️ Could not drop #{db_name} (maybe it didn’t exist).")
+
+      puts "🧱 Creating #{db_name}..."
+      system("createdb -U #{pg_user} -h #{pg_host} #{db_name}") ||
+        abort("❌ Failed to create #{db_name}.")
+
+      puts "📦 Restoring data into #{db_name}..."
+      success = system("pg_restore --verbose --clean --if-exists --no-acl --no-owner -U #{pg_user} -h #{pg_host} -d #{db_name} #{dump_file}")
+      unless success
+        puts "⚠️ Restore completed with warnings. Likely safe. Check logs if unsure."
+      end
+      puts "✅ #{db_name} restored."
     end
-    puts "✅ Test database restored."
+
+    # Restore both dev and test
+    restore_db.call(dev_db)
+    restore_db.call(test_db)
 
     puts "🧪 Setting ENV to test..."
     system("RAILS_ENV=test bundle exec rails db:environment:set") || abort("❌ Failed to set environment to test.")
@@ -51,3 +72,4 @@ namespace :db do
     exec("bin/rails server")
   end
 end
+

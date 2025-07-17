@@ -5,7 +5,7 @@
   <!-- Section 1: Links Grid -->
   <div class="my-4 text-center">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
-      <%= link_to "Butter Makes", "/butter_makes", class: "#{nav_box_class} mx-auto" %>
+      <%#= link_to "Butter Makes", "/butter_makes", class: "#{nav_box_class} mx-auto" %>
       <%= link_to "Stock Position", "/makesheets/overview", class: "#{nav_box_class} mx-auto" %>
       <%= link_to "Monthly Cheese Summary", "/makesheets/monthly_summary", class: "#{nav_box_class} mx-auto" %>
       <%#= link_to "Market Sales", "/market_sales", class: "#{nav_box_class} mx-auto" %>
@@ -25,30 +25,32 @@
     <!-- Stock % Spread -->
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-lg font-semibold mb-4">Stock % Spread</p>
-      <%= pie_chart Makesheet.where("status NOT IN (?)", 'Finished')
-                .where.not(grade: [nil, ""])
-                .group(:grade)
-                .sum(:number_of_cheeses),
-                donut: true,
-                height: "400px",
-                library: {
-                  plugins: {
-                    datalabels: {
-                      display: true,
-                      color: 'white',
-                      formatter: "function(value, context) {
-                                    return context.chart.data.labels[context.dataIndex];
-                                  }"
-                    }
-                  },
-                  legend: { display: false },
-                  pieSliceText: 'percentage'
-                } %>
+     <%
+# Step 1: Group batches by grade (with 'Ungraded' fallback)
+grouped = Makesheet.where.not(status: 'Finished').group_by { |m| m.grade.presence || 'Ungraded' }
+
+# Step 2: Build a new hash with percentage labels
+total_batches = grouped.values.flatten.size
+
+chart_data = grouped.transform_keys do |grade|
+  count = grouped[grade].size
+  percentage = ((count.to_f / total_batches) * 100).round(1)
+  "#{grade} (#{percentage}%)"
+end.transform_values(&:size)
+%>
+
+<%= pie_chart chart_data,
+              donut: true,
+              height: "400px",
+              legend: true,
+              colors: ["#4B5563", "#10B981", "#F59E0B", "#EF4444", "#6366F1", "#6B7280"] %>
+
+
     </div>
 
     <!-- Stock Count -->
     <div class="bg-white p-4 rounded shadow text-center">
-      <p class="text-lg font-semibold mb-4">Stock Count (batches)</p>
+      <p class="text-lg font-semibold mb-4">Graded Stock Count (batches)</p>
       <%= bar_chart Makesheet.where("status NOT IN (?)", 'Finished')
                 .where.not(grade: [nil, ""])
                 .group(:grade)

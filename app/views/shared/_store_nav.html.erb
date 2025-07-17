@@ -11,6 +11,8 @@
 
   <%= link_to "Location Report", "/location_report", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/location_report')} hover:bg-gray-200" %>
 
+  <%= link_to "Aisle Inspection", "/location_inspection", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/location_inspection')} hover:bg-gray-200" %>
+
   <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?(shed_map_path(shed: 4))} hover:bg-gray-200" %>
 
   <%= link_to "Turns", "/turns/new", class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if current_page?('/turns/new')} hover:bg-gray-200" %>

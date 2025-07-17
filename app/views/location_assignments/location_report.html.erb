@@ -1,4 +1,6 @@
 <%= render 'shared/store_nav' %>
+ <% content_for :title, "Poacher: Location Report" %>
+  <% content_for(:page_title, "LOCATION REPORT") %>
 
 <div class="mx-auto max-w-6xl px-4">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -34,7 +36,8 @@
 
 <div class="mt-10 space-y-6 max-w-6xl mx-auto px-4">
 
-  <!-- Empty Locations – Shed 4 -->
+ 
+ <!-- Empty Locations – Shed 4 -->
 <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden">
   <button
     data-action="click->accordion#toggle"
@@ -43,12 +46,23 @@
     Empty Locations – Shed 4
   </button>
   <div data-accordion-target="section" class="px-4 pb-4 hidden">
-    <% if @empty_shed_4.any? %>
-      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
-        <% @empty_shed_4.each do |loc| %>
-          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
-        <% end %>
-      </ul>
+    <% if @empty_shed_4_grouped.any? %>
+      <% @empty_shed_4_grouped.each do |aisle, sides| %>
+        <div class="mt-4">
+          <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+
+          <% sides.each do |side, locations| %>
+            <div class="ml-4 mt-2">
+              <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
+              <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+                <% locations.each do |loc| %>
+                  <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     <% else %>
       <p class="text-sm text-gray-500">No empty locations in Shed 4.</p>
     <% end %>
@@ -64,17 +78,29 @@
     Empty Locations – Shed 5
   </button>
   <div data-accordion-target="section" class="px-4 pb-4 hidden">
-    <% if @empty_shed_5.any? %>
-      <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
-        <% @empty_shed_5.each do |loc| %>
-          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
-        <% end %>
-      </ul>
+    <% if @empty_shed_5_grouped.any? %>
+      <% @empty_shed_5_grouped.each do |aisle, sides| %>
+        <div class="mt-4">
+          <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+
+          <% sides.each do |side, locations| %>
+            <div class="ml-4 mt-2">
+              <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
+              <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+                <% locations.each do |loc| %>
+                  <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
     <% else %>
       <p class="text-sm text-gray-500">No empty locations in Shed 5.</p>
     <% end %>
   </div>
 </div>
+
 
 <!-- Empty Trolleys -->
 <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">

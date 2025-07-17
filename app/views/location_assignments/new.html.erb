@@ -1,4 +1,6 @@
 <%= render 'shared/store_nav' %>
+<% content_for :title, "Poacher: Location Tracking" %>
+  <% content_for(:page_title, "LOCATION TRACKING") %>
 
 <div id="form_area">
   <%= render partial: "location_assignments/form", locals: { location_id: params[:location_id], makesheet_id: params[:makesheet_id] } %>

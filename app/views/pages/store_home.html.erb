@@ -5,8 +5,6 @@
 
     <%= link_to "Graded Whiteboard", "/makesheets/graded_blackboard", class: "#{nav_box_class} mx-auto" %>
 
-   
-
     <%= link_to "Start<br>Grading Session".html_safe, preload_grading_notes_path, class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Grading", "/grading_notes", class: "#{nav_box_class} mx-auto" %>
@@ -16,6 +14,9 @@
     <%= link_to "Location Tracking", "/location_assignments/new", class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Location Report", "/location_report", class: "#{nav_box_class} mx-auto" %>
+
+     <%= link_to "Aisle Inspection", "/location_inspection", class: "#{nav_box_class} mx-auto" %> <!-- 🔍 New link -->
+
 
     <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "#{nav_box_class} mx-auto" %>
 

@@ -50,14 +50,54 @@ class LocationAssignmentsController < ApplicationController
 
 
     @empty_shed_4 = Location
-      .left_joins(:makesheet)
-      .where("locations.name ILIKE ?", "Shed 4%")
-      .where(makesheets: { id: nil })
-      .order(:name)
-   @empty_shed_5 = Location.where("name ILIKE ?", "Shed 5%").left_joins(:makesheet).where(makesheets: { id: nil })
-   @empty_trolleys = Location.where("name ILIKE ?", "Trolley%").left_joins(:makesheet).where(makesheets: { id: nil })
-
+    .left_joins(:makesheet)
+    .where("locations.name ILIKE ?", "Shed 4%")
+    .where(makesheets: { id: nil })
+    .order(:name)
+  
+    @empty_shed_4_grouped = @empty_shed_4
+    .group_by(&:aisle)
+    .sort_by { |aisle, _| aisle || 999 }
+    .to_h
+    .transform_values do |locations|
+      locations.group_by(&:side).sort.to_h
+    end
+  
+  @empty_shed_5 = Location
+    .left_joins(:makesheet)
+    .where("locations.name ILIKE ?", "Shed 5%")
+    .where(makesheets: { id: nil })
+    .order(:name)
+  
+    @empty_shed_5_grouped = @empty_shed_5
+    .group_by(&:aisle)
+    .sort_by { |aisle, _| aisle || 999 }
+    .to_h
+    .transform_values do |locations|
+      locations.group_by(&:side).sort.to_h
+    end
+  
+    @empty_trolleys = Location
+    .left_joins(:makesheet)
+    .where("locations.name ILIKE ?", "Trolley%")
+    .where(makesheets: { id: nil })
+    .sort_by(&:trolley_number) # this happens in Ruby after the query
+  
   end
+
+  def inspection_results
+    @shed  = params[:shed] || "Shed 4"
+    @aisle = (params[:aisle] || 1).to_i
+  
+    @locations = Location
+      .includes(:makesheet)
+      .where("name ILIKE ?", "#{@shed} - Aisle #{@aisle} %")
+      .sort_by do |loc|
+        side = loc.side == "Left" ? 0 : 1
+        col  = loc.name[/Col (\d+)/, 1].to_i
+        [side, col]
+      end
+  end    
   
   private
   

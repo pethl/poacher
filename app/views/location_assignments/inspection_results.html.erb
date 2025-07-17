@@ -1,0 +1,84 @@
+<%= render 'shared/store_nav' %>
+<% content_for :title, "Poacher: Storage Inspection Report" %>
+<% content_for(:page_title, "STORAGE INSPECTION") %>
+
+<div class="max-w-4xl mx-auto px-4">
+
+  <!-- 🔍 Selection Form -->
+  <div class="bg-white rounded-xl shadow p-4 mb-6 border">
+    <%= form_with url: location_inspection_path, method: :get, local: true do %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Shed Radios -->
+        <fieldset>
+          <legend class="text-gray-700 font-semibold mb-1">Select Shed</legend>
+          <div class="flex gap-4">
+            <% ["Shed 4", "Shed 5"].each do |shed_option| %>
+              <label class="inline-flex items-center">
+                <%= radio_button_tag :shed, shed_option, shed_option == @shed, class: "mr-2" %>
+                <%= shed_option %>
+              </label>
+            <% end %>
+          </div>
+        </fieldset>
+
+        <!-- Aisle Radios -->
+        <fieldset>
+          <legend class="text-gray-700 font-semibold mb-1">Select Aisle</legend>
+          <div class="grid grid-cols-3 gap-2">
+            <% (1..6).each do |a| %>
+              <label class="inline-flex items-center">
+                <%= radio_button_tag :aisle, a, a == @aisle, class: "mr-2" %>
+                Aisle <%= a %>
+              </label>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="text-right mt-4">
+        <%= submit_tag "Inspect Aisle", class: fill_button_class %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 🧀 Aisle Report -->
+  <h2 class="text-xl font-bold mb-4 text-center">
+    <%= @shed %> – Aisle <%= @aisle %>
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <% %w[Left Right].each do |side| %>
+      <% side_locs = @locations.select { |loc| loc.side == side } %>
+      <% next if side_locs.empty? %>
+
+      <div>
+        <h3 class="text-lg font-semibold mb-2"><%= side %> side</h3>
+        <ul class="space-y-1">
+          <% side_locs.each do |loc| %>
+            <% ms = loc.makesheet %>
+            <% is_slow = ms&.slow_cheese %>
+            <li class="bg-white border rounded px-3 py-2 flex justify-between items-center shadow-sm
+              <%= loc.makesheet&.slow_cheese ? 'border-red-500 ring-2 ring-red-400' : 'border-gray-200' %>">
+                <span><%= loc.name[/Col \d+/] || loc.name %></span>
+                <span class="text-sm text-gray-600">
+                  <% if loc.makesheet&.make_date.present? %>
+                    <% is_slow = loc.makesheet.slow_cheese %>
+                    <% grade = loc.makesheet.grade.presence %>
+                    <% date = loc.makesheet.make_date.strftime('%d-%m-%Y') %>
+                    <% slow_tag = is_slow ? "<span class='text-red-600 font-bold'>SLOW</span> – " : "" %>
+                    <%= raw("#{slow_tag}#{grade + ' – ' if grade}#{date}") %>
+                  <% else %>
+                    <span class="text-red-500 italic">empty</span>
+                  <% end %>
+                </span>
+              </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<br><br><br><br>
