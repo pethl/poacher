@@ -130,21 +130,13 @@ class LocationsController < ApplicationController
   
     if aisle_name.present?
       if aisle_name == "ALL"
-        # Extract unique aisle+side names like "Shed 4 - Aisle 3 Left"
         unique_marker_names = Location.pluck(:name)
                                       .map { |n| n[%r{^Shed \d+ - Aisle \d+ (Left|Right)}] }
-                                      .compact
-                                      .uniq
-                                      .sort
-  
-        # For each marker name, find a representative location record
-        matching_locations = unique_marker_names.map do |marker_name|
-          Location.where("name LIKE ?", "#{marker_name}%").first
-        end.compact
+                                      .compact.uniq.sort
+      
+        matching_locations = unique_marker_names.map { |marker_name| first_location_for_marker(marker_name) }.compact
       else
-        # Match specific aisle + side
-        matching_locations = Location.where("name ILIKE ?", "#{aisle_name}%")
-                                     .order(:sort_order)
+        matching_locations = [first_location_for_marker(aisle_name)].compact
       end
   
       if matching_locations.any?
@@ -174,5 +166,9 @@ class LocationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def location_params
       params.require(:location).permit(:name, :location_type, :sort_order, :active)
+    end
+
+    def first_location_for_marker(name)
+      Location.where("name ILIKE ?", "#{name}%").order(:sort_order).first
     end
 end
