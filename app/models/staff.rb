@@ -1,8 +1,11 @@
 class Staff < ApplicationRecord
+  include UserTrackable
   has_many :chillers
   has_many :breakages
   has_many :cheese_makes, class_name: 'Makesheet', foreign_key: 'cheese_made_by_staff_id'
   has_many :assists, class_name: 'Makesheet', foreign_key: 'assistant_staff_id'
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
 
     
   validates :employment_status, presence: true

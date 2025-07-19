@@ -1,5 +1,9 @@
 class Sample < ApplicationRecord
+  include UserTrackable
   has_and_belongs_to_many :makesheets
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+  
   validates :sample_no, uniqueness: true
 
   scope :ordered, -> { order(sample_no: :asc) }

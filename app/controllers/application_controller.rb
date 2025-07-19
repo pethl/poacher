@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user!
   skip_before_action :authenticate_user!, only: [:goodbye]
+  around_action :assign_current_user
 
   #include AbstractController::Rendering
   helper_method :is_admin?
@@ -26,5 +27,14 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_in, keys: [:email])
     devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :email, :password, :password_confirmation, :current_password])
   end
-  
+
+  private
+
+    def assign_current_user
+      Thread.current[:current_user] = current_user
+      yield
+    ensure
+      Thread.current[:current_user] = nil
+    end
+
 end 

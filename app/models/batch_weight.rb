@@ -1,5 +1,8 @@
 class BatchWeight < ApplicationRecord
+  include UserTrackable
   belongs_to :makesheet, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
 
   validates :makesheet_id, presence: true, uniqueness: true #custom error message in locale/en.yml
   validates :date, presence: true

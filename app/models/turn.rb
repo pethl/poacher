@@ -1,5 +1,8 @@
 class Turn < ApplicationRecord
+  include UserTrackable
   belongs_to :makesheet
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
   
    validates :turn_date, presence: true
    validates :makesheet_id, presence: true

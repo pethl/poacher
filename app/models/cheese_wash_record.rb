@@ -1,6 +1,9 @@
 # app/models/cheese_wash_record.rb
 class CheeseWashRecord < ApplicationRecord
+  include UserTrackable
   belongs_to :makesheet, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
 
   validates :makesheet_id, presence: { message: "Makesheet must be selected before saving the wash record." }
   validates :makesheet_id, uniqueness: { message: "This batch already has a wash reocrd." }

@@ -1,7 +1,11 @@
 class Contact < ApplicationRecord
-  validate :only_one_payment_term_allowed
+  include UserTrackable
   has_many :picksheets, foreign_key: :contact_id
   has_many :makesheets
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+
+  validate :only_one_payment_term_allowed
 
   scope :ordered, -> { order(business_name: :asc) }
 

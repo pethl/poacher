@@ -1,9 +1,14 @@
 class Picksheet < ApplicationRecord
+  include UserTrackable
   has_many :picksheet_items, dependent: :destroy
   has_many :wash_picksheets
   has_many :washes, through: :wash_picksheets
   belongs_to :user
   belongs_to :contact
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+  
+
   
   validates :date_order_placed, presence: true
   validates :contact_id, presence: true

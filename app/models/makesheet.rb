@@ -1,10 +1,13 @@
 class Makesheet < ApplicationRecord
+  include UserTrackable
   has_many :turns
   has_many :traceability_records
   has_many :batch_weights 
   has_and_belongs_to_many :samples
-  
   has_one :grading_note, dependent: :destroy
+
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   belongs_to :contact, optional: true

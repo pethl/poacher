@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_19_083958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -23,7 +23,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_batch_weights_on_created_by_id"
     t.index ["makesheet_id"], name: "index_batch_weights_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_batch_weights_on_updated_by_id"
   end
 
   create_table "breakages", force: :cascade do |t|
@@ -42,7 +46,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.bigint "staff_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_breakages_on_created_by_id"
     t.index ["staff_id"], name: "index_breakages_on_staff_id"
+    t.index ["updated_by_id"], name: "index_breakages_on_updated_by_id"
   end
 
   create_table "butter_makes", force: :cascade do |t|
@@ -52,6 +60,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "stock"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_butter_makes_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_butter_makes_on_updated_by_id"
   end
 
   create_table "butter_stocks", force: :cascade do |t|
@@ -69,6 +81,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "family_butter_unsalted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_butter_stocks_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_butter_stocks_on_updated_by_id"
   end
 
   create_table "calculations", force: :cascade do |t|
@@ -78,6 +94,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_calculations_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_calculations_on_updated_by_id"
   end
 
   create_table "cheese_wash_records", force: :cascade do |t|
@@ -134,7 +154,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "number_washed_24", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_cheese_wash_records_on_created_by_id"
     t.index ["makesheet_id"], name: "index_cheese_wash_records_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_cheese_wash_records_on_updated_by_id"
   end
 
   create_table "chillers", force: :cascade do |t|
@@ -146,7 +170,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.text "signature"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_chillers_on_created_by_id"
     t.index ["staff_id"], name: "index_chillers_on_staff_id"
+    t.index ["updated_by_id"], name: "index_chillers_on_updated_by_id"
   end
 
   create_table "cleaning_foreign_body_checks", force: :cascade do |t|
@@ -176,7 +204,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.bigint "staff_id_3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_cleaning_foreign_body_checks_on_created_by_id"
     t.index ["staff_id"], name: "index_cleaning_foreign_body_checks_on_staff_id"
+    t.index ["updated_by_id"], name: "index_cleaning_foreign_body_checks_on_updated_by_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -196,6 +228,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_contacts_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_contacts_on_updated_by_id"
   end
 
   create_table "grading_notes", force: :cascade do |t|
@@ -212,7 +248,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "assistant_taster_2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_grading_notes_on_created_by_id"
     t.index ["makesheet_id"], name: "index_grading_notes_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_grading_notes_on_updated_by_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -223,6 +263,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.decimal "weight", precision: 7, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_invoices_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_invoices_on_updated_by_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -232,6 +276,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.boolean "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_locations_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_locations_on_updated_by_id"
   end
 
   create_table "makesheets", force: :cascade do |t|
@@ -323,10 +371,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "total_hours"
     t.integer "total_minutes"
     t.decimal "final_titration", precision: 6, scale: 4
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
+    t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
     t.index ["status"], name: "index_makesheets_on_status"
+    t.index ["updated_by_id"], name: "index_makesheets_on_updated_by_id"
   end
 
   create_table "makesheets_samples", id: false, force: :cascade do |t|
@@ -351,8 +403,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.decimal "weight", precision: 7, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_market_sales_on_created_by_id"
     t.index ["market", "sale_date"], name: "index_market_sales_on_market_and_sale_date"
     t.index ["sale_date"], name: "index_market_sales_on_sale_date"
+    t.index ["updated_by_id"], name: "index_market_sales_on_updated_by_id"
   end
 
   create_table "milk_quality_monitors", force: :cascade do |t|
@@ -370,7 +426,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.float "coliforms"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_milk_quality_monitors_on_created_by_id"
     t.index ["makesheet_id"], name: "index_milk_quality_monitors_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_milk_quality_monitors_on_updated_by_id"
   end
 
   create_table "palletised_distributions", force: :cascade do |t|
@@ -387,7 +447,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.text "driver_signature"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_palletised_distributions_on_created_by_id"
     t.index ["staff_id"], name: "index_palletised_distributions_on_staff_id"
+    t.index ["updated_by_id"], name: "index_palletised_distributions_on_updated_by_id"
   end
 
   create_table "picksheet_items", force: :cascade do |t|
@@ -404,8 +468,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "custom_notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_picksheet_items_on_created_by_id"
     t.index ["makesheet_id"], name: "index_picksheet_items_on_makesheet_id"
     t.index ["picksheet_id"], name: "index_picksheet_items_on_picksheet_id"
+    t.index ["updated_by_id"], name: "index_picksheet_items_on_updated_by_id"
   end
 
   create_table "picksheets", force: :cascade do |t|
@@ -424,7 +492,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.index ["contact_id"], name: "index_picksheets_on_contact_id"
+    t.index ["created_by_id"], name: "index_picksheets_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_picksheets_on_updated_by_id"
     t.index ["user_id"], name: "index_picksheets_on_user_id"
   end
 
@@ -437,6 +509,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.datetime "updated_at", null: false
     t.string "model"
     t.integer "sort_order"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_references_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_references_on_updated_by_id"
   end
 
   create_table "samples", force: :cascade do |t|
@@ -496,6 +572,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "trans_fatty_acids_per_fat"
     t.string "trans_fatty_acids"
     t.string "water_activity"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_samples_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_samples_on_updated_by_id"
   end
 
   create_table "scale_checks", force: :cascade do |t|
@@ -513,7 +593,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.bigint "staff_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_scale_checks_on_created_by_id"
     t.index ["staff_id"], name: "index_scale_checks_on_staff_id"
+    t.index ["updated_by_id"], name: "index_scale_checks_on_updated_by_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -524,6 +608,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_staffs_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_staffs_on_updated_by_id"
   end
 
   create_table "traceability_records", force: :cascade do |t|
@@ -570,7 +658,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.decimal "individual_cheese_weight_35", precision: 7, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_traceability_records_on_created_by_id"
     t.index ["makesheet_id"], name: "index_traceability_records_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_traceability_records_on_updated_by_id"
   end
 
   create_table "turns", force: :cascade do |t|
@@ -579,7 +671,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "turned_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_turns_on_created_by_id"
     t.index ["makesheet_id"], name: "index_turns_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_turns_on_updated_by_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -613,6 +709,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.string "wash_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_washes_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_washes_on_updated_by_id"
   end
 
   create_table "waste_records", force: :cascade do |t|
@@ -625,27 +725,83 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_24_092323) do
     t.decimal "waste", precision: 6, scale: 3
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_waste_records_on_created_by_id"
     t.index ["traceability_record_id"], name: "index_waste_records_on_traceability_record_id"
+    t.index ["updated_by_id"], name: "index_waste_records_on_updated_by_id"
   end
 
   add_foreign_key "batch_weights", "makesheets"
+  add_foreign_key "batch_weights", "users", column: "created_by_id"
+  add_foreign_key "batch_weights", "users", column: "updated_by_id"
   add_foreign_key "breakages", "staffs"
+  add_foreign_key "breakages", "users", column: "created_by_id"
+  add_foreign_key "breakages", "users", column: "updated_by_id"
+  add_foreign_key "butter_makes", "users", column: "created_by_id"
+  add_foreign_key "butter_makes", "users", column: "updated_by_id"
+  add_foreign_key "butter_stocks", "users", column: "created_by_id"
+  add_foreign_key "butter_stocks", "users", column: "updated_by_id"
+  add_foreign_key "calculations", "users", column: "created_by_id"
+  add_foreign_key "calculations", "users", column: "updated_by_id"
   add_foreign_key "cheese_wash_records", "makesheets"
+  add_foreign_key "cheese_wash_records", "users", column: "created_by_id"
+  add_foreign_key "cheese_wash_records", "users", column: "updated_by_id"
   add_foreign_key "chillers", "staffs"
+  add_foreign_key "chillers", "users", column: "created_by_id"
+  add_foreign_key "chillers", "users", column: "updated_by_id"
   add_foreign_key "cleaning_foreign_body_checks", "staffs"
+  add_foreign_key "cleaning_foreign_body_checks", "users", column: "created_by_id"
+  add_foreign_key "cleaning_foreign_body_checks", "users", column: "updated_by_id"
+  add_foreign_key "contacts", "users", column: "created_by_id"
+  add_foreign_key "contacts", "users", column: "updated_by_id"
   add_foreign_key "grading_notes", "makesheets"
+  add_foreign_key "grading_notes", "users", column: "created_by_id"
+  add_foreign_key "grading_notes", "users", column: "updated_by_id"
+  add_foreign_key "invoices", "users", column: "created_by_id"
+  add_foreign_key "invoices", "users", column: "updated_by_id"
+  add_foreign_key "locations", "users", column: "created_by_id"
+  add_foreign_key "locations", "users", column: "updated_by_id"
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "makesheets", "locations"
+  add_foreign_key "makesheets", "users", column: "created_by_id"
+  add_foreign_key "makesheets", "users", column: "updated_by_id"
+  add_foreign_key "market_sales", "users", column: "created_by_id"
+  add_foreign_key "market_sales", "users", column: "updated_by_id"
   add_foreign_key "milk_quality_monitors", "makesheets"
+  add_foreign_key "milk_quality_monitors", "users", column: "created_by_id"
+  add_foreign_key "milk_quality_monitors", "users", column: "updated_by_id"
   add_foreign_key "palletised_distributions", "staffs"
+  add_foreign_key "palletised_distributions", "users", column: "created_by_id"
+  add_foreign_key "palletised_distributions", "users", column: "updated_by_id"
   add_foreign_key "picksheet_items", "makesheets"
   add_foreign_key "picksheet_items", "picksheets"
+  add_foreign_key "picksheet_items", "users", column: "created_by_id"
+  add_foreign_key "picksheet_items", "users", column: "updated_by_id"
   add_foreign_key "picksheets", "contacts"
   add_foreign_key "picksheets", "users"
+  add_foreign_key "picksheets", "users", column: "created_by_id"
+  add_foreign_key "picksheets", "users", column: "updated_by_id"
+  add_foreign_key "references", "users", column: "created_by_id"
+  add_foreign_key "references", "users", column: "updated_by_id"
+  add_foreign_key "samples", "users", column: "created_by_id"
+  add_foreign_key "samples", "users", column: "updated_by_id"
   add_foreign_key "scale_checks", "staffs"
+  add_foreign_key "scale_checks", "users", column: "created_by_id"
+  add_foreign_key "scale_checks", "users", column: "updated_by_id"
+  add_foreign_key "staffs", "users", column: "created_by_id"
+  add_foreign_key "staffs", "users", column: "updated_by_id"
   add_foreign_key "traceability_records", "makesheets"
+  add_foreign_key "traceability_records", "users", column: "created_by_id"
+  add_foreign_key "traceability_records", "users", column: "updated_by_id"
   add_foreign_key "turns", "makesheets"
+  add_foreign_key "turns", "users", column: "created_by_id"
+  add_foreign_key "turns", "users", column: "updated_by_id"
   add_foreign_key "wash_picksheets", "picksheets"
   add_foreign_key "wash_picksheets", "washes"
+  add_foreign_key "washes", "users", column: "created_by_id"
+  add_foreign_key "washes", "users", column: "updated_by_id"
   add_foreign_key "waste_records", "traceability_records"
+  add_foreign_key "waste_records", "users", column: "created_by_id"
+  add_foreign_key "waste_records", "users", column: "updated_by_id"
 end

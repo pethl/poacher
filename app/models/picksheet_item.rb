@@ -1,8 +1,13 @@
 class PicksheetItem < ApplicationRecord
+  include UserTrackable
   attr_accessor :wedge_size
 
   belongs_to :picksheet
   belongs_to :makesheet, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+  
+
 
   validates :product, presence: true, unless: -> { makesheet_id.present? }
   validates :makesheet_id, presence: true, unless: -> { product.present? }

@@ -1,5 +1,9 @@
 class PalletisedDistribution < ApplicationRecord
+  include UserTrackable
   belongs_to :staff, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+  
   scope :ordered, -> { order(date: :desc) }
 
    # Assuming these are the fields you're working with:

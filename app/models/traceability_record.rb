@@ -1,5 +1,9 @@
 class TraceabilityRecord < ApplicationRecord
+  include UserTrackable
   belongs_to :makesheet, optional: true
+  belongs_to :created_by, class_name: 'User', optional: true
+  belongs_to :updated_by, class_name: 'User', optional: true
+  
   has_many :waste_records, dependent: :destroy
  
   validates :makesheet_id,
