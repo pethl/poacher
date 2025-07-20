@@ -1,0 +1,38 @@
+<% content_for :title, "Poacher: Aisle Turn Summary" %>
+<% content_for :page_title, "AISLE TURN STATUS" %>
+<%= render 'shared/store_nav' %>
+
+<div class="max-w-5xl mx-auto px-4 py-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <% [5, 4].each do |shed_number| %>
+      <div>
+        <h2 class="text-xl font-bold mb-4 text-center text-gray-700">Shed <%= shed_number %></h2>
+
+        <% entries = @shed_aisle_status_by_shed[shed_number] || [] %>
+        <% entries.sort_by { |e| e[:aisle] }.each do |entry| %>
+          <div class="border rounded-lg p-4 shadow mb-4 bg-white flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-semibold">
+                Aisle <%= entry[:aisle] %>
+              </h3>
+              <% if entry[:last_turned_at] %>
+                <p class="text-sm text-gray-600">
+                  Last turned: <%= entry[:last_turned_at].strftime("%d %b %Y") %>
+                </p>
+              <% else %>
+                <p class="text-sm text-gray-600 italic">Never turned</p>
+              <% end %>
+            </div>
+            <div>
+              <% color = entry[:status] == :green ? "bg-emerald-500" : "bg-red-500" %>
+              <div class="w-5 h-5 rounded-full <%= color %>"></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
+

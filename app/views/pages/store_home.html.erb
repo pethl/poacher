@@ -15,12 +15,17 @@
 
     <%= link_to "Location Report", "/location_report", class: "#{nav_box_class} mx-auto" %>
 
-     <%= link_to "Aisle Inspection", "/location_inspection", class: "#{nav_box_class} mx-auto" %> <!-- 🔍 New link -->
+    <%= link_to "Aisle Inspection", "/location_inspection", class: "#{nav_box_class} mx-auto" %> <!-- 🔍 New link -->
 
 
     <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "#{nav_box_class} mx-auto" %>
 
-     <%= link_to "New Turns", "/turns/new", class: "#{nav_box_class} mx-auto" %>
+    <%= link_to "New Turns", "/turns/new", class: "#{nav_box_class} mx-auto" %>
+    
+    <%= link_to "Florence Turns", "/turns/bulk_new", class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "Aisle Turn Summary", aisle_summary_turns_path, class: "#{nav_box_class} mx-auto" %>
+
     
 
   </div>

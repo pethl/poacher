@@ -150,7 +150,14 @@ Rails.application.routes.draw do
     end
   end
 
- resources :turns
+  resources :turns do
+    collection do
+      get :bulk_new     # shows the form to choose an aisle
+      post :bulk_create # creates turns for all makesheets in selected aisle
+      get :aisle_summary # shows per-aisle turning status (column 3 check)
+    end
+  end
+  
    
   resources :picksheets do
     resources :picksheet_items, except: [:index, :show]

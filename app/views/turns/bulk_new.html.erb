@@ -1,0 +1,47 @@
+<!-- app/views/turns/bulk_new.html.erb -->
+<% content_for :title, "Poacher: Turning Machine" %>
+<% content_for(:page_title, "AUTOMATIC TURNING") %>
+<%= render 'shared/store_nav' %>
+
+<div class="max-w-4xl mx-auto px-4">
+
+  <!-- 🔄 Shed + Aisle Selection Form -->
+  <div class="bg-white rounded-xl shadow p-4 mb-6 border">
+    <%= form_with url: bulk_create_turns_path, method: :post, local: true do %>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Shed Radios -->
+        <fieldset>
+          <legend class="text-gray-700 font-semibold mb-1">Select Shed</legend>
+          <div class="flex gap-4">
+            <% ["Shed 4", "Shed 5"].each do |shed_option| %>
+              <label class="inline-flex items-center">
+                <%= radio_button_tag :shed, shed_option, false, class: "mr-2" %>
+                <%= shed_option %>
+              </label>
+            <% end %>
+          </div>
+        </fieldset>
+
+        <!-- Aisle Radios -->
+        <fieldset>
+          <legend class="text-gray-700 font-semibold mb-1">Select Aisle</legend>
+          <div class="grid grid-cols-3 gap-2">
+            <% (1..6).each do |a| %>
+              <label class="inline-flex items-center">
+                <%= radio_button_tag :aisle, a, false, class: "mr-2" %>
+                Aisle <%= a %>
+              </label>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="text-right mt-4">
+        <%= submit_tag "Run Turning Machine", class: fill_button_class %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
