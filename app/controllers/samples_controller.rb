@@ -171,7 +171,7 @@ class SamplesController < ApplicationController
         :total_sugars,
         :trans_fatty_acids_per_fat,
         :trans_fatty_acids,
-        :water_activity
-      )
-    end
+        :water_activity,
+        makesheet_ids: [] # <-- allow array of IDs for HABTM
+      )    end
 end

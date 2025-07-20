@@ -9,33 +9,34 @@
     <div class="flex-grow overflow-auto">
      <table class="mx-auto w-full border text-sm text-left text-gray-500 mb-12">
           <thead class="text-xs text-gray-700 uppercase bg-gray-200 whitespace-nowrap">
-            <tr class="bg-gray-200 sticky top-0">
-              <th scope="col" class="sticky top-0 pl-2 pr-6 py-3 text-center w-16">Progress</th>
-              <th scope="col" class="sticky top-0 pl-2 pr-6 py-3 text-center w-16">Label</th>
-              <th scope="col" class="sticky top-0 px-4 py-3 w-40 underline underline-offset-2">
+            <tr class="bg-gray-200 sticky top-0 z-20">
+              <th scope="col" class="sticky top-0 z-30 pl-2 pr-6 py-3 text-center w-16">Progress</th>
+              <th scope="col" class="sticky top-0 z-30 pl-2 pr-6 py-3 text-center w-12">Label</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 w-40 underline underline-offset-2">
                 <%= makesheets_show_sort_indicator_for("make_date") %>
                 <%= make_sheets_sort_link(column: "make_date", label: "Make Date") %>
               </th>
-              <th id="batch" class="sticky top-0 px-4 py-3 text-left w-32 underline underline-offset-2">
+              <th id="batch" class="sticky top-0 z-30 px-4 py-3 text-left w-32 underline underline-offset-2">
                 <%= makesheets_show_sort_indicator_for("batch") %>
                 <%= make_sheets_sort_link(column: "batch", label: "Batch") %>
               </th>
-              <th scope="col" class="sticky top-0 pl-2 pl-6 py-3 text-left w-32">Status</th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-left w-32">Grade</th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24">
+              <th scope="col" class="sticky top-0 z-30 pl-4 py-3 text-left w-32">Status</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left w-32">Flags</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left w-32">Grade</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-right w-24">
                 <%= makesheets_show_sort_indicator_for("age_in_days") %>
                 <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
               </th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-left underline underline-offset-2">
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left underline underline-offset-2">
                 <%= makesheets_show_sort_indicator_for("location.name") %>
                 <%= make_sheets_sort_link(column: "location.name", label: "Location") %>
               </th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-right w-24 underline underline-offset-2">
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-right w-24 underline underline-offset-2">
                 <%= makesheets_show_sort_indicator_for("total_weight") %>
                 <%= make_sheets_sort_link(column: "total_weight", label: "Weight (kg)") %>
               </th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-right w-16">Count</th>
-              <th scope="col" class="sticky top-0 px-4 py-3 text-right w-16">Yield</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-right w-16">Count</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-right w-16">Yield</th>
             </tr>
           </thead>
 
@@ -59,19 +60,44 @@
                   <% end %>
                 <% end %>
               </td>
-              <td class="text-center text-lg"><%= link_to print_label_path(makesheet_id: makesheet.id), class: "btn btn-outline-primary" do %>
-                <i class="fas fa-tag"></i> 
-              <% end %></td>
-                <td scope="row" class="px-4 py-2 underline underline-offset-2">
-                  <%= link_to makesheet.make_date.to_formatted_s(:uk_day), edit_makesheet_path(makesheet)  %>
-                </td>
-                <td class="px-4 py-2 text-left underline underline-offset-2">
-                  <% if makesheet.batch? %>
-                    <%= link_to makesheet.batch, makesheet %>
+              <td class="text-center text-lg relative group">
+                  <%= link_to print_label_path(makesheet_id: makesheet.id), class: "btn btn-outline-primary relative z-10" do %>
+                    <i class="fas fa-tag"></i>
+                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      Print Label
+                    </span>
                   <% end %>
                 </td>
-                <td class="px-4 py-2 text-left underline underline-offset-2">
-                  <%= link_to makesheet.status, batch_turns_makesheet_path(makesheet) %>
+
+              <td scope="row" class="px-4 py-2 underline underline-offset-2 relative group">
+                  <%= link_to edit_makesheet_path(makesheet), class: "relative z-10" do %>
+                    <span><%= makesheet.make_date.to_formatted_s(:uk_day) %></span>
+                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      Edit Record
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-4 py-2 text-left underline underline-offset-2 relative group">
+                  <% if makesheet.batch? %>
+                    <%= link_to makesheet, class: "relative z-10" do %>
+                      <span><%= makesheet.batch %></span>
+                      <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                        Show Details
+                      </span>
+                    <% end %>
+                  <% end %>
+                </td>
+
+               <td class="px-4 py-2 text-left underline underline-offset-2 relative group">
+                  <%= link_to batch_turns_makesheet_path(makesheet), class: "relative z-10" do %>
+                    <span><%= makesheet.status %></span>
+                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      View Turns
+                    </span>
+                  <% end %>
+                </td>
+                <td class="px-4 py-2 text-left">
+                  <%= makesheet.flags.presence || "-" %>
                 </td>
                 <td class="px-4 py-2 text-left">
                   <%= makesheet.grade %>
@@ -79,14 +105,15 @@
                 <td class="px-4 py-2 text-right">
                   <%= makesheet.age_in_months %>m
                 </td>
-                <td class="px-4 py-2 text-left">
-                <% if makesheet.location.present? && makesheet.location.location_type == "Aisle" %>
-                  <%= link_to makesheet.location.name,
-                    shed_map_path(shed: makesheet.location.shed_number) + "#location-#{makesheet.location.id}",
-                    class: "text-blue-600 underline" %>
-                <% else %>
-                  <span class="text-gray-500 italic"><%= makesheet.location&.name || "" %></span>
-                <% end %>
+               <td class="px-4 py-2 text-left">
+                  <% if makesheet.location.present? && makesheet.location.location_type == "Aisle" %>
+                    <%= link_to makesheet.location.name,
+                      shed_map_path(shed: makesheet.location.shed_number) + "#location-#{makesheet.location.id}",
+                      class: "text-blue-600 underline",
+                      title: "See Location" %>
+                  <% else %>
+                    <span class="text-gray-500 italic"><%= makesheet.location&.name || "" %></span>
+                  <% end %>
                 </td>
                 <td class="px-4 py-2 text-right">
                   <%= makesheet.total_weight %> kg

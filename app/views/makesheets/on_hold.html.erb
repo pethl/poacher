@@ -1,0 +1,48 @@
+<% content_for :title, "Poacher: On Hold Makesheets" %>
+<% content_for :page_title, "ON HOLD – #{params[:status] == 'finished' ? 'Finished' : 'In Store'}" %>
+
+<div class="max-w-4xl mx-auto px-4">
+
+  <!-- Tabs -->
+  <div class="flex justify-center gap-6 mb-6 border-b pb-2">
+    <%= link_to "In Store", on_hold_makesheets_path, 
+        class: "px-4 py-2 #{params[:status].blank? ? 'font-bold border-b-2 border-blue-500' : 'text-gray-500 hover:text-blue-600'}" %>
+    <%= link_to "Finished", on_hold_makesheets_path(status: "finished"),
+        class: "px-4 py-2 #{params[:status] == 'finished' ? 'font-bold border-b-2 border-blue-500' : 'text-gray-500 hover:text-blue-600'}" %>
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white rounded-xl shadow border">
+    <table class="min-w-full table-auto text-sm">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="text-left px-4 py-2">Make Date</th>
+          <th class="text-left px-4 py-2">Status</th>
+          <th class="text-left px-4 py-2">Grade</th>
+          <th class="text-left px-4 py-2">Hold Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @makesheets.each do |ms| %>
+          <tr class="border-t">
+            <td class="px-4 py-2"><%= ms.make_date&.strftime("%d %b %Y") %></td>
+            <td class="px-4 py-2"><%= ms.status %></td>
+            <td class="px-4 py-2"><%= ms.grade.presence || "–" %></td>
+            <td class="px-4 py-2">
+              <% reasons = [] %>
+              <% reasons << "Glass Breakage" if ms.glass_breakage %>
+              <% reasons << "Metal Contamination" if ms.metal_contamination %>
+              <% reasons << "Slow Cheese" if ms.slow_cheese %>
+              <%= reasons.join(", ") %>
+            </td>
+          </tr>
+        <% end %>
+        <% if @makesheets.empty? %>
+          <tr>
+            <td colspan="4" class="px-4 py-6 text-center italic text-gray-500">No makesheets currently on hold.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

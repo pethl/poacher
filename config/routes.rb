@@ -147,6 +147,7 @@ Rails.application.routes.draw do
       get 'graded_blackboard'
       get 'monthly_summary'
       get 'overview'
+      get 'on_hold' 
     end
   end
 

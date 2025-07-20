@@ -288,7 +288,16 @@ class MakesheetsController < ApplicationController
     }
   end
   
+  def on_hold
+    @status_filter = params[:status] == "finished" ? "Finished" : nil
   
+    @makesheets = Makesheet
+      .where("glass_breakage = ? OR metal_contamination = ? OR slow_cheese = ?", true, true, true)
+      .order(make_date: :desc)
+  
+    @makesheets = @makesheets.where.not(status: "Finished") unless @status_filter
+    @makesheets = @makesheets.where(status: "Finished") if @status_filter
+  end
   
 
   private

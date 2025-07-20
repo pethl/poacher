@@ -1,5 +1,6 @@
   <% content_for :title, "Poacher: Yield Management" %>
   <% content_for(:page_title, "YIELD DASHBOARD")%>
+  <%= render 'shared/dairy_nav' %>
 
 <div class="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
   <% @make_types.each do |make_type| %>

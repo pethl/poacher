@@ -161,5 +161,16 @@ class Makesheet < ApplicationRecord
     latest_time&.strftime("%H:%M")
   end
 
+  def flags
+    f = []
+    f << "Slow" if slow_cheese
+    f << "Metal" if metal_contamination
+    f << "Glass" if glass_breakage
+    if samples.any?
+      f << "<a href='/samples/#{samples.first.id}' class='underline text-blue-600'>Sample</a>"
+    end
+    f.join(", ").html_safe
+  end
+
 
 end
