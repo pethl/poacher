@@ -63,7 +63,7 @@
               <td class="text-center text-lg relative group">
                   <%= link_to print_label_path(makesheet_id: makesheet.id), class: "btn btn-outline-primary relative z-10" do %>
                     <i class="fas fa-tag"></i>
-                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <span class="absolute top-full mt-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       Print Label
                     </span>
                   <% end %>
@@ -72,7 +72,7 @@
               <td scope="row" class="px-4 py-2 underline underline-offset-2 relative group">
                   <%= link_to edit_makesheet_path(makesheet), class: "relative z-10" do %>
                     <span><%= makesheet.make_date.to_formatted_s(:uk_day) %></span>
-                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <span class="absolute top-full mt-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       Edit Record
                     </span>
                   <% end %>
@@ -81,7 +81,7 @@
                   <% if makesheet.batch? %>
                     <%= link_to makesheet, class: "relative z-10" do %>
                       <span><%= makesheet.batch %></span>
-                      <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                      <span class="absolute top-full mt-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                         Show Details
                       </span>
                     <% end %>
@@ -91,7 +91,7 @@
                <td class="px-4 py-2 text-left underline underline-offset-2 relative group">
                   <%= link_to batch_turns_makesheet_path(makesheet), class: "relative z-10" do %>
                     <span><%= makesheet.status %></span>
-                    <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <span class="absolute top-full mt-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       View Turns
                     </span>
                   <% end %>

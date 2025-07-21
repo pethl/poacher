@@ -43,11 +43,11 @@
       </label>
       <div class="text-left">
         <%= form.select :makesheet_ids,
-       @active_makesheets.map { |m| [m.make_date.to_formatted_s(:uk), m.id] },
-      {},
-      multiple: true,
-      size: 10, # Show 10 rows
-      class: "#{field_class_flex} h-auto" %>
+          @active_makesheets.map { |m| [m.make_date_formatted_and_type, m.id] },
+          {},
+          multiple: true,
+          size: 10,
+          class: "#{field_class_flex} h-auto" %>
       </div>
 
 

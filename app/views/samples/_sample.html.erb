@@ -2,7 +2,7 @@
   <div class="border border-gray-800 rounded-lg p-4">
     <div class="grid md:grid-cols-2 lg:grid-cols-4">
 
-       <p class="my-5 col-span-2 lg:col-span-4 text-lg">
+       <p class="my-5 col-span-2 lg:col-span-4 text-2xl">
         <strong class="block font-semibold mb-2">Sample description:</strong>
         <%= sample.sample_description %>
       </p>
@@ -48,6 +48,7 @@
         <strong class="block font-semibold mb-2">Schedule:</strong>
         <%= sample.schedule %>
       </p>
+      
 
       <% Sample.attribute_names.each do |attr| %>
         <% next if ["id", "created_at", "updated_at", "sample_no", "received_date", "sample_description", "suite", "classification", "schedule"].include?(attr) %>
@@ -58,6 +59,8 @@
           <%= value %>
         </p>
       <% end %>
+
+     
     </div>
   </div>
 </div>

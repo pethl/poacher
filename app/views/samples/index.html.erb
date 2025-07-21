@@ -4,22 +4,41 @@
 
   <div class="items-center rounded text-sm">
     <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
-    <div class="flex justify-between items-center mb-2">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 space-y-2 sm:space-y-0 sm:space-x-4">
+
+      <!-- Import Form -->
       <div>
         <%= form_tag import_samples_path, multipart: true do %>
           <%= file_field_tag :file, class: "h-9 px-2 py-1 bg-gray-200 rounded-lg text-sm" %>
           <%= submit_tag "Import", class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded text-sm" %>
         <% end %>
       </div>
+
+      <!-- Filter Form -->
       <div>
         <%= form_with url: samples_path, method: :get, local: true do %>
-          <div class="flex items-center space-x-2">
-            <label for="filter" class="text-sm font-medium">Filter:</label>
-            <%= select_tag :filter,
-                  options_for_select(@filters, selected: @filter),
-                  prompt: "Choose...",
-                  onchange: "this.form.submit();",
-                  class: "bg-white border border-gray-300 rounded px-2 py-1 text-sm w-64" %>
+          <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
+
+            <!-- Filter -->
+            <div class="flex flex-col">
+              <label for="filter" class="text-sm font-medium">Filter:</label>
+              <%= select_tag :filter,
+                    options_for_select(@filters, selected: @filter),
+                    prompt: "Choose...",
+                    onchange: "this.form.submit();",
+                    class: "bg-white border border-gray-300 rounded px-2 py-1 text-sm w-64" %>
+            </div>
+
+            <!-- Suite -->
+            <div class="flex flex-col">
+              <label for="suite" class="text-sm font-medium">Suite:</label>
+              <%= select_tag :suite,
+                    options_for_select(@suites, selected: @suite),
+                    prompt: "All Suites",
+                    onchange: "this.form.submit();",
+                    class: "bg-white border border-gray-300 rounded px-2 py-1 text-sm w-64" %>
+            </div>
+
             <%= hidden_field_tag :column, params[:column] %>
             <%= hidden_field_tag :direction, params[:direction] %>
           </div>
@@ -48,9 +67,7 @@
                 </th>
                 <th class="sticky top-0 px-3 py-1 text-left w-[48rem]">Description</th>
                 <th class="sticky top-0 px-3 py-1 text-left">Suite</th>
-                <th class="sticky top-0 px-3 py-1 text-right">Classification</th>
-                <th class="sticky top-0 px-3 py-1 text-right">Schedule</th>
-                <th class="sticky top-0 px-3 py-1 text-center w-28 whitespace-nowrap">Make Date</th>
+               text-center w-28 whitespace-nowrap">Make Date</th>
                 <% Sample.column_names.reject { |c| ["id", "created_at", "updated_at", "sample_no", "received_date", "sample_description", "suite", "classification", "schedule", "indicator"].include?(c) }.each do |column| %>
                   <th class="sticky top-0 px-3 py-1 text-right whitespace-nowrap">
                     <%= column.titleize %>
@@ -73,12 +90,12 @@
                       <%= link_to sample.received_date.to_formatted_s(:uk), sample %>
                     <% end %>
                   </td>
+                   
                   <td class="px-3 py-1 text-left w-[48rem] break-words whitespace-normal">
                     <%= sample.sample_description.html_safe %>
                   </td>
                   <td class="px-3 py-1 text-left whitespace-nowrap"><%= sample.suite %></td>
-                  <td class="px-3 py-1 text-right"><%= sample.classification %></td>
-                  <td class="px-3 py-1 text-right"><%= sample.schedule %></td>
+                  
                   <td class="px-3 py-1 text-center w-28">
                     <% if sample.makesheets.any? %>
                       <% tick_count = sample.makesheets.count %>

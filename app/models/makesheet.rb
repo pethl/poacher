@@ -48,6 +48,15 @@ class Makesheet < ApplicationRecord
     self.make_date.to_formatted_s(:uk_clean_date)
   end
 
+  def make_date_formatted_and_type
+    return nil unless make_date.present?
+  
+    #formatted datae returns Tues 7th Sept 2024
+    formatted_date = make_date.to_formatted_s(:uk_day)
+    type = make_type.presence || "Unknown"
+    "#{formatted_date} (#{type})"
+  end
+
   def make_date_formatted_and_grade
     "#{make_date.strftime('%d-%b')} – Batch #{batch} #{grade.presence || 'Ungraded'}"
   end
@@ -166,11 +175,21 @@ class Makesheet < ApplicationRecord
     f << "Slow" if slow_cheese
     f << "Metal" if metal_contamination
     f << "Glass" if glass_breakage
-    if samples.any?
-      f << "<a href='/samples/#{samples.first.id}' class='underline text-blue-600'>Sample</a>"
+  
+    # Check if samples are preloaded
+    if samples.loaded?
+      first_sample = samples.first
+    else
+      first_sample = samples.limit(1).first
     end
+  
+    if first_sample
+      f << "<a href='/samples/#{first_sample.id}' class='underline text-blue-600'>Sample</a>"
+    end
+  
     f.join(", ").html_safe
   end
+  
 
 
 end

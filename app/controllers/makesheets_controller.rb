@@ -132,18 +132,16 @@ class MakesheetsController < ApplicationController
     if params[:month].present?
       begin
         month_date = Date.strptime(params[:month], "%b-%y")
-        start_date = month_date.beginning_of_month
-        end_date = month_date.end_of_month
-        @makesheets = @makesheets.where(make_date: start_date..end_date)
+        @makesheets = @makesheets.where(make_date: month_date.all_month)
       rescue ArgumentError
         # Invalid format — do nothing
       end
     end
   
-    # Eager load associations
-    @makesheets = @makesheets.includes(:location)
+    # Eager load associations used in views or methods (especially flags!)
+    @makesheets = @makesheets.includes(:location, :samples)
   
-    # Sorting
+    # Sorting logic
     if params[:column] == "location.name"
       @makesheets = @makesheets.joins(:location).order("locations.name #{sort_direction}")
     elsif params[:column].present? && Makesheet.column_names.include?(params[:column])
@@ -152,14 +150,15 @@ class MakesheetsController < ApplicationController
       @makesheets = @makesheets.ordered_reverse
     end
   
-    # For the dropdown: all months with makesheets
+    # Available month options for the dropdown
     @available_months = Makesheet
+      .where.not(make_date: nil)
       .pluck(:make_date)
-      .compact
       .map { |d| d.strftime("%b-%y") }
       .uniq
       .sort_by { |m| Date.strptime(m, "%b-%y") }
   end
+  
   
   
   # GET /makesheets/1 or /makesheets/1.json

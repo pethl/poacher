@@ -4,8 +4,9 @@ class SamplesController < ApplicationController
   # GET /samples or /samples.json
   def index
     @filter = params[:filter]
+    @suite = params[:suite]
   
-    @samples = Sample.all
+    @samples = Sample.ordered
   
     if @filter.present? && @filter != 'All'
       if %w[Mature Young].include?(@filter)
@@ -17,6 +18,10 @@ class SamplesController < ApplicationController
       end
     end
   
+    if @suite.present? && @suite != 'All'
+      @samples = @samples.where(suite: @suite)
+    end
+  
     if params[:column].present?
       @samples = @samples.order("#{params[:column]} #{params[:direction]}")
     else
@@ -26,6 +31,7 @@ class SamplesController < ApplicationController
     @samples = @samples.includes(:makesheets)
   
     @filters = ['All', 'Young', 'Mature', 'Butter', 'Raw Milk']
+    @suites = ['All'] + Sample.distinct.pluck(:suite).compact.sort
   end
   
   

@@ -6,7 +6,7 @@ class Sample < ApplicationRecord
   
   validates :sample_no, uniqueness: true
 
-  scope :ordered, -> { order(sample_no: :asc) }
+  scope :ordered, -> { order(sample_no: :desc) }
 
   def self.import(upload)
     upload = upload.first if upload.is_a?(Array)
@@ -102,6 +102,8 @@ class Sample < ApplicationRecord
     sample.trans_fatty_acids = row['Trans Fatty Acids (g/100 g)']
     sample.water_activity = row['Water activity (/)']
   end
+
+   
 end
 
  
