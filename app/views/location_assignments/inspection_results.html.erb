@@ -2,7 +2,7 @@
 <% content_for :title, "Poacher: Storage Inspection Report" %>
 <% content_for(:page_title, "STORAGE INSPECTION") %>
 
-<div class="max-w-4xl mx-auto px-4">
+<div class="max-w-4xl mx-auto px-4"> 
 
   <!-- 🔍 Selection Form -->
   <div class="bg-white rounded-xl shadow p-4 mb-6 border">
@@ -15,7 +15,7 @@
           <div class="flex gap-4">
             <% ["Shed 4", "Shed 5"].each do |shed_option| %>
               <label class="inline-flex items-center">
-                <%= radio_button_tag :shed, shed_option, shed_option == @shed, class: "mr-2" %>
+                <%= radio_button_tag :shed, shed_option, shed_option == @shed, class: "#{radio_input_class} mr-2" %>
                 <%= shed_option %>
               </label>
             <% end %>
@@ -28,7 +28,7 @@
           <div class="grid grid-cols-3 gap-2">
             <% (1..6).each do |a| %>
               <label class="inline-flex items-center">
-                <%= radio_button_tag :aisle, a, a == @aisle, class: "mr-2" %>
+                <%= radio_button_tag :aisle, a, a == @aisle, class: "#{radio_input_class} mr-2" %>
                 Aisle <%= a %>
               </label>
             <% end %>

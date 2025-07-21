@@ -113,9 +113,13 @@ module ApplicationHelper
   def field_class_flex_small
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-20 h-10 px-2 text-center w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
-
+ 
   def checkbox_class
     "form-checkbox h-5 w-5 text-gray-800 rounded border-gray-800 focus:ring-1 focus:ring-gray-500 bg-gray-100 transition transform hover:scale-115 hover:shadow"
+  end
+
+  def radio_input_class
+    "form-radio h-5 w-5 text-gray-800 border-gray-800 rounded focus:ring-gray-500 focus:ring-1 transition hover:scale-105 hover:shadow"
   end
 
   def checkbox_input_class

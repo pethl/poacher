@@ -9,7 +9,19 @@ class VacuumPouchCalculatorController < ApplicationController
 
   def create
     @pouch_options = Reference.where(group: 'vacuum_pouches')
-    pouch = Reference.find(params[:pouch_id])
+  
+    if params[:pouch_id].blank?
+      flash.now[:alert] = "Please select a pouch size."
+      return render :new
+    end
+  
+    begin
+      pouch = Reference.find(params[:pouch_id])
+    rescue ActiveRecord::RecordNotFound
+      flash.now[:alert] = "Invalid pouch selected."
+      return render :new
+    end
+  
     item_count = params[:item_count].to_i
     total_weight = params[:total_weight].to_f
     pouch_weight = pouch.description.to_f
@@ -38,6 +50,7 @@ class VacuumPouchCalculatorController < ApplicationController
       format.html { render :new }
     end
   end
+  
 
 end
 

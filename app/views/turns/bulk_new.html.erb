@@ -16,7 +16,7 @@
           <div class="flex gap-4">
             <% ["Shed 4", "Shed 5"].each do |shed_option| %>
               <label class="inline-flex items-center">
-                <%= radio_button_tag :shed, shed_option, false, class: "mr-2" %>
+                <%= radio_button_tag :shed, shed_option, false, class: "#{radio_input_class} mr-2" %>
                 <%= shed_option %>
               </label>
             <% end %>
@@ -29,7 +29,7 @@
           <div class="grid grid-cols-3 gap-2">
             <% (1..6).each do |a| %>
               <label class="inline-flex items-center">
-                <%= radio_button_tag :aisle, a, false, class: "mr-2" %>
+                <%= radio_button_tag :aisle, a, false, class: "#{radio_input_class} mr-2" %>
                 Aisle <%= a %>
               </label>
             <% end %>
