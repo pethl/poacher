@@ -39,24 +39,24 @@ module MakesheetPdfPage1
                first_column = Array.new 
                first_column << ["", "<b>TIME</b>", "<b>TEMP (°C)</b>"]
                #first_column << ["BOILER ON",  "#{makesheet.boiler_on_time&.strftime('%I:%M %p')}", ""]
-               first_column << ["STEAM / HOT WATER ON", "#{makesheet.steam_hot_water_on_time&.strftime('%I:%M %p')}", ""]
-               first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "#{makesheet.cold_milk_in_time&.strftime('%I:%M %p')}", "#{makesheet.cold_milk_in_state}"]
-               first_column << ["WARM MILK FINISH",  "#{makesheet.warm_milk_finish_time&.strftime('%I:%M %p')}", "#{makesheet.warm_milk_finish_titration}"]
-               first_column << ["STARTER IN",  "#{makesheet.starter_in_time&.strftime('%I:%M %p')}", "#{makesheet.starter_in_temp}"]
-               first_column << ["HEAT OFF", "#{makesheet.heat_off_1_time&.strftime('%I:%M %p')}", "#{makesheet.heat_off_1_temp}"]
-               first_column << ["MILK TITRATION", "#{makesheet.milk_titration_time&.strftime('%I:%M %p')}", "#{makesheet.milk_titration_temp}"]
-               first_column << ["RENNET", "#{makesheet.rennet_time&.strftime('%I:%M %p')}", "#{makesheet.rennet_temp}"]
-               first_column << ["CUT", "#{makesheet.cut_start_time&.strftime('%I:%M %p')}", "#{makesheet.cut_end_time&.strftime('%I:%M %p')}"]
-               first_column << ["HEAT ON", "#{makesheet.heat_on_time&.strftime('%I:%M %p')}", ""]
-               first_column << ["HEAT OFF", "#{makesheet.heat_off_2_time&.strftime('%I:%M %p')}", "#{makesheet.heat_off_2_temp}"]
-               first_column << ["PITCH", "#{makesheet.pitch_time&.strftime('%I:%M %p')}", "<sup>Titration</sup>"]
-               first_column << ["WHEY", "#{makesheet.whey_time&.strftime('%I:%M %p')}", "#{makesheet.whey_titration}"]
-               first_column << ["1ST CUT", makesheet.first_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.first_cut_titration)]
-               first_column << ["2ND CUT", makesheet.second_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.second_cut_titration)]
-               first_column << ["3RD CUT", makesheet.third_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.third_cut_titration)]
-               first_column << ["4TH CUT", makesheet.fourth_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.fourth_cut_titration)]
-               first_column << ["5TH CUT", makesheet.fifth_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.fifth_cut_titration)]
-               first_column << ["6TH/MILL", makesheet.sixth_cut_time&.strftime('%I:%M %p'), format_titration(makesheet.sixth_cut_titration)]
+               first_column << ["STEAM / HOT WATER ON", "#{makesheet.steam_hot_water_on_time&.strftime('%I:%M')}", ""]
+               first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "#{makesheet.cold_milk_in_time&.strftime('%I:%M')}", "#{makesheet.cold_milk_in_state}"]
+               first_column << ["WARM MILK FINISH",  "#{makesheet.warm_milk_finish_time&.strftime('%I:%M')}", "#{makesheet.warm_milk_finish_titration}"]
+               first_column << ["STARTER IN",  "#{makesheet.starter_in_time&.strftime('%I:%M')}", "#{makesheet.starter_in_temp}"]
+               first_column << ["HEAT OFF", "#{makesheet.heat_off_1_time&.strftime('%I:%M')}", "#{makesheet.heat_off_1_temp}"]
+               first_column << ["MILK TITRATION", "#{makesheet.milk_titration_time&.strftime('%I:%M')}", "#{makesheet.milk_titration_temp}"]
+               first_column << ["RENNET", "#{makesheet.rennet_time&.strftime('%I:%M')}", "#{makesheet.rennet_temp}"]
+               first_column << ["CUT", "#{makesheet.cut_start_time&.strftime('%I:%M')}", "#{makesheet.cut_end_time&.strftime('%I:%M')}"]
+               first_column << ["HEAT ON", "#{makesheet.heat_on_time&.strftime('%I:%M')}", ""]
+               first_column << ["HEAT OFF", "#{makesheet.heat_off_2_time&.strftime('%I:%M')}", "#{makesheet.heat_off_2_temp}"]
+               first_column << ["PITCH", "#{makesheet.pitch_time&.strftime('%I:%M')}", "<sup>Titration</sup>"]
+               first_column << ["WHEY", "#{makesheet.whey_time&.strftime('%I:%M')}", "#{makesheet.whey_titration}"]
+               first_column << ["1ST CUT", makesheet.first_cut_time&.strftime('%I:%M'), format_titration(makesheet.first_cut_titration)]
+               first_column << ["2ND CUT", makesheet.second_cut_time&.strftime('%I:%M'), format_titration(makesheet.second_cut_titration)]
+               first_column << ["3RD CUT", makesheet.third_cut_time&.strftime('%I:%M'), format_titration(makesheet.third_cut_titration)]
+               first_column << ["4TH CUT", makesheet.fourth_cut_time&.strftime('%I:%M'), format_titration(makesheet.fourth_cut_titration)]
+               first_column << ["5TH CUT", makesheet.fifth_cut_time&.strftime('%I:%M'), format_titration(makesheet.fifth_cut_titration)]
+               first_column << ["6TH/MILL", makesheet.sixth_cut_time&.strftime('%I:%M'), format_titration(makesheet.sixth_cut_titration)]
 
                first_column << [
                     "MILL\nXXXXXX MILL USED",
@@ -91,7 +91,7 @@ module MakesheetPdfPage1
       pdf.text "\n", size: 8
 
        milk_box = Array.new
-       milk_box << ["<b>MILK USED</b>","", "","","Bottles (back from F/Mkts)"]
+       milk_box << ["<b>MILK </b>","<b>USED </b>", "","<b>Bottles </b>","<b>F/Ms</b>"]
        milk_box << ["Warm am","12 hr pm", "Record unusual smell or visual appearance","Number","U/B Date"]
        milk_box << ["<b>#{makesheet.warm_am == true ? "YES":  (makesheet.warm_am.nil? ? "" : "NO")}","<b>#{makesheet.twelve_hr_pm == true ? "YES":  (makesheet.twelve_hr_pm.nil? ? "" : "NO")}", "<b>#{makesheet.unusual_smell_appearance}","<b>#{makesheet.number_of_bottles_from_fm}","<b>#{makesheet.use_by_date_milk_from_fm&.strftime('%d-%m-%y')}</b>"]
       
@@ -156,7 +156,7 @@ module MakesheetPdfPage1
                      row(0).background_color = "D3D3D3"
                      rows(0..1).align = :center
                      rows(0).size = 7
-                     rows(1).size = 12 
+                     rows(1).size = 10 
                      
                    end  
                    
@@ -208,7 +208,7 @@ module MakesheetPdfPage1
 
               pdf.table(notes_box)  do 
                 self.width = 200
-                 self.cell_style = { :inline_format => true } 
+                 self.cell_style = { :inline_format => true, size: 8  } 
                  {:borders => [:top, :left, :bottom, :right],
                  :border_width => 1,
                  :border_color => "B2BEB5",}
