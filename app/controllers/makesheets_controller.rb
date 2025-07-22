@@ -316,7 +316,15 @@ class MakesheetsController < ApplicationController
       :warm_am, :twelve_hr_pm, :unusual_smell_appearance, :number_of_bottles_from_fm, :use_by_date_milk_from_fm, 
       :type_of_starter_culture_used, :qty_of_starter_used, :pre_start_inspection_of_high_risk_items, :pre_start_inspection_by_staff_id, 
       :ingredient_batch_change, :thermometer_change, :scale_change, :farm_change, :batch_dipped, :post_make_notes, :milling_help, :cheese_made_by_staff_id, :assistant_staff_id,:salt_weight_net, :salt_weight_gross, 
-      :weather_today, :weather_temp, :weather_humidity, :glass_breakage, :glass_contamination, :glass_comments, :metal_breakage, :metal_contamination, :metal_comments, :slow_cheese, :step_1_curd_sample, :step_2_record_as_slow, :step_3_record_reason, :step_4_notify_tim, :step_5_apply_label, :step_6_record_red_book)
+      :weather_today, :weather_temp, :weather_humidity, :glass_breakage, :glass_contamination, :glass_comments, :metal_breakage, :metal_contamination, :metal_comments, 
+      :slow_cheese, :step_1_curd_sample, :step_2_record_as_slow, :step_3_record_reason, :step_4_notify_tim, :step_5_apply_label, :step_6_record_red_book, 
+      :ta_combined_milk,
+      :whey_ta,
+      :curd_temp,
+      :room_temp,
+      :visual_moisture_post_milling,
+      :moisture_percentage_post_milling,
+      :record_of_works_completed,)
     end
 
     def set_cheese_makers

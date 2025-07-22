@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_19_083958) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_22_153315) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -373,6 +373,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_19_083958) do
     t.decimal "final_titration", precision: 6, scale: 4
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.decimal "ta_combined_milk", precision: 4, scale: 2
+    t.decimal "whey_ta", precision: 4, scale: 2
+    t.decimal "curd_temp", precision: 3, scale: 1
+    t.decimal "room_temp", precision: 3, scale: 1
+    t.integer "visual_moisture_post_milling"
+    t.decimal "moisture_percentage_post_milling", precision: 4, scale: 2
+    t.text "record_of_works_completed"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"

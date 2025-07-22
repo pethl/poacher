@@ -9,6 +9,7 @@
     <a href="#summary-section" class="text-lime-800 underline ml-2">Summary</a>
     <a href="#ingredients-section" class="text-lime-800 underline ml-2">Ingredients</a>
     <a href="#make-recipe-section" class="text-lime-800 underline ml-2">Make Recipe</a>
+     <a href="#process-info-section" class="text-lime-800 underline ml-2">Process Info</a>
     <a href="#post-make-section" class="text-lime-800 underline ml-2">Post Make</a>
     <a href="#graph-section" class="text-lime-800 underline ml-2">Graph</a>
     <a href="#slow-cheese-section" class="text-lime-800 underline ml-2">Slow Cheese</a>
@@ -388,6 +389,93 @@
     <div class="text-left">
       <%= form.text_area :unusual_smell_appearance, rows: "2", class: field_class_flex %>
     </div>
+
+    <!-- PROCESS  Section -->
+    <div class="col-span-4 mt-8">
+      <hr>
+    </div>
+    <div id="process-info-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
+      PROCESS INFORMATION
+    </div>
+    <div class="col-span-2">
+      <hr>
+    </div>
+    <div class="col-span-2"></div>
+
+    <!-- Post Make Fields -->
+        <!-- New Fields -->
+    <div class="col-span-2 self-center">
+      <label for="makesheet_ta_combined_milk" class="<%= label_class %>">
+        <span class="text-gray-800">TA COMBINED AM/PM MILK</span><br>
+        <span class="text-gray-600 font-light"> – prior to starter addition</span>
+      </label>
+    </div>
+    <div class="text-left">
+      <%= form.number_field :ta_combined_milk, step: 0.01, class: field_class_flex_small %>
+    </div>
+
+   <div class="col-span-2 self-center">
+      <label for="makesheet_whey_ta" class="<%= label_class %>">
+        <div class="text-gray-800">WHEY TA</div>
+        <div class="text-gray-600 font-light">approx 9.15am</div>
+      </label>
+    </div>
+    <div class="text-left">
+      <%= form.number_field :whey_ta, step: 0.01, class: field_class_flex_small %>
+    </div>
+
+   <div class="col-span-2 self-center">
+      <label for="makesheet_curd_temp" class="<%= label_class %>">
+        <div class="text-gray-800">CURD TEMP (°C)</div>
+        <div class="text-gray-600 font-light">post milling</div>
+      </label>
+    </div>
+    <div class="text-left">
+      <%= form.number_field :curd_temp, step: 0.1, class: field_class_flex_small %>
+    </div>
+
+   <div class="col-span-2 self-center">
+      <label for="makesheet_room_temp" class="<%= label_class %>">
+        <div class="text-gray-800">ROOM TEMP (°C)</div>
+        <div class="text-gray-600 font-light">taken when curd temp taken</div>
+      </label>
+    </div>
+    <div class="text-left">
+      <%= form.number_field :room_temp, step: 0.1, class: field_class_flex_small %>
+    </div>
+
+   <div class="col-span-2 self-center">
+      <label for="makesheet_visual_moisture_post_milling" class="<%= label_class %>">
+        <div class="text-gray-800">VISUAL MOISTURE (Post Milling)</div>
+        <div class="text-gray-600 font-light">Score 1 = Dry, 10 = Wet</div>
+      </label>
+    </div>
+   <div class="text-left">
+        <%= form.select :visual_moisture_post_milling,
+              options_for_select((1..10).map { |n| [n, n] }, selected: @makesheet.visual_moisture_post_milling),
+              { include_blank: "Please select" },
+              class: field_class_flex %>
+      </div>
+
+   <div class="col-span-2 self-center">
+      <label for="makesheet_moisture_percentage_post_milling" class="<%= label_class %>">
+        <div class="text-gray-800">MOISTURE %</div>
+        <div class="text-gray-600 font-light">AM of knocking out</div>
+      </label>
+    </div>
+    <div class="text-left">
+      <%= form.number_field :moisture_percentage_post_milling, step: 0.01, class: field_class_flex_small %>
+    </div>
+
+    <div class="col-span-2 self-center">
+      <%= form.label :record_of_works_completed, "Record of Engineering or Maintenance Work Completed", class: label_class %>
+    </div>
+    <div class="text-left">
+      <%= form.text_area :record_of_works_completed, rows: 5, class: field_class_flex_full %>
+    </div>
+    <!-- End process info Fields -->
+
+
 
     <!-- POST MAKE Section -->
     <div class="col-span-4 mt-8">

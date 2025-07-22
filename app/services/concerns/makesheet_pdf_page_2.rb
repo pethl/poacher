@@ -128,56 +128,90 @@ module MakesheetPdfPage2
 
     # Right column (1/3 width)
     pdf.bounding_box(
-      [pdf.bounds.left + left_column_width, start_y],
-      width: right_column_width,
-      height: 480 # adjust as needed
-    ) do
-      pdf.stroke_bounds
-      pdf.move_down 4
+  [pdf.bounds.left + left_column_width, start_y],
+  width: right_column_width,
+  height: 480 # adjust as needed
+) do
+  pdf.stroke_bounds
+  pdf.move_down 4
 
-      # Print "NOTES" centered, bold — no underline
-      pdf.formatted_text_box(
-        [{ text: "NOTES", size: 12, styles: [:bold] }],
-        at: [pdf.bounds.left, pdf.cursor],
-        width: pdf.bounds.width,
-        align: :center
-      )
+  # Header: NOTES
+  pdf.formatted_text_box(
+    [{ text: "NOTES", size: 12, styles: [:bold] }],
+    at: [pdf.bounds.left, pdf.cursor],
+    width: pdf.bounds.width,
+    align: :center
+  )
+  pdf.move_down 16
 
-      pdf.move_down 16  
+  pdf.stroke_horizontal_rule
+  pdf.move_down 8
 
-      # Draw a line across the full bounding box width
-      pdf.stroke_horizontal_rule
-      pdf.move_down 10 
+  # Subheader
+  pdf.text "RECORD OF ENGINEERING OR MAINTENANCE WORK COMPLETED", size: 8, align: :center
+  pdf.move_down 6
 
-      pdf.text "RECORD OF ENGINEERING OR MAINTENACE WORK COMPLETED", size: 8, align: :center
-
-      pdf.move_down 120
-      pdf.stroke_horizontal_rule
-      pdf.move_down 20
-
-      side_margin = 10
-      box_width = pdf.bounds.width - (side_margin * 2)
-
-      pdf.bounding_box(
-        [pdf.bounds.left + side_margin, pdf.cursor],
-        width: box_width,
-        height: 120
-      ) do
-        pdf.text_box(
-          makesheet.post_make_notes.to_s,
-          at: [pdf.bounds.left, pdf.cursor],
-          width: box_width,
-          height: 120,
-          size: 10,
-          leading: 2,
-          overflow: :truncate,
-          inline_format: false
-        )
-      end
-         end
-         
-         pdf.text "Page: 2\n Ref: CD01", size: 8, align: :right
+  # Boxed content for record_of_works_completed
+  pdf.bounding_box([pdf.bounds.left + 5, pdf.cursor], width: pdf.bounds.width - 10, height: 120) do
+    #pdf.stroke_bounds
+    pdf.pad(6) do
+      pdf.text @makesheet.record_of_works_completed.to_s, size: 9, leading: 2
+    end
   end
+
+  pdf.move_down 10
+  pdf.stroke_horizontal_rule
+  pdf.move_down 2
+
+  # Header: PROCESS INFORMATION
+  pdf.formatted_text_box(
+    [{ text: "PROCESS INFORMATION", size: 10, styles: [:bold] }],
+    at: [pdf.bounds.left, pdf.cursor],
+    width: pdf.bounds.width,
+    align: :center
+  )
+  pdf.move_down 12
+  pdf.stroke_horizontal_rule
+  #pdf.move_down 8
+
+  # Process Info Table
+  process_data = [
+    ["TA Combined Milk", @makesheet.ta_combined_milk.to_s],
+    ["Whey TA", @makesheet.whey_ta.to_s],
+    ["Curd Temp (°C)", @makesheet.curd_temp.to_s],
+    ["Room Temp (°C)", @makesheet.room_temp.to_s],
+    ["Visual Moisture Score", @makesheet.visual_moisture_post_milling.to_s],
+    ["Moisture %", @makesheet.moisture_percentage_post_milling.to_s]
+  ]
+  
+
+  pdf.table(process_data, column_widths: [pdf.bounds.width * 0.5, pdf.bounds.width * 0.5], cell_style: { size: 9,  borders: [:top, :bottom, :left, :right], border_width: 0.5,
+  padding: [4, 6, 4, 6] })
+
+  pdf.move_down 10
+  #pdf.stroke_horizontal_rule
+  pdf.move_down 8
+
+  # Header: MATURE TASTING NOTES
+  pdf.stroke_horizontal_rule
+  pdf.move_down 2
+  pdf.formatted_text_box(
+    [{ text: "MATURE TASTING NOTES", size: 10, styles: [:bold] }],
+    at: [pdf.bounds.left, pdf.cursor],
+    width: pdf.bounds.width,
+    align: :center
+  )
+  pdf.move_down 12
+  pdf.stroke_horizontal_rule
+  
+  pdf.move_down 130
+
+  # Final footer text if needed
+  #pdf.stroke_horizontal_rule
+  pdf.move_down 6
+  pdf.text "Page: 2\nRef: CD01", size: 8, align: :right
+end
+end
 
   # ✅ Helper method for formatting YES/NO
   def yes_no_cell(value)
