@@ -249,7 +249,7 @@ module MakesheetPdfPage1
      
      pdf.grid(0, 2).bounding_box do
       
-       pdf.text "\n", size: 14       
+       pdf.text "\n", size: 12       
        weight_box = Array.new
        weight_box << ["<b>WEIGHT</b>", "<b>YIELD (%)</b>"]
        weight_box << ["#{makesheet.total_weight}", "#{makesheet.yield.round(2)}"]
@@ -268,41 +268,69 @@ module MakesheetPdfPage1
                  rows(1).size = 12
                   end    
                   
-        pdf.text "\n", size: 6         
-        number_header_box = Array.new
-        number_header_box << ["<b>NUMBER / SIZE & WEIGHT OF CHEESES MADE</b>"]
-        
-               pdf.table(number_header_box)  do 
-                 self.width = 252
-                  self.cell_style = { :inline_format => true} 
-                  {:borders => [:top, :left, :bottom, :right],
-                  :border_width => 1,
-                  :border_color => "B2BEB5",}
-                  rows(0).background_color = "D3D3D3"
-                  rows(0).align = :center
-                  rows(0).size = 6
-              end    
-                   
-         number_box = Array.new
-         number_box << ["Standard (20kg)", "Midi (8kg)", "2.5kg"]
-         number_box << ["Number", "Number", "Number"]
-         number_box << ["Weight", "Weight", "Weight"]
+       # Determine active column index based on weight_type
+        weight_col_index =
+        case makesheet.weight_type
+        when "Standard (20 kgs)" then 0
+        when "Midi (8 kgs)"      then 1
+        when "2.5kg"             then 2
+        else nil
+        end
 
-                pdf.table(number_box)  do 
-                  self.width = 252
-                   self.cell_style = { :inline_format => true} 
-                   {:borders => [:top, :left, :bottom, :right],
-                   :border_width => 1,
-                   :border_color => "B2BEB5",}
-                   rows(0).background_color = "D3D3D3"
-                   rows(0).align = :center
-                   rows(0).size = 7
-                   rows(1..2).size = 6
-                  # rows(1).height = 12
-                  # rows(1..2).size = 5
-                  # rows(1..2).height = 14
-                   
-            end     
+        # Determine if we should show labels or not
+        has_values = makesheet.number_of_cheeses.present? || makesheet.total_weight.present?
+        show_labels = weight_col_index.nil? || !has_values
+
+        # Header row
+        number_box = []
+        number_box << ["Standard (20kg)", "Midi (8kg)", "2.5kg"]
+
+        # Second row — show "Number" labels or actual values
+        number_row = Array.new(3, "")
+        weight_row = Array.new(3, "")
+
+        if show_labels
+        number_row = ["Number", "Number", "Number"]
+        weight_row = ["Weight", "Weight", "Weight"]
+        else
+          number_row[weight_col_index] = "<font size='9'><b>#{makesheet.number_of_cheeses}</b></font>" if makesheet.number_of_cheeses.present?
+          weight_row[weight_col_index] = "<font size='9'><b>#{makesheet.total_weight} kg</b></font>" if makesheet.total_weight.present?
+            end
+
+        number_box << number_row
+        number_box << weight_row
+
+            # Draw the section heading
+            pdf.text "\n", size: 6
+            pdf.table([["<b>NUMBER / SIZE & WEIGHT OF CHEESES MADE</b>"]]) do
+              self.width = 252
+              self.cell_style = {
+                inline_format: true,
+                borders: [:top, :bottom, :left, :right],
+                border_width: 1,
+                border_color: "000000"
+              }
+              row(0).background_color = "D3D3D3"
+              row(0).align = :center
+              row(0).size = 6
+              #cells.style(border_color: "B2BEB5")
+            end
+
+            pdf.table(number_box) do
+              self.width = 252
+              self.cell_style = {
+                inline_format: true,
+                borders: [:top, :bottom, :left, :right],
+                border_width: 1,
+                border_color: "000000"
+              }
+              row(0).background_color = "D3D3D3"
+              rows(0..2).align = :center
+              row(0).size = 7
+              rows(1..2).size = 6
+            end
+
+
             
             pdf.text "\n", size: 6        
             salt_header_box = Array.new
