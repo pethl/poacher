@@ -128,6 +128,15 @@
     <div class="text-left">
       <%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams", class: field_class_flex_med %>
     </div>
+        <!-- For RED only -->
+        <% if makesheet.make_type == "Red" %>
+          <div class="col-span-2 self-center">
+            <%= form.label :md_88_qty_used, "MD88 Qty Used", class: label_class %>
+          </div>
+          <div class="text-left">
+            <%= form.text_field :md_88_qty_used, placeholder: "", class: field_class_flex_med %>
+          </div>
+        <% end %>
 
     <!-- Milk Fields -->
     <div class="col-span-4">
@@ -262,6 +271,17 @@
       <%= form.number_field :warm_milk_finish_titration, placeholder: "temp", step: :any, class: field_class_flex_small %>
     </div>
 
+    <% if makesheet.make_type == "Red" %>
+      <!-- Annatto Fields -->
+      <div class="col-span-2 self-center">
+        <%= form.label :annatto_in_time, "Annatto In", class: label_class %>
+      </div>
+      <div class="flex items-center space-x-2">
+        <%= form.time_field :annatto_in_time, class: field_class_flex_small %>
+        <%= form.number_field :annatto_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
+      </div>
+    <% end %>
+
     <div class="col-span-2 self-center">
       <%= form.label :starter_in_time, "Starter IN", class: label_class %>
     </div>
@@ -269,6 +289,18 @@
       <%= form.time_field :starter_in_time, class: field_class_flex_small %>
       <%= form.number_field :starter_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
     </div>
+
+
+     <!-- MD88 Fields -->
+     <% if makesheet.make_type == "Red" %>
+        <div class="col-span-2 self-center">
+          <%= form.label :md_88_in_time, "MD88 IN", class: label_class %>
+        </div>
+        <div class="flex items-center space-x-2">
+          <%= form.time_field :md_88_in_time, class: field_class_flex_small %>
+          <%= form.number_field :md_88_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
+        </div>
+      <% end %>
 
     <div class="col-span-2 self-center">
       <%= form.label :heat_off_1_time, "Heat OFF", class: label_class %>
@@ -737,15 +769,21 @@
     </div>
     <div data-accordion-target="section" class="hidden col-span-4">
       <div class="grid grid-cols-4 gap-4 mt-2">
+         <div class="col-span-2 self-center text-right">
+          <%= form.label :glass_breakage, class: label_class %>
+        </div>
+        <div class="col-span-1  text-left">
+          <%= form.select :glass_breakage, options_for_select(yes_no, selected: makesheet.glass_breakage), { include_blank: true }, class: field_class_flex_small %>
+        </div>
         <div class="col-span-2 self-center text-right">
           <%= form.label :glass_contamination, class: label_class %>
         </div>
         <div class="col-span-1  text-left">
           <%= form.select :glass_contamination, options_for_select(yes_no, selected: makesheet.glass_contamination), { include_blank: true }, class: field_class_flex_small %>
         </div>
-        <div class="col-span-2 self-center text-right">
-          <%= form.label :glass_comments, class: label_class %>
-        </div>
+         <div class="col-span-2 self-center text-right">
+             <%= form.label :glass_comments, "Glass: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
+          </div>
         <div class="col-span-1 text-left">
           <%= form.text_area :glass_comments, rows: 3, class: field_class_flex %>
         </div>
@@ -766,6 +804,12 @@
       </div>
       <div data-accordion-target="section" class="hidden col-span-4">
         <div class="grid grid-cols-4 gap-4 mt-2">
+           <div class="col-span-2 self-center text-right">
+            <%= form.label :metal_breakage, class: label_class %>
+          </div>
+          <div class="col-span-1  text-left">
+            <%= form.select :metal_breakage, options_for_select(yes_no, selected: makesheet.metal_breakage), { include_blank: true }, class: field_class_flex_small %>
+          </div>
           <div class="col-span-2 self-center text-right">
             <%= form.label :metal_contamination, class: label_class %>
           </div>
@@ -773,11 +817,12 @@
             <%= form.select :metal_contamination, options_for_select(yes_no, selected: makesheet.metal_contamination), { include_blank: true }, class: field_class_flex_small %>
           </div>
           <div class="col-span-2 self-center text-right">
-            <%= form.label :metal_comments, class: label_class %>
+             <%= form.label :metal_comments, "Metal: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
           </div>
-          <div class="col-span-1 text-left">
-            <%= form.text_area :metal_comments, rows: 3, class: field_class_flex %>
-          </div>
+          <div class="flex items-start gap-4 mb-4">
+          <%= form.text_area :metal_comments, rows: 5, class: field_class_flex_full %>
+        </div>
+
         </div>
       </div>
     </div>

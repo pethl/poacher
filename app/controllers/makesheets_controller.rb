@@ -324,7 +324,9 @@ class MakesheetsController < ApplicationController
       :room_temp,
       :visual_moisture_post_milling,
       :moisture_percentage_post_milling,
-      :record_of_works_completed,)
+      :record_of_works_completed, 
+      :annatto_in_time, :annatto_in_temp, :md_88_in_time, :md_88_in_temp, :md_88_qty_used
+      )
     end
 
     def set_cheese_makers

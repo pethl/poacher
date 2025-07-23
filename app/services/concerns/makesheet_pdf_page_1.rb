@@ -21,7 +21,7 @@ module MakesheetPdfPage1
     
               pdf.table(date_box) do 
                 self.width = 210
-                 self.cell_style = { :inline_format => true, size: 10 } 
+                 self.cell_style = { :inline_format => true, size: 8 } 
                  {:borders => [:top, :left, :bottom, :right],
                  :border_width => 1,
                  :border_color => "B2BEB5",}
@@ -34,15 +34,30 @@ module MakesheetPdfPage1
                  columns(1).size = 12
             
                end
-               pdf.text "\n", size: 8  
+               pdf.text "\n", size: 6 
        
                first_column = Array.new 
                first_column << ["", "<b>TIME</b>", "<b>TEMP (°C)</b>"]
-               #first_column << ["BOILER ON",  "#{makesheet.boiler_on_time&.strftime('%I:%M %p')}", ""]
-               first_column << ["STEAM / HOT WATER ON", "#{makesheet.steam_hot_water_on_time&.strftime('%I:%M')}", ""]
-               first_column << ["COLD MILK IN RECORD AS 'OK' IF < 4°C", "#{makesheet.cold_milk_in_time&.strftime('%I:%M')}", "#{makesheet.cold_milk_in_state}"]
+               first_column << ["<font size='7'>STEAM / HOT WATER ON</font>", "#{makesheet.steam_hot_water_on_time&.strftime('%I:%M')}", ""]
+               first_column << ["<font size='7'>COLD MILK IN \nRECORD AS 'OK' IF < 4°C</font>", "#{makesheet.cold_milk_in_time&.strftime('%I:%M')}", "#{makesheet.cold_milk_in_state}"]
                first_column << ["WARM MILK FINISH",  "#{makesheet.warm_milk_finish_time&.strftime('%I:%M')}", "#{makesheet.warm_milk_finish_titration}"]
+               # Optional ANNATTO row
+                    if makesheet.annatto_in_time.present? || makesheet.annatto_in_temp.present?
+                      first_column << [
+                        "ANNATTO",
+                        makesheet.annatto_in_time&.strftime('%H:%M'),
+                        makesheet.annatto_in_temp.to_s
+                      ]
+                    end
                first_column << ["STARTER IN",  "#{makesheet.starter_in_time&.strftime('%I:%M')}", "#{makesheet.starter_in_temp}"]
+               # Optional MD88 row
+                    if makesheet.md_88_in_time.present? || makesheet.md_88_in_temp.present?
+                      first_column << [
+                        "MD88",
+                        makesheet.md_88_in_time&.strftime('%H:%M'),
+                        makesheet.md_88_in_temp.to_s
+                      ]
+                    end
                first_column << ["HEAT OFF", "#{makesheet.heat_off_1_time&.strftime('%I:%M')}", "#{makesheet.heat_off_1_temp}"]
                first_column << ["MILK TITRATION", "#{makesheet.milk_titration_time&.strftime('%I:%M')}", "#{makesheet.milk_titration_temp}"]
                first_column << ["RENNET", "#{makesheet.rennet_time&.strftime('%I:%M')}", "#{makesheet.rennet_temp}"]
@@ -59,31 +74,48 @@ module MakesheetPdfPage1
                first_column << ["6TH/MILL", makesheet.sixth_cut_time&.strftime('%I:%M'), format_titration(makesheet.sixth_cut_titration)]
 
                first_column << [
-                    "MILL\nXXXXXX MILL USED",
-                    { content: "<font size='8'>#{makesheet.identify_mill_used}</font>", colspan: 2 }
+                    "IDENTIFY MILL USED",
+                    { content: "#{makesheet.identify_mill_used}</font>", colspan: 2 }
                   ]
                         
-                    pdf.table(first_column) do 
-                      self.width = 210
-                       self.cell_style = { :inline_format => true, size: 10, :height => 24   } 
-                       {:borders => [:top, :left, :bottom, :right],
-                       :border_width => 1,
-                       :border_color => "B2BEB5",}
-                       cells[1, 2].background_color = 'D3D3D3' 
-                       cells[2, 2].background_color = 'D3D3D3' 
-                       cells[10, 2].background_color = 'D3D3D3' 
-                       cells[12, 2].background_color = 'D3D3D3' 
-                       columns(0).width = 100
-                       columns(1).width = 55
-                       columns(2).width = 55
-                       row(0).background_color = "D3D3D3"
-                       columns(0).align = :center
-                       rows(0).size = 7
-                       columns(1..2).align = :center
-                      
-                       columns(0).size = 7
-                       columns(2).size = 9
-                     end
+                  pdf.table(first_column, width: 210, cell_style: { inline_format: true }) do
+                    # Column widths
+                    columns(0).width = 100
+                    columns(1).width = 55
+                    columns(2).width = 55
+                  
+                    # Borders
+                    cells.borders = [:top, :left, :bottom, :right]
+                    cells.border_width = 1
+                    cells.border_color = "000000"
+                  
+                    # Alignment
+                    columns(0..2).align = :center
+                  
+                    # Background for header row
+                    row(0).background_color = "D3D3D3"
+                    row(0).height = 18
+                    row(0).size = 6  # smaller font for header
+                  
+                    # Row 1: smaller
+                    row(1).size = 8
+                    row(1).height = 18
+                  
+                    # Middle rows: larger font
+                    rows(2..-2).size = 9
+                  
+                    # Last row: "MILL"
+                    last_row_index = first_column.length - 1
+                    row(last_row_index).size = 9
+                    row(last_row_index).height = 20
+                  
+                    # Optional grey cells
+                    cells[1, 2].background_color = 'D3D3D3'
+                    cells[2, 2].background_color = 'D3D3D3'
+                    cells[10, 2].background_color = 'D3D3D3'
+                    cells[12, 2].background_color = 'D3D3D3'
+                  end
+                  
      end
      
      pdf.grid(0, 1).bounding_box do
@@ -115,30 +147,66 @@ module MakesheetPdfPage1
                
          pdf.text "\n", size: 8   
           
-         starter_box = Array.new
-         starter_box << ["<b>STARTER CULTURE USED</b>",""]
-         starter_box << ["Type of Starter Culture Used","Qty Used"]
-         starter_box << [
-          "#{makesheet.type_of_starter_culture_used}",
-          "#{makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : ''}"
-        ]
+         starter_box = []
 
-                pdf.table(starter_box)  do 
-                  self.width = 200
-                   self.cell_style = { :inline_format => true } 
-                   {:borders => [:top, :left, :bottom, :right],
-                   :border_width => 1,
-                   :border_color => "B2BEB5",}
-                   columns(0).width = 120
-                   columns(1).width = 80
-                   row(0).background_color = "D3D3D3"
-                   rows(0..2).align = :center
-                   rows(0).size = 7
-                   rows(1).size = 6
-                   rows(2).size = 12
-                   rows(2).height = 30
-                 end      
-           
+          if makesheet.make_type == "Red"
+            # 3-column version with MD88
+            starter_box << ["<b>STARTER CULTURE USED</b>", "", "<b>MD88</b>"]
+            starter_box << ["Type of Starter Culture Used", "Qty Used", "Qty Used"]
+            starter_box << [
+              makesheet.type_of_starter_culture_used.to_s,
+              makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : '',
+              makesheet.md_88_qty_used.to_s
+            ]
+
+            pdf.table(starter_box) do
+              self.width = 220
+              self.cell_style = { inline_format: true }
+              self.column_widths = [100, 60, 60]
+
+              row(0).background_color = "D3D3D3"
+              rows(0..2).align = :center
+              rows(0).size = 7
+              rows(1).size = 6
+              rows(2).size = 12
+              rows(2).height = 30
+              self.cell_style = {
+                inline_format: true,
+                borders: [:top, :left, :bottom, :right],
+                border_width: 1,
+                border_color: "000000"
+              }
+            end
+
+          else
+            # 2-column version (original)
+            starter_box << ["<b>STARTER CULTURE USED</b>", ""]
+            starter_box << ["Type of Starter Culture Used", "Qty Used"]
+            starter_box << [
+              makesheet.type_of_starter_culture_used.to_s,
+              makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : ''
+            ]
+
+            pdf.table(starter_box) do
+              self.width = 180
+              self.cell_style = { inline_format: true }
+              self.column_widths = [120, 60]
+
+              row(0).background_color = "D3D3D3"
+              rows(0..2).align = :center
+              rows(0).size = 7
+              rows(1).size = 6
+              rows(2).size = 12
+              rows(2).height = 30
+              self.cell_style = {
+                inline_format: true,
+                borders: [:top, :left, :bottom, :right],
+                border_width: 1,
+                border_color: "000000"
+              }
+            end
+          end
+
            pdf.text "\n", size: 8
                    
            weather_box = Array.new
