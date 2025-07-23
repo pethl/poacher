@@ -13,9 +13,26 @@ class Makesheet < ApplicationRecord
   belongs_to :contact, optional: true
   belongs_to :location, optional: true
   
-  validates :make_date, presence: true, uniqueness: { message: "has already been taken. There cannot be two makesheets with the same date." }
+  validates :make_date, presence: true, uniqueness: { message: "This date has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
   validates :location_id, uniqueness: true, allow_nil: true
+  validates :room_temp,
+  numericality: {
+    greater_than_or_equal_to: 0,
+    less_than_or_equal_to: 99.9,
+    message: "Room Temp must be between 0 and 99.9°C"
+  },
+  allow_nil: true
+
+  validates :curd_temp,
+  numericality: {
+    greater_than_or_equal_to: 0,
+    less_than_or_equal_to: 99.9,
+    message: "Curd Temp must be between 0 and 99.9°C"
+  },
+  allow_nil: true
+
+  
 
   
   # Scopes

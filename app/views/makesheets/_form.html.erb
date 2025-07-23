@@ -251,7 +251,7 @@
     </div>
    <div class="flex items-center space-x-2">
       <%= form.time_field :cold_milk_in_time, class: field_class_flex_small %>
-      <%= form.text_field :cold_milk_in_state, class: field_class_flex_small %>
+      <%= form.text_field :cold_milk_in_state, placeholder: "OK?", class: field_class_flex_small %>
     </div>
 
     <div class="col-span-2 self-center">
@@ -259,7 +259,7 @@
     </div>
    <div class="flex items-center space-x-2">
       <%= form.time_field :warm_milk_finish_time, class: field_class_flex_small %>
-      <%= form.number_field :warm_milk_finish_titration, placeholder: "titration", step: :any, class: field_class_flex_small %>
+      <%= form.number_field :warm_milk_finish_titration, placeholder: "temp", step: :any, class: field_class_flex_small %>
     </div>
 
     <div class="col-span-2 self-center">
