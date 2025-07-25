@@ -33,26 +33,28 @@
     <div class="flex flex-col">
       <div class="flex-grow overflow-auto">
   
-        <table class="relative table-auto w-full text-xs text-left text-gray-500 ">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-            <tr class="sticky top-0 bg-white">
-              <th colspan="2" class="sticky top-0 px-6 py-1 text-center bg-white text-xl font-strong">
-                <%= @makesheets.any? ? @makesheets.first.make_date.strftime("%B %Y") : "No Records" %> 
-              </th>
-              <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
-                    POACHER LARGE 
-              </th>
-              <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
-                    RED
-              </th>
-              <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
-                    MEDIUM
-              </th>
-              <th colspan="2" class="sticky top-0 px-6 py-1 text-center  border border-gray-400">
-                    SMALL
-              </th>
-            </tr>
-            <tr class="bg-gray-200 sticky top-[4rem] border-b border-gray-400">
+       <table class="relative table-auto w-full text-xs text-left text-gray-500 border-collapse border border-gray-400">
+
+          <thead class="sticky top-0 bg-white z-10">
+           <tr class="bg-white">
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center bg-white text-xl font-strong border-x border-gray-400">
+              <%= @makesheets.any? ? @makesheets.first.make_date.strftime("%B %Y") : "No Records" %>
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border-x-2 border-gray-400 border-gray-400">
+              POACHER LARGE
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border-x-2 border-gray-400 border-gray-400">
+              RED
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border-x-2 border-gray-400 border-gray-400">
+              MEDIUM
+            </th>
+            <th colspan="2" class="sticky top-0 px-6 py-1 text-center border-x-2 border-gray-400 border-gray-400">
+              SMALL
+            </th>
+          </tr>
+            
+             <tr class="bg-gray-200">
               <th scope="col" class="sticky top-0 px-6 py-2 text-right border-b border-t border-l border-r border-gray-400">
                 Date
               </th>

@@ -90,16 +90,7 @@
       <%= form.text_field :milling_help, class: field_class_flex_full %>
     </div>
 
-    <!-- Location -->
-    <div class="col-span-2 self-center">
-      <%= form.label :location_id,"Location", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.collection_select :location_id, Location.order(:name), :id, :name,
-            { include_blank: "Select Location" },
-            { class: field_class_flex } %>
-    </div>
-
+   
     <!-- INGREDIENTS Section -->
     <div class="col-span-4 mt-8">
       <hr>

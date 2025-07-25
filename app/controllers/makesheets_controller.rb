@@ -49,71 +49,63 @@ class MakesheetsController < ApplicationController
     @makesheets_by_grade = @makesheets.group_by { |t| t.grade }
   end
 
-  def monthly_summary 
-    if params[:month].present? && params[:year].present?
-      @makesheets = Makesheet.filter_by_month_and_year(params[:month], params[:year])
-      else
-      @makesheets = Makesheet.where('make_date BETWEEN ? AND ?', Date.today.beginning_of_month, Date.today.end_of_month).ordered
-    end 
-
-      @total_monthly_milk_litres =  @makesheets.pluck(:milk_used).compact.sum
-
-      @large_poacher_count = @makesheets
-      .where(weight_type: "Standard (20 kgs)")
-      .where(make_type: ["Standard", "P50"])
-      .pluck(:number_of_cheeses)
-      .compact
-      .sum
-    
-    @large_poacher_weight = @makesheets
-      .where(weight_type: "Standard (20 kgs)")
-      .where(make_type: ["Standard", "P50"])
-      .pluck(:total_weight)
-      .compact
-      .sum
-    
-      @red_poacher_count =  @makesheets.where(weight_type: "Half Truckle (10kgs)").where(make_type: "Red").pluck(:number_of_cheeses).compact.sum
-      @red_poacher_weight =  @makesheets.where(weight_type: "Half Truckle (10kgs)").where(make_type: "Red").pluck(:total_weight).compact.sum
-
-      @medium_cheese_count =  @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:number_of_cheeses).compact.sum
-      @medium_cheese_weight = @makesheets.where(weight_type: "Midi (8 kgs)").pluck(:total_weight).compact.sum
-
-      @small_cheese_count =  @makesheets.where(weight_type: "2.5kg").pluck(:number_of_cheeses).compact.sum
-      @small_cheese_weight = @makesheets.where(weight_type: "2.5kg").pluck(:total_weight).compact.sum
-
-      @data = @makesheets.ordered.pluck(:make_date, :milk_used).map do |make_date, milk_used|
-        [make_date&.strftime("%-d"), milk_used] if make_date.present?
-      end.compact.to_h
-
-     # Total number of makesheets for averaging milk used
-        milk_record_count = @makesheets.where.not(milk_used: nil).count.nonzero? || 1
-        @average_milk_used = @total_monthly_milk_litres / milk_record_count.to_f
-
-        # For large poacher
-        large_poacher_scope = @makesheets.where(weight_type: "Standard (20 kgs)", make_type: ["Standard", "P50"])
-        large_poacher_count = large_poacher_scope.count.nonzero? || 1
-        @average_large_poacher_count = large_poacher_scope.pluck(:number_of_cheeses).compact.sum / large_poacher_count.to_f
-        @average_large_poacher_weight = large_poacher_scope.pluck(:total_weight).compact.sum / large_poacher_count.to_f
-
-        # For red poacher
-        red_scope = @makesheets.where(weight_type: "Half Truckle (10kgs)", make_type: "Red")
-        red_count = red_scope.count.nonzero? || 1
-        @average_red_poacher_count = red_scope.pluck(:number_of_cheeses).compact.sum / red_count.to_f
-        @average_red_poacher_weight = red_scope.pluck(:total_weight).compact.sum / red_count.to_f
-
-        # For medium
-        medium_scope = @makesheets.where(weight_type: "Midi (8 kgs)")
-        medium_count = medium_scope.count.nonzero? || 1
-        @average_medium_cheese_count = medium_scope.pluck(:number_of_cheeses).compact.sum / medium_count.to_f
-        @average_medium_cheese_weight = medium_scope.pluck(:total_weight).compact.sum / medium_count.to_f
-
-        # For small
-        small_scope = @makesheets.where(weight_type: "2.5kg")
-        small_count = small_scope.count.nonzero? || 1
-        @average_small_cheese_count = small_scope.pluck(:number_of_cheeses).compact.sum / small_count.to_f
-        @average_small_cheese_weight = small_scope.pluck(:total_weight).compact.sum / small_count.to_f
-    
+  def monthly_summary
+    month = params[:month].to_i
+    year = params[:year].to_i
+  
+    if month.positive? && year.positive?
+      @makesheets = Makesheet.filter_by_month_and_year(month, year).ordered
+    else
+      @makesheets = Makesheet.where(
+        make_date: Date.today.beginning_of_month..Date.today.end_of_month
+      ).ordered
+    end
+  
+    # Totals
+    @total_monthly_milk_litres = @makesheets.pluck(:milk_used).compact.sum
+  
+    @large_poacher_scope = @makesheets.where(weight_type: "Standard (20 kgs)", make_type: ["Standard", "P50"])
+    @large_poacher_count = @large_poacher_scope.pluck(:number_of_cheeses).compact.sum
+    @large_poacher_weight = @large_poacher_scope.pluck(:total_weight).compact.sum
+  
+    @red_poacher_scope = @makesheets.where(weight_type: "Half Truckle (10kgs)", make_type: "Red")
+    @red_poacher_count = @red_poacher_scope.pluck(:number_of_cheeses).compact.sum
+    @red_poacher_weight = @red_poacher_scope.pluck(:total_weight).compact.sum
+  
+    @medium_scope = @makesheets.where(weight_type: "Midi (8 kgs)")
+    @medium_cheese_count = @medium_scope.pluck(:number_of_cheeses).compact.sum
+    @medium_cheese_weight = @medium_scope.pluck(:total_weight).compact.sum
+  
+    @small_scope = @makesheets.where(weight_type: "2.5kg")
+    @small_cheese_count = @small_scope.pluck(:number_of_cheeses).compact.sum
+    @small_cheese_weight = @small_scope.pluck(:total_weight).compact.sum
+  
+    # Chart data (already ordered above)
+    @data = @makesheets.pluck(:make_date, :milk_used).map do |make_date, milk_used|
+      [make_date.strftime("%-d"), milk_used] if make_date.present?
+    end.compact.to_h
+  
+    # Averages (prevent divide-by-zero)
+    milk_record_count = @makesheets.where.not(milk_used: nil).count.nonzero? || 1
+    @average_milk_used = @total_monthly_milk_litres / milk_record_count.to_f
+  
+    large_count = @large_poacher_scope.count.nonzero? || 1
+    @average_large_poacher_count = @large_poacher_count / large_count.to_f
+    @average_large_poacher_weight = @large_poacher_weight / large_count.to_f
+  
+    red_count = @red_poacher_scope.count.nonzero? || 1
+    @average_red_poacher_count = @red_poacher_count / red_count.to_f
+    @average_red_poacher_weight = @red_poacher_weight / red_count.to_f
+  
+    medium_count = @medium_scope.count.nonzero? || 1
+    @average_medium_cheese_count = @medium_cheese_count / medium_count.to_f
+    @average_medium_cheese_weight = @medium_cheese_weight / medium_count.to_f
+  
+    small_count = @small_scope.count.nonzero? || 1
+    @average_small_cheese_count = @small_cheese_count / small_count.to_f
+    @average_small_cheese_weight = @small_cheese_weight / small_count.to_f
   end
+  
   
   
   # GET /makesheets or /makesheets.json
