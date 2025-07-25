@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_23_152122) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_24_112939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -705,6 +705,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_23_152122) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "validation_ranges", force: :cascade do |t|
+    t.string "target_model"
+    t.string "field_name"
+    t.float "min_value"
+    t.float "max_value"
+    t.boolean "active"
+    t.integer "created_by"
+    t.integer "updated_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "wash_picksheets", force: :cascade do |t|

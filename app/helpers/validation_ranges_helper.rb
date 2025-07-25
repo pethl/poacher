@@ -1,0 +1,3 @@
+module ValidationRangesHelper
+  
+end

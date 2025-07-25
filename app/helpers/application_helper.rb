@@ -217,7 +217,9 @@ module ApplicationHelper
   def reference_group
     Reference.order(:group).pluck(:group).uniq
   end
-
+  
+  def validated_models; Reference.where(active: true, group: 'validated_models').order(:sort_order).pluck(:value); end
+  
   def batch_status; Reference.where(active: true, group: 'batch_status').order(:sort_order).pluck(:value); end
   def bucket_weight; Reference.where(active: true, group: 'bucket_weight').pluck(:value); end
   def carrier; Reference.where(active: true, group: 'carrier').order(:sort_order).pluck(:value); end

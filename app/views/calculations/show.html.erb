@@ -1,15 +1,27 @@
-<% content_for(:page_title, "Calculation")%>
+<% content_for(:page_title, "Validation Range") %>
 
 <div class="mx-auto md:w-1/3 text-center">
 
-  
-    <%= render @calculation %>
-
-    <%= link_to "Edit this calculation", edit_calculation_path(@calculation), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to calculations", calculations_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this calculation", @calculation, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  <% if @validation_range.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mb-4 text-left">
+      <h2 class="font-semibold mb-2"><%= pluralize(@validation_range.errors.count, "error") %> prohibited this validation from being saved:</h2>
+      <ul class="list-disc list-inside text-sm">
+        <% @validation_range.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
+
+  <%= render @validation_range %>
+
+  <%= link_to "Edit this validation", edit_validation_range_path(@validation_range), class: fill_button_class %>
+  <%= link_to "Back to validation ranges", validation_ranges_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
+  <div class="inline-block ml-2">
+    <%= button_to "Destroy this validation", @validation_range, method: :delete, data: { confirm: "Are you sure?" }, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+  </div>
 
 </div>
+
 

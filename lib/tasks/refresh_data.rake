@@ -56,9 +56,18 @@ namespace :db do
       puts "✅ #{db_name} restored."
     end
 
-    # Restore both dev and test
+    # Restore and migrate dev DB
     restore_db.call(dev_db)
+    puts "🚚 Running migrations on #{dev_db}..."
+    system("RAILS_ENV=development bundle exec rails db:migrate") || abort("❌ Failed to migrate #{dev_db}.")
+    puts "✅ Migrations applied to #{dev_db}."
+
+    # Restore and migrate test DB
     restore_db.call(test_db)
+    puts "🚚 Running migrations on #{test_db}..."
+    system("RAILS_ENV=test bundle exec rails db:migrate") || abort("❌ Failed to migrate #{test_db}.")
+    puts "✅ Migrations applied to #{test_db}."
+
 
     puts "🧪 Setting ENV to test..."
     system("RAILS_ENV=test bundle exec rails db:environment:set") || abort("❌ Failed to set environment to test.")

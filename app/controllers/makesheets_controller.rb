@@ -3,6 +3,7 @@ class MakesheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
   before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
+  
 
   def makesheet_search
     if params[:search_by_batch] && params[:search_by_batch] != ""

@@ -13,6 +13,7 @@ class Makesheet < ApplicationRecord
   belongs_to :contact, optional: true
   belongs_to :location, optional: true
   
+  validate :validate_fields_against_ranges
   validates :make_date, presence: true, uniqueness: { message: "This date has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
   validates :location_id, uniqueness: true, allow_nil: true
@@ -207,6 +208,25 @@ class Makesheet < ApplicationRecord
     f.join(", ").html_safe
   end
   
-
-
+  def validate_fields_against_ranges
+    # Only validate numeric fields that have a range
+    ValidationRange.where(active: true).each do |range|
+      field = range.field_name
+  
+      next unless self.has_attribute?(field)
+  
+      value = self[field]
+  
+      # Skip blank or non-numeric values
+      next if value.blank? || !value.is_a?(Numeric)
+  
+      if range.min_value.present? && value < range.min_value
+        errors.add(:base, "#{field.humanize} is below the minimum of #{range.min_value}")
+      end
+  
+      if range.max_value.present? && value > range.max_value
+        errors.add(:base, "#{field.humanize} is above the maximum of #{range.max_value}")
+      end
+    end
+  end
 end

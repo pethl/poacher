@@ -1,0 +1,105 @@
+<div class="max-w-xl mx-auto mt-4 bg-white p-4">
+
+  <% if validated_models.size > 1 %>
+  <!-- Model Name -->
+  <%= form_with url: request.path, method: :get, local: true do %>
+    <div class="grid grid-cols-2 gap-x-5 gap-y-4 items-start mb-4">
+      <label class="text-right font-semibold text-gray-700">
+        <%= label_tag :model_name, "Model" %>
+      </label>
+      <div class="text-left flex flex-col gap-2">
+       
+        <%= select_tag :model_name,
+                       options_for_select(validated_models, selected: @model_name),
+                       prompt: "Select a model...",
+                       class: field_class_flex %>
+
+        <!-- Load Fields Button -->
+        <div class="text-left">
+          <%= submit_tag "Load Fields", class: fill_button_class %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="mb-4 text-center text-sm text-gray-600 italic">
+    Validation is currently available for: <strong><%= validated_models.first %></strong>
+  </div>
+<% end %>
+
+
+  <!-- Main validation range form -->
+  <%= form_with model: @validation_range, local: true do |form| %>
+
+    <%= form_errors_for(@validation_range) %>
+
+    <div class="grid grid-cols-2 gap-x-5 gap-y-4 items-center">
+       <%= form.hidden_field :target_model, value: @model_name %>
+
+      <!-- Field Name -->
+      <% if @validation_range.new_record? %>
+        <label class="text-right font-semibold text-gray-700">
+          <%= form.label :field_name %>
+        </label>
+        <div class="text-left">
+          <%= form.select :field_name,
+                          options_for_select(@field_options, selected: @validation_range.field_name),
+                          { prompt: "Select a field..." },
+                          { class: field_class_flex } %>
+        </div>
+      <% else %>
+        <label class="text-right font-semibold text-gray-700">
+          Field
+        </label>
+        <div class="text-left">
+         <p class="<%= field_class_flex %>">
+            <%= @validation_range.field_name %>
+          </p>
+          <%= form.hidden_field :field_name %>
+        </div>
+      <% end %>
+
+      <!-- Min Value -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :min_value %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :min_value, step: :any, class: field_class_flex %>
+      </div>
+
+      <!-- Max Value -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :max_value %>
+      </label>
+      <div class="text-left">
+        <%= form.number_field :max_value, step: :any, class: field_class_flex %>
+      </div>
+
+      <!-- Active Radio Buttons -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :active, "Status" %>
+      </label>
+      <div class="text-left flex items-center gap-6">
+        <label class="flex items-center gap-2">
+          <%= form.radio_button :active, true, class: radio_input_class %>
+          <span class="text-sm text-gray-700">Active</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <%= form.radio_button :active, false, class: radio_input_class %>
+          <span class="text-sm text-gray-700">Inactive</span>
+        </label>
+      </div>
+
+      <!-- Back Button -->
+      <div class="text-left">
+        <%= link_to "← Back to Validation Ranges", validation_ranges_path, class: gray_button %>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-left">
+        <%= form.submit(@validation_range.new_record? ? "Create Validation" : "Update Validation", class: fill_button_class) %>
+      </div>
+
+    </div>
+  <% end %>
+</div>

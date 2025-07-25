@@ -1,0 +1,62 @@
+<div class="overscroll-none w-full">
+    <% content_for :title, "Validation Ranges" %>
+  <% content_for(:page_title, "VALIDATION RANGES") %>
+  <% content_for(:page_button, new_validation_range_path) %>
+
+  <div id="validation_ranges" class="mx-auto w-full lg:w-2/3">
+    <p class="mx-auto mb-4 text-base text-center font-light">
+      These ranges are used to validate critical field values dynamically. Update them cautiously.
+    </p>
+
+    <% unique_models = @validation_ranges.map(&:target_model).uniq.sort %>
+      <div class="mb-4 flex flex-wrap gap-2 justify-center">
+        <%= link_to "All", validation_ranges_path, class: "px-4 py-2 rounded-full text-sm font-medium #{params[:model].blank? ? 'bg-gray-600 text-white' : 'bg-gray-200'}" %>
+        <% unique_models.each do |model| %>
+          <%= link_to model, validation_ranges_path(model: model), class: "px-4 py-2 rounded-full text-sm font-medium #{params[:model] == model ? 'bg-gray-600 text-white' : 'bg-gray-200'}" %>
+        <% end %>
+      </div>
+
+    <div class="max-h-[60vh] overflow-y-auto border rounded shadow-sm mb-12">
+      <table class="w-full table-fixed text-sm ">
+        <thead class="sticky top-0 bg-gray-200 text-xs text-gray-700 uppercase z-10">
+          <tr>
+            
+            <th class="px-6 py-3 text-left w-48">Field</th>
+            <th class="px-6 py-3 text-left w-24">Min</th>
+            <th class="px-6 py-3 text-left w-24">Max</th>
+            <th class="px-6 py-3 text-left w-20">Active</th>
+            <th class="px-6 py-3 text-left w-36">Created By</th>
+            <th class="px-6 py-3 text-left w-36">Updated By</th>
+            <th class="px-6 py-3 text-left w-24"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @validation_ranges.each do |vr| %>
+            <tr class="bg-white border-b hover:bg-gray-100">
+              
+              <td class="px-6 py-4 whitespace-nowrap text-left">
+                <%= link_to vr.field_name, vr %>
+              </td>
+              <td class="px-6 py-4 text-left"><%= vr.min_value %></td>
+              <td class="px-6 py-4 text-left"><%= vr.max_value %></td>
+              <td class="px-6 py-4 text-left">
+                <% if vr.active? %>
+                  <span class="text-green-600 font-medium">Yes</span>
+                <% else %>
+                  <span class="text-red-600 font-medium">No</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-left"><%= vr.creator&.full_name || vr.created_by %></td>
+              <td class="px-6 py-4 text-left"><%= vr.updater&.full_name || vr.updated_by %></td>
+              <td class="px-6 py-4 text-left text-blue-600">
+                <%= link_to "Edit", edit_validation_range_path(vr), class: "underline underline-offset-2" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<hr>
