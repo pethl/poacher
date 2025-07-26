@@ -6,22 +6,32 @@
 
   <div id="makesheets">
 
-    <div class="mx-auto max-w-[1140px] px-6">
+    <div class="mx-auto w-full sm:max-w-full md:max-w-[1240px] px-2 sm:px-4 md:px-6">
         <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
-            <div class="flex flex-wrap items-center gap-3">
-              <%= label_tag :search, "Filter", class: "font-semibold" %>
-
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end max-w-[960px] items-end">
+            <div>
+              <%= label_tag :search, "Day", class: "block font-semibold text-sm mb-1" %>
               <%= render "shared/makesheet_picker",
                     form: nil,
                     field: :search,
-                    makesheets: Makesheet.ordered_reverse %>
-
-              <%= label_tag :month, "By Month", class: "font-semibold" %>
-              <%= select_tag :month, options_for_select(@available_months, params[:month]), include_blank: "All Months", class: field_class_flex %>
-
-              <%= submit_tag "Search", class: fill_button_class %>
-              <%= link_to "Clear", makesheets_path, class: clear_button_class %>
+                    makesheets: Makesheet.ordered_reverse,
+                    class: "w-full max-w-[180px] text-sm" %>
             </div>
+
+            <div>
+              <%= label_tag :month, "Month", class: "block font-semibold text-sm mb-1" %>
+              <%= select_tag :month,
+                    options_for_select(@available_months, params[:month]),
+                    include_blank: "All Months",
+                    class: "#{field_class_flex} w-full max-w-[220px] text-sm" %>
+            </div>
+
+            <div class="flex gap-2 lg:col-span-2">
+              <%= submit_tag "Search", class: "#{fill_button_class} text-sm px-4 py-2" %>
+              <%= link_to "Clear", makesheets_path, class: "#{clear_button_class} text-sm px-4 py-2" %>
+            </div>
+          </div>
+
           <% end %>
 
       <%= render "makesheet_table", makesheets: @makesheets %>

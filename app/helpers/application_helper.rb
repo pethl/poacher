@@ -80,9 +80,6 @@ module ApplicationHelper
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
-  def field_class
-    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
-  end
 
   def field_class_flex_lg
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-96 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
@@ -91,8 +88,6 @@ module ApplicationHelper
   def field_class_unsized
     "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
-
- 
 
   def field_class_flex_full
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
@@ -134,50 +129,53 @@ module ApplicationHelper
     "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
 
-  # --- Filter and Button Classes ---
+  # Shared base styles
+  BASE_BUTTON = "flex items-center justify-center text-sm font-semibold h-10 leading-tight px-4 border rounded-md".freeze
+
   def filter_drop_down
-    "mt-1 block w-full px-4 py-1 text-sm border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+    "block w-full px-3 py-1.5 text-sm border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
   end
 
   def filter_button
-    "mt-1 block w-full px-4 py-1 text-sm text-white border border-gray-300 bg-gray-800 rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+    "#{BASE_BUTTON} text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent"
   end
 
   def clear_filter_button
-    "mt-1 block w-full px-4 py-1 text-sm text-gray-800 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-  end
-
-  def gray_button
-    "my-4 rounded-lg py-2 px-4 bg-gray-100 border border-gray-200 inline-block font-semibold hover:bg-gray-200 hover:text-gray-600 "
-  end
-
-  def clear_button_class
-    "my-4 rounded-lg py-2 px-4 bg-transparent border border-gray-900 hover:bg-gray-200 hover:border-transparent font-semibold"
-  end
-
-  def tight_clear_button_class
-    "bg-transparent hover:bg-gray-600 text-gray-800 font-semibold hover:text-white py-2 px-4 w-auto border border-gray-900 hover:border-transparent rounded-lg text-sm leading-tight"
-  end
-  
-  def tight_fill_button_class
-    "bg-gray-800 hover:bg-gray-600 text-white font-semibold hover:text-white py-2 px-4 w-auto border border-gray-900 hover:border-transparent rounded-lg text-sm leading-tight"
+    "#{BASE_BUTTON} text-gray-800 bg-white hover:bg-gray-100 border-gray-600"
   end
 
   def fill_button_class
-    "bg-gray-800 text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-4 py-2 px-4 border border-gray-900 hover:border-transparent rounded-lg"
+    "#{BASE_BUTTON} text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent"
+  end
+
+  def gray_button
+    fill_button_class
+  end
+
+  def clear_button_class
+    "#{BASE_BUTTON} text-gray-800 bg-white hover:bg-gray-100 border-gray-600"
   end
 
   def fill_button_large_class
-    "bg-gray-800 text-white text-xl font-semibold hover:bg-gray-600 hover:text-white mt-6 mb-6 py-4 px-8 border border-gray-900 hover:border-transparent rounded-2xl shadow-lg transition-transform duration-150 ease-in-out"
+    "text-base font-semibold py-3 px-6 border rounded-xl text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent shadow-lg transition-transform duration-150 ease-in-out"
   end
 
   def fill_button_small_class
-    "bg-gray-800 text-xs text-white hover:bg-gray-600 font-semibold hover:text-white mt-4 my-2 py-2 px-2 border border-gray-900 hover:border-transparent rounded-lg"
+    "#{BASE_BUTTON} text-xs py-1 px-2 text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent"
+  end
+
+  def tight_clear_button_class
+    "#{BASE_BUTTON} text-gray-800 bg-transparent hover:bg-gray-600 hover:text-white border-gray-900 hover:border-transparent"
+  end
+
+  def tight_fill_button_class
+    "#{BASE_BUTTON} text-white bg-gray-800 hover:bg-gray-600 hover:text-white border-gray-900 hover:border-transparent"
   end
 
   def header_bar_button_class
-    "text-xs text-center font-semibold hover:bg-grey-600 bg-gray-800 p-1 pl-4 pr-4 text-gray-100 border border-gray-200 rounded-lg"
+    "text-xs font-semibold px-2 py-1 bg-gray-800 text-white border border-gray-200 rounded-md hover:bg-gray-700"
   end
+
 
   # --- Dropdown and Table ---
   def dropdown_list_class
