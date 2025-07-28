@@ -21,9 +21,11 @@ Rails.application.routes.draw do
       get :print_wizard
     end
   end
-
-  get "print_label", to: "labels#print", as: :print_label #single cheese label print
-  get 'print_cheese_labels', to: 'labels#print_cheese_labels' #multi cheese label print
+  
+  # Label printing routes
+  get "labels/print_single_cheese", to: "labels#print_single_cheese", as: :print_single_cheese_label
+  get "labels/print_cheese_labels", to: "labels#print_cheese_labels", as: :print_cheese_labels
+  get "labels/print", to: "labels#print", as: :print_label
 
 
   get 'vacuum_pouch_calculator/new'
