@@ -116,9 +116,9 @@ gem "prawn-table", "~> 0.1.0"
 # PDF support
 gem 'prawn-qrcode'     # For rendering QR codes in Prawn PDFs
 
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
-gem 'grover'
+# gem 'wicked_pdf'
+# gem 'wkhtmltopdf-binary'
+# gem 'grover'
 
 
 # for Excel imports

@@ -112,3 +112,5 @@ yarn-debug.log*
 !/storage/.keep
 /latest.dump
 .DS_Store
+example_label.pdf
+example_label.pdf
