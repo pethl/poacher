@@ -64,9 +64,9 @@
                   <% end %>
                 </td>
                 <td class="text-center text-lg relative group">
-                   <%= link_to print_single_cheese_label_path(makesheet_id: makesheet.id),
-                              class: "btn btn-outline-primary relative z-10",
-                              data: { turbo: false, confirm: "Print label for this cheese?" } do %>
+                     <%= link_to print_single_cheese_label_path(makesheet),
+                              class: "btn btn-outline-primary relative z-10 group",
+                              data: { turbo: false, confirm: "Send label to printer for this cheese?" } do %>
                     <i class="fas fa-tag"></i>
                     <span class="absolute top-full mt-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                       Print Label

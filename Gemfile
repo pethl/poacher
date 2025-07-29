@@ -113,6 +113,14 @@ gem "groupdate"
 gem "prawn", "~> 2.5"
 gem "prawn-table", "~> 0.1.0"
 
+# PDF support
+gem 'prawn-qrcode'     # For rendering QR codes in Prawn PDFs
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
+gem 'grover'
+
+
 # for Excel imports
 gem "roo", "~> 2.10.1"
 gem "csv", "~> 3.3.2"
@@ -131,8 +139,7 @@ gem 'chunky_png'
 # HTML support
 gem 'rqrcode_svg'      # For rendering SVGs in HTML views
 
-# PDF support
-gem 'prawn-qrcode'     # For rendering QR codes in Prawn PDFs
+
 
 
 

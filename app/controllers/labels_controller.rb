@@ -1,4 +1,6 @@
 class LabelsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:show_pdf]
+
 
   def print
     ids = Array(params[:makesheet_id] || params[:ids]) # handle single or multiple
@@ -17,7 +19,7 @@ class LabelsController < ApplicationController
               type: "application/pdf",
               disposition: "inline"
   end
-
+ 
   def print_cheese_labels
     start_date = params[:start_date]
     end_date = params[:end_date]
@@ -32,42 +34,27 @@ class LabelsController < ApplicationController
     send_data pdf, filename: "cheese_labels_#{start_date}_to_#{end_date}.pdf", type: "application/pdf", disposition: "inline"
   end
 
-  def print_single_cheese
+
+  def preview_single_cheese
+    makesheet = Makesheet.find(params[:makesheet_id])
+    pdf = CheeseSingleLabelService.new(makesheet).generate
+  
+    send_data pdf, filename: "cheese_label_#{makesheet.id}.pdf", type: "application/pdf", disposition: "inline"
+  end
+
+  def show_pdf
+    @makesheet = Makesheet.find(params[:id])
+    render layout: false
+  end
+
+  def print_single_cheese_label
     makesheet = Makesheet.find(params[:makesheet_id])
     CheeseSingleLabelService.new(makesheet).print
   
-    respond_to do |format|
-      format.turbo_stream { head :ok }
-      format.html do
-        redirect_back fallback_location: makesheets_path(search: params[:search], month: params[:month]),
-                      notice: "Label sent to printer _650."
-      end
-    end
+    redirect_back fallback_location: makesheets_path,
+                  notice: "Label sent to printer."
   end
-
-  # def print_single_cheese
-  #   makesheet = Makesheet.find(params[:makesheet_id])
-  #   pdf_data = CheeseSingleLabelService.new(makesheet).generate
   
-  #   # Save to persistent tmp file
-  #   timestamp = Time.now.to_i
-  #   path = Rails.root.join("tmp", "cheese_label_#{timestamp}.pdf")
-  #   File.open(path, "wb") { |f| f.write(pdf_data) }
-  
-  #   Rails.logger.info "[LABEL DEBUG] Attempting to print to _650: #{path}"
-  
-  #   system("/usr/bin/lp", "-d", "_650", path.to_s)
-  
-  #   Rails.logger.debug("[LABEL DEBUG] Saved persistent path: #{path}")
-  
-  #   respond_to do |format|
-  #     format.turbo_stream { head :ok } # if you're using Turbo
-  #     format.html do
-  #       redirect_back fallback_location: makesheets_path(search: params[:search], month: params[:month]),
-  #                     notice: "Label sent to printer _650."
-  #     end
-  #   end
-  # end
   
 end
 

@@ -23,9 +23,20 @@ Rails.application.routes.draw do
   end
   
   # Label printing routes
-  get "labels/print_single_cheese", to: "labels#print_single_cheese", as: :print_single_cheese_label
+  get 'labels/:makesheet_id/preview', to: 'labels#preview_single_cheese', as: :preview_single_cheese_label
+
+ # get "labels/print_single_cheese", to: "labels#print_single_cheese", as: :print_single_cheese_label
   get "labels/print_cheese_labels", to: "labels#print_cheese_labels", as: :print_cheese_labels
   get "labels/print", to: "labels#print", as: :print_label
+  get 'labels/:makesheet_id/print', to: 'labels#print_single_cheese_label', as: :print_single_cheese_label
+
+
+  # PDF preview/download route using RESTful labels/:id
+    resources :labels, only: [] do
+      member do
+        get :show_pdf  # maps to labels#show_pdf
+      end
+    end
 
 
   get 'vacuum_pouch_calculator/new'

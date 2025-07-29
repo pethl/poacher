@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page {
+      size: 89mm 41mm;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      width: 89mm;
+      height: 41mm;
+      font-family: Arial, sans-serif;
+    }
+    .label {
+      width: 89mm;
+      height: 41mm;
+      display: flex;
+      box-sizing: border-box;
+      padding: 1mm;
+    }
+    .left {
+      width: 40mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .qr {
+      width: 39mm;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .qr svg {
+      width: 39mm;
+      height: 39mm;
+    }
+    .day {
+      font-size: 12pt;
+    }
+    .date {
+      font-size: 18pt;
+      font-weight: bold;
+      margin-bottom: 1mm;
+    }
+    .data-pair {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5mm;
+      font-size: 12pt;
+    }
+
+     .debug-grid {
+    position: absolute;
+    top: 0; left: 0;
+    width: 89mm; height: 41mm;
+    border: 1px solid red;  /* Shows label edges */
+    background:
+      linear-gradient(#000 1px, transparent 1px) -1px -1px / 10mm 10mm,
+      linear-gradient(#0000 99%, #f00 99%); /* 10mm grid */
+  }
+  </style>
+</head>
+<body>
+  <div class="debug-grid">
+  <div class="label">   
+    <div class="left">
+      <div class="day"><%= @makesheet.make_date.strftime("%A") rescue "No Day" %></div>
+      <div class="date"><%= @makesheet.make_date.strftime("%d %b %Y").upcase rescue "No Date" %></div>
+      <div class="data-pair">
+        <span><%= @makesheet.number_of_cheeses || "-" %></span>
+        <span><%= @makesheet.total_weight || "-" %>kg</span>
+      </div>
+      <div class="data-pair">
+        <span><%= @makesheet.total_time || "-" %></span>
+        <span><%= @makesheet.the_final_titration || "-" %></span>
+      </div>
+    </div>
+    <div class="qr">
+      <%= raw RQRCode::QRCode.new(makesheet_url(@makesheet)).as_svg(module_size: 3) %>
+    </div>
+  </div>
+  </div>
+</body>
+</html>

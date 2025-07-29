@@ -1,76 +1,57 @@
 require 'prawn'
-require 'prawn/measurement_extensions'
 require 'prawn/qrcode'
 require 'rqrcode'
-include Prawn::Measurements
 
-# Load your real Makesheet here
-makesheet = Makesheet.find(6256)
+LABEL_WIDTH_MM = 89
+LABEL_HEIGHT_MM = 41
+PT_PER_MM = 2.83465
+WIDTH_PT = LABEL_WIDTH_MM * PT_PER_MM
+HEIGHT_PT = LABEL_HEIGHT_MM * PT_PER_MM
 
-# Generate QR code from the real makesheet URL
-url = Rails.application.routes.url_helpers.makesheet_url(makesheet, host: "http://localhost:3000")
-qrcode = RQRCode::QRCode.new(url)
+OUTPUT_PATH = "example_label.pdf"
 
-path = "tmp/manual_test_label.pdf"
+Prawn::Document.generate(OUTPUT_PATH, page_size: [WIDTH_PT, HEIGHT_PT], margin: 0) do |pdf|
+  # === QR Code ===
+  qr = RQRCode::QRCode.new("https://example.com")
+  qr_size = 100
+  qr_margin = 10
+  pdf.bounding_box([qr_margin, HEIGHT_PT - qr_margin], width: qr_size, height: qr_size) do
+    pdf.render_qr_code(qr, extent: qr_size, stroke: false)
+  end
 
-Prawn::Document.generate(path, page_size: [41.mm, 89.mm], margin: 0.mm) do
-  center_x = bounds.width / 2
-  center_y = bounds.height / 2
+  # === Right-side Text ===
+  label_x = WIDTH_PT - 120     # left value
+  value_x = WIDTH_PT - 70      # right value
+  top_y = HEIGHT_PT - 24       # starting Y
 
-  rotate(90, origin: [center_x, center_y]) do
-    bounding_box([center_x - (bounds.height / 2), center_y + (bounds.width / 2)],
-                 width: bounds.height,
-                 height: bounds.width) do
+  # Day & Date
+  pdf.font_size(10)
+  pdf.draw_text "Wednesday", at: [label_x, top_y]
+  pdf.font_size(16)
+  pdf.draw_text "12-JAN-2025", at: [label_x, top_y - 20]
+  
+  # Underline under the date
+  line_start_x = label_x
+  line_end_x = label_x + 100  # Adjust width as needed
+  line_y = top_y - 25        # Slightly below the date text
 
-      scale_factor = 0.81
-      inner_width = bounds.width * scale_factor
-      inner_height = bounds.height * scale_factor
+  pdf.stroke_color "000000"  # Optional: set color
+  pdf.stroke_line [line_start_x, line_y], [line_end_x, line_y]
 
-      if inner_width > inner_height
-        inner_width *= 1.10
-      else
-        inner_height *= 1.10
-      end
+  # Values (two per line)
+  lines = [
+    ["31", "605.8kg"],
+    ["0.55", "6.06"]
+  ]
 
-      origin_x = (bounds.width - inner_width) / 2
-      origin_y = bounds.height - ((bounds.height - inner_height) / 2)
+  pdf.font_size(10)
+  start_y = top_y - 56
 
-      bounding_box([origin_x, origin_y], width: inner_width, height: inner_height) do
-        margin = 4.mm
-        qr_extent = 22.mm
-
-        text_x = margin
-        text_width = bounds.width - qr_extent - 3 * margin
-
-        # Use the makesheet date as dynamic text
-        label_text = makesheet.make_date.strftime("%d-%b-%Y").upcase
-
-        text_box label_text,
-                 size: 12,
-                 at: [text_x, bounds.height - margin],
-                 width: text_width,
-                 height: 30.mm,
-                 overflow: :shrink_to_fit,
-                 min_font_size: 6,
-                 align: :left,
-                 valign: :center
-
-        qr_x = bounds.width - qr_extent - margin
-        qr_y = bounds.height - margin
-
-        bounding_box([qr_x, qr_y], width: qr_extent, height: qr_extent) do
-          render_qr_code(qrcode, extent: qr_extent, stroke: false)
-        end
-      end
-    end
+  lines.each_with_index do |(left, right), i|
+    y = start_y - (i * 15)
+    pdf.draw_text left, at: [label_x, y]
+    pdf.draw_text right, at: [value_x, y]
   end
 end
 
-puts "Saved to #{path}"
-
-system("/usr/bin/lp",
-       "-o", "PageSize=Custom.41x89mm",
-       "-o", "fit-to-page=false",
-       "-o", "scaling=100",
-       "-d", "_650",
-       path)
+puts "✅ Label saved to #{OUTPUT_PATH}"
