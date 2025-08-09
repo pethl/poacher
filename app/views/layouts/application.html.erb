@@ -35,10 +35,11 @@
     <% end %>
   </head>
 
- <body class="max-h-screen overflow-x-hidden bg-white text-gray-900">
+<body class="min-h-screen flex flex-col overflow-x-hidden bg-white text-gray-900">
+
     <%= render "layouts/header" %>
 
-    <main class="pt-20 ml-4 mr-2 max-h-4/5">
+   <main class="flex-grow pt-20 px-4">
       <% if flash.present? %>
         <div id="flash" class="text-center ">
           <%= render "layouts/flash" %> 

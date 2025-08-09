@@ -38,6 +38,7 @@ import BatchWeightController from "./controllers/batch_weight_controller"
 import QrScannerController from "./controllers/qr_scanner_controller"
 import FilterController from "./controllers/filter_controller"
 import LocationHighlightController from "./controllers/location_highlight_controller"
+import TurningController from "./controllers/turning_controller"
 
 import "flowbite"
 import "flatpickr/dist/flatpickr.min.css"
@@ -58,6 +59,7 @@ application.register("batch-weight", BatchWeightController)
 application.register("qr-scanner", QrScannerController)
 application.register("filter", FilterController)
 application.register("location-highlight", LocationHighlightController)
+application.register("turning", TurningController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

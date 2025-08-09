@@ -2,9 +2,11 @@
   <% content_for(:page_title, "YIELD DASHBOARD")%>
   <%= render 'shared/dairy_nav' %>
 
-<div class="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-  <% @make_types.each do |make_type| %>
-    <div class="bg-white rounded-2xl shadow p-4 flex flex-col text-center">
+<div class="w-full sm:w-full md:w-full lg:w-2/3 xl:w-1/2 mx-auto bg-white p-4 flex flex-col justify-center">
+
+  <% @make_types.select { |type| type == "Standard" }.each do |make_type| %>
+
+    <div class="bg-white rounded-2xl shadow-lg border-gray-300  border p-8 flex flex-col text-center">
       <!-- Make Type Title -->
       <h2 class="text-xl font-bold text-gray-800 mb-2"><%= make_type %></h2>
 

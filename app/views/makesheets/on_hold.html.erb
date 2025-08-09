@@ -26,7 +26,7 @@
       <tbody>
         <% @makesheets.each do |ms| %>
           <tr class="border-t">
-            <td class="px-4 py-2"><%= ms.make_date&.strftime("%d %b %Y") %></td>
+           <td class="px-4 py-2"> <%= link_to ms.make_date&.strftime("%d %b %Y"), makesheet_path(ms), class: link_class %></td>
             <td class="px-4 py-2"><%= ms.status %></td>
             <td class="px-4 py-2"><%= ms.grade.presence || "–" %></td>
             <td class="px-4 py-2">

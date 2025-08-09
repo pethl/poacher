@@ -37,9 +37,10 @@
         </fieldset>
       </div>
 
-      <div class="text-right mt-4">
-        <%= submit_tag "Run Turning Machine", class: fill_button_class %>
+     <div class="text-right mt-4">
+        <%= submit_tag "Run Turning Machine", class: fill_button_class, data: { confirm: "Are you sure you want to run the Turning Machine?" } %>
       </div>
+
     <% end %>
   </div>
 </div>

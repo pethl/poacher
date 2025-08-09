@@ -849,12 +849,12 @@
   </div>
 
   <!-- Final Buttons -->
-  <div class="col-span-2 self-start">
+  <div class="col-span-2 self-start my-2">
     <%= form.submit "Save Make Sheet", class: fill_button_class %>
   </div>
-  <div class="self-start">
-    <%= link_to "All Makesheets", makesheets_path, class: gray_button %>
-    <%= link_to "Show Makesheet", makesheet, class: gray_button %>
+  <div class="self-start my-2 mb-12">
+    <%= link_to "All Makesheets", makesheets_path, class: clear_button_class %>
+    <%= link_to "Show Makesheet", makesheet, class: clear_button_class %>
   </div>
 
 </div>
@@ -862,3 +862,5 @@
 
 <% end %>
 </div>
+
+<br><br>

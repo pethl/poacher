@@ -14,8 +14,8 @@
               <%= render "shared/makesheet_picker",
                     form: nil,
                     field: :search,
-                    makesheets: Makesheet.ordered_reverse,
-                    class: "w-full max-w-[180px] text-sm" %>
+                    makesheets: Makesheet.ordered_reverse
+                    %>
             </div>
 
             <div>
@@ -23,7 +23,7 @@
               <%= select_tag :month,
                     options_for_select(@available_months, params[:month]),
                     include_blank: "All Months",
-                    class: "#{field_class_flex} w-full max-w-[220px] text-sm" %>
+                    class: "#{field_class_flex}" %>
             </div>
 
             <div class="flex gap-2 lg:col-span-2">

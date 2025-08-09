@@ -76,6 +76,10 @@ module ApplicationHelper
   # --- Field Input Classes ---
   BASE_FIELD_CLASS = "shadow outline-none rounded-lg border border-gray-800"
 
+  def field_class
+    "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+
   def field_class_flex
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
@@ -130,11 +134,11 @@ module ApplicationHelper
   end
 
   # Shared base styles
-  BASE_BUTTON = "flex items-center justify-center text-sm font-semibold h-10 leading-tight px-4 border rounded-md".freeze
+  BASE_BUTTON = "flex inline-flex items-center justify-center text-sm font-semibold h-10 leading-tight px-4 border rounded-md".freeze
 
   def filter_drop_down
-    "block w-full px-3 py-1.5 text-sm border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
-  end
+    "block w-full h-10 px-3 py-1.5 text-sm border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-gray-500 focus:border-gray-500"
+  end 
 
   def filter_button
     "#{BASE_BUTTON} text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent"
