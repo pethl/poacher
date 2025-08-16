@@ -34,9 +34,8 @@
 
   </div>
 
-<div class="mt-10 space-y-6 max-w-6xl mx-auto px-4">
+<div class="mt-10 mb-10 space-y-6 max-w-6xl mx-auto px-4">
 
- 
  <!-- Empty Locations – Shed 4 -->
 <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden">
   <button
@@ -122,6 +121,38 @@
     <% end %>
   </div>
 </div>
+
+<!-- Makesheets without Locations -->
+<div data-controller="accordion" class="border border-red-300 bg-red-50 rounded-xl overflow-hidden mt-6">
+  <button
+    data-action="click->accordion#toggle"
+    class="w-full text-left px-4 py-3 font-semibold text-red-800 hover:bg-red-100"
+  >
+    Makesheets without Locations
+  </button>
+  <div data-accordion-target="section" class="px-4 pb-4 hidden">
+    <% if @unassigned_makesheets.any? %>
+      <ul class="divide-y divide-red-200 text-sm text-red-900">
+        <% @unassigned_makesheets.each do |ms| %>
+          <li class="py-2 flex justify-between items-center">
+            <span>
+              <strong><%= ms.make_date.to_formatted_s(:uk) %></strong>
+              — <%= ms.make_type %>
+              <% if ms.total_weight.present? %>
+                (<%= ms.total_weight %> kg)
+              <% end %>
+            </span>
+            <%= link_to "Assign", new_location_assignment_path(location_id: nil, makesheet_id: ms.id),
+                        class: "text-blue-600 underline text-sm" %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-sm text-gray-600">🎉 All makesheets have assigned locations.</p>
+    <% end %>
+  </div>
+</div>
+
 
 
 </div>

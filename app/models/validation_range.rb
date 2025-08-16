@@ -8,6 +8,16 @@ class ValidationRange < ApplicationRecord
   validates :min_value, numericality: true, allow_nil: true
   validates :max_value, numericality: true, allow_nil: true
   validate :min_less_than_or_equal_to_max
+  validate :field_name_exists_on_model
+
+  def field_name_exists_on_model
+    return unless target_model.present? && field_name.present?
+
+    klass = target_model.safe_constantize
+    unless klass&.column_names&.include?(field_name)
+      errors.add(:field_name, "is not a valid field for #{target_model}")
+    end
+  end
 
   def min_less_than_or_equal_to_max
     if min_value.present? && max_value.present? && min_value > max_value

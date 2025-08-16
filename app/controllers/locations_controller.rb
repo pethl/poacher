@@ -153,9 +153,31 @@ class LocationsController < ApplicationController
       redirect_to locations_path, alert: "Please select an aisle to print."
     end
   end
-  
-  
-    
+
+  # GET /locations/duplicate_assignments
+def duplicate_assignments
+  @duplicate_locations = Makesheet
+    .where.not(location_id: nil)
+    .group(:location_id)
+    .having("COUNT(*) > 1")
+    .count
+
+  @locations_by_id = Location.where(id: @duplicate_locations.keys).index_by(&:id)
+
+  @makesheets_by_location = Makesheet
+    .where(location_id: @duplicate_locations.keys)
+    .includes(:location)
+    .order(:location_id, :make_date)
+    .group_by(&:location_id)
+end
+
+# POST /locations/:id/clear_location_assignment
+def clear_location_assignment
+  makesheet = Makesheet.find(params[:id])
+  makesheet.update_columns(location_id: nil, updated_at: Time.current)
+  redirect_back fallback_location: duplicate_assignments_locations_path,
+                notice: "Cleared location from Makesheet ##{makesheet.id}"
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.

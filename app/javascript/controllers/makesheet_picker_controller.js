@@ -22,8 +22,8 @@ export default class extends Controller {
       dateFormat: "Y-m-d",
       altInput: true,
       altFormat: "F j, Y",
-      onChange: (selectedDates) => {
-        const isoDate = selectedDates[0]?.toISOString().split("T")[0]
+      onChange: (selectedDates, dateStr) => {
+        const isoDate = dateStr // "YYYY-MM-DD" per dateFormat
         const makesheetId = this.makesheetsValue[isoDate]
         console.log("📅 Selected:", isoDate)
         console.log("🔗 Found makesheet ID:", makesheetId)

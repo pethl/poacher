@@ -1,7 +1,6 @@
 class LocationAssignmentsController < ApplicationController
   require "ostruct"
 
-
   def new
     @location_assignment = OpenStruct.new(location_id: params[:location_id])
   end
@@ -17,7 +16,8 @@ class LocationAssignmentsController < ApplicationController
   
     location  = Location.find(location_id)
     makesheet = Makesheet.find(makesheet_id)
-  
+
+   
     if Makesheet.exists?(location_id: location.id)
       redirect_to new_location_assignment_path, alert: "❗ That location is already assigned to another make date."
     else
@@ -25,9 +25,6 @@ class LocationAssignmentsController < ApplicationController
       redirect_to new_location_assignment_path,  notice: " Make #{makesheet.make_date.strftime("%d-%m-%y")} assigned to #{location.name}"
     end
   end
-  
-  
-  
 
   def location_report
     @locations = Location.includes(:makesheet)
@@ -82,6 +79,12 @@ class LocationAssignmentsController < ApplicationController
     .where("locations.name ILIKE ?", "Trolley%")
     .where(makesheets: { id: nil })
     .sort_by(&:trolley_number) # this happens in Ruby after the query
+
+    #new section for 
+    @unassigned_makesheets = Makesheet
+  .where(location_id: nil)
+  .where("make_date >= ?", 6.months.ago.to_date)  # optional filter
+  .order(make_date: :desc)
   
   end
 

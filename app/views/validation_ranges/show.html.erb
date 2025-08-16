@@ -1,14 +1,21 @@
 <% content_for(:page_button, new_validation_range_path) %>
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-   
-    <%= render @validation_range %>
+<% content_for :title, "Poacher: Validations" %>
+<% content_for(:page_title, "VALIDATION for #{@validation_range.field_name}")%>
 
-    <%= link_to "Edit this validation range", edit_validation_range_path(@validation_range), class: fill_button_class %>
-    <%= link_to "Back to validation ranges", validation_ranges_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    
-    <div class="text-center my-4">
+
+<div class="mx-auto w-full max-w-md space-y-4 px-4">
+  
+  <!-- Top: Box with the rendered content -->
+  <div class="border border-gray-800 rounded-xl p-4 mt-4">
+    <%= render @validation_range %>
+  </div>
+
+  <!-- Bottom: Buttons -->
+  <div class="flex flex-wrap justify-center gap-3">
+        <%= link_to "Edit this validation range", edit_validation_range_path(@validation_range), class: fill_button_class %>
+
+    <%= link_to "<- Back to validation ranges", validation_ranges_path, class: clear_button_class %>
     <%= link_to "Add New", new_validation_range_path, class: fill_button_class %>
- </div>
   </div>
 </div>
+

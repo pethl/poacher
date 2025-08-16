@@ -12,13 +12,19 @@ Rails.application.routes.draw do
   get "shed/:shed/map", to: "locations#shed_map", as: :shed_map
   get  'location_inspection', to: 'location_assignments#inspection_results'
   post 'location_inspection', to: 'location_assignments#inspection_results'
-
+ 
 
   resources :locations do
     collection do
       get :print_labels
       get :print_markers
       get :print_wizard
+      get :duplicate_assignments
+    end
+
+    member do
+
+      post :clear_location_assignment
     end
   end
   

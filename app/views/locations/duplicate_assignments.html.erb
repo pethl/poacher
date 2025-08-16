@@ -1,0 +1,53 @@
+<%= render 'shared/store_nav' %>
+<% content_for :title, "Poacher:  Duplicate Location Assignments" %>
+<% content_for(:page_title, " DUPLICATE LOCATION ASSIGNMENTS") %>
+
+<div class="max-w-4xl mx-auto">
+    <% total_duplicates = @duplicate_locations.values.sum %>
+
+    <p class="text-gray-700 mb-6">
+      <strong><%= pluralize(@duplicate_locations.size, "location") %></strong>
+      have multiple makesheets assigned
+      (<%= pluralize(total_duplicates, "duplicate") %> in total).
+    </p>
+    
+  <% if @duplicate_locations.empty? %>
+    <div class="p-4 bg-green-100 rounded text-green-800">
+      ✅ No duplicate locations found!
+    </div>
+  <% else %>
+    <% @duplicate_locations.sort_by { |loc_id, _| @locations_by_id[loc_id]&.sort_order || 9999 }.each do |location_id, count| %>
+      <% location = @locations_by_id[location_id] %>
+
+      <div class="mb-8 p-4 border border-red-300 rounded bg-red-50">
+        <h2 class="text-xl font-semibold mb-2">
+          📍 <%= location&.name || "Unknown Location ##{location_id}" %> —
+          <%= pluralize(count, "assigned makesheet") %>
+        </h2>
+
+        <table class="w-full text-left border-collapse mb-2">
+          <thead>
+            <tr>
+              <th class="border-b p-2">Make Date</th>
+              <th class="border-b p-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @makesheets_by_location[location_id].each do |ms| %>
+              <tr class="border-t">
+               <td class="p-2"><%= ms.make_date.to_date.to_formatted_s(:uk) %></td>
+                <td class="p-2">
+                  <%= button_to "❌ Clear Location",
+                        clear_location_assignment_location_path(ms),
+                        method: :post,
+                        form: { data: { turbo_confirm: "Clear location from #{ms.make_date.to_date.to_formatted_s(:uk)}?" } },
+                        class: "text-red-600" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  <% end %>
+</div>

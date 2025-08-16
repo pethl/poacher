@@ -16,26 +16,10 @@ class Makesheet < ApplicationRecord
   validate :validate_fields_against_ranges
   validates :make_date, presence: true, uniqueness: { message: "This date has already been taken. There cannot be two makesheets with the same date." }
   validates :make_type, presence: true
-  validates :location_id, uniqueness: true, allow_nil: true
-  validates :room_temp,
-  numericality: {
-    greater_than_or_equal_to: 0,
-    less_than_or_equal_to: 99.9,
-    message: "Room Temp must be between 0 and 99.9°C"
-  },
-  allow_nil: true
-
-  validates :curd_temp,
-  numericality: {
-    greater_than_or_equal_to: 0,
-    less_than_or_equal_to: 99.9,
-    message: "Curd Temp must be between 0 and 99.9°C"
-  },
-  allow_nil: true
-
   
-
-  
+  # REMOVED AS A BIT TOO COMPLEX TO IMPLEMNET AND NOT OFTEN OCCURING ALSO BUILT REPORTS INSTEAD
+  #validates :location_id, uniqueness: true, allow_nil: true
+ 
   # Scopes
   scope :ordered, -> { order(make_date: :asc) }
   scope :ordered_reverse, -> { order(make_date: :desc) }
@@ -107,6 +91,7 @@ class Makesheet < ApplicationRecord
 
     sheets.map(&:yield).sum / sheets.size
   end
+
 
   # Instance method for predicted yield (excluding self)
   def predicted_yield

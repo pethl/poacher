@@ -299,8 +299,9 @@ class MakesheetsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
+    # location_id removed 
     def makesheet_params
-      params.require(:makesheet).permit(:status, :make_date, :make_type,  :location_id,
+      params.require(:makesheet).permit(:status, :make_date, :make_type,  
       :milk_used, :total_weight, :number_of_cheeses, :weight_type, :grade, :expected_yield,
       :boiler_on_time, :steam_hot_water_on_time, :cold_milk_in_time, :cold_milk_in_state, :warm_milk_finish_time, :warm_milk_finish_titration, 
       :starter_in_time, :starter_in_temp, :heat_off_1_time, :heat_off_1_temp, :milk_titration_time, :milk_titration_temp, :rennet_time, :rennet_temp, 
