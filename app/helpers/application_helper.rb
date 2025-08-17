@@ -76,6 +76,24 @@ module ApplicationHelper
   # --- Field Input Classes ---
   BASE_FIELD_CLASS = "shadow outline-none rounded-lg border border-gray-800"
 
+  def makesheet_full_class
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-full focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+  
+  def makesheet_med_class
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-2 w-full md:w-64 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+  
+  def makesheet_small_left_class
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 h-10 px-2 w-full md:w-24 min-w-[4rem] focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+  
+  def makesheet_small_right_class
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 h-10 px-2 w-full md:w-24 min-w-[4rem] text-right focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+  end
+  
+  
+
   def field_class
     "#{BASE_FIELD_CLASS} bg-gray-100 font-gray-800 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
@@ -83,7 +101,6 @@ module ApplicationHelper
   def field_class_flex
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
-
 
   def field_class_flex_lg
     "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 py-2 px-3 w-96 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
@@ -110,7 +127,7 @@ module ApplicationHelper
   end
 
   def field_class_flex_small
-    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 max-w-20 h-10 px-2 text-center w-60 focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
+    "#{BASE_FIELD_CLASS} bg-gray-100 text-gray-800 h-10 px-2 text-center w-full md:w-24 min-w-[4rem] focus:border-gray-500 focus:ring-1 focus:ring-gray-300 focus:outline-none"
   end
  
   def checkbox_class

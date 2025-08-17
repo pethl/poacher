@@ -21,702 +21,651 @@
     <div data-controller="makesheet"
      data-makesheet-make-type-value="<%= @makesheet.make_type %>" class="grid grid-cols-4 gap-2 mt-8">
 
-    <!-- SUMMARY Section -->
+  <!-- SUMMARY Section -->
     <div class="col-span-4">
       <hr>
     </div>
-    <div id="summary-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
+    <div id="summary-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
       SUMMARY
     </div>
-    <div class="col-span-2">
+    <div class="col-span-4">
       <hr>
     </div>
-    <div class="col-span-2"></div>
-
-    <!-- Status Field -->
-    <div class="col-span-2 self-center">
-      <%= form.label :status, class: label_class %>
-    </div>
-    <div>
-      <%= form.select :status, options_for_select(batch_status, selected: makesheet.status), { prompt: true }, disabled: true, class: field_class_flex_full_disabled %>
-    </div>
-
-    <!-- Make Type Field -->
-    <div class="col-span-2 self-center">
-      <%= form.label :make_type, class: label_class %>
-    </div>
-    <div>
-      <%= form.select :make_type, options_for_select(make_type, selected: makesheet.make_type), { prompt: true }, class: field_class_flex_full %>
-    </div>
-
-    <!-- Weight Type Field -->
-    <div class="col-span-2 self-center">
-      <%= form.label :weight_type, class: label_class %>
-    </div>
-    <div>
-      <%= form.select :weight_type, options_for_select(weight_type, selected: makesheet.weight_type), { prompt: true }, class: field_class_flex_full %>
-    </div>
-
-    <!-- Make Date Field -->
-    <div class="col-span-2 self-center">
-      <%= form.label :make_date, class: label_class %>
-    </div>
-    <div>
-      <%= form.date_field :make_date, value: @makesheet.make_date, class: field_class_flex_full %>
-    </div>
-    <div class="col-span-4 text-center">
-      <hr>
-    </div>
-
-    <!-- Cheese Makers Fields -->
-    <div class="col-span-2 self-center">
-      <%= form.label :cheese_made_by_staff_id, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.collection_select(:cheese_made_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: field_class_flex_full }) %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :assistant_staff_id, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.collection_select(:assistant_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: field_class_flex_full }) %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :milling_help, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.text_field :milling_help, class: field_class_flex_full %>
-    </div>
-
    
-    <!-- INGREDIENTS Section -->
-    <div class="col-span-4 mt-8">
-      <hr>
-    </div>
-    <div id="ingredients-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
-      INGREDIENTS: MILK & ADDITIONS
-    </div>
-    <div class="col-span-2">
-      <hr>
-    </div>
-    <div class="col-span-2"></div>
 
-    <!-- Starter Culture Fields -->
-    <div class="col-span-1 text-left font-light">
-      STARTER CULTURE
-    </div>
-    <div class="col-span-1 self-center">
-      <%= form.label :type_of_starter_culture_used, "Type", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.select :type_of_starter_culture_used, options_for_select(starter_culture, selected: makesheet.type_of_starter_culture_used), { prompt: true }, class: field_class_flex_med %>
-    </div>
-    <div class="col-span-2 self-center">
-      <%= form.label :qty_of_starter_used, "Quantity", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams", class: field_class_flex_med %>
-    </div>
-        <!-- For RED only -->
+      <!-- Status -->
+      <div class="col-span-2 self-center">
+        <%= form.label :status, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.select :status, options_for_select(batch_status, selected: makesheet.status), { prompt: true }, disabled: true, class: makesheet_med_class %>
+      </div>
+
+      <!-- Make Type -->
+      <div class="col-span-2 self-center">
+        <%= form.label :make_type, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.select :make_type, options_for_select(make_type, selected: makesheet.make_type), { prompt: true }, class: makesheet_med_class %>
+      </div>
+
+      <!-- Weight Type -->
+      <div class="col-span-2 self-center">
+        <%= form.label :weight_type, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1  text-left">
+        <%= form.select :weight_type, options_for_select(weight_type, selected: makesheet.weight_type), { prompt: true }, class: makesheet_med_class %>
+      </div>
+
+      <!-- Make Date -->
+      <div class="col-span-2 self-center">
+        <%= form.label :make_date, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.date_field :make_date, value: @makesheet.make_date, class: makesheet_med_class %>
+      </div>
+
+      <!-- Cheese Made By -->
+      <div class="col-span-2 self-center">
+        <%= form.label :cheese_made_by_staff_id, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.collection_select(:cheese_made_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, class: makesheet_med_class) %>
+      </div>
+
+      <!-- Assistant -->
+      <div class="col-span-2 self-center">
+        <%= form.label :assistant_staff_id, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.collection_select(:assistant_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, class: makesheet_med_class) %>
+      </div>
+
+      <!-- Milling Help -->
+      <div class="col-span-2 self-center">
+        <%= form.label :milling_help, class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.text_field :milling_help, class: makesheet_med_class %>
+      </div>
+
+
+     <!-- INGREDIENTS Section ****************************************************************** -->
+  
+      <div class="col-span-4 mt-8">
+        <hr>
+      </div>
+      <div id="ingredients-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
+        INGREDIENTS: MILK & ADDITIONS
+      </div>
+      <div class="col-span-4">
+        <hr>
+      </div>
+     
+
+     <!-- Starter Culture -->
+        <div class="col-span-1 text-left font-light">STARTER CULTURE</div>
+        <div class="col-span-1 self-center">
+          <%= form.label :type_of_starter_culture_used, "Type", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :type_of_starter_culture_used, options_for_select(starter_culture, selected: makesheet.type_of_starter_culture_used), { prompt: true }, class: makesheet_med_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :qty_of_starter_used, "Quantity", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams", class: makesheet_small_right_class %>
+        </div>
+
         <% if makesheet.make_type == "Red" %>
-          <div class="col-span-2 self-center">
-            <%= form.label :md_88_qty_used, "MD88 Qty Used", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.text_field :md_88_qty_used, placeholder: "", class: field_class_flex_med %>
-          </div>
+          <div class="col-span-2 self-center"><%= form.label :md_88_qty_used, "MD88 Qty Used", class: label_class %></div>
+          <div class="col-span-2 md:col-span-1  text-left"><%= form.text_field :md_88_qty_used, class: makesheet_small_left_class %></div>
         <% end %>
 
-    <!-- Milk Fields -->
-    <div class="col-span-4">
-      <hr>
-    </div>
-    <div class="col-span-1 text-left font-light">
-      MILK
-    </div>
-    <div class="col-span-1 self-center">
-      <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
-    </div>
-    <div class="text-left">
-       <%= form.number_field :milk_used,
-        placeholder: "litres",
-        class: field_class_flex_small,
-        step: :any,
-        data: {
-          action: "input->makesheet#updateSaltWeights",
-          makesheet_target: "milkUsed",
-          predicted_yield: makesheet.predicted_yield,
-          bucket_weight: Reference.where(active: true, group: 'bucket_weight').pluck(:value).first.to_f
-        } %>
-    </div>
-    <div class="col-span-2 self-center">
-      <%= form.label :warm_am, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.select :warm_am, options_for_select(yes_no, selected: makesheet.warm_am.presence || "Yes"), {}, class: field_class_flex_small %>
-    </div>
-    <div class="col-span-2 self-center">
-      <%= form.label :twelve_hr_pm, "12 Hour PM", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.select :twelve_hr_pm, options_for_select(yes_no, selected: makesheet.twelve_hr_pm || "Yes"), {}, class: field_class_flex_small %>
-    </div>
+        <!-- Milk -->
+        <div class="col-span-4"><hr></div>
+        <div class="col-span-1 text-left font-light">MILK</div>
+        <div class="col-span-1 self-center">
+          <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :milk_used, placeholder: "litres", class: makesheet_small_right_class, step: :any,
+              data: { action: "input->makesheet#updateSaltWeights", makesheet_target: "milkUsed" } %>
+        </div>
+        <div class="col-span-2 self-center">
+          <%= form.label :warm_am, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :warm_am, options_for_select(yes_no, selected: makesheet.warm_am.presence || "Yes"), {}, class: makesheet_small_left_class %>
+        </div>
+        <div class="col-span-2 self-center">
+          <%= form.label :twelve_hr_pm, "12 Hour PM", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :twelve_hr_pm, options_for_select(yes_no, selected: makesheet.twelve_hr_pm || "Yes"), {}, class: makesheet_small_left_class %>
+        </div>
 
-    <!-- Milk From Farmers Markets Fields -->
-    <div class="col-span-4">
-      <hr>
-    </div>
-    <div class="col-span-1 text-left font-light">
-      MILK FROM FARMERS MARKETS
-    </div>
-    <div class="col-span-1 self-center">
-      <%= form.label :number_of_bottles_from_fm, "Number of Bottles", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :number_of_bottles_from_fm, class: field_class_flex_small %>
-    </div>
-    <div class="col-span-2 self-center">
-      <%= form.label :use_by_date_milk_from_fm, "Use By Date", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.date_field :use_by_date_milk_from_fm, class: field_class_flex_full %>
-    </div>
+        <!-- Milk From FM -->
+        <div class="col-span-4"><hr></div>
+        <div class="col-span-1 text-left font-light">MILK FROM FARMERS MARKETS</div>
+        <div class="col-span-1 self-center">
+          <%= form.label :number_of_bottles_from_fm, "Number of Bottles", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :number_of_bottles_from_fm, class: makesheet_small_right_class %>
+        </div>
+        <div class="col-span-2 self-center">
+          <%= form.label :use_by_date_milk_from_fm, "Use By Date", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.date_field :use_by_date_milk_from_fm, class: makesheet_full_class %>
+        </div>
 
-    <!-- Salt Fields -->
-    <div class="col-span-4 text-left">
-      <hr>
-    </div>
-    <div class="col-span-1 text-left font-light">
-      SALT <span class="text-sm">(Gross assumes 1.6kg bucket)</span>
-    </div>
-    
-    <div class="col-span-1 self-center">
-      <%= form.label :expected_yield, "Expected Yield %", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :expected_yield,
-        class: field_class_flex_small,
-        step: 0.01,
-        data: {
-          action: "input->makesheet#updateSaltWeights",
-          makesheet_target: "expectedYield",
-          bucket_weight: Reference.where(active: true, group: 'bucket_weight').pluck(:value).first.to_f
-        } %>
-    </div>
+        <!-- Salt -->
+        <div class="col-span-4"><hr></div>
+        <div class="col-span-1 text-left font-light">SALT <span class="text-sm">(Gross assumes 1.6kg bucket)</span></div>
+        <div class="col-span-1 self-center">
+          <%= form.label :expected_yield, "Expected Yield %", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :expected_yield, step: 0.01, class: makesheet_small_right_class %>
+        </div>
+        <div class="col-span-2 self-center">
+          <%= form.label :salt_weight_net, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :salt_weight_net, class: makesheet_small_right_class, step: :any %>
+        </div>
+        <div class="col-span-2 self-center">
+          <%= form.label :salt_weight_gross, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :salt_weight_gross, class: makesheet_small_right_class, step: :any %>
+        </div>
 
-    <div class="col-span-2 self-center">
-      <%= form.label :salt_weight_net, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :salt_weight_net,
-          class: field_class_flex_small,
-          step: :any,
-          data: { makesheet_target: "saltNet" } %>
-    </div>
-     <div class="col-span-2 self-center">
-      <%= form.label :salt_weight_gross, class: label_class %>
-    </div>
-    <div class="text-left">
-        <%= form.number_field :salt_weight_gross,
-          class: field_class_flex_small,
-          step: :any,
-          data: { makesheet_target: "saltGross" } %>
-    </div>
     
 
     <!-- MAKE RECIPE Section -->
-    <div class="col-span-4 mt-8">
-      <hr>
-    </div>
-    <div id="make-recipe-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
-      MAKE RECIPE
-    </div>
-    <div class="col-span-2">
-      <hr>
-    </div>
-    <div class="col-span-2"></div>
+      <div class="col-span-4 mt-8"><hr></div>
+      <div id="make-recipe-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
+        MAKE RECIPE
+      </div>
+      <div class="col-span-4"><hr></div>
+     
 
-    <!-- Make Recipe Fields -->
-    <div class="col-span-2 self-center">
-      <%= form.label :steam_hot_water_on_time, "Steam / Hot Water On", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.time_field :steam_hot_water_on_time, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :cold_milk_in_time, "Cold Milk In", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :cold_milk_in_time, class: field_class_flex_small %>
-      <%= form.text_field :cold_milk_in_state, placeholder: "OK?", class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :warm_milk_finish_time, "Warm Milk Finish", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :warm_milk_finish_time, class: field_class_flex_small %>
-      <%= form.number_field :warm_milk_finish_titration, placeholder: "temp", step: :any, class: field_class_flex_small %>
-    </div>
-
-    <% if makesheet.make_type == "Red" %>
-      <!-- Annatto Fields -->
+      <!-- Make Recipe Fields -->
       <div class="col-span-2 self-center">
-        <%= form.label :annatto_in_time, "Annatto In", class: label_class %>
+        <%= form.label :steam_hot_water_on_time, "Steam / Hot Water On", class: label_class %>
       </div>
-      <div class="flex items-center space-x-2">
-        <%= form.time_field :annatto_in_time, class: field_class_flex_small %>
-        <%= form.number_field :annatto_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.time_field :steam_hot_water_on_time, class: makesheet_small_right_class %>
       </div>
-    <% end %>
 
-    <div class="col-span-2 self-center">
-      <%= form.label :starter_in_time, "Starter IN", class: label_class %>
-    </div>
-    <div class="flex items-center space-x-2">
-      <%= form.time_field :starter_in_time, class: field_class_flex_small %>
-      <%= form.number_field :starter_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
-    </div>
+      <div class="col-span-2 self-center">
+        <%= form.label :cold_milk_in_time, "Cold Milk In", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+        <%= form.time_field :cold_milk_in_time, class: makesheet_small_right_class %>
+        <%= form.text_field :cold_milk_in_state, placeholder: "OK?", class: makesheet_small_left_class %>
+      </div>
 
+      <div class="col-span-2 self-center">
+        <%= form.label :warm_milk_finish_time, "Warm Milk Finish", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+        <%= form.time_field :warm_milk_finish_time, class: makesheet_small_right_class %>
+        <%= form.number_field :warm_milk_finish_titration, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
+      </div>
 
-     <!-- MD88 Fields -->
-     <% if makesheet.make_type == "Red" %>
+      <% if makesheet.make_type == "Red" %>
         <div class="col-span-2 self-center">
-          <%= form.label :md_88_in_time, "MD88 IN", class: label_class %>
+          <%= form.label :annatto_in_time, "Annatto In", class: label_class %>
         </div>
-        <div class="flex items-center space-x-2">
-          <%= form.time_field :md_88_in_time, class: field_class_flex_small %>
-          <%= form.number_field :md_88_in_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :annatto_in_time, class: makesheet_small_right_class %>
+          <%= form.number_field :annatto_in_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
         </div>
       <% end %>
 
-    <div class="col-span-2 self-center">
-      <%= form.label :heat_off_1_time, "Heat OFF", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :heat_off_1_time, class: field_class_flex_small %>
-      <%= form.number_field :heat_off_1_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :rennet_time, "Rennet", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :rennet_time, class: field_class_flex_small %>
-      <%= form.number_field :rennet_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-4">
-      <hr>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :cut_start_time, "Cut", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :cut_start_time, placeholder: "start", class: field_class_flex_small %>
-      <%= form.time_field :cut_end_time, placeholder: "end", class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :heat_on_time, "Heat ON", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.time_field :heat_on_time, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :heat_off_2_time, "Heat OFF", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :heat_off_2_time, class: field_class_flex_small %>
-      <%= form.number_field :heat_off_2_temp, placeholder: "temp", step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :pitch_time, "Pitch", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.time_field :pitch_time, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :whey_time, "Whey", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :whey_time, class: field_class_flex_small %>
-      <%= form.number_field :whey_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :first_cut_time, "1st Cut", class: label_class %>
-    </div>
-   <div class="flex items-center space-x-2">
-      <%= form.time_field :first_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :first_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :second_cut_time, "2nd Cut", class: label_class %>
-    </div>
-       <div class="flex items-center space-x-2">
-      <%= form.time_field :second_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :second_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :third_cut_time, "3rd Cut", class: label_class %>
-    </div>
-      <div class="flex items-center space-x-2">
-      <%= form.time_field :third_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :third_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :fourth_cut_time, "4th Cut", class: label_class %>
-    </div>
-      <div class="flex items-center space-x-2">
-      <%= form.time_field :fourth_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :fourth_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :fifth_cut_time, "5th Cut", class: label_class %>
-    </div>
-      <div class="flex items-center space-x-2">
-      <%= form.time_field :fifth_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :fifth_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <div class="col-span-2 self-center">
-      <%= form.label :sixth_cut_time, "6th Cut", class: label_class %>
-    </div>
-      <div class="flex items-center space-x-2">
-      <%= form.time_field :sixth_cut_time, class: field_class_flex_small %>
-      <%= form.number_field :sixth_cut_titration, step: :any, class: field_class_flex_small %>
-    </div>
-
-    <!-- Identify Mill and Unusual Smell -->
-    <div class="col-span-2 self-center">
-      <%= form.label :identify_mill_used, "Identify Mill Used", class: label_class %>
-    </div>
-    <div>
-      <%= form.select :identify_mill_used, options_for_select(makesheet_mill, selected: makesheet.identify_mill_used), { prompt: true }, class: field_class_flex_full %>
-    </div>
-    <div class="col-span-2 self-center">
-      <%= form.label :unusual_smell_appearance, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.text_area :unusual_smell_appearance, rows: "2", class: field_class_flex %>
-    </div>
-
-    <!-- PROCESS  Section -->
-    <div class="col-span-4 mt-8">
-      <hr>
-    </div>
-    <div id="process-info-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
-      PROCESS INFORMATION
-    </div>
-    <div class="col-span-2">
-      <hr>
-    </div>
-    <div class="col-span-2"></div>
-
-    <!-- Post Make Fields -->
-        <!-- New Fields -->
-    <div class="col-span-2 self-center">
-      <label for="makesheet_ta_combined_milk" class="<%= label_class %>">
-        <span class="text-gray-800">TA COMBINED AM/PM MILK</span><br>
-        <span class="text-gray-600 font-light"> – prior to starter addition</span>
-      </label>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :ta_combined_milk, step: 0.01, class: field_class_flex_small %>
-    </div>
-
-   <div class="col-span-2 self-center">
-      <label for="makesheet_whey_ta" class="<%= label_class %>">
-        <div class="text-gray-800">WHEY TA</div>
-        <div class="text-gray-600 font-light">approx 9.15am</div>
-      </label>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :whey_ta, step: 0.01, class: field_class_flex_small %>
-    </div>
-
-   <div class="col-span-2 self-center">
-      <label for="makesheet_curd_temp" class="<%= label_class %>">
-        <div class="text-gray-800">CURD TEMP (°C)</div>
-        <div class="text-gray-600 font-light">post milling</div>
-      </label>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :curd_temp, step: 0.1, class: field_class_flex_small %>
-    </div>
-
-   <div class="col-span-2 self-center">
-      <label for="makesheet_room_temp" class="<%= label_class %>">
-        <div class="text-gray-800">ROOM TEMP (°C)</div>
-        <div class="text-gray-600 font-light">taken when curd temp taken</div>
-      </label>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :room_temp, step: 0.1, class: field_class_flex_small %>
-    </div>
-
-   <div class="col-span-2 self-center">
-      <label for="makesheet_visual_moisture_post_milling" class="<%= label_class %>">
-        <div class="text-gray-800">VISUAL MOISTURE (Post Milling)</div>
-        <div class="text-gray-600 font-light">Score 1 = Dry, 10 = Wet</div>
-      </label>
-    </div>
-   <div class="text-left">
-        <%= form.select :visual_moisture_post_milling,
-              options_for_select((1..10).map { |n| [n, n] }, selected: @makesheet.visual_moisture_post_milling),
-              { include_blank: "Please select" },
-              class: field_class_flex %>
+      <div class="col-span-2 self-center">
+        <%= form.label :starter_in_time, "Starter IN", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+        <%= form.time_field :starter_in_time, class: makesheet_small_right_class %>
+        <%= form.number_field :starter_in_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
       </div>
 
-   <div class="col-span-2 self-center">
-      <label for="makesheet_moisture_percentage_post_milling" class="<%= label_class %>">
-        <div class="text-gray-800">MOISTURE %</div>
-        <div class="text-gray-600 font-light">AM of knocking out</div>
-      </label>
-    </div>
-    <div class="text-left">
-      <%= form.number_field :moisture_percentage_post_milling, step: 0.01, class: field_class_flex_small %>
-    </div>
+      <% if makesheet.make_type == "Red" %>
+        <div class="col-span-2 self-center">
+          <%= form.label :md_88_in_time, "MD88 IN", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :md_88_in_time, class: makesheet_small_right_class %>
+          <%= form.number_field :md_88_in_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
+        </div>
+      <% end %>
 
-    <div class="col-span-2 self-center">
-      <%= form.label :record_of_works_completed, "Record of Engineering or Maintenance Work Completed", class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.text_area :record_of_works_completed, rows: 5, class: field_class_flex_full %>
-    </div>
-    <!-- End process info Fields -->
+      <div class="col-span-2 self-center">
+        <%= form.label :heat_off_1_time, "Heat OFF", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+        <%= form.time_field :heat_off_1_time, class: makesheet_small_right_class %>
+        <%= form.number_field :heat_off_1_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
+      </div>
+
+      <div class="col-span-2 self-center">
+        <%= form.label :rennet_time, "Rennet", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+        <%= form.time_field :rennet_time, class: makesheet_small_right_class %>
+        <%= form.number_field :rennet_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
+      </div>
+
+
+    <div class="col-span-4"><hr></div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :cut_start_time, "Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :cut_start_time, placeholder: "start", class: makesheet_small_right_class %>
+          <%= form.time_field :cut_end_time, placeholder: "end", class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :heat_on_time, "Heat ON", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.time_field :heat_on_time, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :heat_off_2_time, "Heat OFF", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :heat_off_2_time, class: makesheet_small_right_class %>
+          <%= form.number_field :heat_off_2_temp, placeholder: "temp", step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :pitch_time, "Pitch", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.time_field :pitch_time, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :whey_time, "Whey", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :whey_time, class: makesheet_small_right_class %>
+          <%= form.number_field :whey_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :first_cut_time, "1st Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :first_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :first_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :second_cut_time, "2nd Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :second_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :second_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :third_cut_time, "3rd Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :third_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :third_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :fourth_cut_time, "4th Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :fourth_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :fourth_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :fifth_cut_time, "5th Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :fifth_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :fifth_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :sixth_cut_time, "6th Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :sixth_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :sixth_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+        <!-- Identify Mill -->
+        <div class="col-span-2 self-center">
+          <%= form.label :identify_mill_used, "Identify Mill Used", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :identify_mill_used, options_for_select(makesheet_mill, selected: makesheet.identify_mill_used), { prompt: true }, class: makesheet_med_class %>
+        </div>
+
+        <!-- Unusual Smell -->
+        <div class="col-span-2 self-center">
+          <%= form.label :unusual_smell_appearance, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.text_area :unusual_smell_appearance, rows: 4, class: makesheet_med_class %>
+        </div>
+
+
+    <!-- Process Info Section -->
+        <div class="col-span-4 mt-8"><hr></div>
+        <div id="process-info-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
+          PROCESS INFORMATION
+        </div>
+        <div class="col-span-4"><hr></div>
+       
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_ta_combined_milk" class="<%= label_class %>">
+            <span class="text-gray-800">TA COMBINED AM/PM MILK</span><br>
+            <span class="text-gray-600 font-light">– prior to starter addition</span>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :ta_combined_milk, step: 0.01, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_whey_ta" class="<%= label_class %>">
+            <div class="text-gray-800">WHEY TA</div>
+            <div class="text-gray-600 font-light">approx 9.15am</div>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :whey_ta, step: 0.01, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_curd_temp" class="<%= label_class %>">
+            <div class="text-gray-800">CURD TEMP (°C)</div>
+            <div class="text-gray-600 font-light">post milling</div>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :curd_temp, step: 0.1, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_room_temp" class="<%= label_class %>">
+            <div class="text-gray-800">ROOM TEMP (°C)</div>
+            <div class="text-gray-600 font-light">taken when curd temp taken</div>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1  text-left">
+          <%= form.number_field :room_temp, step: 0.1, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_visual_moisture_post_milling" class="<%= label_class %>">
+            <div class="text-gray-800">VISUAL MOISTURE (Post Milling)</div>
+            <div class="text-gray-600 font-light">Score 1 = Dry, 10 = Wet</div>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1  text-left">
+          <%= form.select :visual_moisture_post_milling,
+                options_for_select((1..10).map { |n| [n, n] }, selected: @makesheet.visual_moisture_post_milling),
+                { include_blank: "Select" },
+                class: makesheet_small_left_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <label for="makesheet_moisture_percentage_post_milling" class="<%= label_class %>">
+            <div class="text-gray-800">MOISTURE %</div>
+            <div class="text-gray-600 font-light">AM of knocking out</div>
+          </label>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :moisture_percentage_post_milling, step: 0.01, class: makesheet_small_right_class %>
+        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :record_of_works_completed, "Record of Engineering or Maintenance Work Completed", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1">
+          <%= form.text_area :record_of_works_completed, rows: 5, class: makesheet_full_class %>
+        </div>
+    <!-- End of Process Info Section -->
 
 
 
-    <!-- POST MAKE Section -->
-    <div class="col-span-4 mt-8">
-      <hr>
-    </div>
-    <div id="post-make-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
+   <!-- POST MAKE Section -->
+    <div class="col-span-4 mt-8"><hr></div>
+    <div id="post-make-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
       POST MAKE
     </div>
-    <div class="col-span-2">
-      <hr>
-    </div>
-    <div class="col-span-2"></div>
+    <div class="col-span-4"><hr></div>
+   
 
-    <!-- Post Make Fields -->
     <div class="col-span-2 self-center">
       <%= form.label :total_weight, "Weight (kgs)", class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.number_field :total_weight, placeholder: "kgs", step: :any, class: field_class_flex_med %>
+    <div class="col-span-2 md:col-span-1 text-left">
+      <%= form.number_field :total_weight, step: :any, placeholder: "kgs", class: makesheet_small_right_class %>
     </div>
+
     <div class="col-span-2 self-center">
       <%= form.label :yield, "Calculated Yield %", class: label_class %>
     </div>
-   <div class="text-left">
-      <%= form.number_field :calc_yield, 
-             value: number_with_precision(@makesheet.yield,  precision: 2), 
-            step: :any, 
-            disabled: true, 
-            class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
+    <div class="col-span-2 md:col-span-1 text-left">
+      <%= form.number_field :calc_yield,
+            value: number_with_precision(@makesheet.yield, precision: 2),
+            step: :any,
+            disabled: true,
+            class: "#{makesheet_small_right_class} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
     </div>
-    <!-- New field based on calc yield -->
+
     <div class="col-span-2 self-center">
       <%= form.label :predicted_yield, "Projected Yield %", class: label_class %>
     </div>
-
-    <div class="text-left">
+    <div class="col-span-2 md:col-span-1 text-left">
       <%= number_field_tag :predicted_yield,
             @makesheet.predicted_yield&.round(2),
             step: :any,
             readonly: true,
-            class: "#{field_class_flex_med} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
+            class: "#{makesheet_small_right_class} bg-gray-100 text-gray-500 cursor-not-allowed pr-2" %>
     </div>
 
     <div class="col-span-2 self-center">
       <%= form.label :number_of_cheeses, class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.number_field :number_of_cheeses, class: field_class_flex_med %>
+    <div class="col-span-2 md:col-span-1 text-left">
+      <%= form.number_field :number_of_cheeses, class: makesheet_small_right_class %>
     </div>
+
+
     <div class="col-span-2 self-center">
       <%= form.label :batch_dipped, class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.select :batch_dipped, options_for_select(yes_no, selected: makesheet.batch_dipped), { include_blank: true }, class: field_class_flex_small %>
+    <div class="col-span-2 md:col-span-1 text-left">
+      <%= form.select :batch_dipped, options_for_select(yes_no, selected: makesheet.batch_dipped),
+                      { include_blank: true }, class: makesheet_small_left_class %>
     </div>
+
     <div class="col-span-2 self-center">
       <%= form.label :post_make_notes, class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.text_area :post_make_notes, rows: 3, class: field_class_flex %>
+    <div class="col-span-2 md:col-span-1">
+      <%= form.text_area :post_make_notes, rows: 5, class: makesheet_full_class %>
     </div>
 
-  </div>
-  <!-- End Main Grid Container -->
+      <!-- End Main Grid Container -->
 
-  <!-- CHANGES Accordion Section -->
-  <div class="col-span-4 my-2">
-    <hr>
-  </div>
-  <div data-controller="accordion">
-    <!-- Accordion Header -->
-    <div class="col-span-2 cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle" data-accordion-target="header">
-      <span>CHANGES</span>
-      <span class="text-gray-600 ml-4">(Click to expand)</span>
-    </div>
-    <!-- Accordion Section -->
-    <div id="changes-section" class="hidden col-span-4" data-accordion-target="section">
-      <div class="grid grid-cols-4 gap-4 mt-2">
-        <div class="col-span-2 self-center">
-          <%= form.label :ingredient_batch_change, class: label_class %>
-        </div>
-        <div class="col-span-2">
-          <%= form.text_area :ingredient_batch_change, rows: "2", class: field_class_flex_full %>
-        </div>
-        <div class="col-span-2 self-center">
-          <%= form.label :thermometer_change, class: label_class %>
-        </div>
-        <div class="col-span-2">
-          <%= form.text_area :thermometer_change, rows: "2", class: field_class_flex_full %>
-        </div>
-        <div class="col-span-2 self-center">
-          <%= form.label :scale_change, class: label_class %>
-        </div>
-        <div class="col-span-2">
-          <%= form.text_area :scale_change, rows: "2", class: field_class_flex_full %>
-        </div>
-        <div class="col-span-2 self-center">
-          <%= form.label :farm_change, class: label_class %>
-        </div>
-        <div class="col-span-2">
-          <%= form.text_area :farm_change, rows: "2", class: field_class_flex_full %>
-        </div>
-      </div>
-    </div>
+   <!-- CHANGES (accordion) -->
+<div class="col-span-4 my-2"><hr></div>
+
+<div class="col-span-4" data-controller="accordion">
+  <!-- Accordion Header -->
+  <div class="cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
+    <span>CHANGES</span>
+    <span class="text-gray-600 ml-4">(Click to expand)</span>
   </div>
 
-  <!-- WEATHER Section -->
-  <div class="col-span-4 mt-8">
-    <hr>
-  </div>
-  <div class="grid grid-cols-4 gap-4 mt-2">
-    <div class="col-span-1 text-left font-light">
-      WEATHER
-    </div>
-    <div class="col-span-1 self-center">
-      <%= form.label :weather_today, class: label_class %>
-    </div>
-    <div class="text-left">
-      <%= form.select :weather_today, options_for_select(weather, selected: makesheet.weather_today), { prompt: true }, class: field_class_flex %>
-    </div>
+  <!-- Accordion Body -->
+  <div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2">
     <div class="col-span-2 self-center">
-      <%= form.label :weather_temp, "Temperature °C", class: label_class %>
+      <%= form.label :ingredient_batch_change, class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.number_field :weather_temp, step: :any, class: field_class_flex_small %>
+    <div class="col-span-2 md:col-span-1">
+      <%= form.text_area :ingredient_batch_change, rows: 4, class: makesheet_full_class %>
     </div>
+
     <div class="col-span-2 self-center">
-      <%= form.label :weather_humidity, "Humidity %", class: label_class %>
+      <%= form.label :thermometer_change, class: label_class %>
     </div>
-    <div class="text-left">
-      <%= form.number_field :weather_humidity, step: :any, class: field_class_flex_small %>
+    <div class="col-span-2 md:col-span-1">
+      <%= form.text_area :thermometer_change, rows: 4, class: makesheet_full_class %>
     </div>
-    <div class="col-span-4 mt-8">
-      <hr>
+
+    <div class="col-span-2 self-center">
+      <%= form.label :scale_change, class: label_class %>
+    </div>
+    <div class="col-span-2 md:col-span-1">
+      <%= form.text_area :scale_change, rows: 4, class: makesheet_full_class %>
+    </div>
+
+    <div class="col-span-2 self-center">
+      <%= form.label :farm_change, class: label_class %>
+    </div>
+    <div class="col-span-2 md:col-span-1">
+      <%= form.text_area :farm_change, rows: 4, class: makesheet_full_class %>
     </div>
   </div>
+</div>
 
-  <!-- GRAPH Section -->
+
+ <!-- WEATHER Section -->
+<div class="col-span-4 mt-8"><hr></div>
+<div class="col-span-4 text-left font-semibold">
+  WEATHER
+</div>
+ <div class="col-span-4"><hr></div>
+
+<div class="col-span-2 self-center">
+  <%= form.label :weather_today, class: label_class %>
+</div>
+<div class="col-span-2 md:col-span-1">
+  <%= form.select :weather_today, options_for_select(weather, selected: makesheet.weather_today), { prompt: true }, class: makesheet_full_class %>
+</div>
+
+<div class="col-span-2 self-center">
+  <%= form.label :weather_temp, "Temperature °C", class: label_class %>
+</div>
+<div class="col-span-2 md:col-span-1 text-left">
+  <%= form.number_field :weather_temp, step: :any, class: makesheet_small_right_class %>
+</div>
+
+<div class="col-span-2 self-center">
+  <%= form.label :weather_humidity, "Humidity %", class: label_class %>
+</div>
+<div class="col-span-2 md:col-span-1 text-left">
+  <%= form.number_field :weather_humidity, step: :any, class: makesheet_small_right_class %>
+</div>
+</div>
+
+<!-- GRAPH Section -->
+<div class="col-span-4 mt-8"><hr></div>
+<div id="graph-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold py-2">
+  GRAPH
+</div>
+<div class="col-span-4"><hr></div>
+<div class="col-span-4 text-left font-light py-4">Acidity Profile</div>
+<div class="col-span-4">
+  <div class="border border-gray-200 rounded-lg p-4">
+    <%= line_chart @chart_data, xtitle: "Elapsed Time in Hours", ytitle: "Titration Value" %>
+  </div>
+</div>
+
+<div class="col-span-4 my-4"><hr></div>
+
+<!-- SLOW CHEESE Accordion Section -->
+<div class="col-span-4" data-controller="accordion">
+  <!-- Header -->
+  <div class="cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
+    <div id="slow-cheese-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
+      SLOW CHEESE
+    </div>
+    <span class="text-gray-600 ml-4">(Click to expand)</span>
+  </div>
+
+  <!-- Always Visible Field -->
   <div class="grid grid-cols-4 gap-4 mt-2">
-    <div id="graph-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
-      GRAPH
+    <div class="col-span-1"></div>
+    <div class="col-span-1 self-center text-wrap">
+      <%= form.label :slow_cheese, "Is this cheese Make Slow as defined by the critical control point definition?", class: label_class %>
     </div>
-    <div class="col-span-2">
-      <hr>
-    </div>
-    <div class="col-span-2"></div>
-    <div class="col-span-4 text-center">
-      <p class="text-left font-semibold">Acidity Profile</p>
-      <div class="border border-gray-200 rounded-lg p-4">
-        <%= line_chart @chart_data, xtitle: "Elapsed Time in Hours", ytitle: "Titration Value" %>
-      </div>
-    </div>
-    <div class="col-span-4 my-2">
-      <hr>
-    </div>
-
-    <!-- SLOW CHEESE Accordion Section -->
-    <div data-controller="accordion" class="col-span-4">
-      <!-- Accordion Header -->
-      <div class="col-span-4 cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
-        <div id="slow-cheese-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold">
-          SLOW CHEESE
-        </div>
-        <span class="text-gray-600 ml-4">(Click to expand)</span>
-      </div>
-      <!-- Always Visible Field -->
-      <div class="grid grid-cols-4 gap-4 mt-2">
-        <div></div>
-        <div class="col-span-1 self-center text-wrap">
-          <%= form.label :slow_cheese, "Is this cheese Make Slow as defined by the critical control point definition?", class: label_class %>
-        </div>
-        <div class="text-left mb-4">
-          <%= form.select :slow_cheese, options_for_select(yes_no, selected: makesheet.slow_cheese.presence || false), { include_blank: false }, class: "#{field_class_flex_small} cursor-pointer" %>
-        </div>
-      </div>
-      <!-- Hidden Accordion Section -->
-      <div data-accordion-target="section" class="hidden col-span-4">
-        <div class="grid grid-cols-4 gap-4 mt-2">
-          <div class="col-span-3 self-center">
-            <%= form.label :step_1_curd_sample, "At milling, take x3 salted curd sample - identify with date and as SLOW on sample", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_1_curd_sample, options_for_select(yes_no, selected: makesheet.step_1_curd_sample), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-          <div class="col-span-3 self-center">
-            <%= form.label :step_2_record_as_slow, "Record the batch as slow in 'Comments and Corrective Actions' - see below", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_2_record_as_slow, options_for_select(yes_no, selected: makesheet.step_2_record_as_slow), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-          <div class="col-span-3 self-center">
-            <%= form.label :step_3_record_reason, "If known, record the reason for the slow cheese in 'Comments and Corrective Actions'", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_3_record_reason, options_for_select(yes_no, selected: makesheet.step_3_record_reason), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-          <div class="col-span-3 self-center">
-            <%= form.label :step_4_notify_tim, "Notify Tim cheese is slow - email tim@lincolnshirepoachercheese.com", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_4_notify_tim, options_for_select(yes_no, selected: makesheet.step_4_notify_tim), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-          <div class="col-span-3 self-center">
-            <%= form.label :step_5_apply_label, "Identify the batch as slow - apply 'HOLD SLOW CHEESE' label with the DATE completed", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_5_apply_label, options_for_select(yes_no, selected: makesheet.step_5_apply_label), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-          <div class="col-span-3 self-center">
-            <%= form.label :step_6_record_red_book, "Head Cheesemake to record the cheese is slow in the annual cheese make record (RED BOOK)", class: label_class %>
-          </div>
-          <div class="text-left">
-            <%= form.select :step_6_record_red_book, options_for_select(yes_no, selected: makesheet.step_6_record_red_book), { include_blank: true }, class: "#{field_class_flex_small} cursor-pointer" %>
-          </div>
-        </div>
-      </div>
+    <div class="col-span-2 md:col-span-1 text-left">
+      <%= form.select :slow_cheese, options_for_select(yes_no, selected: makesheet.slow_cheese.presence || false), { include_blank: false }, class: "#{makesheet_small_left_class} cursor-pointer" %>
     </div>
   </div>
+
+  <!-- Hidden Accordion Body -->
+  <div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2 col-span-4">
+    <div class="col-span-3 self-center">
+      <%= form.label :step_1_curd_sample, "At milling, take x3 salted curd sample - identify with date and as SLOW on sample", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_1_curd_sample, options_for_select(yes_no, selected: makesheet.step_1_curd_sample), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+
+    <div class="col-span-3 self-center">
+      <%= form.label :step_2_record_as_slow, "Record the batch as slow in 'Comments and Corrective Actions' - see below", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_2_record_as_slow, options_for_select(yes_no, selected: makesheet.step_2_record_as_slow), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+
+    <div class="col-span-3 self-center">
+      <%= form.label :step_3_record_reason, "If known, record the reason for the slow cheese in 'Comments and Corrective Actions'", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_3_record_reason, options_for_select(yes_no, selected: makesheet.step_3_record_reason), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+
+    <div class="col-span-3 self-center">
+      <%= form.label :step_4_notify_tim, "Notify Tim cheese is slow - email tim@lincolnshirepoachercheese.com", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_4_notify_tim, options_for_select(yes_no, selected: makesheet.step_4_notify_tim), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+
+    <div class="col-span-3 self-center">
+      <%= form.label :step_5_apply_label, "Identify the batch as slow - apply 'HOLD SLOW CHEESE' label with the DATE completed", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_5_apply_label, options_for_select(yes_no, selected: makesheet.step_5_apply_label), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+
+    <div class="col-span-3 self-center">
+      <%= form.label :step_6_record_red_book, "Head Cheesemake to record the cheese is slow in the annual cheese make record (RED BOOK)", class: label_class %>
+    </div>
+    <div class="col-span-1 text-left">
+      <%= form.select :step_6_record_red_book, options_for_select(yes_no, selected: makesheet.step_6_record_red_book), { include_blank: true }, class: "#{makesheet_small_left_class} cursor-pointer" %>
+    </div>
+  </div>
+</div>
+
 
 
   <!-- MAINTENANCE Section -->
@@ -738,14 +687,13 @@
       <%= form.label :pre_start_inspection_of_high_risk_items, "Are they in good condition?", class: label_class %>
     </div>
     <div class="col-span-1 text-left">
-      <%= form.select :pre_start_inspection_of_high_risk_items, options_for_select(yes_no, selected: makesheet.pre_start_inspection_of_high_risk_items), { include_blank: true }, class: field_class_flex_small %>
+      <%= form.select :pre_start_inspection_of_high_risk_items, options_for_select(yes_no, selected: makesheet.pre_start_inspection_of_high_risk_items), { include_blank: true }, class: makesheet_small_left_class %>
     </div>
     <div class="col-span-2 self-center text-right">
       <%= form.label :pre_start_inspection_by_staff_id, "Inspection By", class: label_class %>
     </div>
     <div class="col-span-1 self-center text-left">
-
-      <%= form.collection_select(:pre_start_inspection_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: field_class_flex }) %>
+      <%= form.collection_select(:pre_start_inspection_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: makesheet_full_class }) %>
     </div>
   </div>
   <div class="col-span-4 my-2">
@@ -764,19 +712,19 @@
           <%= form.label :glass_breakage, class: label_class %>
         </div>
         <div class="col-span-1  text-left">
-          <%= form.select :glass_breakage, options_for_select(yes_no, selected: makesheet.glass_breakage), { include_blank: true }, class: field_class_flex_small %>
+          <%= form.select :glass_breakage, options_for_select(yes_no, selected: makesheet.glass_breakage), { include_blank: true }, class: makesheet_small_left_class %>
         </div>
         <div class="col-span-2 self-center text-right">
           <%= form.label :glass_contamination, class: label_class %>
         </div>
         <div class="col-span-1  text-left">
-          <%= form.select :glass_contamination, options_for_select(yes_no, selected: makesheet.glass_contamination), { include_blank: true }, class: field_class_flex_small %>
+          <%= form.select :glass_contamination, options_for_select(yes_no, selected: makesheet.glass_contamination), { include_blank: true }, class: makesheet_small_left_class %>
         </div>
          <div class="col-span-2 self-center text-right">
              <%= form.label :glass_comments, "Glass: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
           </div>
         <div class="col-span-1 text-left">
-          <%= form.text_area :glass_comments, rows: 3, class: field_class_flex %>
+          <%= form.text_area :glass_comments, rows: 3, class: makesheet_full_class %>
         </div>
       </div>
     </div>
@@ -799,19 +747,19 @@
             <%= form.label :metal_breakage, class: label_class %>
           </div>
           <div class="col-span-1  text-left">
-            <%= form.select :metal_breakage, options_for_select(yes_no, selected: makesheet.metal_breakage), { include_blank: true }, class: field_class_flex_small %>
+            <%= form.select :metal_breakage, options_for_select(yes_no, selected: makesheet.metal_breakage), { include_blank: true }, class: makesheet_small_left_class %>
           </div>
           <div class="col-span-2 self-center text-right">
             <%= form.label :metal_contamination, class: label_class %>
           </div>
           <div class="col-span-1  text-left">
-            <%= form.select :metal_contamination, options_for_select(yes_no, selected: makesheet.metal_contamination), { include_blank: true }, class: field_class_flex_small %>
+            <%= form.select :metal_contamination, options_for_select(yes_no, selected: makesheet.metal_contamination), { include_blank: true }, class: makesheet_small_left_class %>
           </div>
           <div class="col-span-2 self-center text-right">
              <%= form.label :metal_comments, "Metal: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
           </div>
           <div class="flex items-start gap-4 mb-4">
-          <%= form.text_area :metal_comments, rows: 5, class: field_class_flex_full %>
+          <%= form.text_area :metal_comments, rows: 5, class: makesheet_full_class %>
         </div>
 
         </div>
