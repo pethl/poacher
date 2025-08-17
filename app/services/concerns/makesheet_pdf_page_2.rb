@@ -130,7 +130,7 @@ module MakesheetPdfPage2
     pdf.bounding_box(
   [pdf.bounds.left + left_column_width, start_y],
   width: right_column_width,
-  height: 480 # adjust as needed
+  height: 470 # adjust as needed
 ) do
   pdf.stroke_bounds
   pdf.move_down 4
@@ -204,13 +204,11 @@ module MakesheetPdfPage2
   pdf.move_down 12
   pdf.stroke_horizontal_rule
   
-  pdf.move_down 130
-
-  # Final footer text if needed
-  #pdf.stroke_horizontal_rule
-  pdf.move_down 6
-  pdf.text "Page: 2\nRef: CD01", size: 8, align: :right
+  pdf.move_down 120
+ 
 end
+pdf.move_down 4
+  pdf.text "Page: 2 \nRef: CD01 ", size: 8, align: :right
 end
 
   # ✅ Helper method for formatting YES/NO

@@ -12,7 +12,7 @@
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 items-end">
       <div>
         <%= label_tag :search, "Day", class: "block font-semibold text-sm mb-1" %>
-       <div class="w-full md:w-[220px]">
+       <div class="w-full max-w-[120px] sm:max-w-[140px] md:max-w-[220px]">
         <%= render "shared/makesheet_picker",
               form: nil,
               field: :search,
@@ -21,8 +21,8 @@
       </div>
       <div>
         <%= label_tag :month, "Month", class: "block font-semibold text-sm mb-1" %>
-       <div class="w-full md:w-[220px]">
-          <%= select_tag :month,
+      <div class="w-full sm:w-[140px] md:w-[220px]">
+            <%= select_tag :month,
                 options_for_select(@available_months, params[:month]),
                 include_blank: "All Months",
                 class: "#{field_class_flex} w-full" %>
@@ -35,9 +35,9 @@
     </div>
   <% end %>
 
-  <div class="overflow-x-auto mb-12">
-    <%= render "makesheet_table", makesheets: @makesheets %>
-  </div>
+ <div class="overflow-x-auto mb-12 max-w-full sm:max-w-[640px] md:max-w-[960px] mx-auto">
+  <%= render "makesheet_table", makesheets: @makesheets %>
+</div>
 </div>
 
   </div>
