@@ -692,7 +692,7 @@
     <div class="col-span-2 self-center text-right">
       <%= form.label :pre_start_inspection_by_staff_id, "Inspection By", class: label_class %>
     </div>
-    <div class="col-span-1 self-center text-left">
+    <div class="col-span-2 md:col-span-1 self-center text-left">
       <%= form.collection_select(:pre_start_inspection_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: makesheet_full_class }) %>
     </div>
   </div>
@@ -723,7 +723,7 @@
          <div class="col-span-2 self-center text-right">
              <%= form.label :glass_comments, "Glass: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
           </div>
-        <div class="col-span-1 text-left">
+        <div class="col-span-2 md:col-span-1 text-left">
           <%= form.text_area :glass_comments, rows: 3, class: makesheet_full_class %>
         </div>
       </div>
@@ -758,7 +758,7 @@
           <div class="col-span-2 self-center text-right">
              <%= form.label :metal_comments, "Metal: Comments and Corrective Actions", class: "#{label_class} pt-1" %>
           </div>
-          <div class="flex items-start gap-4 mb-4">
+          <div class="col-span-2 md:col-span-1">
           <%= form.text_area :metal_comments, rows: 5, class: makesheet_full_class %>
         </div>
 
@@ -781,7 +781,7 @@
         <div class="col-span-2 self-center text-right">
           <%= form.label :cleaning_complete, class: label_class %>
         </div>
-        <div class="col-span-1 col-start-3 text-left">
+        <div class="col-span-2 col-start-3 text-left">
           <%= @makesheet.cleaning_status %><br>
           <%= link_to "Go to Cleaning Sheet", week_view_cleaning_foreign_body_checks_path, 
               class: "text-blue-600 underline" %>

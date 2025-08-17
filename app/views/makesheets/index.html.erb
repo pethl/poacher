@@ -6,35 +6,39 @@
 
   <div id="makesheets">
 
-    <div class="mx-auto w-full sm:max-w-full md:max-w-[1240px] px-2 sm:px-4 md:px-6">
-        <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end max-w-[960px] items-end">
-            <div>
-              <%= label_tag :search, "Day", class: "block font-semibold text-sm mb-1" %>
-              <%= render "shared/makesheet_picker",
-                    form: nil,
-                    field: :search,
-                    makesheets: Makesheet.ordered_reverse
-                    %>
-            </div>
-
-            <div>
-              <%= label_tag :month, "Month", class: "block font-semibold text-sm mb-1" %>
-              <%= select_tag :month,
-                    options_for_select(@available_months, params[:month]),
-                    include_blank: "All Months",
-                    class: "#{field_class_flex}" %>
-            </div>
-
-            <div class="flex gap-2 lg:col-span-2">
-              <%= submit_tag "Search", class: "#{fill_button_class} text-sm px-4 py-2" %>
-              <%= link_to "Clear", makesheets_path, class: "#{clear_button_class} text-sm px-4 py-2" %>
-            </div>
-          </div>
-
-          <% end %>
-
-      <%= render "makesheet_table", makesheets: @makesheets %>
+  <div class="mx-auto w-full max-w-[1240px] px-4">
+  
+  <%= form_with url: makesheets_path, method: :get, local: true, class: "mb-4" do %>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+      <div>
+        <%= label_tag :search, "Day", class: "block font-semibold text-sm mb-1" %>
+       <div class="w-full md:w-[220px]">
+        <%= render "shared/makesheet_picker",
+              form: nil,
+              field: :search,
+              makesheets: Makesheet.ordered_reverse %>
+      </div>
+      </div>
+      <div>
+        <%= label_tag :month, "Month", class: "block font-semibold text-sm mb-1" %>
+       <div class="w-full md:w-[220px]">
+          <%= select_tag :month,
+                options_for_select(@available_months, params[:month]),
+                include_blank: "All Months",
+                class: "#{field_class_flex} w-full" %>
+        </div>
+      </div>
+      <div class="flex gap-2 col-span-2">
+        <%= submit_tag "Search", class: "#{fill_button_class} text-sm px-4 py-2" %>
+        <%= link_to "Clear", makesheets_path, class: "#{clear_button_class} text-sm px-4 py-2" %>
+      </div>
     </div>
+  <% end %>
+
+  <div class="overflow-x-auto mb-12">
+    <%= render "makesheet_table", makesheets: @makesheets %>
+  </div>
+</div>
+
   </div>
 </div>
