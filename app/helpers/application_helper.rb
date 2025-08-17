@@ -178,7 +178,7 @@ module ApplicationHelper
   end
 
   def fill_button_large_class
-    "text-base font-semibold py-3 px-6 border rounded-xl text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent shadow-lg transition-transform duration-150 ease-in-out"
+    "text-lg font-semibold py-5 px-8 border rounded-xl text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent shadow-lg transition-transform duration-150 ease-in-out"
   end
 
   def fill_button_small_class
