@@ -1,32 +1,36 @@
 <%# Required locals: form:, makesheets:, field: %>
 <%
   makesheet_map = makesheets.index_by { |m| m.make_date.strftime("%Y-%m-%d") }.transform_values(&:id).to_json
-
   field_name = field || :makesheet_id
-
 %>
 
 <div
-  data-controller="makesheet-picker"
-   data-turbo-cache="false"
+  data-controller="makesheet-picker makesheet"
+  data-turbo-cache="false"
   data-makesheet-picker-makesheets-value='<%= makesheet_map %>'
+  data-action="change->makesheet#loadSummary"
 >
   <!-- Flowbite date input -->
- <input
-  type="text"
-  placeholder="Select make date"
-  class="<%= field_class_flex %>"
-  data-makesheet-picker-target="input"
-/>
+  <input
+    type="text"
+    placeholder="Select make date"
+    class="<%= field_class_flex %>"
+    data-makesheet-picker-target="input"
+  />
 
   <!-- Hidden field to store selected makesheet_id -->
- 
   <% if defined?(form) && form %>
-      <%= form.hidden_field field_name, data: { makesheet_picker_target: "output" } %>
-    <% else %>
-      <input type="hidden" name="<%= field_name %>" data-makesheet-picker-target="output" />
-    <% end %>
-
-
-  
+    <%= form.hidden_field field_name,
+      data: {
+        makesheet_picker_target: "output",
+        makesheet_target: "output"    # 👈 NEW: expose to MakesheetController
+      } %>
+  <% else %>
+    <input
+      type="hidden"
+      name="<%= field_name %>"
+      data-makesheet-picker-target="output"
+      data-makesheet-target="output"   # 👈 NEW: expose to MakesheetController
+    />
+  <% end %>
 </div>

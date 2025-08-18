@@ -1,0 +1,59 @@
+<% content_for(:page_title, "Cheese Wash Record") %>
+
+<div class="max-w-3xl mx-auto px-4 mt-6 space-y-4">
+
+  <%= link_to "<- Back to Started Records", cheese_wash_records_path(status: 'started'), class: clear_button_class %>
+
+  <h2 class="text-2xl font-bold mt-4 mb-2">
+    Cheese Wash for:  <%= @cheese_wash_record.makesheet.make_date.to_formatted_s(:uk) %>
+  </h2>
+
+  <div class="grid grid-cols-[160px_1fr] gap-y-2 text-lg">
+      <div class="font-medium">Product:</div>
+      <div><%= @cheese_wash_record.makesheet.grade %></div>
+
+      <div class="font-medium">Batch Quantity:</div>
+      <div><%= @cheese_wash_record.makesheet.number_of_cheeses %></div>
+
+      <div class="font-medium">Total Weight:</div>
+      <div><%= @cheese_wash_record.makesheet.total_weight %> kg</div>
+
+      <div class="font-medium">Date Started:</div>
+      <div><%= @cheese_wash_record.date_batch_started.to_formatted_s(:uk) %></div>
+
+      <div class="font-medium">Date Finished:</div>
+      <div><%= @cheese_wash_record.date_batch_finished.to_formatted_s(:uk) %></div>
+
+      <div class="font-medium">Total Washed:</div>
+      <div><%= @cheese_wash_record.total_washed %></div>
+
+      <div class="font-medium">Remaining:</div>
+      <div><%= @cheese_wash_record.remaining_to_wash %></div>
+    </div>
+
+
+  <hr class="my-4">
+
+  <h3 class="text-xl font-semibold mb-2">Daily Washes</h3>
+
+  <table class="table-auto w-full text-left">
+    <thead>
+      <tr>
+        <th class="py-1">Wash Date</th>
+        <th class="py-1">Number Washed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% (1..24).each do |i| %>
+        <% d = @cheese_wash_record["wash_date_#{i}"] %>
+        <% n = @cheese_wash_record["number_washed_#{i}"] %>
+        <% next if n.to_i <= 0 && d.blank? %>
+        <tr>
+          <td class="py-1"><%= d %></td>
+          <td class="py-1"><%= n %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</div>

@@ -1,5 +1,6 @@
 <div class="mx-auto text-right">
-  <%= form_with(model: makesheet) do |form| %>
+  <%= form_with(model: makesheet, data: { controller: "makesheet", makesheet_make_type_value: @makesheet.make_type }) do |form| %>
+
 
   <%= form_errors_for(makesheet) %>
 
@@ -18,8 +19,7 @@
 
   <!-- Main Grid Container -->
 
-    <div data-controller="makesheet"
-     data-makesheet-make-type-value="<%= @makesheet.make_type %>" class="grid grid-cols-4 gap-2 mt-8">
+    <div  class="grid grid-cols-4 gap-2 mt-8">
 
   <!-- SUMMARY Section -->
     <div class="col-span-4">
@@ -166,24 +166,44 @@
         <!-- Salt -->
         <div class="col-span-4"><hr></div>
         <div class="col-span-1 text-left font-light">SALT <span class="text-sm">(Gross assumes 1.6kg bucket)</span></div>
+       <!-- Expected Yield -->
         <div class="col-span-1 self-center">
-          <%= form.label :expected_yield, "Expected Yield %", class: label_class %>
+          <%= form.label :expected_yield, class: label_class %>
         </div>
         <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.number_field :expected_yield, step: 0.01, class: makesheet_small_right_class %>
+          <%= form.number_field :expected_yield,
+                step: 0.01,
+                class: makesheet_small_right_class,
+                data: {
+                  makesheet_target: "expectedYield",
+                  action: "input->makesheet#updateSaltWeights"
+                } %>
         </div>
+       
         <div class="col-span-2 self-center">
           <%= form.label :salt_weight_net, class: label_class %>
         </div>
+       <!-- Salt Net -->
         <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.number_field :salt_weight_net, class: makesheet_small_right_class, step: :any %>
+          <%= form.number_field :salt_weight_net,
+                step: :any,
+                class: makesheet_small_right_class,
+                data: {
+                  makesheet_target: "saltNet"
+                } %>
         </div>
         <div class="col-span-2 self-center">
           <%= form.label :salt_weight_gross, class: label_class %>
         </div>
-        <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.number_field :salt_weight_gross, class: makesheet_small_right_class, step: :any %>
-        </div>
+        <!-- Salt Gross -->
+          <div class="col-span-2 md:col-span-1 text-left">
+            <%= form.number_field :salt_weight_gross,
+                  step: :any,
+                  class: makesheet_small_right_class,
+                  data: {
+                    makesheet_target: "saltGross"
+                  } %>
+          </div>
 
     
 
@@ -301,7 +321,6 @@
         </div>
         <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
           <%= form.time_field :whey_time, class: makesheet_small_right_class %>
-          <%= form.number_field :whey_titration, step: :any, class: makesheet_small_right_class %>
         </div>
 
         <div class="col-span-2 self-center">

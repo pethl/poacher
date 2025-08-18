@@ -2,7 +2,32 @@
 <% content_for(:page_title, "CHEESE WASH RECORDS") %>
 <% content_for(:page_button, "cheese_wash_records/new") %>
 
-<div class="w-full px-4">
+<div class="mx-auto mt-4 mb-4 pl-2 w-full lg:w-2/3 text-left">
+    Show:
+    <%= link_to 'Started', cheese_wash_records_path(status: 'started'),
+          class: "text-gray-600 font-semibold hover:underline #{params[:status] == 'started' ? 'text-blue-600 underline' : ''}" %> |
+    <%= link_to 'Finished', cheese_wash_records_path(status: 'finished'),
+          class: "text-gray-600 font-semibold hover:underline #{params[:status] == 'finished' ? 'text-blue-600 underline' : ''}" %> |
+    <%= link_to 'All', cheese_wash_records_path,
+          class: "text-gray-600 font-semibold hover:underline #{params[:status].blank? ? 'text-blue-600 underline' : ''}" %>
+
+
+  <div class="mt-4">
+    <h2 class="text-xl font-bold mb-2">
+      <% if params[:status] == 'finished' %>
+        Finished Records
+      <% elsif params[:status] == 'started' %>
+        Started Records
+      <% else %>
+        All Records
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+
+
+<div class="w-full px-4 mt-4">
   <div class="overflow-x-auto">
     <div class="flex-grow">
       <table class="mx-auto table-auto w-full lg:w-2/3 border text-sm text-center text-gray-700">
@@ -27,10 +52,17 @@
               <td class="p-2"><%= record.date_batch_started %></td>
               <td class="p-2"><%= record.date_batch_finished %></td>
               <td class="p-2 font-semibold"><%= record.total_washed %></td>
-              <td class="p-2 text-red-600"><%= record.remaining_to_wash %></td>
+              <td class="p-2 <%= record.remaining_to_wash > 0 ? 'text-green-700 font-semibold' : 'text-red-600' %>">
+                  <%= record.remaining_to_wash %>
+                </td>
               <td class="p-2">
-                <%= link_to "Show", cheese_wash_record_path(record), class: "text-indigo-600 hover:underline" %>
+                <% if record.date_batch_finished.present? %>
+                  <%= link_to "View", cheese_wash_record_path(record), class: "text-indigo-600 hover:underline" %>
+                <% else %>
+                  <%= link_to "Edit", edit_cheese_wash_record_path(record), class: "text-indigo-600 hover:underline" %>
+                <% end %>
               </td>
+
             </tr>
           <% end %>
         </tbody>

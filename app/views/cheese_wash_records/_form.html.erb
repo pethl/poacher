@@ -1,81 +1,174 @@
 <div class="w-full lg:w-4/5 mx-auto px-4">
-<%= form_with model: @cheese_wash_record, local: true, data: { turbo: false } do |f| %>
+  <%= form_with model: @cheese_wash_record, local: true, data: { turbo: false } do |f| %>
 
- <%= form_errors_for(cheese_wash_record) %>
+    <%= form_errors_for(cheese_wash_record) %>
 
-    <div class="space-y-3 text-sm mb-8">
-   <div class="flex items-center">
-  <%= f.label :makesheet_id, "Make Date:", class: "text-lg font-medium w-64" %>
+    <!-- 3-column grid -->
+    <% if f.object.persisted? %>
+      <% makesheet = @makesheet %>
 
-  <% if f.object.persisted? %>
-    <% makesheet = @makesheets.find { |m| m.id == f.object.makesheet_id } %>
-    <p class="text-gray-700 text-base text-lg"><%= makesheet&.make_date&.strftime("%d-%m-%Y") || "Not found" %></p>
+<div class="grid grid-cols-3 gap-x-6 gap-y-3 text-lg mb-8">
+  <div>Make Date:</div>
+  <div class="col-span-2">
+    <input type="text" value="<%= makesheet&.make_date&.strftime('%d-%m-%Y') || 'Not found' %>" class="<%= field_class_flex %>" disabled>
     <%= f.hidden_field :makesheet_id %>
-  <% else %>
-    <%= render partial: "shared/makesheet_picker", locals: { form: f, makesheets: @makesheets, field: :makesheet_id } %>
-  <% end %>
+  </div>
+
+  <div>Product:</div>
+  <div class="col-span-1">
+    <span class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1"><%= makesheet.grade %></span>
+  </div>
+  <div></div>
+
+  <div>Total Number in Batch:</div>
+  <div class="col-span-1">
+    <span class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1"><%= makesheet.number_of_cheeses %></span>
+  </div>
+  <div></div>
+
+  <div>Total Weight of Batch:</div>
+  <div class="col-span-1">
+    <span class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1"><%= makesheet.total_weight %></span>
+  </div>
+  <div></div>
+
+  <div>Comments on Batch Label:</div>
+  <div class="col-span-2">
+    <span class="inline-block w-full min-h-[40px] rounded-lg border border-gray-800 px-3 py-1 break-words"><%= makesheet.post_make_notes %></span>
+  </div>
+
+  <div>Flags:</div>
+  <div class="col-span-2">
+    <span class="inline-block w-full min-h-[40px] rounded-lg border border-gray-800 px-3 py-1 break-words"><%= makesheet.flags %></span>
+  </div>
+
+  <div>Date Batch Started:</div>
+  <div class="col-span-2">
+    <%= f.date_field :date_batch_started, class: field_class_flex_med, readonly: true %>
+  </div>
+
+  <div>Date Batch Finished:</div>
+  <div class="col-span-2">
+    <%= f.date_field :date_batch_finished, class: field_class_flex_med %>
+  </div>
 </div>
 
    
-      <div class="flex">
-        <label class="text-lg font-medium w-64">Product:</label>
-        <span data-makesheet-target="product" class="flex-1 text-right"></span>
+   <% else %>
+  <!-- WRAPPED for Stimulus controller -->
+  <div data-controller="makesheet-picker makesheet"
+       data-action="change->makesheet#loadSummary"
+       data-turbo-cache="false"
+       data-makesheet-picker-makesheets-value='<%= @makesheets.index_by { |m| m.make_date.strftime("%Y-%m-%d") }.transform_values(&:id).to_json %>'>
+
+    <div class="grid grid-cols-3 gap-x-6 gap-y-3 text-lg mb-8">
+
+      <div><%= f.label :makesheet_id, "Make Date:" %></div>
+      <div class="col-span-2">
+        <input type="text"
+               placeholder="Select make date"
+               class="<%= field_class_flex %>"
+               data-makesheet-picker-target="input" />
+        <%= f.hidden_field :makesheet_id,
+            data: { makesheet_picker_target: "output", makesheet_target: "output" } %>
       </div>
 
-      <div class="flex">
-        <label class="text-lg font-medium w-64">Total Number in Batch:</label>
-        <span data-makesheet-target="number" class="flex-1 text-right"></span>
+      <div>Product:</div>
+      <div class="col-span-1">
+        <span data-makesheet-target="product" class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1">-</span>
+      </div>
+      <div></div>
+
+      <div>Total Number in Batch:</div>
+      <div class="col-span-1">
+        <span data-makesheet-target="number" class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1">-</span>
+      </div>
+      <div></div>
+
+      <div>Total Weight of Batch:</div>
+      <div class="col-span-1">
+        <span data-makesheet-target="weight" class="inline-block w-60 min-h-[40px] rounded-lg border border-gray-800 px-3 py-1">-</span>
+      </div>
+      <div></div>
+
+      <div>Comments on Batch Label:</div>
+      <div class="col-span-2">
+        <span data-makesheet-target="comments" class="inline-block w-full min-h-[40px] rounded-lg border border-gray-800 px-3 py-1 break-words">-</span>
       </div>
 
-      <div class="flex">
-        <label class="text-lg font-medium w-64">Total Weight of Batch:</label>
-        <span data-makesheet-target="weight" class="flex-1 text-right"></span>
+      <div>Flags:</div>
+      <div class="col-span-2">
+        <span data-makesheet-target="flags" class="inline-block w-full min-h-[40px] rounded-lg border border-gray-800 px-3 py-1 break-words">-</span>
       </div>
 
-      <div class="flex">
-        <label class="text-lg font-medium w-64">Comments on Batch Label:</label>
-        <span data-makesheet-target="comments" class="flex-1 text-right"></span>
-      </div>
-
-      <div class="flex items-center mb-2">
-        <%= f.label :date_batch_started, "Date Batch Started:", class: "text-lg font-medium w-64" %>
+      <div>Date Batch Started:</div>
+      <div class="col-span-2">
         <%= f.date_field :date_batch_started, class: field_class_flex_med %>
       </div>
 
-      <div class="flex items-center mb-2">
-        <%= f.label :date_batch_finished, "Date Batch Finished:", class: "text-lg font-medium w-64" %>
+      <div>Date Batch Finished:</div>
+      <div class="col-span-2">
         <%= f.date_field :date_batch_finished, class: field_class_flex_med %>
       </div>
     </div>
+  </div>
+<% end %>
 
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <% (0..2).each do |col| %>
-        <div class="space-y-2">
-          <div class="grid grid-cols-2 text-sm font-semibold border-b border-gray-400 pb-1 mb-2">
-            <div>Wash Date</div>
-            <div>Number Washed</div>
-          </div>
-
-          <% (1..8).each do |row| %>
-            <% i = col * 8 + row %>
-            <div class="grid grid-cols-2 gap-2 items-end">
-              <%= f.date_field "wash_date_#{i}", id: "wash_date_#{i}", class: "w-full border border-gray-300 px-2 py-1 rounded" %>
-              <%= f.number_field "number_washed_#{i}", id: "number_washed_#{i}", value: cheese_wash_record["number_washed_#{i}"] || 0, class: "w-full border border-gray-300 px-2 py-1 rounded", data: { action: "input->wash#update" } %>
-            </div>
-          <% end %>
+<!-- Wrapped wash-grid inside cheese-wash controller -->
+<div
+  data-controller="cheese-wash"
+  data-cheese-wash-total-in-batch-value="<%= @makesheet&.number_of_cheeses || 0 %>"
+>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <% (0..2).each do |col| %>
+      <div class="space-y-2">
+        <div class="grid grid-cols-2 text-sm font-semibold border-b border-gray-400 pb-1 mb-2">
+          <div>Wash Date</div>
+          <div>Number Washed</div>
         </div>
-      <% end %>
-    </div>
 
-    <div class="mt-6">
-      <p><strong>Total Washed:</strong> <span id="total-washed">0</span></p>
-      <p><strong>Remaining:</strong> <span id="remaining">—</span></p>
+       <% (1..8).each do |row| %>
+  <% i = col * 8 + row %>
+  <% num_val  = cheese_wash_record["number_washed_#{i}"] %>
+  <% date_val = cheese_wash_record["wash_date_#{i}"] %>
+  <% is_historic = num_val.present? && date_val.present? %>
+
+  <div class="grid grid-cols-2 gap-2 items-end">
+    <%= f.date_field "wash_date_#{i}",
+          id: "wash_date_#{i}",
+          value: (date_val.present? ? date_val : nil),
+          class: "w-full border border-gray-300 px-2 py-1 rounded",
+          readonly: is_historic %>
+
+    <%= f.number_field "number_washed_#{i}",
+          id: "number_washed_#{i}",
+          value: num_val || 0,
+          class: "w-full border border-gray-300 px-2 py-1 rounded",
+          data: { cheese_wash_target: "input", action: "input->cheese-wash#update" },
+          readonly: is_historic %>
+  </div>
+<% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+      <div class="mt-6">
+        <p><strong>Total Washed:</strong>
+          <span data-cheese-wash-target="total" id="total-washed">0</span>
+        </p>
+        <p><strong>Remaining:</strong>
+          <span data-cheese-wash-target="remaining" id="remaining">—</span>
+        </p>
+      </div>
     </div>
 
     <div class="mt-6 mb-12">
       <%= f.submit "Save Record", class: fill_button_class %>
+      <%= link_to "<- Back to Started Records", cheese_wash_records_path(status: 'started'), class: clear_button_class %>
     </div>
 
   <% end %>
 </div>
+

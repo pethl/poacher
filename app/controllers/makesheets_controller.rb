@@ -267,16 +267,21 @@ class MakesheetsController < ApplicationController
 
    #used in JS by traceability records form - very important never delete
    def summary
-    makesheet = Makesheet.find(params[:id])
-    traceability = makesheet.traceability_records.first
+    makesheet     = Makesheet.find(params[:id])
+    traceability  = makesheet.traceability_records.first
   
     render json: {
       batch: makesheet.batch,
       number_of_cheeses: makesheet.number_of_cheeses,
       total_weight: makesheet.total_weight,
       grade: makesheet.grade,
-      total_weight_of_batch: traceability&.total_weight_of_batch || nil,
-      total_waste: traceability&.total_waste || nil
+      total_weight_of_batch: traceability&.total_weight_of_batch,
+      total_waste: traceability&.total_waste,
+  
+      # 👇 Added for cheese wash summary
+      make_date: makesheet.make_date&.strftime("%Y-%m-%d"),
+      post_make_notes: makesheet.post_make_notes,
+      flags: makesheet.flags
     }
   end
   

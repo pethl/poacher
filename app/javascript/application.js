@@ -39,6 +39,7 @@ import QrScannerController from "./controllers/qr_scanner_controller"
 import FilterController from "./controllers/filter_controller"
 import LocationHighlightController from "./controllers/location_highlight_controller"
 import TurningController from "./controllers/turning_controller"
+import CheeseWashController from "./controllers/cheese_wash_controller"
 
 import "flowbite"
 import "flatpickr/dist/flatpickr.min.css"
@@ -60,6 +61,7 @@ application.register("qr-scanner", QrScannerController)
 application.register("filter", FilterController)
 application.register("location-highlight", LocationHighlightController)
 application.register("turning", TurningController)
+application.register("cheese-wash", CheeseWashController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

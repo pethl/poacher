@@ -54,8 +54,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cheese_wash_records, only: [:new, :create, :edit, :show, :index]
-  
+  resources :cheese_wash_records
 
   # Optional: root page (if relevant)
   # root "cheese_wash_records#index"
