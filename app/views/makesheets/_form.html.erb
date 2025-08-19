@@ -89,6 +89,16 @@
         <%= form.text_field :milling_help, class: makesheet_med_class %>
       </div>
 
+     <% if @makesheet.make_date < 6.months.ago.to_date %>
+          <!-- Grade -->
+          <div class="col-span-2 self-center">
+            <%= form.label :grade, class: label_class %>
+          </div>
+          <div class="col-span-2 md:col-span-1 text-left">
+            <%= form.select :grade, grade, { include_blank: "Please select" }, class: makesheet_med_class %>
+          </div>
+        <% end %>
+
 
      <!-- INGREDIENTS Section ****************************************************************** -->
   
@@ -369,6 +379,14 @@
         <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
           <%= form.time_field :sixth_cut_time, class: makesheet_small_right_class %>
           <%= form.number_field :sixth_cut_titration, step: :any, class: makesheet_small_right_class %>
+        </div>
+
+       <div class="col-span-2 self-center">
+          <%= form.label :seventh_cut_time, "7th Cut", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
+          <%= form.time_field :seventh_cut_time, class: makesheet_small_right_class %>
+          <%= form.number_field :seventh_cut_titration, step: :any, class: makesheet_small_right_class %>
         </div>
 
         <!-- Identify Mill -->
@@ -713,6 +731,12 @@
     </div>
     <div class="col-span-2 md:col-span-1 self-center text-left">
       <%= form.collection_select(:pre_start_inspection_by_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: makesheet_full_class }) %>
+    </div>
+     <div class="col-span-2 self-center text-right">
+      <%= form.label :pre_start_inspection_by_2_staff_id, "Inspection By", class: label_class %>
+    </div>
+    <div class="col-span-2 md:col-span-1 self-center text-left">
+      <%= form.collection_select(:pre_start_inspection_by_2_staff_id, @cheese_makers, :id, :full_name, { prompt: true }, { class: makesheet_full_class }) %>
     </div>
   </div>
   <div class="col-span-4 my-2">

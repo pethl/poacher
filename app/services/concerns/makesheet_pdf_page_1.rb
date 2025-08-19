@@ -72,6 +72,7 @@ module MakesheetPdfPage1
                first_column << ["4TH CUT", makesheet.fourth_cut_time&.strftime('%I:%M'), format_titration(makesheet.fourth_cut_titration)]
                first_column << ["5TH CUT", makesheet.fifth_cut_time&.strftime('%I:%M'), format_titration(makesheet.fifth_cut_titration)]
                first_column << ["6TH/MILL", makesheet.sixth_cut_time&.strftime('%I:%M'), format_titration(makesheet.sixth_cut_titration)]
+               first_column << ["7TH/MILL", makesheet.seventh_cut_time&.strftime('%I:%M'), format_titration(makesheet.seventh_cut_titration)]
 
                first_column << [
                     "IDENTIFY MILL USED",

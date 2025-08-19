@@ -101,6 +101,8 @@ class LocationAssignmentsController < ApplicationController
         [side, col]
       end
   end    
+
+ 
   
   private
   

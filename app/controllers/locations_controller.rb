@@ -173,11 +173,19 @@ end
 
 # POST /locations/:id/clear_location_assignment
 def clear_location_assignment
-  makesheet = Makesheet.find(params[:id])
-  makesheet.update_columns(location_id: nil, updated_at: Time.current)
-  redirect_back fallback_location: duplicate_assignments_locations_path,
-                notice: "Cleared location from Makesheet ##{makesheet.id}"
+  location = Location.find(params[:id])
+  makesheet = location.makesheet
+
+  if makesheet.present?
+    makesheet.update_columns(location_id: nil, updated_at: Time.current)
+    notice = "Cleared makesheet #{makesheet.id} from #{location.name}"
+  else
+    notice = "No makesheet currently assigned to that location."
+  end
+
+  redirect_back fallback_location: duplicate_assignments_locations_path, notice: notice
 end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

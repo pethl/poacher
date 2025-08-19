@@ -9,6 +9,8 @@ class Makesheet < ApplicationRecord
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
   belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
+  belongs_to :pre_start_inspection_by_2_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_2_staff_id', optional: true
+
   belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
   belongs_to :contact, optional: true
   belongs_to :location, optional: true
@@ -151,6 +153,7 @@ class Makesheet < ApplicationRecord
 
   def the_final_titration
     [
+      seventh_cut_titration,  
       sixth_cut_titration,
       fifth_cut_titration,
       fourth_cut_titration,
@@ -162,6 +165,7 @@ class Makesheet < ApplicationRecord
 
   def total_time
     latest_time = [
+      seventh_cut_time,
       sixth_cut_time,
       fifth_cut_time,
       fourth_cut_time,

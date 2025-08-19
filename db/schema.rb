@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_24_112939) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_19_140045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -385,10 +385,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_24_112939) do
     t.time "md_88_in_time"
     t.float "md_88_in_temp"
     t.text "md_88_qty_used"
+    t.bigint "pre_start_inspection_by_2_staff_id"
+    t.time "seventh_cut_time"
+    t.decimal "seventh_cut_titration", precision: 6, scale: 4
+    t.decimal "freezer_temp", precision: 4, scale: 1
+    t.string "rennet_used"
+    t.decimal "rennet_weight_used", precision: 5, scale: 1
+    t.decimal "chiller_temp", precision: 4, scale: 1
+    t.integer "churns_out"
+    t.text "samples_required_summary"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
+    t.index ["pre_start_inspection_by_2_staff_id"], name: "index_makesheets_on_pre_start_inspection_by_2_staff_id"
     t.index ["status"], name: "index_makesheets_on_status"
     t.index ["updated_by_id"], name: "index_makesheets_on_updated_by_id"
   end
@@ -788,6 +798,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_24_112939) do
   add_foreign_key "locations", "users", column: "updated_by_id"
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "makesheets", "locations"
+  add_foreign_key "makesheets", "staffs", column: "pre_start_inspection_by_2_staff_id"
   add_foreign_key "makesheets", "users", column: "created_by_id"
   add_foreign_key "makesheets", "users", column: "updated_by_id"
   add_foreign_key "market_sales", "users", column: "created_by_id"

@@ -55,7 +55,11 @@
               <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
               <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
                 <% locations.each do |loc| %>
-                  <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+                 <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
+                  <%= link_to loc.name,
+                              new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                              class: "block w-full h-full" %>
+                </li>
                 <% end %>
               </ul>
             </div>
@@ -87,7 +91,11 @@
               <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
               <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
                 <% locations.each do |loc| %>
-                  <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+                 <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
+                    <%= link_to loc.name,
+                                new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                                class: "block w-full h-full" %>
+                  </li>
                 <% end %>
               </ul>
             </div>
@@ -113,7 +121,11 @@
     <% if @empty_trolleys.any? %>
       <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
         <% @empty_trolleys.each do |loc| %>
-          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm"><%= loc.name %></li>
+          <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
+            <%= link_to loc.name,
+                        new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                        class: "block w-full h-full" %>
+          </li>
         <% end %>
       </ul>
     <% else %>

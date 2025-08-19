@@ -324,7 +324,16 @@ class MakesheetsController < ApplicationController
       :visual_moisture_post_milling,
       :moisture_percentage_post_milling,
       :record_of_works_completed, 
-      :annatto_in_time, :annatto_in_temp, :md_88_in_time, :md_88_in_temp, :md_88_qty_used
+      :annatto_in_time, :annatto_in_temp, :md_88_in_time, :md_88_in_temp, :md_88_qty_used,
+      :pre_start_inspection_by_2_staff_id,
+      :seventh_cut_time,
+      :seventh_cut_titration,
+      :freezer_temp,
+      :rennet_used,
+      :rennet_weight_used,
+      :chiller_temp,
+      :churns_out,
+      :samples_required_summary
       )
     end
 

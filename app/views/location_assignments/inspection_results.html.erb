@@ -57,28 +57,39 @@
         <ul class="space-y-1">
           <% side_locs.each do |loc| %>
             <% ms = loc.makesheet %>
-            <% is_slow = ms&.slow_cheese %>
             <li class="bg-white border rounded px-3 py-2 flex justify-between items-center shadow-sm
-              <%= loc.makesheet&.slow_cheese ? 'border-red-500 ring-2 ring-red-400' : 'border-gray-200' %>">
-                <span><%= loc.name[/Col \d+/] || loc.name %></span>
-                <span class="text-sm text-gray-600">
-                  <% if loc.makesheet&.make_date.present? %>
-                    <% is_slow = loc.makesheet.slow_cheese %>
-                    <% grade = loc.makesheet.grade.presence %>
-                    <% date = loc.makesheet.make_date.strftime('%d-%m-%Y') %>
-                    <% slow_tag = is_slow ? "<span class='text-red-600 font-bold'>SLOW</span> – " : "" %>
-                    <%= raw("#{slow_tag}#{grade + ' – ' if grade}#{date}") %>
-                  <% else %>
-                    <span class="text-red-500 italic">empty</span>
-                  <% end %>
-                </span>
-              </li>
+              <%= ms&.slow_cheese ? 'border-red-500 ring-2 ring-red-400' : 'border-gray-200' %>">
+              <span><%= loc.name[/Col \d+/] || loc.name %></span>
+              <span class="text-lg text-gray-600 font-semibold flex flex-col items-end">
+                <% if ms.present? %>
+                  <% grade = ms.grade.presence %>
+                  <% date  = ms.make_date.strftime('%d-%m-%Y') %>
+                  <% slow  = ms.slow_cheese ? "<span class='text-red-600 font-bold'>SLOW</span> – " : "" %>
+                  <%= raw("#{slow}#{grade + ' – ' if grade}") %>
+                  <%= link_to date, edit_makesheet_path(ms), class: link_class %>    
+
+                  <div class="mt-1 flex gap-2">
+                    <%= link_to "Assign",
+                                new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                                class: "text-xs bg-gray-800 text-white px-2 py-1 rounded" %>
+
+                   <%= button_to "Clear",
+                      clear_location_assignment_location_path(loc),
+                      method: :post,
+                      data: { turbo: false, confirm: "Are you sure you want to clear this location?" },
+                      class: "text-xs bg-green-500 text-white px-2 py-1 rounded" %>
+
+                  </div>
+                <% else %>
+                  <span class="text-red-500 italic">empty</span>
+                <% end %>
+              </span>
+            </li>
           <% end %>
         </ul>
       </div>
     <% end %>
   </div>
 </div>
-
-
-<br><br><br><br>
+<br><br>
+<br><br>
