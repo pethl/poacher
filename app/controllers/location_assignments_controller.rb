@@ -16,22 +16,31 @@ class LocationAssignmentsController < ApplicationController
   
     location  = Location.find(location_id)
     makesheet = Makesheet.find(makesheet_id)
-
-   
-    if Makesheet.exists?(location_id: location.id)
-      redirect_to new_location_assignment_path, alert: "❗ That location is already assigned to another make date."
-    else
-      makesheet.update(location: location)
-      redirect_to new_location_assignment_path,  notice: " Make #{makesheet.make_date.strftime("%d-%m-%y")} assigned to #{location.name}"
+  
+    # Only warn/soft-check if location is Aisle or Trolley
+    if %w[Aisle Trolley].include?(location.location_type)
+      if Makesheet.exists?(location_id: location.id)
+        flash[:notice] = "⚠️ This location was previously filled – assigning anyway."
+      end
     end
+  
+    makesheet.update(location: location)
+    redirect_to new_location_assignment_path, notice: "Make #{makesheet.make_date.strftime("%d-%m-%y")} assigned to #{location.name}"
   end
+  
 
   def location_report
     @locations = Location.includes(:makesheet)
   
-    trolley_locs = @locations.select { |l| l.location_type == "Trolley" }
-    @trolley_data = chart_data_for_scope(trolley_locs)
-    @trolley_percent = percentage_full(trolley_locs)
+   # OLD CODE for unique trolleys trolley_locs = @locations.select { |l| l.location_type == "Trolley" }
+   # Trolleys General – treat as 100 virtual slots
+   # Trolleys General – treat as 100 virtual slots
+   trolley = Location.find_by(name: "Trolley - General")
+   occupied = trolley.present? ? trolley.all_makesheets.count : 0
+   capacity = 100
+
+      @trolley_data    = { "Full" => occupied, "Empty" => capacity - occupied }
+      @trolley_percent = ((occupied.to_f / capacity) * 100).round
   
     shed_4 = @locations.select { |l| l.name.include?("Shed 4") && l.location_type == "Aisle" }
     shed_5 = @locations.select { |l| l.name.include?("Shed 5") && l.location_type == "Aisle" }
@@ -52,13 +61,18 @@ class LocationAssignmentsController < ApplicationController
     .where(makesheets: { id: nil })
     .order(:name)
   
-    @empty_shed_4_grouped = @empty_shed_4
-    .group_by(&:aisle)
-    .sort_by { |aisle, _| aisle || 999 }
-    .to_h
-    .transform_values do |locations|
-      locations.group_by(&:side).sort.to_h
-    end
+   # Shed 4: group by aisle, then side, then sort by column_number (1..9), with nils last
+        @empty_shed_4_grouped = @empty_shed_4
+        .group_by(&:aisle)                                     # { aisle => [locations] }
+        .sort_by { |aisle, _| aisle || 999 }                   # numeric aisle order, nils last
+        .to_h
+        .transform_values do |locations|
+          locations
+            .group_by(&:side)                                  # { "Left" => [...], "Right" => [...], nil => [...] }
+            .sort_by { |side, _| side == "Left" ? 0 : side == "Right" ? 1 : 2 } # Left, Right, Unknown
+            .to_h
+            .transform_values { |locs| locs.sort_by { |loc| [loc.column_number || 999, loc.name] } }
+        end
   
   @empty_shed_5 = Location
     .left_joins(:makesheet)
@@ -71,7 +85,11 @@ class LocationAssignmentsController < ApplicationController
     .sort_by { |aisle, _| aisle || 999 }
     .to_h
     .transform_values do |locations|
-      locations.group_by(&:side).sort.to_h
+      locations
+        .group_by(&:side)
+        .sort_by { |side, _| side == "Left" ? 0 : side == "Right" ? 1 : 2 }
+        .to_h
+        .transform_values { |locs| locs.sort_by { |loc| [loc.column_number || 999, loc.name] } }
     end
   
     @empty_trolleys = Location

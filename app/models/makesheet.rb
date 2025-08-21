@@ -17,7 +17,7 @@ class Makesheet < ApplicationRecord
   
   validate :validate_fields_against_ranges
   validates :make_date, presence: true, uniqueness: { message: "This date has already been taken. There cannot be two makesheets with the same date." }
-  validates :make_type, presence: true
+  validates :make_type, presence: { message: "must be selected – please choose a make type." }
   
   # REMOVED AS A BIT TOO COMPLEX TO IMPLEMNET AND NOT OFTEN OCCURING ALSO BUILT REPORTS INSTEAD
   #validates :location_id, uniqueness: true, allow_nil: true

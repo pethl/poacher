@@ -1,18 +1,20 @@
 <%= render 'shared/store_nav' %>
- <% content_for :title, "Poacher: Location Report" %>
-  <% content_for(:page_title, "LOCATION REPORT") %>
+<% content_for :title, "Poacher: Location Report" %>
+<% content_for(:page_title, "LOCATION REPORT") %>
 
 <div class="mx-auto max-w-6xl px-4">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    
-    <!-- Trolleys -->
-    <div class="rounded-2xl border border-gray-800 p-4">
-      <h3 class="text-xl font-semibold text-center mb-2 ">Trolleys</h3>
-      <div class="w-[240px] mx-auto">
-        <%= pie_chart @trolley_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
+
+    <!-- Trolley – General -->
+      <div class="rounded-2xl border border-gray-800 p-4">
+        <h3 class="text-xl font-semibold text-center mb-2">Trolley – General</h3>
+        <div class="w-[240px] mx-auto">
+          <%= pie_chart @trolley_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
+        </div>
+        <p class="text-center text-xl text-gray-800 font-semibold mt-2">
+          <%= @trolley_percent %>% full
+        </p>
       </div>
-      <p class="text-center text-xl text-gray-800 font-semibold mt-2"><%= @trolley_percent %>% full</p>
-    </div>
 
     <!-- Shed 4 -->
     <div class="rounded-2xl border border-gray-800 p-4">
@@ -34,87 +36,123 @@
 
   </div>
 
-<div class="mt-10 mb-10 space-y-6 max-w-6xl mx-auto px-4">
+  <div class="mt-10 mb-10 space-y-6 max-w-6xl mx-auto px-4">
 
- <!-- Empty Locations – Shed 4 -->
-<div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden">
-  <button
-    data-action="click->accordion#toggle"
-    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
-  >
-    Empty Locations – Shed 4
-  </button>
-  <div data-accordion-target="section" class="px-4 pb-4 hidden">
-    <% if @empty_shed_4_grouped.any? %>
-      <% @empty_shed_4_grouped.each do |aisle, sides| %>
-        <div class="mt-4">
-          <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+    <!-- Empty Locations – Shed 4 -->
+    <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden">
+      <button data-action="click->accordion#toggle" class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200">
+        Empty Locations – Shed 4
+      </button>
+      <div data-accordion-target="section" class="px-4 pb-4 hidden">
+        <% if @empty_shed_4_grouped.any? %>
+          <% @empty_shed_4_grouped.each do |aisle, sides| %>
+            <div class="mt-4">
+              <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+              <% sides.each do |side, locations| %>
+                <div class="ml-4 mt-2">
+                  <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
+                  <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+                    <% locations.each do |loc| %>
+                      <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
+                        <%= link_to "Col #{loc.column_number || '?'}",
+                                    new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                                    class: "block w-full h-full" %>
+                      </li>
 
-          <% sides.each do |side, locations| %>
-            <div class="ml-4 mt-2">
-              <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
-              <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
-                <% locations.each do |loc| %>
-                 <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
-                  <%= link_to loc.name,
-                              new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
-                              class: "block w-full h-full" %>
-                </li>
-                <% end %>
-              </ul>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
             </div>
           <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-sm text-gray-500">No empty locations in Shed 4.</p>
-    <% end %>
+        <% else %>
+          <p class="text-sm text-gray-500">No empty locations in Shed 4.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Empty Locations – Shed 5 -->
+    <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">
+      <button data-action="click->accordion#toggle" class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200">
+        Empty Locations – Shed 5
+      </button>
+      <div data-accordion-target="section" class="px-4 pb-4 hidden">
+        <% if @empty_shed_5_grouped.any? %>
+          <% @empty_shed_5_grouped.each do |aisle, sides| %>
+            <div class="mt-4">
+              <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+              <% sides.each do |side, locations| %>
+                <div class="ml-4 mt-2">
+                  <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
+                  <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
+  <% locations
+      .sort_by { |loc| [loc.column_number || 999, loc.name] }
+      .each do |loc| %>
+    <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
+      <%= link_to "Col #{loc.column_label || '?'}",
+                  new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
+                  class: "block w-full h-full" %>
+    </li>
+  <% end %>
+</ul>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-gray-500">No empty locations in Shed 5.</p>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Makesheets without Locations -->
+    <div data-controller="accordion" class="border border-red-300 bg-red-50 rounded-xl overflow-hidden mt-6">
+      <button data-action="click->accordion#toggle" class="w-full text-left px-4 py-3 font-semibold text-red-800 hover:bg-red-100">
+        Makesheets without Locations
+      </button>
+      <div data-accordion-target="section" class="px-4 pb-4 hidden">
+        <% if @unassigned_makesheets.any? %>
+          <ul class="divide-y divide-red-200 text-sm text-red-900">
+            <% @unassigned_makesheets.each do |ms| %>
+              <li class="py-2 flex justify-between items-center">
+                <span>
+                  <strong><%= ms.make_date.to_formatted_s(:uk) %></strong>
+                  — <%= ms.make_type %>
+                  <% if ms.total_weight.present? %>
+                    (<%= ms.total_weight %> kg)
+                  <% end %>
+                </span>
+                <%= link_to "Assign", new_location_assignment_path(location_id: nil, makesheet_id: ms.id),
+                            class: "text-blue-600 underline text-sm" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="text-sm text-gray-600">🎉 All makesheets have assigned locations.</p>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Empty Locations – Shed 5 -->
-<div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">
-  <button
-    data-action="click->accordion#toggle"
-    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
-  >
-    Empty Locations – Shed 5
-  </button>
-  <div data-accordion-target="section" class="px-4 pb-4 hidden">
-    <% if @empty_shed_5_grouped.any? %>
-      <% @empty_shed_5_grouped.each do |aisle, sides| %>
-        <div class="mt-4">
-          <p class="font-semibold text-sm text-gray-600">Aisle <%= aisle || 'Unknown' %></p>
+<!-- =================================================
+     LEGACY TROLLEY BLOCKS (kept for reference only)
+     ================================================= -->
 
-          <% sides.each do |side, locations| %>
-            <div class="ml-4 mt-2">
-              <p class="text-sm text-gray-500 font-medium"><%= side || 'Unknown' %> (<%= locations.count %>)</p>
-              <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
-                <% locations.each do |loc| %>
-                 <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
-                    <%= link_to loc.name,
-                                new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
-                                class: "block w-full h-full" %>
-                  </li>
-                <% end %>
-              </ul>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    <% else %>
-      <p class="text-sm text-gray-500">No empty locations in Shed 5.</p>
-    <% end %>
+<!--
+<div class="rounded-2xl border border-gray-800 p-4">
+  <h3 class="text-xl font-semibold text-center mb-2 ">Trolleys</h3>
+  <div class="w-[240px] mx-auto">
+    <%= pie_chart @trolley_data, height: "240px", colors: ["#1f2937", "#f3f4f6"] %>
   </div>
+  <p class="text-center text-xl text-gray-800 font-semibold mt-2"><%= @trolley_percent %>% full</p>
 </div>
+-->
 
-
-<!-- Empty Trolleys -->
+<!--
 <div data-controller="accordion" class="border border-gray-300 rounded-xl bg-gray-50 overflow-hidden mt-6">
-  <button
-    data-action="click->accordion#toggle"
-    class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200"
-  >
+  <button data-action="click->accordion#toggle" class="w-full text-left px-4 py-3 font-semibold text-gray-800 hover:bg-gray-200">
     Empty Trolleys
   </button>
   <div data-accordion-target="section" class="px-4 pb-4 hidden">
@@ -122,9 +160,7 @@
       <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 text-sm text-gray-700">
         <% @empty_trolleys.each do |loc| %>
           <li class="bg-white rounded px-2 py-1 border border-gray-200 shadow-sm">
-            <%= link_to loc.name,
-                        new_location_assignment_path(location_id: loc.id, makesheet_id: nil),
-                        class: "block w-full h-full" %>
+            <%= link_to loc.name, new_location_assignment_path(location_id: loc.id, makesheet_id: nil), class: "block w-full h-full" %>
           </li>
         <% end %>
       </ul>
@@ -133,38 +169,4 @@
     <% end %>
   </div>
 </div>
-
-<!-- Makesheets without Locations -->
-<div data-controller="accordion" class="border border-red-300 bg-red-50 rounded-xl overflow-hidden mt-6">
-  <button
-    data-action="click->accordion#toggle"
-    class="w-full text-left px-4 py-3 font-semibold text-red-800 hover:bg-red-100"
-  >
-    Makesheets without Locations
-  </button>
-  <div data-accordion-target="section" class="px-4 pb-4 hidden">
-    <% if @unassigned_makesheets.any? %>
-      <ul class="divide-y divide-red-200 text-sm text-red-900">
-        <% @unassigned_makesheets.each do |ms| %>
-          <li class="py-2 flex justify-between items-center">
-            <span>
-              <strong><%= ms.make_date.to_formatted_s(:uk) %></strong>
-              — <%= ms.make_type %>
-              <% if ms.total_weight.present? %>
-                (<%= ms.total_weight %> kg)
-              <% end %>
-            </span>
-            <%= link_to "Assign", new_location_assignment_path(location_id: nil, makesheet_id: ms.id),
-                        class: "text-blue-600 underline text-sm" %>
-          </li>
-        <% end %>
-      </ul>
-    <% else %>
-      <p class="text-sm text-gray-600">🎉 All makesheets have assigned locations.</p>
-    <% end %>
-  </div>
-</div>
-
-
-
-</div>
+-->
