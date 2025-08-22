@@ -129,6 +129,8 @@ class Makesheet < ApplicationRecord
     self.make_date.strftime("%B %Y")
   end
 
+ 
+
   def cleaning_status
     check = CleaningForeignBodyCheck.find_by(date: make_date)
     return 'Not Started' unless check

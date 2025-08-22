@@ -3,12 +3,27 @@ class MakesheetsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_makesheet, only: %i[ show edit update destroy batch_turns]
   before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
+  before_action :set_bucket_tare, only: [:new, :create, :edit, :update]
+  before_action :set_starter_defaults,  only: [:new, :create, :edit, :update]
+
   
 
   def makesheet_search
     if params[:search_by_batch] && params[:search_by_batch] != ""
       @makesheets = Makesheet.where(batch: params[:search_by_batch])
     end 
+  end
+
+  def recent
+    limit = params.fetch(:limit, 4).to_i.clamp(1, 20)
+  
+    @recent_makesheets = Makesheet
+      .where.not(make_date: Date.current.all_day) # exclude anything dated today
+      .order(make_date: :desc)
+      .limit(limit)
+  
+    render partial: "makesheets/recent_makesheets",
+           locals: { makesheets: @recent_makesheets }
   end
 
   def overview
@@ -104,6 +119,13 @@ class MakesheetsController < ApplicationController
     small_count = @small_scope.count.nonzero? || 1
     @average_small_cheese_count = @small_cheese_count / small_count.to_f
     @average_small_cheese_weight = @small_cheese_weight / small_count.to_f
+  end
+
+   # GET /makesheets/rennet_for_milk?milk_volume=1234
+   def rennet_for_milk_lookup
+    milk = params[:milk_volume]
+    amount = rennet_for_milk(milk) # <- your helper method in ApplicationHelper
+    render json: { rennet: amount.present? ? amount.to_f : nil }
   end
   
   
@@ -427,5 +449,20 @@ class MakesheetsController < ApplicationController
         end
       end
 
+    end
+
+    def set_bucket_tare
+      @bucket_weight_kg = bucket_tare_kg(for_model: "MakeSheet", default: 1.6)
+    end
+
+    def set_bucket_tare
+      @bucket_weight_kg = bucket_tare_kg(for_model: "MakeSheet", default: 1.6)
+    end
+  
+    def set_starter_defaults
+      # use the current form's date if present, else today
+      as_of = @makesheet&.make_date || Date.current
+      @starter_types   = starter_types(for_model: "MakeSheet")
+      @starter_default = next_starter_type(for_model: "MakeSheet", as_of: as_of)
     end
 end

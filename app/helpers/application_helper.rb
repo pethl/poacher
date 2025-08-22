@@ -256,6 +256,8 @@ module ApplicationHelper
   def make_type; Reference.where(active: true, group: 'make_type').order(:sort_order).pluck(:value); end
   def makesheet_mill; Reference.where(active: true, group: 'makesheet_mill').order(:sort_order).pluck(:value); end
   def pick_status; Reference.where(active: true, group: 'pick_status').order(:sort_order).pluck(:value); end
+  def rennet_type; Reference.where(active: true, group: 'rennet_type').order(:sort_order).pluck(:value); end
+  def rennet_usage; Reference.where(active: true, group: 'rennet_usage').order(:sort_order).pluck(:value); end
   def sale_pricing; Reference.where(active: true, group: 'sale_pricing').order(:sort_order).pluck(:value); end
   def sale_product; Reference.where(active: true, group: 'sale_product').order(:sort_order).pluck(:value); end
   def sale_product_butter; Reference.where(active: true, group: 'sale_product_butter').order(:sort_order).pluck(:value); end
@@ -275,5 +277,58 @@ module ApplicationHelper
   
   def scale_check_type(scale_name)
     Reference.find_by(group: 'scale_name_serial', value: scale_name)&.description
+  end
+
+  def rennet_for_milk(milk_volume)
+    return nil if milk_volume.blank?
+
+    threshold = (milk_volume.to_f / 100).round * 100
+
+    record = Reference.find_by(
+      group: "rennet_usage",
+      description: threshold.to_s,
+      active: true
+    )
+
+    record&.value
+  end
+
+ # Lookup the bucket tare (kg) from the Reference table.
+  # Defaults to 1.6 if no active record found.
+  def bucket_tare_kg(for_model: "MakeSheet", default: 1.6)
+    rec = Reference.where(active: true, group: "bucket_tare", model: for_model)
+                   .order(:sort_order, :id).first
+
+    v = rec&.value.to_s.tr(",", ".").to_f
+    v.positive? ? v : default
+  end
+
+  # All active starter culture names for this model (ordered)
+  def starter_types(for_model: "MakeSheet")
+    Reference.where(active: true, group: "starter_culture", model: for_model)
+             .order(:sort_order, :id)
+             .pluck(:value)
+             .map { |v| v.to_s.strip }
+             .uniq
+  end
+
+  def next_starter_type(for_model: "MakeSheet", as_of: Date.current)
+    types = starter_types(for_model: for_model)
+    return nil if types.empty?
+  
+    last_used = Makesheet.where("make_date < ?", as_of)
+                         .order(make_date: :desc, id: :desc)
+                         .limit(1)
+                         .pick(:type_of_starter_culture_used)
+  
+    return types.first if last_used.blank?
+  
+    if types.length == 2
+      a, b = types
+      last_used.to_s.casecmp?(a) ? b : a
+    else
+      idx = types.index { |t| t.casecmp?(last_used.to_s) } || -1
+      types[(idx + 1) % types.length]
+    end
   end
 end

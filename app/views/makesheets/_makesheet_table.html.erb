@@ -26,6 +26,7 @@
               <th scope="col" class="sticky top-0 z-30 pl-4 py-3 text-left w-32">Status</th>
               <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left w-32">Flags</th>
               <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left w-32">Grade</th>
+              <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-left w-32">Type</th>
               <th scope="col" class="sticky top-0 z-30 px-4 py-3 text-right w-24">
                 <%= makesheets_show_sort_indicator_for("age_in_days") %>
                 <%= make_sheets_sort_link(column: "age_in_days", label: "Age (M)") %>
@@ -46,23 +47,33 @@
           <tbody class="overflow-contain whitespace-nowrap">
             <% @makesheets.each do |makesheet| %>
               <tr class="border-b hover:bg-gray-100">
-                <td class="px-4 py-2 text-center w-16">
-                  <%= link_to print_makesheet_pdf_path(makesheet), target: "_blank", class: "inline-block" do %>
-                    <% if makesheet.progress == "I" %>
-                      <%= image_tag "001-circle.png", alt: "1/4", class: "w-10 h-10" %>
-                    <% elsif makesheet.progress == "II" %>
-                      <%= image_tag "002-last-quarter.png", alt: "1/2", class: "w-10 h-10" %>
-                    <% elsif makesheet.progress == "III" %>
-                      <%= image_tag "003-quarter.png", alt: "3/4", class: "w-10 h-10" %>
-                    <% elsif makesheet.progress == "IV" %>
-                      <%= image_tag "004-moon.png", alt: "full", class: "w-10 h-10" %>
-                    <% elsif makesheet.progress == "N" %>
-                      <%= image_tag "moon.png", alt: "nil", class: "w-10 h-10" %>
-                    <% else %>
-                      <%= makesheet.progress %>
+               <td class="px-4 py-2 text-center w-16">
+                    <%= link_to print_makesheet_pdf_path(makesheet), target: "_blank", class: "inline-block" do %>
+                      <% border_class =
+                        if makesheet.make_date.to_date == Date.current
+                          "ring-4 ring-green-500 rounded-full ring-offset-2 ring-offset-white"
+                        elsif makesheet.make_date.to_date == Date.yesterday
+                          "ring-4 ring-blue-500 rounded-full ring-offset-2 ring-offset-white"
+                        else
+                          ""
+                        end %>
+
+                      <% if makesheet.progress == "I" %>
+                        <%= image_tag "001-circle.png", alt: "1/4", class: "w-10 h-10 #{border_class}" %>
+                      <% elsif makesheet.progress == "II" %>
+                        <%= image_tag "002-last-quarter.png", alt: "1/2", class: "w-10 h-10 #{border_class}" %>
+                      <% elsif makesheet.progress == "III" %>
+                        <%= image_tag "003-quarter.png", alt: "3/4", class: "w-10 h-10 #{border_class}" %>
+                      <% elsif makesheet.progress == "IV" %>
+                        <%= image_tag "004-moon.png", alt: "full", class: "w-10 h-10 #{border_class}" %>
+                      <% elsif makesheet.progress == "N" %>
+                        <%= image_tag "moon.png", alt: "nil", class: "w-10 h-10 #{border_class}" %>
+                      <% else %>
+                        <%= makesheet.progress %>
+                      <% end %>
                     <% end %>
-                  <% end %>
-                </td>
+                  </td>
+
                 <td class="text-center text-lg relative group">
                      <%= link_to print_single_cheese_label_path(makesheet),
                               class: "btn btn-outline-primary relative z-10 group",
@@ -107,6 +118,9 @@
                   </td>
                   <td class="px-4 py-2 text-left">
                     <%= makesheet.grade %>
+                  </td>
+                  <td class="px-4 py-2 text-left">
+                    <%= makesheet.make_type %>
                   </td>
                   <td class="px-4 py-2 text-right">
                     <%= makesheet.age_in_months %>m

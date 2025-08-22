@@ -1,5 +1,5 @@
 <div class="mx-auto text-right">
-  <%= form_with(model: makesheet, data: { controller: "makesheet", makesheet_make_type_value: @makesheet.make_type }) do |form| %>
+  <%= form_with(model: makesheet, data: { controller: "makesheet", makesheet_make_type_value: @makesheet.make_type, makesheet_bucket_weight_value: @bucket_weight_kg  }) do |form| %>
 
 
   <%= form_errors_for(makesheet) %>
@@ -112,30 +112,8 @@
         <hr>
       </div>
      
-
-     <!-- Starter Culture -->
-        <div class="col-span-1 text-left font-light">STARTER CULTURE</div>
-        <div class="col-span-1 self-center">
-          <%= form.label :type_of_starter_culture_used, "Type", class: label_class %>
-        </div>
-        <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.select :type_of_starter_culture_used, options_for_select(starter_culture, selected: makesheet.type_of_starter_culture_used), { prompt: true }, class: makesheet_med_class %>
-        </div>
-
-        <div class="col-span-2 self-center">
-          <%= form.label :qty_of_starter_used, "Quantity", class: label_class %>
-        </div>
-        <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams", class: makesheet_small_right_class %>
-        </div>
-
-        <% if makesheet.make_type == "Red" %>
-          <div class="col-span-2 self-center"><%= form.label :md_88_qty_used, "MD88 Qty Used", class: label_class %></div>
-          <div class="col-span-2 md:col-span-1  text-left"><%= form.text_field :md_88_qty_used, class: makesheet_small_left_class %></div>
-        <% end %>
-
         <!-- Milk -->
-        <div class="col-span-4"><hr></div>
+
         <div class="col-span-1 text-left font-light">MILK</div>
         <div class="col-span-1 self-center">
           <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
@@ -156,9 +134,10 @@
         <div class="col-span-2 md:col-span-1 text-left">
           <%= form.select :twelve_hr_pm, options_for_select(yes_no, selected: makesheet.twelve_hr_pm || "Yes"), {}, class: makesheet_small_left_class %>
         </div>
+         <div></div>
 
         <!-- Milk From FM -->
-        <div class="col-span-4"><hr></div>
+
         <div class="col-span-1 text-left font-light">MILK FROM FARMERS MARKETS</div>
         <div class="col-span-1 self-center">
           <%= form.label :number_of_bottles_from_fm, "Number of Bottles", class: label_class %>
@@ -170,8 +149,81 @@
           <%= form.label :use_by_date_milk_from_fm, "Use By Date", class: label_class %>
         </div>
         <div class="col-span-2 md:col-span-1 text-left">
-          <%= form.date_field :use_by_date_milk_from_fm, class: makesheet_full_class %>
+          <%= form.date_field :use_by_date_milk_from_fm, class: makesheet_med_class %>
         </div>
+       
+
+        <!-- Starter Culture -->
+        <div class="col-span-4"><hr></div>
+        <div class="col-span-1 text-left font-light">STARTER CULTURE</div>
+        <div class="col-span-1 self-center">
+          <%= form.label :type_of_starter_culture_used, "Starter Type", class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :type_of_starter_culture_used,
+                options_for_select(@starter_types, selected: makesheet.type_of_starter_culture_used.presence || @starter_default),
+                { prompt: true },
+                class: makesheet_med_class %>        </div>
+
+        <div class="col-span-2 self-center">
+          <%= form.label :qty_of_starter_used, "Quantity", class: label_class %>
+        </div>
+        <div class="col-span-1 text-left">
+          <%= form.number_field :qty_of_starter_used, step: :any, placeholder: "grams", class: makesheet_small_right_class %>
+        </div>
+        <div class="place-self-start">
+            <%= render "makesheets/recent_modal" %>
+          </div>
+
+         <div class="col-span-2 self-center">
+          <%= form.label :freezer_temp, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :freezer_temp, step: :any, placeholder: "temp", class: makesheet_small_right_class %>
+        </div>
+
+        <% if makesheet.make_type == "Red" %>
+          <div class="col-span-2 self-center"><%= form.label :md_88_qty_used, "MD88 Qty Used", class: label_class %></div>
+          <div class="col-span-2 md:col-span-1  text-left"><%= form.text_field :md_88_qty_used, class: makesheet_small_left_class %></div>
+        <% end %>
+
+
+         <!-- Rennet -->
+        <div class="col-span-4"><hr></div>
+        <div class="col-span-1 text-left font-light">RENNET <span class="text-sm"></span></div>
+        <div class="col-span-1 self-center">
+          <%= form.label :rennet_used, "Rennet Type", class: label_class %>
+        </div>
+       <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.select :rennet_used,
+                options_for_select(
+                  ["Animal", "Vegetable"],
+                  selected: (
+                    makesheet.rennet_used.presence || (makesheet.make_type == "Red" ? "Vegetable" : "Animal")
+                  )
+                ),
+                { prompt: true },
+                class: makesheet_med_class %>
+        </div>
+
+      <div class="col-span-2 self-center">
+        <%= form.label :rennet_weight_used, "Quantity", class: label_class %>
+      </div>
+      <div class="col-span-2 md:col-span-1 text-left">
+        <%= form.number_field :rennet_weight_used,
+              step: :any,
+              placeholder: "grams",
+              class: makesheet_small_right_class,
+              data: { makesheet_target: "rennetWeight", action: "input->makesheet#markDirty" } %>
+      </div>
+
+         <div class="col-span-2 self-center">
+          <%= form.label :chiller_temp, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1 text-left">
+          <%= form.number_field :chiller_temp, step: :any, placeholder: "temp", class: makesheet_small_right_class %>
+        </div>
+
 
         <!-- Salt -->
         <div class="col-span-4"><hr></div>
@@ -196,11 +248,10 @@
        <!-- Salt Net -->
         <div class="col-span-2 md:col-span-1 text-left">
           <%= form.number_field :salt_weight_net,
-                step: :any,
-                class: makesheet_small_right_class,
-                data: {
-                  makesheet_target: "saltNet"
-                } %>
+              step: :any,
+              class: makesheet_small_right_class,
+              data: { makesheet_target: "saltNet", action: "input->makesheet#updateGrossFromNet" } %>
+
         </div>
         <div class="col-span-2 self-center">
           <%= form.label :salt_weight_gross, class: label_class %>

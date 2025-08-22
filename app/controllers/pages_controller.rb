@@ -51,6 +51,10 @@ class PagesController < ApplicationController
   
   end
 
- 
+  def rennet_guidance
+    @rows = Reference
+              .where(group: "rennet_usage", active: true)
+              .order(:sort_order) # ascending = 1,2,3
+  end
 
 end

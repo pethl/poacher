@@ -2,7 +2,14 @@ module MakesheetPdfPage1
   def draw_page_1(pdf, makesheet)
     pdf.font 'raleway'
    
-    pdf.text "LINCOLNSHIRE POACHER - MAKE SHEET", size: 10, style: :bold, align: :right
+    title =
+    if makesheet.make_type == "Red"
+      "LINCOLNSHIRE RED - MAKE SHEET"
+    else
+      "LINCOLNSHIRE POACHER - MAKE SHEET"
+    end
+  
+  pdf.text title, size: 10, style: :bold, align: :right
 
     pdf.image @logo_img_path, 
     width: 70, 
@@ -124,7 +131,7 @@ module MakesheetPdfPage1
       pdf.text "\n", size: 8
 
        milk_box = Array.new
-       milk_box << ["<b>MILK </b>","<b>USED </b>", "","<b>Bottles </b>","<b>F/Ms</b>"]
+       milk_box << [{ content: "<b>MILK USED</b>", colspan: 3 }, "<b>Bottles </b>","<b>F/Ms</b>"]
        milk_box << ["Warm am","12 hr pm", "Record unusual smell or visual appearance","Number","U/B Date"]
        milk_box << ["<b>#{makesheet.warm_am == true ? "YES":  (makesheet.warm_am.nil? ? "" : "NO")}","<b>#{makesheet.twelve_hr_pm == true ? "YES":  (makesheet.twelve_hr_pm.nil? ? "" : "NO")}", "<b>#{makesheet.unusual_smell_appearance}","<b>#{makesheet.number_of_bottles_from_fm}","<b>#{makesheet.use_by_date_milk_from_fm&.strftime('%d-%m-%y')}</b>"]
       
@@ -151,26 +158,33 @@ module MakesheetPdfPage1
          starter_box = []
 
           if makesheet.make_type == "Red"
-            # 3-column version with MD88
-            starter_box << ["<b>STARTER CULTURE USED</b>", "", "<b>MD88</b>"]
-            starter_box << ["Type of Starter Culture Used", "Qty Used", "Qty Used"]
+            # red version with MD88
+            starter_box << [{ content: "<b>STARTER CULTURE</b>", colspan: 3 }, "<b>MD88</b>", { content: "<b>RENNET</b>", colspan: 3 }]
+            starter_box << ["Type Used", "Weight\n (g)", "Freezer \n °C", "MD88 Qty", "Type\n Used", "Weight\n (g)", "Chiller \n °C"]
             starter_box << [
               makesheet.type_of_starter_culture_used.to_s,
               makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : '',
-              makesheet.md_88_qty_used.to_s
+              makesheet.freezer_temp,
+              makesheet.md_88_qty_used.to_s,
+              makesheet.rennet_used,
+              makesheet.rennet_weight_used,
+              makesheet.chiller_temp
+              
             ]
 
             pdf.table(starter_box) do
-              self.width = 220
+              self.width = 267
               self.cell_style = { inline_format: true }
-              self.column_widths = [100, 60, 60]
+              self.column_widths = [36, 38, 32, 35, 44, 33, 32 ]
 
               row(0).background_color = "D3D3D3"
               rows(0..2).align = :center
               rows(0).size = 7
               rows(1).size = 6
-              rows(2).size = 12
+              rows(2).size = 7
               rows(2).height = 30
+              row(-1).font_style = :bold
+              row(-1).columns(4).size = 6 
               self.cell_style = {
                 inline_format: true,
                 borders: [:top, :left, :bottom, :right],
@@ -180,25 +194,30 @@ module MakesheetPdfPage1
             end
 
           else
-            # 2-column version (original)
-            starter_box << ["<b>STARTER CULTURE USED</b>", ""]
-            starter_box << ["Type of Starter Culture Used", "Qty Used"]
+            #  (original)
+            starter_box << [{ content: "<b>STARTER CULTURE</b>", colspan: 3 }, { content: "<b>RENNET</b>", colspan: 3 }]
+            starter_box << ["Type \nUsed", "Weight\n (g)", "Freezer \n °C", "Type\n Used", "Weight\n (g)", "Chiller \n °C"]
             starter_box << [
               makesheet.type_of_starter_culture_used.to_s,
-              makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : ''
+              makesheet.qty_of_starter_used ? sprintf('%.3f', makesheet.qty_of_starter_used) : '',
+              makesheet.freezer_temp,
+              makesheet.rennet_used,
+              makesheet.rennet_weight_used,
+              makesheet.chiller_temp
             ]
 
             pdf.table(starter_box) do
-              self.width = 180
+              self.width = 240
               self.cell_style = { inline_format: true }
-              self.column_widths = [120, 60]
+              self.column_widths = [40, 40, 40, 40, 40, 40]
 
               row(0).background_color = "D3D3D3"
               rows(0..2).align = :center
               rows(0).size = 7
               rows(1).size = 6
-              rows(2).size = 12
+              rows(2).size = 8
               rows(2).height = 30
+              row(-1).font_style = :bold
               self.cell_style = {
                 inline_format: true,
                 borders: [:top, :left, :bottom, :right],

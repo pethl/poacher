@@ -1,0 +1,47 @@
+<%# -----------------------------------------------------------------------------
+  RECENT MAKESHEETS LIST (rendered inside the turbo-frame)
+
+  EXPECTS:
+    - locals: makesheets (Enumerable of Makesheet)
+
+  SHOWS:
+    - Day of week from make_date
+    - type_of_starter_culture_used
+    - qty_of_starter_used
+    - total_time (model method)
+
+  CHANGE COUNT:
+    - Controlled by the `limit:` param in the recent_modal partial OR the
+      controller action (MakesheetsController#recent).
+ ----------------------------------------------------------------------------- %>
+
+<turbo-frame id="recent_makesheets_frame">
+  <div class="rounded-xl border border-gray-400 bg-white p-3 sm:p-4">
+  <div class="overflow-hidden rounded-md">
+    <table class="w-full">
+      <thead class="bg-gray-50 border-b border-gray-300 text-gray-600">
+        <tr>
+          <th class="py-2 px-3 text-left">Day</th>
+          <th class="py-2 px-3 text-center">Type</th>
+          <th class="py-2 px-3 text-center">Qty</th>
+          <th class="py-2 px-3 text-center">Total Time</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-100">
+        <% makesheets.each do |ms| %>
+          <tr>
+            <td class="py-2 px-3 sm:px-4 text-left">
+              <%= ms.make_date.to_date.strftime("%a -%d/%m") %>
+            </td>
+            <td class="py-2 px-3 sm:px-4 text-center"><%= ms.type_of_starter_culture_used %></td>
+            <td class="py-2 px-3 sm:px-4 text-center"><%= ms.qty_of_starter_used %></td>
+            <td class="py-2 px-3 sm:px-4 text-center"><%= ms.total_time %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</turbo-frame>

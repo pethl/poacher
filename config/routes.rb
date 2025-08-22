@@ -143,6 +143,7 @@ Rails.application.routes.draw do
   get "pages/mgmt_home"
   get "pages/credits"
   get "/goodbye", to: "pages#goodbye", as: :goodbye
+  get "pages/rennet_guidance", to: "pages#rennet_guidance", as: :rennet_guidance
  
   get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
   #get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
@@ -166,7 +167,9 @@ Rails.application.routes.draw do
       get 'graded_blackboard'
       get 'monthly_summary'
       get 'overview'
-      get 'on_hold' 
+      get 'on_hold'
+      get 'recent'             # used in makesheet modal
+      get 'rennet_for_milk', to: 'makesheets#rennet_for_milk_lookup' #rennet look up
     end
   end
 
