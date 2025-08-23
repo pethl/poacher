@@ -15,7 +15,7 @@ module MakesheetPdfPage1
     width: 70, 
     height: 70, 
     at: [
-    pdf.bounds.left + (pdf.bounds.width - 70) / 2 -130 , # Centered horizontally
+    pdf.bounds.left + (pdf.bounds.width - 70) / 2 -350 , # Centered horizontally
     pdf.bounds.bottom + 50                         # Keep vertical offset
   ]
   
@@ -46,7 +46,7 @@ module MakesheetPdfPage1
                first_column = Array.new 
                first_column << ["", "<b>TIME</b>", "<b>TEMP (°C)</b>"]
                first_column << ["<font size='7'>STEAM / HOT WATER ON</font>", "#{makesheet.steam_hot_water_on_time&.strftime('%I:%M')}", ""]
-               first_column << ["<font size='7'>COLD MILK IN \nRECORD AS 'OK' IF < 4°C</font>", "#{makesheet.cold_milk_in_time&.strftime('%I:%M')}", "#{makesheet.cold_milk_in_state}"]
+               first_column << ["<font size='7'>COLD MILK IN \nRECORD AS 'OK' IF &lt; 4°C</font>", "#{makesheet.cold_milk_in_time&.strftime('%I:%M')}", "#{makesheet.cold_milk_in_state}"]
                first_column << ["WARM MILK FINISH",  "#{makesheet.warm_milk_finish_time&.strftime('%I:%M')}", "#{makesheet.warm_milk_finish_titration}"]
                # Optional ANNATTO row
                     if makesheet.annatto_in_time.present? || makesheet.annatto_in_temp.present?
@@ -66,7 +66,7 @@ module MakesheetPdfPage1
                       ]
                     end
                first_column << ["HEAT OFF", "#{makesheet.heat_off_1_time&.strftime('%I:%M')}", "#{makesheet.heat_off_1_temp}"]
-               first_column << ["MILK TITRATION", "#{makesheet.milk_titration_time&.strftime('%I:%M')}", "#{makesheet.milk_titration_temp}"]
+               # not on latest MS - first_column << ["MILK TITRATION", "#{makesheet.milk_titration_time&.strftime('%I:%M')}", "#{makesheet.milk_titration_temp}"]
                first_column << ["RENNET", "#{makesheet.rennet_time&.strftime('%I:%M')}", "#{makesheet.rennet_temp}"]
                first_column << ["CUT", "#{makesheet.cut_start_time&.strftime('%I:%M')}", "#{makesheet.cut_end_time&.strftime('%I:%M')}"]
                first_column << ["HEAT ON", "#{makesheet.heat_on_time&.strftime('%I:%M')}", ""]
@@ -120,24 +120,25 @@ module MakesheetPdfPage1
                     # Optional grey cells
                     cells[1, 2].background_color = 'D3D3D3'
                     cells[2, 2].background_color = 'D3D3D3'
+                    cells[8, 2].background_color = 'D3D3D3'
                     cells[10, 2].background_color = 'D3D3D3'
-                    cells[12, 2].background_color = 'D3D3D3'
+                    #cells[12, 2].background_color = 'D3D3D3'
                   end
                   
      end
      
      pdf.grid(0, 1).bounding_box do
       pdf.text "FW Read and Sons Ltd - Lincolnshire Poacher Cheese", size: 6, align: :left
-      pdf.text "\n", size: 8
+      pdf.text "\n", size: 4
 
        milk_box = Array.new
-       milk_box << [{ content: "<b>MILK USED</b>", colspan: 3 }, "<b>Bottles </b>","<b>F/Ms</b>"]
+       milk_box << [{ content: "<b>MILK USED</b>", colspan: 3 }, { content: "<b>BOTTLES back from F/Mkts</b>", colspan: 2 }]
        milk_box << ["Warm am","12 hr pm", "Record unusual smell or visual appearance","Number","U/B Date"]
        milk_box << ["<b>#{makesheet.warm_am == true ? "YES":  (makesheet.warm_am.nil? ? "" : "NO")}","<b>#{makesheet.twelve_hr_pm == true ? "YES":  (makesheet.twelve_hr_pm.nil? ? "" : "NO")}", "<b>#{makesheet.unusual_smell_appearance}","<b>#{makesheet.number_of_bottles_from_fm}","<b>#{makesheet.use_by_date_milk_from_fm&.strftime('%d-%m-%y')}</b>"]
       
               pdf.table(milk_box)  do 
                 self.width = 250
-                 self.cell_style = { :inline_format => true, size: 10, :height => 22 } 
+                 self.cell_style = { :inline_format => true, size: 8, :height => 20 } 
                  {:borders => [:top, :left, :bottom, :right],
                  :border_width => 1,
                  :border_color => "B2BEB5",}
@@ -148,12 +149,14 @@ module MakesheetPdfPage1
                  rows(0).align = :center
                  rows(1).align = :center
                  rows(2).align = :center
+                 columns(0..2).style(size: 8)   # first 3 columns
+                 columns(3..4).style(size: 6)   # last 2 columns
                  rows(1).size = 6
                  rows(2).size = 9
                  #columns(0..4).size = 7
                end
                
-         pdf.text "\n", size: 8   
+         pdf.text "\n", size: 6  
           
          starter_box = []
 
@@ -216,7 +219,7 @@ module MakesheetPdfPage1
               rows(0).size = 7
               rows(1).size = 6
               rows(2).size = 8
-              rows(2).height = 30
+              rows(2).height = 24
               row(-1).font_style = :bold
               self.cell_style = {
                 inline_format: true,
@@ -226,8 +229,9 @@ module MakesheetPdfPage1
               }
             end
           end
+    # END STARTER SET ********************************************************************************
 
-           pdf.text "\n", size: 8
+           pdf.text "\n", size: 6
                    
            weather_box = Array.new
            weather_box << ["<b>WEATHER TODAY</b>", "<b>Temp oC</b>", "<b>Humidity</b>"]
@@ -244,11 +248,78 @@ module MakesheetPdfPage1
                      row(0).background_color = "D3D3D3"
                      rows(0..1).align = :center
                      rows(0).size = 7
-                     rows(1).size = 10 
+                     rows(1).size = 9
                      
                    end  
+    # END WEATHER ********************************************************************************
+
+    pdf.text "\n", size: 6
+
+        # --------------------------
+        # data
+        # --------------------------
+        yn       = makesheet.pre_start_inspection_of_high_risk_items
+        yes_val  = yn ? "YES" : ""
+        no_val   = yn ? ""    : "YES"
+
+        checked_by_1 = Staff.find_by(id: makesheet.pre_start_inspection_by_staff_id)&.full_name.to_s
+        checked_by_2 = Staff.find_by(id: makesheet.pre_start_inspection_by_2_staff_id)&.full_name.to_s
+
+        high_risk_box = []
+        high_risk_box << [{ content: "<b>PRE-START INSPECTION OF HIGH RISK ITEMS</b>", colspan: 3 }]
+        high_risk_box << [{ content: "ALL HIGH RISK GLASS/BRITTLE MATERIAL AND METAL ITEMS INSPECTED PRIOR TO USE - ARE THEY IN GOOD CONDITION?", colspan: 3 }]
+        high_risk_box << ["<b>#{yes_val}", "#{no_val}</b>", "IF NOT IN GOOD CONDITION, RECORD ACTIONS IN COMMENTS"]
+        high_risk_box << [
+          { content: "CHECKED BY:", colspan: 2 },
+          { content: "<b>#{checked_by_1} - #{checked_by_2}</b>", colspan: 2 }
+        ]
+
+        # --------------------------
+        # table
+        # --------------------------
+        pdf.table(high_risk_box) do
+          self.width = 240
+          self.cell_style = { inline_format: true }
+
+          # --------------------------
+          # formatting
+          # --------------------------
+          cells.borders = [:top, :left, :bottom, :right]
+          cells.border_width = 1
+          #cells.border_color = "B2BEB5"
+          row(0).text_color = "FF0000"   # 🔴 red font
+
+          # columns: two narrow for YES/NO, one wide for comments
+          columns(0).width = 34
+          columns(1).width = 34
+          columns(2).width = (self.width - 68)
+
+          # header row
+          row(0).align = :center
+          row(0).size  = 8
+          row(0).background_color = "E0E0E0"
+
+          # comment/instruction row
+          row(1).align = :center
+          row(1).size  = 6
+          row(1).background_color = "EEEEEE"
+
+          # YES/NO values row
+          row(2).columns(0..1).size = 9
+          row(2).columns(2).size = 7
+          row(2).columns(0..1).align = :center
+          row(2).columns(2).align    = :left   # free-text comments area
+
+          # CHECKED BY row
+          row(3).size = 8
+          row(3).columns(0).align = :left
+          row(3).columns(1..2).align = :left
+        end
+
+    # END PRE START INSPECTION *********************************
                    
-             pdf.text "\n", size: 8         
+             pdf.text "\n", size: 6
+
              ib_change_box = Array.new
              ib_change_box << ["<b>INGREDIENT BATCH CHANGE</b>"]
              ib_change_box << ["<font size='7'>#{truncate(makesheet.ingredient_batch_change.present? ? makesheet.ingredient_batch_change : "NO", length:50)}"]
@@ -266,7 +337,8 @@ module MakesheetPdfPage1
                        rows(1).size = 12
                      end  
                      
-                     pdf.text "\n", size: 8         
+        # END OF INGREDIENT  BATCH CHANGE  ******************************************************************************         
+        pdf.text "\n", size: 6        
 
                      thermo_box = []
                      thermo_box << ["<b>THERMOMETER CHANGE</b>", "<b>SCALE CHANGE</b>"]
@@ -283,11 +355,12 @@ module MakesheetPdfPage1
                          columns(0).width = 100
                          row(0).background_color = "D3D3D3"
                          rows(0..1).align = :center
-                         rows(0).size = 7
-                         rows(1).size = 12
+                         rows(0).size = 6
+                         rows(1).size = 8
                         end   
-                        
-              pdf.text "\n", size: 8         
+ # END OF THERMO CHANGE ******************************************************************************         
+
+              pdf.text "\n", size: 6       
               notes_box = Array.new
               notes_box << ["<b>POST MAKE NOTES</b>"]
               notes_box << ["Batch Dipped?:       #{makesheet.batch_dipped == true ? "YES":  (makesheet.batch_dipped.nil? ? "" : "NO")}"]
@@ -304,16 +377,18 @@ module MakesheetPdfPage1
                  row(0).background_color = "D3D3D3"
                  rows(0).align = :center
                  rows(0).size = 7
-                 rows(1).size = 10
-                 rows(2).height = 80
+                 rows(1).size = 8
+                 rows(2).height = 34
                 end 
                        
-               pdf.text "\n", size: 8         
+     # END OF POST MAKE NOTES  ******************************************************************************         
+               pdf.text "\n", size: 6
+
                sign_box = Array.new
                assistant = Staff.find_by(id: makesheet.assistant_staff_id)
                sign_box << ["<b>CHEESE MADE BY:</b>", "<b>MILLING HELP</b>"]
                sign_box << [
-                  "<font size='12'>#{makesheet.cheese_made_by_staff&.full_name}</font><br/><br/><font size='8'>#{assistant&.full_name}</font>",
+                  "<font size='10'>#{makesheet.cheese_made_by_staff&.full_name}</font><br/><font size='8'>#{assistant&.full_name}</font>",
                   "<font size='8'>#{makesheet.milling_help}</font>"
                 ]
 
@@ -326,11 +401,11 @@ module MakesheetPdfPage1
                          columns(0).width = 140
                          columns(1).width = 60
                          rows(0).background_color = "D3D3D3"
-                         rows(0).height = 20
-                         rows(1).height = 50
+                         rows(0).height = 18
+                         rows(1).height = 30
                          rows(0..1).align = :center
                          rows(0).size = 7
-                         row(1).size = 12
+                         row(1).size = 9
                          
                         end  
      end
@@ -416,6 +491,13 @@ module MakesheetPdfPage1
               rows(0..2).align = :center
               row(0).size = 7
               rows(1..2).size = 6
+
+               # 👇 make placeholder labels lighter only when they’re shown
+              if show_labels
+                rows(1..2).text_color = "9E9E9E"   # light gray (tweak: "A0A0A0" / "B0B0B0" / "C0C0C0")
+              else
+                rows(1..2).text_color = "000000"   # ensure real values stay black
+              end
             end
 
 
@@ -454,9 +536,12 @@ module MakesheetPdfPage1
                 
                 pdf.text "\n", size: 6         
                 glass_breakage_box = Array.new
-                glass_breakage_box << ["<b>ANY GLASS AND/OR BRITTLE MATERIAL BREAKAGES DURING MAKE?</b>"]
-                glass_breakage_box << ["<b>HIGH RISK ITEMS INCLUDE:</b> BURETTE, SIEVES, LIGHTS OVER VAT AND PRESS PRESSURE GUAGE DIALS"]
-               
+                glass_breakage_box << [
+                  "<color rgb='0000CC'><b>ANY GLASS AND/OR BRITTLE MATERIAL BREAKAGES DURING MAKE?</b></color>"
+                ]
+                glass_breakage_box << [
+                  "<color rgb='FF0000'><b>HIGH RISK ITEMS INCLUDE:</b></color> BURETTE, SIEVES, LIGHTS OVER VAT AND PRESS PRESSURE GAUGE DIALS"
+                ]
                        pdf.table(glass_breakage_box)  do 
                          self.width = 252
                           self.cell_style = { :inline_format => true, :size => 7 } 
@@ -471,58 +556,62 @@ module MakesheetPdfPage1
                         glass_details_line = Array.new
                         glass_details_line <<["<b>#{makesheet.glass_breakage == true ? "YES" : ""}</b>", "RECORD ACTIONS TAKEN BELOW", "<b>#{makesheet.glass_breakage == false ? "NO" : ""}</b>"]
                           
-                             pdf.table(glass_details_line)  do 
-                                 self.width = 252
-                                   self.cell_style = { :inline_format => true, :size => 7, :height => 24 } 
-                                  {:borders => [:top, :left, :bottom, :right],
-                                  :border_width => 1,
-                                  :border_color => "B2BEB5",}
-                                  columns(0).size = 8
-                                  columns(1).size = 7
-                                  columns(2).size = 8
-                                  rows(0).align = :center
-                                  columns(0).width = 30
-                                  columns(1).width = 192
-                                  columns(2).width = 30
-                             end
-                        
-                             contamination_title_box = Array.new
-                             contamination_title_box << ["<b>HAS PRODUCT BEEN CONTAMINATED?</b>"]
-                            
-                                    pdf.table(contamination_title_box)  do 
-                                      self.width = 252
-                                       self.cell_style = { :inline_format => true, :size => 7 } 
-                                       {:borders => [:top, :left, :bottom, :right],
-                                       :border_width => 1,
-                                       :border_color => "B2BEB5",}
-                                       rows(0).background_color = "D3D3D3"
-                                       rows(0).align = :center
-                                        rows(0).size = 7
-                              end    
-                              
-                              contamination_details_box = Array.new
-                              contamination_details_box <<["<b>#{makesheet.glass_contamination == true ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{makesheet.glass_contamination == false ? "NO" : ""}</b>"]
-                          
-                                   pdf.table(contamination_details_box)  do 
-                                       self.width = 252
-                                         self.cell_style = { :inline_format => true, :size => 7, :height => 30 } 
-                                        {:borders => [:top, :left, :bottom, :right],
-                                        :border_width => 1,
-                                        :border_color => "B2BEB5",}
-                                        columns(0).size = 8
-                                        columns(1).size = 7
-                                        columns(2).size = 8
-                                        rows(0).align = :center
-                                        columns(0).width = 30
-                                        columns(1).width = 192
-                                        columns(2).width = 30
-                               end
-                               
-                               pdf.text "\n", size: 8         
-                               metal_breakage_box = Array.new
-                               metal_breakage_box << ["<b>ANY METAL BREAKAGES DURING MAKE?</b>"]
-                               metal_breakage_box << ["<b>HIGH RISK ITEMS INCLUDE:</b> MILL, MILL BLADES AND KNIFE TIPS"]
-               
+                pdf.table(glass_details_line)  do 
+                    self.width = 252
+                      self.cell_style = { :inline_format => true, :size => 7, :height => 24 } 
+                    {:borders => [:top, :left, :bottom, :right],
+                    :border_width => 1,
+                    :border_color => "B2BEB5",}
+                    columns(0).size = 8
+                    columns(1).size = 7
+                    columns(2).size = 8
+                    rows(0).align = :center
+                    columns(0).width = 30
+                    columns(1).width = 192
+                    columns(2).width = 30
+                end
+          
+                contamination_title_box = Array.new
+                contamination_title_box << ["<b>IF 'YES', HAS PRODUCT BEEN CONTAMINATED?</b>"]
+              
+                      pdf.table(contamination_title_box)  do 
+                        self.width = 252
+                          self.cell_style = { :inline_format => true, :size => 7 } 
+                          {:borders => [:top, :left, :bottom, :right],
+                          :border_width => 1,
+                          :border_color => "B2BEB5",}
+                          rows(0).background_color = "D3D3D3"
+                          rows(0).align = :center
+                          rows(0).size = 7
+                end    
+                
+                contamination_details_box = Array.new
+                contamination_details_box <<["<b>#{makesheet.glass_contamination == true ? "YES" : ""}</b>", "IF YES, FOLLOW W1 02,PUT HOLD, COMPLETE FB INVESTIGATION SUMMARY FORM AND EMAIL TIM", "<b>#{makesheet.glass_contamination == false ? "NO" : ""}</b>"]
+            
+                      pdf.table(contamination_details_box)  do 
+                          self.width = 252
+                            self.cell_style = { :inline_format => true, :size => 7, :height => 30 } 
+                          {:borders => [:top, :left, :bottom, :right],
+                          :border_width => 1,
+                          :border_color => "B2BEB5",}
+                          columns(0).size = 8
+                          columns(1).size = 7
+                          columns(2).size = 8
+                          rows(0).align = :center
+                          columns(0).width = 30
+                          columns(1).width = 192
+                          columns(2).width = 30
+                  end
+                  
+                  pdf.text "\n", size: 8         
+                  metal_breakage_box = Array.new
+                  metal_breakage_box << [
+                    "<color rgb='0000CC'><b>ANY METAL BREAKAGES DURING MAKE?</b></color>"
+                  ]
+                  metal_breakage_box << [
+                  "<color rgb='FF0000'><b>HIGH RISK ITEMS INCLUDE:</b></color> MILL, MILL BLADES AND KNIFE TIPS"
+                ]
+
         pdf.table(metal_breakage_box)  do 
           self.width = 252
             self.cell_style = { :inline_format => true, :size => 7 } 
@@ -553,7 +642,7 @@ module MakesheetPdfPage1
                         end
 
               contamination_title_box = Array.new
-              contamination_title_box << ["<b>HAS PRODUCT BEEN CONTAMINATED?</b>"]
+              contamination_title_box << ["<b>IF 'YES', HAS PRODUCT BEEN CONTAMINATED?</b>"]
 
                   pdf.table(contamination_title_box)  do 
                     self.width = 252
@@ -600,9 +689,9 @@ module MakesheetPdfPage1
                         row(0).background_color = "D3D3D3"
                         rows(0).align = :center
                         rows(0).size = 7
-                        rows(1).size = 9
+                        rows(1).size = 20
                         end 
-                        pdf.text "Page: 1\n Ref: CD01", size: 8, align: :right
+                        pdf.text "Page: 1 - Ref: CD01", size: 8, align: :right
      end
      
   end
