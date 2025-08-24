@@ -91,7 +91,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% references.sort_by(&:sort_order).each do |reference| %>
+                 <% references.each do |reference| %>
                     <tr class="border-b hover:bg-gray-50">
                       <td class="px-4 py-2">
                         <%= link_to reference.value, edit_reference_path(reference), class: link_class %>

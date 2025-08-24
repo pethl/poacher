@@ -1,37 +1,33 @@
 class PalletisedDistributionsController < ApplicationController
-  before_action :set_palletised_distribution, only: %i[ show edit update destroy ]
+  before_action :set_palletised_distribution, only: %i[show edit update destroy]
+  before_action :set_staffs, only: %i[new edit create update]
 
-  # GET /palletised_distributions or /palletised_distributions.json
+  # GET /palletised_distributions
   def index
     @palletised_distributions = PalletisedDistribution.all
   end
 
-  # GET /palletised_distributions/1 or /palletised_distributions/1.json
-  def show
-  end
+  # GET /palletised_distributions/1
+  def show; end
 
   # GET /palletised_distributions/new
   def new
     @palletised_distribution = PalletisedDistribution.new
-    @staffs = Staff.where(employment_status: "Active").ordered
   end
 
   # GET /palletised_distributions/1/edit
-  def edit
-    @staffs = Staff.where(employment_status: "Active").ordered
-  end
+  def edit; end
 
-  # POST /palletised_distributions or /palletised_distributions.json
+  # POST /palletised_distributions
   def create
-    @staffs = Staff.where(employment_status: "Active").ordered
     @palletised_distribution = PalletisedDistribution.new(palletised_distribution_params)
-  
-    # Check if no data was entered (all params blank)
-    if palletised_distribution_params.values.all?(&:blank?)
-      redirect_to palletised_distributions_path, notice: 'No data entered. Nothing was saved.'
+
+    # short-circuit when the user submitted an empty form
+    if all_params_blank?(palletised_distribution_params)
+      redirect_to palletised_distributions_path, notice: "No data entered. Nothing was saved."
       return
     end
-  
+
     respond_to do |format|
       if @palletised_distribution.save
         format.html { redirect_to palletised_distributions_path, notice: "Palletised distribution was successfully created." }
@@ -43,9 +39,8 @@ class PalletisedDistributionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /palletised_distributions/1 or /palletised_distributions/1.json
+  # PATCH/PUT /palletised_distributions/1
   def update
-    @staffs = Staff.all.ordered
     respond_to do |format|
       if @palletised_distribution.update(palletised_distribution_params)
         format.html { redirect_to palletised_distributions_path, notice: "Palletised distribution was successfully updated." }
@@ -57,10 +52,9 @@ class PalletisedDistributionsController < ApplicationController
     end
   end
 
-  # DELETE /palletised_distributions/1 or /palletised_distributions/1.json
+  # DELETE /palletised_distributions/1
   def destroy
     @palletised_distribution.destroy
-
     respond_to do |format|
       format.html { redirect_to palletised_distributions_path, status: :see_other, notice: "Palletised distribution was successfully destroyed." }
       format.json { head :no_content }
@@ -68,13 +62,27 @@ class PalletisedDistributionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_palletised_distribution
-      @palletised_distribution = PalletisedDistribution.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def palletised_distribution_params
-      params.require(:palletised_distribution).permit(:date, :company_name, :registration, :trailer_number_type, :temperature, :vehicle_clean, :destination, :number_of_pallets, :staff_id, :staff_signature, :driver_signature)
-    end
+  def set_palletised_distribution
+    @palletised_distribution = PalletisedDistribution.find(params[:id])
+  end
+
+  # Single source of truth for staff list
+  def set_staffs
+    # keep your existing scopes if you have them
+    @staffs = Staff.where(employment_status: "Active").ordered
+  end
+
+  # Treat a fully blank submission as "nothing entered"
+  def all_params_blank?(attrs)
+    attrs.values.all?(&:blank?)
+  end
+
+  def palletised_distribution_params
+    params.require(:palletised_distribution).permit(
+      :date, :company_name, :registration, :trailer_number_type, :temperature,
+      :vehicle_clean, :destination, :number_of_pallets, :staff_id,
+      :staff_signature, :driver_signature
+    )
+  end
 end

@@ -1,0 +1,2 @@
+module DeliveryInspectionsHelper
+end

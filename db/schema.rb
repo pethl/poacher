@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_19_140045) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_24_091742) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -232,6 +232,25 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_140045) do
     t.bigint "updated_by_id"
     t.index ["created_by_id"], name: "index_contacts_on_created_by_id"
     t.index ["updated_by_id"], name: "index_contacts_on_updated_by_id"
+  end
+
+  create_table "delivery_inspections", force: :cascade do |t|
+    t.date "delivery_date"
+    t.string "item"
+    t.string "batch_no"
+    t.date "best_before"
+    t.boolean "cert_received"
+    t.boolean "damage"
+    t.boolean "foreign_contam"
+    t.boolean "pest_contam"
+    t.boolean "timely_delivery"
+    t.boolean "satisfactory"
+    t.text "comments"
+    t.bigint "staff_id", null: false
+    t.string "staff_signature"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["staff_id"], name: "index_delivery_inspections_on_staff_id"
   end
 
   create_table "grading_notes", force: :cascade do |t|
@@ -789,6 +808,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_19_140045) do
   add_foreign_key "cleaning_foreign_body_checks", "users", column: "updated_by_id"
   add_foreign_key "contacts", "users", column: "created_by_id"
   add_foreign_key "contacts", "users", column: "updated_by_id"
+  add_foreign_key "delivery_inspections", "staffs"
   add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "grading_notes", "users", column: "created_by_id"
   add_foreign_key "grading_notes", "users", column: "updated_by_id"

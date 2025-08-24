@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :delivery_inspections
   resources :validation_ranges
 
   if Rails.env.development?

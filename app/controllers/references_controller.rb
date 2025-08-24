@@ -4,14 +4,18 @@ class ReferencesController < ApplicationController
 
   # GET /references or /references.json
   def index
-    @references = Reference.all
-    @references = @references.where(group: params[:group]) if params[:group].present?
-    @references = @references.where(model: params[:model]) if params[:model].present?
-    @references = @references.order(:model, :group, :id)
+    scope = Reference.all
+    scope = scope.where(group: params[:group]) if params[:group].present?
+    scope = scope.where(model: params[:model]) if params[:model].present?
   
-    @references_by_model_and_group = @references.group_by(&:model).transform_values do |refs|
-      refs.group_by(&:group)
-    end
+    @references = scope
+      .order(:model, :group)
+      .order(Arel.sql('sort_order NULLS LAST'))  # <- nil-safe
+      .order(:id)
+  
+    # Keep the already-sorted order when grouping
+    @references_by_model_and_group =
+      @references.group_by(&:model).transform_values { |refs| refs.group_by(&:group) }
   end
 
   # GET /references/1 or /references/1.json

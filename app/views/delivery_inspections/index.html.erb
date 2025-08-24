@@ -1,0 +1,119 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Delivery Inspections" %>
+  <% content_for(:page_title, "DELIVERY INSPECTION RECORD - INGREDIENTS AND PACKAGING") %>
+  <% content_for(:page_button, "delivery_inspections/new") %>
+
+  <div id="delivery_inspections">
+    <div class="mx-auto w-full lg:w-2/3">
+
+      <p class="mx-auto mb-4 text-base text-left font-light">
+        All deliveries must be visually inspected on arrival and checked to make sure they are<br> in satisfactory condition and goods received are as detailed on the delivery note. <br><br>
+        <span class="font-semibold">If in good condition, enter details below and mark ‘condition satisfactory’ column with OK/Yes, and sign. </span><br>
+        <br>If not in satisfactory condition, apply a HOLD label identifying the reason and date and notify management or the office.
+        <br>Contact office if copies of delivery note and or certificate of conformance/analysis are not with the delivery – see Guidance Notes on back of this document.
+        Place delivery notes in file provided.
+      </p>
+    </div>
+
+     <div class="mx-auto w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+  <div class="flex-1 overflow-y-auto">
+    <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm border ">
+      <!-- Lock column widths so header/body always match -->
+      <colgroup>
+        <col class="w-28" />  <!-- Delivery Date -->
+        <col class="w-44" />  <!-- Item -->
+        <col class="w-28" />  <!-- Batch No -->
+        <col class="w-28" />  <!-- Best Before -->
+        <col class="w-20" />  <!-- CoC/CoA -->
+        <col class="w-20" />  <!-- Damage -->
+        <col class="w-20" />  <!-- Foreign Contam -->
+        <col class="w-20" />  <!-- Pest Contam -->
+        <col class="w-20" />  <!-- ≤48h Delivery -->
+        <col class="w-20" />  <!-- OK? -->
+        <col class="w-36" />   <!-- Comments (flex) -->
+        <col class="w-28" />   <!-- Sig & Staff -->
+      </colgroup>
+
+      <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
+        <tr>
+          <th class="px-3 py-3 text-left whitespace-nowrap">Delivery Date</th>
+          <th class="px-2 py-3 text-left">Item</th>
+          <th class="px-2 py-3 text-left">Batch No</th>
+          <th class="px-2 py-3 text-left whitespace-nowrap">Best Before</th>
+          <th class="px-2 py-3 text-center whitespace-nowrap">Cert of<br>Conform.</th>
+          <th class="px-3 py-3 text-center">Damage?</th>
+          <th class="px-3 py-3 text-center whitespace-nowrap">Foreign<br> Contam?</th>
+          <th class="px-3 py-3 text-center whitespace-nowrap">Pest<br>Contam?</th>
+          <th class="px-3 py-3 text-center whitespace-nowrap">≤48h<br>Delivery?</th>
+          <th class="px-3 py-3 text-center">OK?</th>
+          <th class="px-3 py-3 text-left whitespace-nowrap">Comments</th>
+          <th class="px-3 py-3 text-left">Signature</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @delivery_inspections.each do |di| %>
+          <tr class="bg-white border-b hover:bg-gray-100">
+            <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums">
+              <%= di.delivery_date&.to_formatted_s(:uk) || "—" %>
+            </td>
+
+            <td class="px-2 py-4 whitespace-nowrap text-left">
+              <%= link_to di.item, edit_delivery_inspection_path(di), class: "underline underline-offset-2" %>
+            </td>
+
+            <td class="px-2 py-4 text-left ">
+              <%= link_to(di.batch_no.presence || "—", delivery_inspection_path(di)) %>
+            </td>
+
+            <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums">
+              <%= di.best_before&.to_formatted_s(:uk) || "—" %>
+            </td>
+
+           <td class="px-3 py-4 text-center"><%= boolean_label(di.cert_received) %></td>
+
+          <td class="px-3 py-4 text-center"><%= boolean_label(di.damage) %></td>
+
+          <td class="px-3 py-4 text-center whitespace-nowrap">
+            <%= boolean_label(di.foreign_contam) %>
+          </td>
+
+          <td class="px-3 py-4 text-center whitespace-nowrap">
+            <%= boolean_label(di.pest_contam) %>
+          </td>
+
+          <td class="px-3 py-4 text-center whitespace-nowrap">
+            <%= boolean_label(di.timely_delivery) %>
+          </td>
+
+          <td class="px-3 py-4 text-center"><%= boolean_label(di.satisfactory) %></td>
+
+            
+      
+            <td class="px-3 py-4 text-left whitespace-nowrap">
+              <span title="<%= di.comments.to_s %>">
+                <%= truncate(di.comments.to_s, length: 40) %>
+              </span>
+            </td>
+
+            <td class="px-3 py-4 text-left ">
+                <%= di.try(:staff)&.try(:full_name) || di.staff_id || "—" %><br>
+              <% if di.staff_signature.present? %>
+               <div>
+               
+                  <img src="<%= di.staff_signature %>" alt="Signature" class="max-h-16">
+               </div>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

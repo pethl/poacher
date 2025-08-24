@@ -28,6 +28,10 @@ module ApplicationHelper
     content_tag(:p, record.errors[field].first, class: "text-sm text-red-600 mt-1")
   end
 
+  def field_classes_for(record, field, base:)
+    record.errors[field].present? ? "#{base} border-red-500 ring-1 ring-red-300" : "#{base} border-gray-300"
+  end
+
    # --- cheese labels ---
   def print_label_link(makesheet_id, link_text = "Print Label")
     return unless makesheet_id.present?
@@ -224,7 +228,7 @@ module ApplicationHelper
 
   # --- Utility Helpers ---
   def boolean_label(value)
-    return "" if value.blank?
+    return "" if value.nil?
     value ? "YES" : "NO"
   end
 
@@ -245,6 +249,7 @@ module ApplicationHelper
   def cheese_accompaniments; Reference.where(active: true, group: 'cheese_accompaniments').order(:sort_order).pluck(:value); end
   def cut_guest_cheeses; Reference.where(active: true, group: 'cut_guest_cheeses').order(:sort_order).pluck(:value); end
   def department; Reference.where(active: true, group: 'department').order(:sort_order).pluck(:value); end
+  def dairy_ingredients; Reference.where(active: true, group: 'dairy_ingredients').order(:sort_order).pluck(:value); end
   def employment_status; Reference.where(active: true, group: 'employment_status').order(:sort_order).pluck(:value); end
   def farmers_markets; Reference.where(active: true, group: 'farmers_markets').order(:sort_order).pluck(:value); end
   def grade; Reference.where(active: true, group: 'grade').order(:sort_order).pluck(:value); end
