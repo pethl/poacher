@@ -181,6 +181,10 @@ module ApplicationHelper
     "#{BASE_BUTTON} text-gray-800 bg-white hover:bg-gray-100 border-gray-600"
   end
 
+  def clear_button_large_class
+    "text-lg font-semibold py-5 px-8 border rounded-xl text-gray-900 bg-white hover:bg-gray-200 border-gray-900 shadow-lg transition-transform duration-150 ease-in-out"
+  end
+
   def fill_button_large_class
     "text-lg font-semibold py-5 px-8 border rounded-xl text-white bg-gray-800 hover:bg-gray-600 border-gray-900 hover:border-transparent shadow-lg transition-transform duration-150 ease-in-out"
   end

@@ -1,0 +1,56 @@
+<%# app/views/makesheets/_summary.html.erb %>
+<% ms = local_assigns[:makesheet] %>
+
+<div class="rounded-lg border bg-white p-4 shadow-sm">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <div class="text-sm text-gray-500">Make date</div>
+      <div class="font-semibold"><%= ms.make_date&.to_formatted_s(:uk_day) || ms.make_date&.to_s || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Make type</div>
+      <div class="font-semibold"><%= ms.make_type.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Batch</div>
+      <div class="font-semibold"><%= ms.batch.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Grade</div>
+      <div class="font-semibold"><%= ms.grade.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Milk used</div>
+      <div class="font-semibold"><%= ms.milk_used.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Total weight</div>
+      <div class="font-semibold"><%= ms.total_weight.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Cheeses</div>
+      <div class="font-semibold"><%= ms.number_of_cheeses.presence || "—" %></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500">Yield %</div>
+      <div class="font-semibold">
+        <% y = ms.respond_to?(:yield) ? ms.yield : nil %>
+        <%= y.present? ? number_with_precision(y, precision: 1) : "—" %>
+      </div>
+    </div>
+
+    <%# Optional flags you already expose %>
+    <% if ms.respond_to?(:flags) && ms.flags.present? %>
+      <div class="w-full border-t pt-3 text-sm text-gray-700">
+        <span class="font-semibold">Flags:</span> <%= ms.flags.html_safe %>
+      </div>
+    <% end %>
+  </div>
+</div>

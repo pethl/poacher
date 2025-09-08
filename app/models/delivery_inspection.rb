@@ -1,5 +1,8 @@
 class DeliveryInspection < ApplicationRecord
+  include UserTrackable
   belongs_to :staff
+  has_many :ingredient_batch_changes, dependent: :nullify
+  has_many :makesheets, through: :ingredient_batch_changes
 
   validates :delivery_date,  presence: { message: "Delivery date must be provided" }
   validates :item,           presence: { message: "Item must be selected" }
@@ -17,9 +20,16 @@ class DeliveryInspection < ApplicationRecord
   # custom validation
   validate :best_before_cannot_be_in_past
 
+  
+
   scope :by_delivery_date_desc, -> {
     order(Arel.sql("delivery_date DESC NULLS LAST, created_at DESC"))
   }
+  scope :for_item, ->(name) { where(item: name) }
+
+  def self.last_three_for_item(name)
+    for_item(name).by_delivery_date_desc.limit(3)
+  end
 
   private
 

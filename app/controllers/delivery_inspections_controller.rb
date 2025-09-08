@@ -1,10 +1,20 @@
 class DeliveryInspectionsController < ApplicationController
   before_action :set_delivery_inspection, only: %i[show edit update destroy]
-  before_action :set_staffs,              only: %i[new edit create update]
+  before_action :set_cheese_makers, only: %i[ new create edit update destroy ]
 
-  # GET /delivery_inspections
+  
   def index
-    @delivery_inspections = DeliveryInspection.by_delivery_date_desc
+    # Filter by ingredient name (string), using your dairy_ingredients helper for the UI.
+    @item_name = params[:item].presence
+
+    base = DeliveryInspection
+             .includes(:makesheets, :ingredient_batch_changes, :staff)
+             .by_delivery_date_desc
+    base = base.for_item(@item_name) if @item_name
+    @delivery_inspections = base
+
+    # Build: { "Salt" => <delivery_inspection_id of current batch> }
+    @current_batch_id_by_item = latest_link_per_item
   end
 
   # GET /delivery_inspections/1
@@ -62,10 +72,8 @@ class DeliveryInspectionsController < ApplicationController
   end
 
   # Single source of truth for staff list (used by form select)
-  def set_staffs
-    @staffs = Staff.where(employment_status: "Active").ordered
-    # If you have scopes:
-    # @staffs = Staff.active.ordered
+  def set_cheese_makers
+    @cheese_makers = Staff.where(dept: "Cheesemaking Team").where(employment_status: "Active").ordered
   end
 
   def delivery_inspection_params
@@ -73,7 +81,29 @@ class DeliveryInspectionsController < ApplicationController
       :delivery_date, :item, :batch_no, :best_before,
       :cert_received, :damage, :foreign_contam, :pest_contam,
       :timely_delivery, :satisfactory, :comments,
-      :staff_id, :staff_signature
+      :staff_id, :staff_signature, :apply_hold
     )
+  end
+
+   # The “current batch” for an item is the DI linked to the latest makesheet.make_date.
+   def latest_link_per_item
+    rows = IngredientBatchChange
+             .joins(:makesheet, :delivery_inspection)
+             .select(
+               "ingredient_batch_changes.item AS item_name, " \
+               "delivery_inspections.id AS di_id, " \
+               "makesheets.make_date AS used_at"
+             )
+
+    latest = {}
+    rows.each do |r|
+      item = r.item_name
+      next if item.blank? || r.used_at.blank?
+      if latest[item].nil? || r.used_at > latest[item][:used_at]
+        latest[item] = { di_id: r.di_id, used_at: r.used_at }
+      end
+    end
+
+    latest.transform_values { |v| v[:di_id] }
   end
 end

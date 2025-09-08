@@ -154,6 +154,25 @@
         </div>
       </div>
 
+       <!-- Condition satisfactory? -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= f.label :apply_hold, "Apply Hold?" %>
+      </label>
+      <div class="text-left flex items-center gap-6">
+        <label class="flex items-center gap-2">
+          <%= f.radio_button :apply_hold, true,  class: radio_input_class %>
+          <span class="text-sm text-gray-700">Yes</span>
+        </label>
+        <label class="flex items-center gap-2">
+          <%= f.radio_button :apply_hold, false, class: radio_input_class %>
+          <span class="text-sm text-gray-700">No</span>
+        </label>
+        <div class="w-full"></div>
+        <div class="col-span-2">
+          <%= field_error_for(@delivery_inspection, :apply_hold) %>
+        </div>
+      </div>
+
       <!-- Comments (NOT required) -->
       <label class="text-right font-semibold text-gray-700">
         <%= f.label :comments, "Comments" %>
@@ -168,7 +187,7 @@
   <%= f.label :staff_id, "Check By (Staff Member)" %>
 </label>
 <div class="text-left">
-  <%= f.collection_select(:staff_id, @staffs, :id, :full_name,
+  <%= f.collection_select(:staff_id, @cheese_makers, :id, :full_name,
         { prompt: "Select your name" },
         { class: field_class_flex_med }) %>
   <%= field_error_for(@delivery_inspection, :staff_id) %>

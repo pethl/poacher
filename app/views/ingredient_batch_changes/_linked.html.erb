@@ -1,0 +1,10 @@
+<!-- app/views/ingredient_batch_changes/_linked.html.erb -->
+<div class="p-3 bg-green-50 border border-green-200 rounded">
+  <p class="text-green-800">
+    Linked <strong><%= change.item %></strong> —
+    batch <strong><%= change.delivery_inspection.batch_no %></strong>
+    (changed on <%= change.changed_on.to_formatted_s(:uk) %>).
+  </p>
+
+   <a href="#ingredients-section" class="text-lime-800 underline ml-2">Return To Ingredients Section</a>
+</div>

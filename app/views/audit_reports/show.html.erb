@@ -1,0 +1,114 @@
+<%# app/views/audit_reports/show.html.erb %>
+<% content_for :title, "Poacher: Cheese Make: Ingredient Audit" %>
+<% content_for :page_title, "CHEESE MAKE AUDIT" %>
+<% content_for :print_button, "browser-print" %>
+
+<div class="mx-auto w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl">
+  <div class="flex items-end justify-between gap-4 mb-4">
+
+    <%# --- Makesheet picker form --- %>
+    <div class="min-w-[280px]">
+      <%= form_with url: audit_report_path, method: :get, local: true, class: "flex items-end gap-2" do %>
+        <div>
+          <label class="block font-semibold text-sm mb-1">Day</label>
+          <div class="w-full">
+            <%= render "shared/makesheet_picker",
+                  form: nil,
+                  field: :makesheet_id,
+                  makesheets: Makesheet.ordered_reverse %>
+          </div>
+        </div>
+        <%= submit_tag "Show", class: fill_button_class %>
+      <% end %>
+    </div>
+
+    <%# --- Legend (only when a makesheet is selected) --- %>
+    <% if @makesheet.present? %>
+      <div class="ml-auto border border-gray-900 text-xs rounded-lg px-4 py-2 flex items-center justify-center gap-4">
+        <div class="flex items-center gap-1">
+          <div class="h-4 border-l-4 border-green-500"></div>
+          <span>Linked here</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <div class="h-4 border-l-4 border-gray-400"></div>
+          <span>Latest prior</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <div class="h-4 border-l-4 border-red-600"></div>
+          <span>Hold</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @makesheet.present? %>
+    <%# --- Summary (your existing partial) --- %>
+    <div class="mb-6">
+      <%= render "makesheets/summary", makesheet: @makesheet %>
+    </div>
+
+    <%# --- Ingredient/batch table --- %>
+    <div class="overflow-x-auto">
+      <table class="w-full lg:w-2/3 table-fixed text-sm border">
+        <colgroup>
+          <col class="w-44" />
+          <col class="w-28" />
+          <col class="w-28" />
+          <col class="w-28" />
+          <col class="w-32" />
+        </colgroup>
+
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+          <tr>
+            <th class="px-3 py-3 text-left">Ingredient</th>
+            <th class="px-3 py-3 text-left">Batch No</th>
+            <th class="px-3 py-3 text-left">Delivery Date</th>
+            <th class="px-3 py-3 text-left whitespace-nowrap">Best Before</th>
+            <th class="px-3 py-3 text-left">Delivery</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @rows.each do |row| %>
+            <% hold = @di_hold_by_id&.fetch(row[:di_id], false) %>
+            <% bar_class =
+                 if hold
+                   "border-l-4 border-red-600"
+                 elsif row[:source] == :linked
+                   "border-l-4 border-green-500"
+                 elsif row[:source] == :fallback
+                   "border-l-4 border-gray-400"
+                 else
+                   "" end %>
+
+            <tr class="bg-white border-b hover:bg-gray-100">
+              <td class="px-3 py-3 <%= bar_class %>"><%= row[:item] %></td>
+              <td class="px-3 py-3"><%= row[:batch_no].presence || "—" %></td>
+              <td class="px-3 py-3 tabular-nums">
+                <%= row[:delivery_date]&.to_formatted_s(:uk) || "—" %>
+              </td>
+              <td class="px-3 py-3 tabular-nums">
+                <%= row[:best_before]&.to_formatted_s(:uk) || "—" %>
+              </td>
+              <td class="px-3 py-3">
+                <% if row[:di_id] %>
+                  <%= link_to "View delivery",
+                      delivery_inspection_path(row[:di_id], from_audit: true, makesheet_id: params[:makesheet_id]),
+                      class: "underline underline-offset-2" %>
+                <% else %>
+                  —
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  <% else %>
+    <%# --- Empty state --- %>
+    <div class="rounded-lg border bg-white p-6 text-center text-sm text-gray-600">
+      Select a make day above to view the audit report.
+    </div>
+  <% end %>
+</div>

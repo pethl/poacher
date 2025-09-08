@@ -1,0 +1,82 @@
+<!-- app/views/ingredient_batch_changes/new.html.erb -->
+<%= turbo_frame_tag "batch_change" do %>
+  <div class="max-w-3xl mx-auto bg-gray-200 p-4">
+   
+
+  <!-- Step 1: Choose item (GET inside the frame) -->
+<%= form_with url: new_makesheet_ingredient_batch_change_path(@makesheet),
+              method: :get,
+              data: { turbo_frame: "batch_change" } do %>
+  <div class="mb-4">
+    <div class="flex flex-wrap md:flex-nowrap items-center gap-3">
+      <label class="md:w-40 w-full md:text-right font-semibold text-gray-700">
+        Ingredient
+      </label>
+
+      <%= select_tag :item,
+            options_for_select(@items, selected: @item),
+            prompt: "Select ingredient…",
+            # IMPORTANT: override any w-full coming from field_class_flex
+            class: "#{field_class_flex} md:w-80 w-full shrink-0" %>
+
+      <%= submit_tag "See Available Stock", class: "#{fill_button_class} shrink-0" %>
+    </div>
+  </div>
+<% end %>
+
+
+
+   <% if @item.present? %>
+  <hr class="my-4">
+  <h3 class="font-semibold mb-2">
+    Available Stock for <span class="underline"><%= @item %></span>
+  </h3>
+
+  <% if @recent_deliveries.any? %>
+    <!-- Edge-to-edge table inside the well, white bg for contrast -->
+    <div class="overflow-x-auto rounded-lg border border-gray-300 bg-white">
+          <table class="min-w-[900px] w-full table-auto text-sm">
+            <thead class="bg-gray-100">
+          <tr>
+            <th class="px-3 py-2 text-left w-28">Delivery Date</th>
+            <th class="px-3 py-2 text-left w-28">Batch No</th>
+            <th class="px-3 py-2 text-left w-28">Best Before</th>
+            <th class="px-3 py-2 text-left w-40">Comment</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <% @recent_deliveries.each do |di| %>
+            <tr class="border-t">
+              <td class="px-3 py-2"><%= di.delivery_date&.to_formatted_s(:uk) || "—" %></td>
+              <td class="px-3 py-2"><%= di.batch_no %></td>
+              <td class="px-3 py-2"><%= di.best_before&.to_formatted_s(:uk) || "—" %></td>
+             
+
+              <!-- Per-row POST form (date hidden, still sent as today) -->
+              <td class="px-3 py-2">
+              <%= form_with url: makesheet_ingredient_batch_changes_path(@makesheet),
+                  method: :post,
+                  data: { turbo_frame: "batch_change" },
+                  class: "flex items-center gap-2" do %>
+                  <%= hidden_field_tag :delivery_inspection_id, di.id %>
+                  <%= hidden_field_tag :item, di.item %>
+                  <%= text_field_tag   :notes, nil, placeholder: "Comment (optional)", class: "w-56 rounded border px-2 py-1" %>
+                  <%= submit_tag "Link", class: fill_button_class %>
+                <% end %>
+
+              </td>
+
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-sm text-gray-600 italic">No deliveries found for that ingredient, check stock.</p>
+  <% end %>
+<% end %>
+</div>
+<% end %>
+
+

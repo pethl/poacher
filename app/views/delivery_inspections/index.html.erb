@@ -1,7 +1,8 @@
 <div class="overscroll-none">
   <% content_for :title, "Poacher: Delivery Inspections" %>
   <% content_for(:page_title, "DELIVERY INSPECTION RECORD - INGREDIENTS AND PACKAGING") %>
-  <% content_for(:page_button, "delivery_inspections/new") %>
+  <% content_for :page_button, new_delivery_inspection_path %>
+  <%= render 'shared/dairy_nav' %>
 
   <div id="delivery_inspections">
     <div class="mx-auto w-full lg:w-2/3">
@@ -15,105 +16,140 @@
       </p>
     </div>
 
-     <div class="mx-auto w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl">
-  <div class="flex-1 overflow-y-auto">
-    <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm border ">
-      <!-- Lock column widths so header/body always match -->
-      <colgroup>
-        <col class="w-28" />  <!-- Delivery Date -->
-        <col class="w-44" />  <!-- Item -->
-        <col class="w-28" />  <!-- Batch No -->
-        <col class="w-28" />  <!-- Best Before -->
-        <col class="w-20" />  <!-- CoC/CoA -->
-        <col class="w-20" />  <!-- Damage -->
-        <col class="w-20" />  <!-- Foreign Contam -->
-        <col class="w-20" />  <!-- Pest Contam -->
-        <col class="w-20" />  <!-- ≤48h Delivery -->
-        <col class="w-20" />  <!-- OK? -->
-        <col class="w-36" />   <!-- Comments (flex) -->
-        <col class="w-28" />   <!-- Sig & Staff -->
-      </colgroup>
+   
 
-      <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
-        <tr>
-          <th class="px-3 py-3 text-left whitespace-nowrap">Delivery Date</th>
-          <th class="px-2 py-3 text-left">Item</th>
-          <th class="px-2 py-3 text-left">Batch No</th>
-          <th class="px-2 py-3 text-left whitespace-nowrap">Best Before</th>
-          <th class="px-2 py-3 text-center whitespace-nowrap">Cert of<br>Conform.</th>
-          <th class="px-3 py-3 text-center">Damage?</th>
-          <th class="px-3 py-3 text-center whitespace-nowrap">Foreign<br> Contam?</th>
-          <th class="px-3 py-3 text-center whitespace-nowrap">Pest<br>Contam?</th>
-          <th class="px-3 py-3 text-center whitespace-nowrap">≤48h<br>Delivery?</th>
-          <th class="px-3 py-3 text-center">OK?</th>
-          <th class="px-3 py-3 text-left whitespace-nowrap">Comments</th>
-          <th class="px-3 py-3 text-left">Signature</th>
-        </tr>
-      </thead>
+  <div class="mx-auto w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl">
 
-      <tbody>
-        <% @delivery_inspections.each do |di| %>
-          <tr class="bg-white border-b hover:bg-gray-100">
-            <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums">
-              <%= di.delivery_date&.to_formatted_s(:uk) || "—" %>
-            </td>
+<%# ---------- FILTER BAR (uses dairy_ingredients) ---------- %>
 
-            <td class="px-2 py-4 whitespace-nowrap text-left">
-              <%= link_to di.item, edit_delivery_inspection_path(di), class: "underline underline-offset-2" %>
-            </td>
+      <div class="pl-4 w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl mb-4">
+        <div class="w-full lg:w-2/3 flex items-end justify-between">
+          <%= form_with url: delivery_inspections_path, method: :get, local: true, class: "flex items-end gap-2" do %>
+            <div>
+              <label class="block text-xs font-medium text-gray-700 mb-1">Filter</label>
+              <%= select_tag :item,
+                    options_for_select(dairy_ingredients, @item_name),
+                    include_blank: "All ingredients",
+                    class: field_class_flex %>
+            </div>
+            <%= submit_tag "Filter", class: fill_button_class %>
+            <%= link_to "Clear", delivery_inspections_path, class: clear_button_class %>
+          <% end %>
 
-            <td class="px-2 py-4 text-left ">
-              <%= link_to(di.batch_no.presence || "—", delivery_inspection_path(di)) %>
-            </td>
-
-            <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums">
-              <%= di.best_before&.to_formatted_s(:uk) || "—" %>
-            </td>
-
-           <td class="px-3 py-4 text-center"><%= boolean_label(di.cert_received) %></td>
-
-          <td class="px-3 py-4 text-center"><%= boolean_label(di.damage) %></td>
-
-          <td class="px-3 py-4 text-center whitespace-nowrap">
-            <%= boolean_label(di.foreign_contam) %>
-          </td>
-
-          <td class="px-3 py-4 text-center whitespace-nowrap">
-            <%= boolean_label(di.pest_contam) %>
-          </td>
-
-          <td class="px-3 py-4 text-center whitespace-nowrap">
-            <%= boolean_label(di.timely_delivery) %>
-          </td>
-
-          <td class="px-3 py-4 text-center"><%= boolean_label(di.satisfactory) %></td>
-
+          <%# Legend box on far right %>
+          <div class="ml-auto border border-gray-900 text-xs rounded-lg px-4 py-2 flex items-center justify-center gap-4">
             
-      
-            <td class="px-3 py-4 text-left whitespace-nowrap">
-              <span title="<%= di.comments.to_s %>">
-                <%= truncate(di.comments.to_s, length: 40) %>
-              </span>
-            </td>
+            <div class="flex items-center gap-1">
+              <div class="h-4 border-l-4 border-green-500"></div>
+              <span>Current</span>
+            </div>
+            
+            <div class="flex items-center gap-1">
+              <div class="h-4 border-l-4 border-gray-400"></div>
+              <span>Used</span>
+            </div>
 
-            <td class="px-3 py-4 text-left ">
-                <%= di.try(:staff)&.try(:full_name) || di.staff_id || "—" %><br>
-              <% if di.staff_signature.present? %>
-               <div>
-               
-                  <img src="<%= di.staff_signature %>" alt="Signature" class="max-h-16">
-               </div>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+            <div class="flex items-center gap-1">
+                <div class="h-4 border-l-4 border-red-600"></div>
+                <span>Hold</span>
+              </div>
+          </div>
+          
+        </div>
+      </div>
+<%# ---------- END FILTER BAR (uses dairy_ingredients) ---------- %>
 
+      <div class="flex-1 overflow-y-auto">
+        <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm border ">
+          <!-- Lock column widths so header/body always match -->
+          <colgroup>
+            <col class="w-28" />  <!-- Delivery Date -->
+            <col class="w-44" />  <!-- Item -->
+            <col class="w-28" />  <!-- Batch No -->
+            <col class="w-28" />  <!-- Best Before -->
+            <col class="w-20" />  <!-- CoC/CoA -->
+            <col class="w-20" />  <!-- Damage -->
+            <col class="w-20" />  <!-- Foreign Contam -->
+            <col class="w-20" />  <!-- Pest Contam -->
+            <col class="w-20" />  <!-- ≤48h Delivery -->
+            <col class="w-20" />  <!-- OK? -->
+            <col class="w-36" />   <!-- Comments (flex) -->
+            <col class="w-28" />   <!--  Staff -->
+            <col class="w-28" />   <!-- Sig  -->
+          </colgroup>
 
+          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
+            <tr>
+              <th class="px-3 py-3 text-left whitespace-nowrap">Delivery Date</th>
+              <th class="px-2 py-3 text-left">Item</th>
+              <th class="px-2 py-3 text-left">Batch No</th>
+              <th class="px-2 py-3 text-left whitespace-nowrap">Best Before</th>
+              <th class="px-2 py-3 text-center whitespace-nowrap">Cert of<br>Conform.</th>
+              <th class="px-3 py-3 text-center">Damage?</th>
+              <th class="px-3 py-3 text-center whitespace-nowrap">Foreign<br> Contam?</th>
+              <th class="px-3 py-3 text-center whitespace-nowrap">Pest<br>Contam?</th>
+              <th class="px-3 py-3 text-center whitespace-nowrap">≤48h<br>Delivery?</th>
+              <th class="px-3 py-3 text-center">OK?</th>
+              <th class="px-3 py-3 text-left whitespace-nowrap">Comments</th>
+              <th class="px-3 py-3 text-left">Name</th>
+              <th class="px-3 py-3 text-left">Signature</th>
+            </tr>
+          </thead>
+
+         <tbody>
+            <% @delivery_inspections.each do |di| %>
+              <% used_any   = di_used_any?(di) %>
+              <% is_current = di_is_current?(di, @current_batch_id_by_item) %>
+
+              <tr
+                class="<%= di_row_classes(di, @current_batch_id_by_item) %>"
+                data-item="<%= di.item %>"
+                data-di="<%= di.id %>"
+                data-used="<%= used_any %>"
+                data-current="<%= is_current %>"
+              >
+                <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums <%= current_row_first_cell_classes(di, @current_batch_id_by_item) %>">
+                  <%= di.delivery_date&.to_formatted_s(:uk) || "—" %>
+                  
+                </td>
+
+                <td class="px-2 py-4 whitespace-nowrap text-left">
+                  <%= link_to di.item, edit_delivery_inspection_path(di), class: "underline underline-offset-2" %>
+                </td>
+
+                <td class="px-2 py-4 text-left ">
+                  <%= link_to(di.batch_no.presence || "—", delivery_inspection_path(di)) %>
+                </td>
+
+                <td class="px-2 py-4 text-left whitespace-nowrap tabular-nums">
+                  <%= di.best_before&.to_formatted_s(:uk) || "—" %>
+                </td>
+
+                <td class="px-3 py-4 text-center"><%= boolean_label(di.cert_received) %></td>
+                <td class="px-3 py-4 text-center"><%= boolean_label(di.damage) %></td>
+                <td class="px-3 py-4 text-center whitespace-nowrap"><%= boolean_label(di.foreign_contam) %></td>
+                <td class="px-3 py-4 text-center whitespace-nowrap"><%= boolean_label(di.pest_contam) %></td>
+                <td class="px-3 py-4 text-center whitespace-nowrap"><%= boolean_label(di.timely_delivery) %></td>
+                <td class="px-3 py-4 text-center"><%= boolean_label(di.satisfactory) %></td>
+
+                <td class="px-3 py-4 text-left whitespace-nowrap">
+                  <span title="<%= di.comments.to_s %>"><%= truncate(di.comments.to_s, length: 40) %></span>
+                </td>
+
+                <td class="px-3 py-4 text-left ">
+                  <%= di.try(:staff)&.try(:full_name) || di.staff_id || "—" %>
+                </td>
+                
+                <td class="px-3 py-4 text-center "> <% if di.staff_signature.present? %>
+                    <div><img src="<%= di.staff_signature %>" alt="Signature" class="max-h-16"></div>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-</div>
+  <br><br><hr><br>
+  </div>

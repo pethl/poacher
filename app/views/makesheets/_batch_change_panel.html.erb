@@ -1,0 +1,69 @@
+<div class="max-w-xl mx-auto mt-6 bg-white p-4 rounded border">
+  <h3 class="text-base font-semibold mb-3">Record Ingredient Batch Change</h3>
+
+  <!-- Filter: choose ingredient (GET back to edit) -->
+  <%= form_with url: edit_makesheet_path(makesheet), method: :get, local: true do %>
+    <div class="grid grid-cols-2 gap-x-5 gap-y-4 items-center">
+      <label class="text-right font-semibold text-gray-700">Ingredient</label>
+      <div class="text-left">
+        <%= select_tag :ingredient,
+              options_for_select(items, selected: selected_item),
+              prompt: "Select ingredient…",
+              class: field_class_flex %>
+      </div>
+
+      <div class="text-left">
+        <%= link_to "← Back", makesheet_path(makesheet), class: clear_button_class %>
+      </div>
+      <div class="text-left">
+        <%= submit_tag "Show last 3 deliveries", class: fill_button_class %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if selected_item.present? %>
+    <hr class="my-4">
+    <h4 class="font-semibold mb-2">
+      Last 3 deliveries for <span class="underline"><%= selected_item %></span>
+    </h4>
+
+    <% if recent_deliveries.any? %>
+      <table class="w-full text-sm border border-gray-300">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-3 py-2 text-left">Delivery Date</th>
+            <th class="px-3 py-2 text-left">Batch No</th>
+            <th class="px-3 py-2 text-left">Best Before</th>
+            <th class="px-3 py-2 text-left">Condition</th>
+            <th class="px-3 py-2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recent_deliveries.each do |di| %>
+            <tr class="border-t">
+              <td class="px-3 py-2"><%= di.delivery_date&.to_formatted_s(:uk) %></td>
+              <td class="px-3 py-2"><%= di.batch_no %></td>
+              <td class="px-3 py-2"><%= di.best_before&.to_formatted_s(:uk) %></td>
+              <td class="px-3 py-2"><%= boolean_label(di.satisfactory) %></td>
+              <td class="px-3 py-2">
+                <!-- Tiny POST form per row -->
+                <%= form_with url: makesheet_ingredient_batch_changes_path(makesheet), method: :post, local: true do %>
+                  <%= hidden_field_tag :delivery_inspection_id, di.id %>
+                  <%= hidden_field_tag :item, di.item %>
+                  <div class="flex items-center gap-2">
+                    <%= date_field_tag :changed_on, Date.current, class: "w-36 rounded border px-2 py-1" %>
+                    <%= text_field_tag  :notes, nil, placeholder: "Comment (optional)", class: "flex-1 rounded border px-2 py-1" %>
+                    <%= submit_tag "Link", class: fill_button_class %>
+                  </div>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="text-sm text-gray-600 italic">No deliveries found for that ingredient.</p>
+    <% end %>
+  <% end %>
+</div>
+

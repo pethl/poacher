@@ -1,19 +1,22 @@
 <div class="mx-auto flex justify-center gap-2 sm:gap-4 mb-2 sm:mb-4 pb-1 sm:pb-2 border-b-2">
 
-  <%= link_to "Makesheets", "/makesheets",
+    <%= link_to "Makesheets", "/makesheets",
       class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/makesheets')}" %>
 
-  <%= link_to "Summary", "/makesheets/monthly_summary",
+    <%= link_to "Summary", "/makesheets/monthly_summary",
       class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/makesheets/monthly_summary')}" %>
 
-  <%= link_to "On Hold", "/makesheets/on_hold",
+    <%= link_to "On Hold", "/makesheets/on_hold",
       class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/makesheets/on_hold')}" %>
 
-  <%= link_to "Yield", "/makesheets/yield_dashboard",
+    <%= link_to "Yield", "/makesheets/yield_dashboard",
       class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/makesheets/yield_dashboard')}" %>
 
-  <%= link_to "Cleaning", "/cleaning_foreign_body_checks/week_view",
-      class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/cleaning_foreign_body_checks/week_view')}" %>
+    <%= link_to "Cleaning", "/cleaning_foreign_body_checks/week_view",
+        class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/cleaning_foreign_body_checks/week_view')}" %>
+
+    <%= link_to "Deliveries", "/delivery_inspections",
+      class: "text-xs sm:text-sm md:text-base lg:text-lg px-2 sm:px-4 py-1 sm:py-2 hover:bg-gray-200 #{'font-bold border-b-2 border-lime-800' if current_page?('/delivery_inspections')}" %>
 
 </div>
 

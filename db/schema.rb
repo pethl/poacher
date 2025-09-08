@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_24_091742) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_24_124655) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -245,12 +245,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_24_091742) do
     t.boolean "pest_contam"
     t.boolean "timely_delivery"
     t.boolean "satisfactory"
+    t.boolean "apply_hold"
     t.text "comments"
     t.bigint "staff_id", null: false
     t.string "staff_signature"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_delivery_inspections_on_created_by_id"
+    t.index ["delivery_date"], name: "index_delivery_inspections_on_delivery_date"
+    t.index ["item"], name: "index_delivery_inspections_on_item"
     t.index ["staff_id"], name: "index_delivery_inspections_on_staff_id"
+    t.index ["updated_by_id"], name: "index_delivery_inspections_on_updated_by_id"
   end
 
   create_table "grading_notes", force: :cascade do |t|
@@ -272,6 +279,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_24_091742) do
     t.index ["created_by_id"], name: "index_grading_notes_on_created_by_id"
     t.index ["makesheet_id"], name: "index_grading_notes_on_makesheet_id"
     t.index ["updated_by_id"], name: "index_grading_notes_on_updated_by_id"
+  end
+
+  create_table "ingredient_batch_changes", force: :cascade do |t|
+    t.bigint "makesheet_id", null: false
+    t.bigint "delivery_inspection_id", null: false
+    t.string "item"
+    t.date "changed_on"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_inspection_id"], name: "index_ingredient_batch_changes_on_delivery_inspection_id"
+    t.index ["makesheet_id"], name: "index_ingredient_batch_changes_on_makesheet_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -809,9 +828,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_24_091742) do
   add_foreign_key "contacts", "users", column: "created_by_id"
   add_foreign_key "contacts", "users", column: "updated_by_id"
   add_foreign_key "delivery_inspections", "staffs"
+  add_foreign_key "delivery_inspections", "users", column: "created_by_id"
+  add_foreign_key "delivery_inspections", "users", column: "updated_by_id"
   add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "grading_notes", "users", column: "created_by_id"
   add_foreign_key "grading_notes", "users", column: "updated_by_id"
+  add_foreign_key "ingredient_batch_changes", "delivery_inspections"
+  add_foreign_key "ingredient_batch_changes", "makesheets"
   add_foreign_key "invoices", "users", column: "created_by_id"
   add_foreign_key "invoices", "users", column: "updated_by_id"
   add_foreign_key "locations", "users", column: "created_by_id"

@@ -3,6 +3,9 @@ class Makesheet < ApplicationRecord
   has_many :turns
   has_many :traceability_records
   has_many :batch_weights 
+  has_many :ingredient_batch_changes, dependent: :destroy
+  has_many :delivery_inspections, through: :ingredient_batch_changes
+
   has_and_belongs_to_many :samples
   has_one :grading_note, dependent: :destroy
 

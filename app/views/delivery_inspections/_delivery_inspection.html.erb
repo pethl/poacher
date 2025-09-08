@@ -1,67 +1,144 @@
-<div id="<%= dom_id delivery_inspection %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Delivery date:</strong>
-    <%= delivery_inspection.delivery_date %>
-  </p>
+<%# Page title + top-right button %>
+<% content_for :page_title, "Delivery Inspection – #{@delivery_inspection.item} (#{@delivery_inspection.batch_no})" %>
+<% content_for :page_button, edit_delivery_inspection_path(@delivery_inspection) %>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Item:</strong>
-    <%= delivery_inspection.item %>
-  </p>
+<div class="max-w-xl mx-auto mt-4 bg-white p-4 rounded-lg border">
+  <div class="grid grid-cols-2 gap-x-5 gap-y-4 items-center">
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Batch no:</strong>
-    <%= delivery_inspection.batch_no %>
-  </p>
+    <%# Delivery Date %>
+    <div class="text-right font-semibold text-gray-700">Delivery Date</div>
+    <div class="text-left tabular-nums">
+      <%= @delivery_inspection.delivery_date&.to_formatted_s(:uk) || "—" %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Best before:</strong>
-    <%= delivery_inspection.best_before %>
-  </p>
+    <%# Item %>
+    <div class="text-right font-semibold text-gray-700">Item</div>
+    <div class="text-left">
+      <%= @delivery_inspection.item %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Cert received:</strong>
-    <%= delivery_inspection.cert_received %>
-  </p>
+    <%# Batch No %>
+    <div class="text-right font-semibold text-gray-700">Batch No</div>
+    <div class="text-left">
+      <%= @delivery_inspection.batch_no %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Damage:</strong>
-    <%= delivery_inspection.damage %>
-  </p>
+    <%# Best Before %>
+    <div class="text-right font-semibold text-gray-700">Best Before</div>
+    <div class="text-left tabular-nums">
+      <%= @delivery_inspection.best_before&.to_formatted_s(:uk) || "—" %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Foreign contam:</strong>
-    <%= delivery_inspection.foreign_contam %>
-  </p>
+    <%# CoC/CoA received %>
+    <div class="text-right font-semibold text-gray-700">Certificate of Conformance/Analysis</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.cert_received) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Pest contam:</strong>
-    <%= delivery_inspection.pest_contam %>
-  </p>
+    <%# Damage %>
+    <div class="text-right font-semibold text-gray-700">Evidence of Damage</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.damage) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Timely delivery:</strong>
-    <%= delivery_inspection.timely_delivery %>
-  </p>
+    <%# Foreign contam %>
+    <div class="text-right font-semibold text-gray-700">Foreign Material Contamination</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.foreign_contam) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Satisfactory:</strong>
-    <%= delivery_inspection.satisfactory %>
-  </p>
+    <%# Pest contam %>
+    <div class="text-right font-semibold text-gray-700">Pest Damage/Contamination</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.pest_contam) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Comments:</strong>
-    <%= delivery_inspection.comments %>
-  </p>
+    <%# ≤48h %>
+    <div class="text-right font-semibold text-gray-700">For starter cultures: ≤48h delivery?</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.timely_delivery) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Staff:</strong>
-    <%= delivery_inspection.staff_id %>
-  </p>
+    <%# Satisfactory %>
+    <div class="text-right font-semibold text-gray-700">Condition Satisfactory</div>
+    <div class="text-left">
+      <%= boolean_label(@delivery_inspection.satisfactory) %>
+    </div>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Staff signature:</strong>
-    <%= delivery_inspection.staff_signature %>
-  </p>
+    <%# Apply Hold %>
+    <div class="text-right font-semibold text-gray-700">Apply Hold</div>
+    <div class="text-left">
+      <div class="flex items-center gap-2">
+        <%= boolean_label(@delivery_inspection.apply_hold) %>
+        <%# Optional tiny bar to mirror index style %>
+        <% if @delivery_inspection.apply_hold? %>
+          <span class="h-4 border-l-4 border-red-600"></span>
+        <% end %>
+      </div>
+    </div>
 
+    <%# Comments %>
+    <div class="text-right font-semibold text-gray-700">Comments</div>
+    <div class="text-left">
+      <%= simple_format(@delivery_inspection.comments.presence || "—") %>
+    </div>
+
+    <%# Staff (name + id fallback) %>
+    <div class="text-right font-semibold text-gray-700">Checked By</div>
+    <div class="text-left">
+      <%= @delivery_inspection.try(:staff)&.try(:full_name) || @delivery_inspection.staff_id || "—" %>
+    </div>
+
+    <%# Staff Signature %>
+    <div class="text-right font-semibold text-gray-700">Staff Signature</div>
+    <div class="text-left">
+      <% if @delivery_inspection.staff_signature.present? %>
+        <img src="<%= @delivery_inspection.staff_signature %>"
+             alt="Signature"
+             class="max-h-24 border border-gray-400 rounded bg-white shadow-sm">
+      <% else %>
+        —
+      <% end %>
+    </div>
+
+    <%# Created/Updated (nice to have) %>
+    <div class="text-right font-semibold text-gray-700">Created</div>
+    <div class="text-left text-sm text-gray-600">
+      <%= @delivery_inspection.created_at&.to_formatted_s(:long) %>
+      <% if @delivery_inspection.respond_to?(:created_by) && @delivery_inspection.created_by.present? %>
+        by <%= @delivery_inspection.created_by.full_name rescue @delivery_inspection.created_by.email %>
+      <% end %>
+    </div>
+
+    <div class="text-right font-semibold text-gray-700">Last Updated</div>
+    <div class="text-left text-sm text-gray-600">
+      <%= @delivery_inspection.updated_at&.to_formatted_s(:long) %>
+      <% if @delivery_inspection.respond_to?(:updated_by) && @delivery_inspection.updated_by.present? %>
+        by <%= @delivery_inspection.updated_by.full_name rescue @delivery_inspection.updated_by.email %>
+      <% end %>
+    </div>
+
+    <%# Back / Edit buttons %>
+    <div class="col-span-2 flex items-center justify-between pt-4">
+      <%# Always show All Deliveries %>
+          <%= link_to "← All Deliveries",
+                      delivery_inspections_path,
+                      class: clear_button_class %>
+
+          <%# Conditionally show Back to Audit %>
+          <% if request.referer&.include?("/audit") %>
+            <%= link_to "← Back to Audit Report",
+                        request.referer,
+                        class: clear_button_class %>
+          <% end %>
+
+          <%# Edit button %>
+          <%= link_to "Edit",
+                      edit_delivery_inspection_path(@delivery_inspection),
+                      class: fill_button_class %>
+    </div>
+  </div>
+  <br>
 </div>
+<br><br>
+

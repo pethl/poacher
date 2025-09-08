@@ -226,6 +226,11 @@ class MakesheetsController < ApplicationController
   # GET /makesheets/1/edit
   def edit
     prepare_chart_data(@makesheet)
+   
+    # for the ingredient-batch-change panel
+    @items         = dairy_ingredients
+    @selected_item = params[:ingredient].presence   # use :ingredient to avoid clashing with makesheet params
+    @recent_deliveries = @selected_item.present? ? DeliveryInspection.last_three_for_item(@selected_item) : []
   end
 
   # POST /makesheets or /makesheets.json
@@ -233,35 +238,62 @@ class MakesheetsController < ApplicationController
     @makesheet = Makesheet.new(makesheet_params)
     @makesheet.batch = (@makesheet.make_date + 6.years).strftime("%d-%m-%y")
   
-    respond_to do |format|
-      if @makesheet.save
-        format.html { redirect_to makesheets_path, notice: "Makesheet was successfully created." }
-        format.json { render :show, status: :created, location: @makesheet }
-      else
-        # Render correct form view depending on where request came from
-        if request.referer&.include?("/simple_new")
-          format.html { render :simple_form, status: :unprocessable_entity }
+    if @makesheet.save
+      # Decide where to go based on which button was pressed
+      dest =
+        if params[:save_and_continue].present?
+          edit_makesheet_path(@makesheet)       # stay on edit
+        elsif params[:save_and_finish].present?
+          makesheets_path           # go to index
         else
-          format.html { render :new, status: :unprocessable_entity }
+          makesheets_path                       # default: index (your current behavior)
         end
   
+      respond_to do |format|
+        format.turbo_stream { redirect_to dest, notice: "Makesheet created." }
+        format.html        { redirect_to dest, notice: "Makesheet created." }
+        format.json        { render :show, status: :created, location: @makesheet }
+      end
+    else
+      respond_to do |format|
+        if request.referer&.include?("/simple_new")
+          format.html        { render :simple_form, status: :unprocessable_entity }
+          format.turbo_stream { render :simple_form, status: :unprocessable_entity }
+        else
+          format.html        { render :new, status: :unprocessable_entity }
+          format.turbo_stream { render :new, status: :unprocessable_entity }
+        end
         format.json { render json: @makesheet.errors, status: :unprocessable_entity }
       end
     end
   end
-
-  # PATCH/PUT /makesheets/1 or /makesheets/1.json
+  
   def update
-    respond_to do |format|
-      if @makesheet.update(makesheet_params)
-        format.html { redirect_to makesheets_path, notice: "Makesheet was successfully updated." }
-        format.json { render :show, status: :ok, location: @makesheet }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @makesheet.errors, status: :unprocessable_entity }
+    if @makesheet.update(makesheet_params)
+      # Decide where to go based on which button was pressed
+      dest =
+        if params[:save_and_continue].present?
+          edit_makesheet_path(@makesheet)       # stay on edit
+        elsif params[:save_and_finish].present?
+          makesheets_path           # go to index
+        else
+          makesheets_path                       # default: index (your current behavior)
+        end
+  
+      respond_to do |format|
+        format.turbo_stream { redirect_to dest, notice: "Makesheet was updated." }
+        format.html        { redirect_to dest, notice: "Makesheet was updated." }
+        format.json        { render :show, status: :ok, location: @makesheet }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream { render :edit, status: :unprocessable_entity }
+        format.html        { render :edit, status: :unprocessable_entity }
+        format.json        { render json: @makesheet.errors, status: :unprocessable_entity }
       end
     end
   end
+  
 
   # DELETE /makesheets/1 or /makesheets/1.json
   def destroy

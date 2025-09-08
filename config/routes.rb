@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :delivery_inspections
   resources :validation_ranges
+  resource :audit_report, only: [:show]
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
@@ -172,6 +173,8 @@ Rails.application.routes.draw do
       get 'recent'             # used in makesheet modal
       get 'rennet_for_milk', to: 'makesheets#rennet_for_milk_lookup' #rennet look up
     end
+
+    resources :ingredient_batch_changes, only: [:new, :create, :destroy]
   end
 
   resources :turns do

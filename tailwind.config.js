@@ -48,7 +48,18 @@ module.exports = {
     "bg-gray-300",
     "bg-white",
     "border",
-    "border-gray-400"
+    "border-gray-400",
+
+    // 👇 NEW: row-highlighting classes for DeliveryInspection
+    "border-l-4",
+    "border-green-500",
+    "outline",
+    "outline-2",
+    "outline-green-500",
+    "ring-2",
+    "ring-green-500",
+    "rounded",
+    "border-red-600"
   ],
   theme: {
     extend: {

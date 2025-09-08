@@ -10,11 +10,13 @@
     <a href="#summary-section" class="text-lime-800 underline ml-2">Summary</a>
     <a href="#ingredients-section" class="text-lime-800 underline ml-2">Ingredients</a>
     <a href="#make-recipe-section" class="text-lime-800 underline ml-2">Make Recipe</a>
-     <a href="#process-info-section" class="text-lime-800 underline ml-2">Process Info</a>
+    <a href="#process-info-section" class="text-lime-800 underline ml-2">Process Info</a>
     <a href="#post-make-section" class="text-lime-800 underline ml-2">Post Make</a>
     <a href="#graph-section" class="text-lime-800 underline ml-2">Graph</a>
     <a href="#slow-cheese-section" class="text-lime-800 underline ml-2">Slow Cheese</a>
     <a href="#maintenance-section" class="text-lime-800 underline ml-2">Maintenance</a>
+    <a href="#change-batch-section" class="text-lime-800 underline ml-2">Batch Changes</a>
+   
   </div>
 
   <!-- Main Grid Container -->
@@ -28,7 +30,7 @@
     <div id="summary-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
       SUMMARY
     </div>
-    <div class="col-span-4">
+    <div class="col-span-4 mb-2">
       <hr>
     </div>
    
@@ -108,7 +110,7 @@
       <div id="ingredients-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
         INGREDIENTS: MILK & ADDITIONS
       </div>
-      <div class="col-span-4">
+      <div class="col-span-4 mb-2">
         <hr>
       </div>
      
@@ -137,7 +139,7 @@
          <div></div>
 
         <!-- Milk From FM -->
-
+        
         <div class="col-span-1 text-left font-light">MILK FROM FARMERS MARKETS</div>
         <div class="col-span-1 self-center">
           <%= form.label :number_of_bottles_from_fm, "Number of Bottles", class: label_class %>
@@ -154,7 +156,7 @@
        
 
         <!-- Starter Culture -->
-        <div class="col-span-4"><hr></div>
+        <div class="col-span-4 m-2"><hr></div>
         <div class="col-span-1 text-left font-light">STARTER CULTURE</div>
         <div class="col-span-1 self-center">
           <%= form.label :type_of_starter_culture_used, "Starter Type", class: label_class %>
@@ -189,7 +191,7 @@
 
 
          <!-- Rennet -->
-        <div class="col-span-4"><hr></div>
+        <div class="col-span-4 m-2"><hr></div>
         <div class="col-span-1 text-left font-light">RENNET <span class="text-sm"></span></div>
         <div class="col-span-1 self-center">
           <%= form.label :rennet_used, "Rennet Type", class: label_class %>
@@ -226,7 +228,7 @@
 
 
         <!-- Salt -->
-        <div class="col-span-4"><hr></div>
+        <div class="col-span-4 m-2"><hr></div>
         <div class="col-span-1 text-left font-light">SALT <span class="text-sm">(Gross assumes 1.6kg bucket)</span></div>
        <!-- Expected Yield -->
         <div class="col-span-1 self-center">
@@ -266,14 +268,56 @@
                   } %>
           </div>
 
-    
+   <!-- NEW INGREDIENT BATCH DISPLAY SECTION ----------------------------------->
+      <div class="col-span-4 mt-2"><hr></div>
+      <div class="col-span-4 text-left font-light">BATCH CHANGES</div>
+
+      <% required_items_for(@makesheet).each do |item| %>
+        <!-- col 1: spacer -->
+        <div class="col-span-1"></div>
+
+        <!-- col 2: label -->
+        <div class="col-span-1 self-start">
+          <label class="<%= label_class %>"><%= item %> – Batch</label>
+        </div>
+
+        <!-- col 3: details (link on this sheet OR latest effective by date) -->
+        <div class="col-span-1 text-left self-start space-y-0.5">
+          <% change = display_change_for(@makesheet, item) %>
+
+          <% if change.present? %>
+            <div class="text-md text-gray-800">
+              Current:
+              <span class="font-semibold"><%= change.delivery_inspection.batch_no %></span>
+              <% if change.makesheet_id == @makesheet.id %>
+                <span class="text-sm text-gray-500">(linked to this sheet)</span>
+              <% end %>
+            </div>
+            <div class="text-xs text-gray-600">
+              B/B: <%= change.delivery_inspection.best_before&.to_formatted_s(:uk) || "—" %>
+            </div>
+          <% else %>
+            <div class="text-md text-red-600 italic">Not registered.</div>
+          <% end %>
+        </div>
+
+        <!-- col 4: action -->
+        <div class="col-span-1 text-left self-start">
+          <%= link_to "Change batch?",
+                new_makesheet_ingredient_batch_change_path(@makesheet, item: item),
+                data: { turbo_frame: "batch_change" },
+                onclick: "document.getElementById('change-batch-section').scrollIntoView({behavior:'smooth'})",
+                class: "underline text-lime-800" %>
+        </div>
+      <% end %>
+
 
     <!-- MAKE RECIPE Section -->
       <div class="col-span-4 mt-8"><hr></div>
       <div id="make-recipe-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
         MAKE RECIPE
       </div>
-      <div class="col-span-4"><hr></div>
+      <div class="col-span-4 mb-2"><hr></div>
      
 
       <!-- Make Recipe Fields -->
@@ -345,7 +389,7 @@
       </div>
 
 
-    <div class="col-span-4"><hr></div>
+    <div class="col-span-4 m-2"><hr></div>
 
         <div class="col-span-2 self-center">
           <%= form.label :cut_start_time, "Cut", class: label_class %>
@@ -383,6 +427,8 @@
         <div class="col-span-2 md:col-span-1 flex items-center space-x-2">
           <%= form.time_field :whey_time, class: makesheet_small_right_class %>
         </div>
+
+            <div class="col-span-4 m-2"><hr></div>
 
         <div class="col-span-2 self-center">
           <%= form.label :first_cut_time, "1st Cut", class: label_class %>
@@ -462,7 +508,7 @@
         <div id="process-info-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
           PROCESS INFORMATION
         </div>
-        <div class="col-span-4"><hr></div>
+        <div class="col-span-4 mb-2"><hr></div>
        
 
         <div class="col-span-2 self-center">
@@ -543,7 +589,7 @@
     <div id="post-make-section" class="scroll-mt-[120px] col-span-4 text-left font-semibold text-lg">
       POST MAKE
     </div>
-    <div class="col-span-4"><hr></div>
+    <div class="col-span-4 mb-2"><hr></div>
    
 
     <div class="col-span-2 self-center">
@@ -610,14 +656,27 @@
     <span class="text-gray-600 ml-4">(Click to expand)</span>
   </div>
 
-  <!-- Accordion Body -->
-  <div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2">
-    <div class="col-span-2 self-center">
-      <%= form.label :ingredient_batch_change, class: label_class %>
-    </div>
-    <div class="col-span-2 md:col-span-1">
-      <%= form.text_area :ingredient_batch_change, rows: 4, class: makesheet_full_class %>
-    </div>
+ <!-- Accordion Body -->
+<div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2">
+  <div class="col-span-2 self-center">
+    <%= form.label :ingredient_batch_change, class: label_class %>
+  </div>
+  <div class="col-span-2 md:col-span-1">
+   <% if @makesheet.persisted? %>
+  <%= link_to "Choose / link ingredient batch",
+              new_makesheet_ingredient_batch_change_path(@makesheet),
+              data: { turbo_frame: "batch_change" },
+              class: fill_button_class %>
+  <div class="text-xs text-gray-500 mt-1">Opens the picker below without saving this form.</div>
+<% else %>
+  <div class="text-sm text-gray-600 italic">
+    Save the makesheet first to link an ingredient batch.
+  </div>
+<% end %>
+
+  </div>
+
+    
 
     <div class="col-span-2 self-center">
       <%= form.label :thermometer_change, class: label_class %>
@@ -648,7 +707,7 @@
 <div class="col-span-4 text-left font-semibold">
   WEATHER
 </div>
- <div class="col-span-4"><hr></div>
+ <div class="col-span-4 m-2"><hr></div>
 
 <div class="col-span-2 self-center">
   <%= form.label :weather_today, class: label_class %>
@@ -886,23 +945,59 @@
 
 
 
-  <div class="col-span-4 my-2">
+  <div class="col-span-4 mb-4">
     <hr>
   </div>
 
-  <!-- Final Buttons -->
-  <div class="col-span-2 self-start my-2">
-    <%= form.submit "Save Make Sheet", class: fill_button_class %>
+ <!-- Final Buttons -->
+<div class="col-span-2 self-start my-2 flex justify-end  gap-3">
+  <%= button_tag "Save & Continue",
+        type: "submit",
+        name: "save_and_continue",
+        value: "1",
+        class: fill_button_large_class,
+        data: { disable_with: "Saving…" } %>
+
+  <%= button_tag "Save & Finish",
+        type: "submit",
+        name: "save_and_finish",
+        value: "1",
+        class: clear_button_large_class,
+        data: { disable_with: "Saving…" } %>
+</div>
+
+  <div class="col-span-4 mt-4">
+    <hr>
+     <hr>
   </div>
-  <div class="self-start my-2 mb-12">
-    <%= link_to "All Makesheets", makesheets_path, class: clear_button_class %>
-    <%= link_to "Show Makesheet", makesheet, class: clear_button_class %>
-  </div>
+
 
 </div>
 <!-- End Main Grid -->
 
 <% end %>
 </div>
+
+<!-- Needed for ingredients batch change loop -->
+<!-- CHANGE BATCH (full-width well) -->
+<div id="change-batch-section" class="col-span-4 mt-4">
+  <div class="rounded-lg border border-gray-800 bg-gray-200">
+    <div class="px-5 py-4 border-b border-gray-300">
+      <div class="text-left font-semibold text-lg">Link Ingredient Batch to Makesheet</div>
+      <p class="mt-1 text-sm text-gray-700">
+        Choose an ingredient and link latest delivery. This won’t save the rest of the page.
+      </p>
+    </div>
+
+    <div class="px-5 py-5">
+      <turbo-frame id="batch_change"
+                   src="<%= new_makesheet_ingredient_batch_change_path(@makesheet, item: params[:item]) %>">
+        Loading…
+      </turbo-frame>
+    </div>
+  </div>
+</div>
+
+
 
 <br><br>
