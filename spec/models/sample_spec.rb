@@ -6,17 +6,19 @@ RSpec.describe Sample, type: :model do
   end
 
   describe 'validations' do
-    subject { FactoryBot.build(:sample) } # Needed for uniqueness
+    subject { build(:sample) }
+    before { create(:sample, sample_no: 'A001') } # ensures a record exists to conflict with
+  
     it { should validate_uniqueness_of(:sample_no) }
-  end 
+  end
 
   describe 'scopes' do
-    it 'orders by sample_no ascending (test records only)' do
-      s1 = FactoryBot.create(:sample, sample_no: "Z100")
-      s2 = FactoryBot.create(:sample, sample_no: "A001")
-
+    it 'orders by sample_no descending (test records only)' do
+      s1 = create(:sample, sample_no: 'Z100')
+      s2 = create(:sample, sample_no: 'A001')
+  
       result = Sample.where(id: [s1.id, s2.id]).ordered.pluck(:sample_no)
-      expect(result).to eq([s2.sample_no, s1.sample_no])
+      expect(result).to eq([s1.sample_no, s2.sample_no]) # Z100, A001
     end
   end
 end

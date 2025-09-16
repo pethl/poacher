@@ -1,5 +1,7 @@
 class Sample < ApplicationRecord
   include UserTrackable
+  require 'csv'
+  require 'roo'
   has_and_belongs_to_many :makesheets
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true

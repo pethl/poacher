@@ -86,21 +86,19 @@ class Makesheet < ApplicationRecord
     (total_weight.to_f / milk_used.to_f) * 100
   end
 
-  # Class method for average yield per make_type (last N makesheets)
-  def self.average_yield_for(make_type, limit = 10, exclude_id = nil)
-    sheets = where(make_type: make_type)
-    sheets = sheets.where.not(id: exclude_id) if exclude_id
-    sheets = sheets.order(created_at: :desc).limit(limit)
-
+  # Average yield of the last N makesheets with make_date <= today.
+  # Optionally exclude a specific record (used by #predicted_yield).
+  def self.average_recent_yield(limit = 10, exclude_id: nil)
+    scope = where('make_date < ?', Date.today)  # strictly prior to today
+    scope = scope.where.not(id: exclude_id) if exclude_id
+    sheets = scope.order(make_date: :desc).limit(limit)
     return nil if sheets.empty?
-
     sheets.map(&:yield).sum / sheets.size
   end
 
-
-  # Instance method for predicted yield (excluding self)
+  # Predicted yield uses the same recent window, excluding self.
   def predicted_yield
-    Makesheet.average_yield_for(self.make_type, 10, self.id)
+    Makesheet.average_recent_yield(10, exclude_id: id)
   end
 
   def calc_salt_net
