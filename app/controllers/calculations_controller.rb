@@ -1,10 +1,12 @@
 class CalculationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_calculation, only: %i[ show edit update destroy ]
+  before_action :load_reference_options, only: %i[new edit create update]
 
   # GET /calculations or /calculations.json
   def index
-    @calculations = Calculation.all.ordered
+    @calculations = Calculation.order(:product, :size)
+    @calculations_by_product = @calculations.group_by(&:product)
   end
 
   # GET /calculations/1 or /calculations/1.json
@@ -13,7 +15,10 @@ class CalculationsController < ApplicationController
 
   # GET /calculations/new
   def new
-    @calculation = Calculation.new
+    @calculation = Calculation.new(
+      product: params[:product], # prefilled from link in index
+      size:    params[:size]     # optional prefill
+    )
   end
 
   # GET /calculations/1/edit
@@ -59,13 +64,18 @@ class CalculationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_calculation
       @calculation = Calculation.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def calculation_params
       params.require(:calculation).permit(:product, :size, :weight, :notes)
+    end
+
+    # Make reference values available to forms
+    def load_reference_options
+      @sale_product  = helpers.sale_product
+      @wedges_sizes  = helpers.wedges_sizes
     end
 end

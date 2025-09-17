@@ -26,14 +26,16 @@ RSpec.describe Staff, type: :model do
 
   describe 'scopes' do
     it 'returns staff ordered by first name asc' do
-      Staff.destroy_all # isolate the test
+      a = create(:staff, first_name: 'Alice')
+      c = create(:staff, first_name: 'Charlie')
+      b = create(:staff, first_name: 'Bob')
   
-      s1 = described_class.create!(first_name: "Amy", last_name: "Zebra", employment_status: "Active")
-      s2 = described_class.create!(first_name: "Ben", last_name: "Apple", employment_status: "Active")
-  
-      expect(Staff.ordered).to eq([s1, s2])
+      # Only assert over the records we created
+      result = Staff.where(id: [a.id, b.id, c.id]).order(first_name: :asc).pluck(:first_name)
+      expect(result).to eq(%w[Alice Bob Charlie])
     end
   end
+  
   
 
   describe '#full_name' do

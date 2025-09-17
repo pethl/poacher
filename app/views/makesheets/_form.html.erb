@@ -91,7 +91,8 @@
         <%= form.text_field :milling_help, class: makesheet_med_class %>
       </div>
 
-     <% if @makesheet.make_date < 6.months.ago.to_date %>
+   <% if @makesheet.make_date.present? && @makesheet.make_date < 6.months.ago.to_date %>
+
           <!-- Grade -->
           <div class="col-span-2 self-center">
             <%= form.label :grade, class: label_class %>
@@ -303,12 +304,18 @@
 
         <!-- col 4: action -->
         <div class="col-span-1 text-left self-start">
-          <%= link_to "Change batch?",
-                new_makesheet_ingredient_batch_change_path(@makesheet, item: item),
-                data: { turbo_frame: "batch_change" },
-                onclick: "document.getElementById('change-batch-section').scrollIntoView({behavior:'smooth'})",
-                class: "underline text-lime-800" %>
-        </div>
+            <% if @makesheet.persisted? %>
+              <%= link_to "Change batch?",
+                    new_makesheet_ingredient_batch_change_path(@makesheet, item: item),
+                    data: { turbo_frame: "batch_change" },
+                    onclick: "document.getElementById('change-batch-section').scrollIntoView({behavior:'smooth'})",
+                    class: "underline text-lime-800" %>
+            <% else %>
+              <span class="underline text-gray-400 cursor-not-allowed" title="Save the makesheet first">
+                Change batch?
+              </span>
+            <% end %>
+          </div>
       <% end %>
 
 
@@ -647,36 +654,35 @@
       <!-- End Main Grid Container -->
 
    <!-- CHANGES (accordion) -->
-<div class="col-span-4 my-2"><hr></div>
+      <div class="col-span-4 my-2"><hr></div>
 
-<div class="col-span-4" data-controller="accordion">
-  <!-- Accordion Header -->
-  <div class="cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
-    <span>CHANGES</span>
-    <span class="text-gray-600 ml-4">(Click to expand)</span>
+      <div class="col-span-4" data-controller="accordion">
+        <!-- Accordion Header -->
+        <div class="cursor-pointer font-light text-left flex items-center" data-action="click->accordion#toggle">
+          <span>CHANGES</span>
+          <span class="text-gray-600 ml-4">(Click to expand)</span>
+        </div>
+
+      <!-- Accordion Body -->
+      <div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2">
+        <div class="col-span-2 self-center">
+          <%= form.label :ingredient_batch_change, class: label_class %>
+        </div>
+        <div class="col-span-2 md:col-span-1">
+        <% if @makesheet.persisted? %>
+        <%= link_to "Choose / link ingredient batch",
+                    new_makesheet_ingredient_batch_change_path(@makesheet),
+                    data: { turbo_frame: "batch_change" },
+                    class: fill_button_class %>
+        <div class="text-xs text-gray-500 mt-1">Opens the picker below without saving this form.</div>
+      <% else %>
+        <div class="text-sm text-gray-600 italic">
+          Save the makesheet first to link an ingredient batch.
+        </div>
+      <% end %>
+
   </div>
 
- <!-- Accordion Body -->
-<div data-accordion-target="section" class="hidden grid grid-cols-4 gap-4 mt-2">
-  <div class="col-span-2 self-center">
-    <%= form.label :ingredient_batch_change, class: label_class %>
-  </div>
-  <div class="col-span-2 md:col-span-1">
-   <% if @makesheet.persisted? %>
-  <%= link_to "Choose / link ingredient batch",
-              new_makesheet_ingredient_batch_change_path(@makesheet),
-              data: { turbo_frame: "batch_change" },
-              class: fill_button_class %>
-  <div class="text-xs text-gray-500 mt-1">Opens the picker below without saving this form.</div>
-<% else %>
-  <div class="text-sm text-gray-600 italic">
-    Save the makesheet first to link an ingredient batch.
-  </div>
-<% end %>
-
-  </div>
-
-    
 
     <div class="col-span-2 self-center">
       <%= form.label :thermometer_change, class: label_class %>
@@ -976,28 +982,35 @@
 <!-- End Main Grid -->
 
 <% end %>
-</div>
+
 
 <!-- Needed for ingredients batch change loop -->
 <!-- CHANGE BATCH (full-width well) -->
-<div id="change-batch-section" class="col-span-4 mt-4">
-  <div class="rounded-lg border border-gray-800 bg-gray-200">
-    <div class="px-5 py-4 border-b border-gray-300">
-      <div class="text-left font-semibold text-lg">Link Ingredient Batch to Makesheet</div>
-      <p class="mt-1 text-sm text-gray-700">
-        Choose an ingredient and link latest delivery. This won’t save the rest of the page.
-      </p>
-    </div>
 
-    <div class="px-5 py-5">
-      <turbo-frame id="batch_change"
-                   src="<%= new_makesheet_ingredient_batch_change_path(@makesheet, item: params[:item]) %>">
-        Loading…
-      </turbo-frame>
+    <div id="change-batch-section" class="col-span-4 mt-4">
+      <div class="rounded-lg border border-gray-800 bg-gray-200">
+        <div class="px-5 py-4 border-b border-gray-300">
+          <div class="text-left font-semibold text-lg">Link Ingredient Batch to Makesheet</div>
+          <p class="mt-1 text-sm text-gray-700">
+            Choose an ingredient and link latest delivery. This won’t save the rest of the page.
+          </p>
+        </div>
+
+        <div class="px-5 py-5">
+          <% if @makesheet.persisted? %>
+            <turbo-frame id="batch_change"
+                        src="<%= new_makesheet_ingredient_batch_change_path(@makesheet, item: params[:item]) %>">
+              Loading…
+            </turbo-frame>
+          <% else %>
+            <turbo-frame id="batch_change">
+              <div class="text-sm text-gray-600">
+                Save the makesheet first to link an ingredient batch.
+              </div>
+            </turbo-frame>
+          <% end %>
+        </div>
+      </div>
     </div>
-  </div>
 </div>
-
-
-
 <br><br>

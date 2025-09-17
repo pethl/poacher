@@ -83,9 +83,13 @@ end
     end
 
     it 'returns "II" when cut times are added' do
-      makesheet = build(:makesheet, :with_I, :with_II)
+      makesheet = build(:makesheet, :with_I, :with_II,
+                        total_weight: nil,
+                        number_of_cheeses: nil,
+                        pre_start_inspection_by_staff: nil)
       expect(makesheet.progress).to eq('II')
     end
+    
 
     it 'returns "III" when weight and cheese count are present' do
       makesheet = build(:makesheet, :with_I, :with_II, :with_III)

@@ -1,9 +1,12 @@
 FactoryBot.define do
   factory :ingredient_batch_change do
-    makesheet { nil }
-    delivery_inspection { nil }
-    item { "MyString" }
-    changed_on { "2025-08-24" }
-    notes { "MyText" }
+    association :makesheet
+    association :delivery_inspection
+
+    # keep this in sync with the delivery_inspection.item
+    item       { delivery_inspection&.item || 'Rennet - Vegetable' }
+    changed_on { Date.today }
+    notes      { 'Supplier change' }
   end
 end
+

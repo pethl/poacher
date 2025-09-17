@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :turn do
-    turn_date { Date.today }
     association :makesheet
+    turn_date { Time.current }
+    turned_by { "JD" }
   end
 end

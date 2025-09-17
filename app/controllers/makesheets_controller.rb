@@ -33,7 +33,7 @@ class MakesheetsController < ApplicationController
     @make_types = Makesheet.distinct.pluck(:make_type)
   
     @projected_yields = @make_types.each_with_object({}) do |make_type, hash|
-      avg_yield = Makesheet.average_yield_for(make_type)
+      avg_yield = Makesheet.average_recent_yield
       hash[make_type] = avg_yield.round(2) if avg_yield
     end
   

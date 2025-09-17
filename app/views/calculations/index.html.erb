@@ -1,68 +1,117 @@
+<%# app/views/calculations/index.html.erb %>
 <div class="overscroll-none">
-<% content_for :title, "Poacher: System Calculations" %>
-<% content_for(:page_title, "CALCULATIONS")%>
-<% content_for(:page_button, "calculations/new")%>
-<div id="calculations">
+  <% content_for :title,      "Poacher: System Calculations" %>
+  <% content_for :page_title, "CALCULATIONS" %>
+  <% content_for :page_button, new_calculation_path %>
 
-  <div class="mx-auto w-full lg:w-2/3">
+  <div class="mx-auto w-full lg:w-2/3 px-4" data-controller="filter">
+    <!-- Subheading / note -->
+    <p class="mx-auto mb-4 text-base text-center font-light">
+      IMPORTANT: These values convert Picklist options to grams for wash list calculations.
+      <br>
+      Update with care. All weights are in <strong>grams</strong>.
+    </p>
 
-     <p class="mx-auto mb-4 text-base text-center font-light">IMPORTANT: These values are used to convert Picklist weight options to grams for the wash list calculations.
-        <br>Update with care. All weights are in <strong>grams</strong> only.
-      </p>
-
-      <div class="border-separate overflow-clip flex flex-col">
-        <table class="mx-auto w-full lg:w-2/3 table-fixed ">
-          <thead class="sticky top-0 text-xs text-gray-700 uppercase bg-gray-200">
-          <tr class="bg-gray-200 sticky top-0">
-                    <th scope="col" class="px-6 py-3 w-30 text-left">
-                        Product
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-right w-28">
-                        Size
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-right">
-                        Weight(g)
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-right whitespace-nowrap">
-                        Notes
-                    </th>
-               
-                    <th scope="col" class="px-6 py-3 text-right ">
-                        
-                    </th>
-               
-                </tr>
-            </thead>
-            </table>
-        <div class="flex-1 overflow-y-auto">
-          <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm">
-            <tbody>
-             <% @calculations.each do |calculation| %>
-                <tr class="bg-white border-b hover:bg-gray-100">
-                    <td scope="row" class="px-6 py-4 whitespace-nowrap">
-                       <%= link_to calculation.product %>
-                    </td>
-                    <td class="px-6 py-4 text-right w-28 underline underline-offset-2">
-                      <%=  link_to calculation.size, calculation_path(calculation) %>
-                    </td>
-                    <td class="px-6 py-4 text-right ">
-                      <%= number_with_delimiter(calculation.weight) unless calculation.weight.to_s.empty? %>g
-                    </td>
-                    <td class="px-6 py-4 text-right whitespace-nowrap">
-                      <%=  calculation.notes %>
-                    </td>
-                    <td class="px-6 py-4 text-right text-green-500">
-                    <%=  link_to "Edit", edit_calculation_path(calculation) %>
-                    </td>
-               
-                </tr>
-           
-                  <% end %>
-            </tbody>
-        </table>
+    <!-- Search (client-side filter like References) -->
+    <div class="flex items-center gap-4 mb-4">
+      <div>
+        <label for="calc-search" class="sr-only">Search</label>
+        <input id="calc-search"
+               type="text"
+               placeholder="Search product/size…"
+               data-filter-target="input"
+               data-action="input->filter#filter"
+               class="w-64 p-1.5 border border-gray-300 rounded text-sm shadow-sm focus:ring focus:outline-none focus:border-blue-400" />
+      </div>
+      <%= link_to "Add New", new_calculation_path, class: gray_button %>
     </div>
-     
+
+<% wedges = wedges_sizes %>
+
+    <% @calculations_by_product.each do |product, rows| %>
+      <% existing_sizes = rows.map(&:size).compact.map(&:to_s) %>
+      <% missing = wedges - existing_sizes %>
+      <% coverage_ok = missing.empty? %>
+
+      <div data-filter-target="item"
+           data-filter-value="<%= [product, existing_sizes.join(' ')].join(' ').parameterize %>">
+
+        <div data-controller="accordion" class="mt-3 border border-gray-200 rounded-lg shadow bg-white overflow-hidden">
+
+       <!-- Accordion header -->
+          <button
+            type="button"
+            data-action="click->accordion#toggle"
+            class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 text-sm border-b transition flex items-center justify-between"
+            aria-expanded="false">
+            <span><%= product %></span>
+
+            <% if coverage_ok %>
+              <span class="ml-3 inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+                <span class="h-2 w-2 rounded-full bg-green-500"></span> All sizes covered
+              </span>
+            <% else %>
+              <span class="ml-3 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+                <span class="h-2 w-2 rounded-full bg-red-500"></span> Missing <%= missing.size %>
+              </span>
+            <% end %>
+          </button>
 
 
+          <!-- Accordion body -->
+          <div data-accordion-target="section" class="px-4 py-4 hidden transition-all duration-200 ease-in-out">
+
+            <!-- Add-new button prefilling product -->
+            <div class="mb-4">
+              <%= link_to "Add to #{product}", new_calculation_path(product: product), class: gray_button %>
+            </div>
+
+            <!-- Missing sizes chips (if any) -->
+            <% unless coverage_ok %>
+              <div class="mb-3 text-sm">
+                <span class="text-gray-600 mr-2">Missing sizes:</span>
+                <% missing.each do |ms| %>
+                  <%= link_to ms,
+                              new_calculation_path(product: product, size: ms),
+                              class: "inline-block text-xs bg-red-50 text-red-700 border border-red-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-red-100" %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <!-- Table -->
+            <div class="border border-gray-200 rounded">
+              <table class="w-full text-left text-sm">
+                <thead class="text-xs bg-gray-200 text-gray-600 uppercase border-b">
+                  <tr>
+                    <th class="px-3 py-2 w-40">Size</th>
+                    <th class="px-3 py-2 w-28 text-right">Weight (g)</th>
+                    <th class="px-3 py-2">Notes</th>
+                    <th class="px-3 py-2 w-20 text-right">Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% rows.each do |c| %>
+                    <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                      <td class="px-3 py-2">
+                        <%= link_to c.size, calculation_path(c), class: link_class %>
+                      </td>
+                      <td class="px-3 py-2 text-right">
+                        <%= number_with_delimiter(c.weight) %>g
+                      </td>
+                      <td class="px-3 py-2"><%= c.notes %></td>
+                      <td class="px-3 py-2 text-right text-green-600">
+                        <%= link_to "Edit", edit_calculation_path(c), class: link_class %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
+<br><br>

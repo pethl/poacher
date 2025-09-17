@@ -1,48 +1,43 @@
-<% content_for(:title, "Poacher: Reference Data")%>
-<% content_for(:page_title, "REFERENCE DATA")%>
-<% content_for(:page_button, "references/new")%>
+<% content_for :title, "Poacher: Reference Data" %>
+<% content_for :page_title, "REFERENCE DATA" %>
+<% content_for :page_button, "references/new" %>
 
 <div class="mx-auto w-full lg:w-2/3 px-4">
 
-<!-- FILTER CONTROLLER wrapper -->
-<div data-controller="filter" class="m-4">
-
-  <!-- Inline filter & search layout -->
-  <div class="flex flex-wrap items-center gap-4">
-
-    <!-- SEARCH INPUT -->
-   <div>
-  <label for="search" class="sr-only">Search</label>
-  <input type="text"
-         name="search"
-         id="search"
-         placeholder="Search values..."
-         data-filter-target="input"
-         data-action="input->filter#filter"
-         class="w-64 p-1.5 border border-gray-300 rounded text-sm shadow-sm focus:ring focus:outline-none focus:border-blue-400" />
-</div>
-
-    <!-- FILTER FORM -->
-    <%= form_with(url: references_path, method: :get, local: true, class: "flex flex-wrap items-center gap-2") do %>
+  <!-- FILTER CONTROLLER wrapper -->
+  <div data-controller="filter" class="m-4">
+    <div class="flex flex-wrap items-center gap-4">
+      <!-- SEARCH INPUT -->
       <div>
-        <%= label_tag :model, "Model", class: "block text-[11px] font-medium text-gray-600" %>
-        <%= select_tag :model, options_for_select(reference_model_options, params[:model]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
+        <label for="search" class="sr-only">Search</label>
+        <input type="text"
+               name="search"
+               id="search"
+               placeholder="Search values..."
+               data-filter-target="input"
+               data-action="input->filter#filter"
+               class="w-64 p-1.5 border border-gray-300 rounded text-sm shadow-sm focus:ring focus:outline-none focus:border-blue-400" />
       </div>
 
-      <div>
-        <%= label_tag :group, "Group", class: "block text-[11px] font-medium text-gray-600" %>
-        <%= select_tag :group, options_for_select(Reference.distinct.pluck(:group).sort, params[:group]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
-      </div>
+      <!-- FILTER FORM -->
+      <%= form_with(url: references_path, method: :get, local: true, class: "flex flex-wrap items-center gap-2") do %>
+        <div>
+          <%= label_tag :model, "Model", class: "block text-[11px] font-medium text-gray-600" %>
+          <%= select_tag :model, options_for_select(reference_model_options, params[:model]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
+        </div>
 
-      <div class="flex gap-1 mt-5">
-        <%= submit_tag "Filter", class: "px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700" %>
-        <%= link_to "Clear", references_path, class: "px-3 py-1 text-sm border rounded text-gray-600 hover:text-gray-800" %>
-      </div>
-    <% end %>
+        <div>
+          <%= label_tag :group, "Group", class: "block text-[11px] font-medium text-gray-600" %>
+          <%= select_tag :group, options_for_select(Reference.distinct.pluck(:group).sort, params[:group]), prompt: "Select", class: "text-sm border-gray-300 rounded px-2 py-1" %>
+        </div>
+
+        <div class="flex gap-1 mt-5">
+          <%= submit_tag "Filter", class: "px-3 py-1 text-sm bg-gray-600 text-white rounded hover:bg-gray-700" %>
+          <%= link_to "Clear", references_path, class: "px-3 py-1 text-sm border rounded text-gray-600 hover:text-gray-800" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
-
-
 
   <!-- Intro text -->
   <p class="text-base text-left font-light mb-4">
@@ -65,12 +60,12 @@
       <div data-filter-target="item" data-filter-value="<%= references.map(&:value).join(' ').parameterize %>">
 
         <div data-controller="accordion" class="mt-2 border border-gray-200 rounded-lg shadow bg-white overflow-hidden">
-
-          <!-- Accordion Header -->
+          <!-- Accordion Header (FIXED) -->
           <button
-            data-action="accordion#toggle"
+            type="button"
+            data-action="click->accordion#toggle"
             class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 text-sm border-b transition"
-          >
+            aria-expanded="false">
             <%= group %>
           </button>
 
@@ -91,7 +86,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                 <% references.each do |reference| %>
+                  <% references.each do |reference| %>
                     <tr class="border-b hover:bg-gray-50">
                       <td class="px-4 py-2">
                         <%= link_to reference.value, edit_reference_path(reference), class: link_class %>
@@ -107,13 +102,9 @@
               <p class="text-sm text-gray-500 italic">No entries found for this group.</p>
             <% end %>
           </div>
-
         </div>
+
       </div>
     <% end %>
   <% end %>
 </div>
-
-</div>
-
-<br><br>

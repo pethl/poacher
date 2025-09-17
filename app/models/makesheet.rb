@@ -85,7 +85,7 @@ class Makesheet < ApplicationRecord
     return 0 if milk_used.to_f.zero?
     (total_weight.to_f / milk_used.to_f) * 100
   end
-
+ 
   # Average yield of the last N makesheets with make_date <= today.
   # Optionally exclude a specific record (used by #predicted_yield).
   def self.average_recent_yield(limit = 10, exclude_id: nil)

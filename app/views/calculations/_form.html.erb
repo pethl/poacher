@@ -1,65 +1,66 @@
-<% content_for(:page_title, "NEW MAKE SHEET") %>
-
 <div class="max-w-xl mx-auto mt-4 bg-white p-4">
-  <%= form_with model: @makesheet, url: makesheets_path, local: true do |form| %>
+  <%= form_with(model: calculation, class: "contents", local: true) do |form| %>
 
-    <%= form_errors_for(@makesheet) %>
+    <% if calculation.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(calculation.errors.count, "error") %> prohibited this calculation from being saved:</h2>
+        <ul class="list-disc pl-5">
+          <% calculation.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
     <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
-
-      <!-- Status -->
+      <!-- Product (dropdown from Reference: sale_product) -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :status %>
+        <%= form.label :product %>
       </label>
       <div class="text-left">
-        <%= form.select :status,
-                        options_for_select(batch_status, selected: @makesheet.status),
-                        { prompt: true },
-                        class: field_class_flex_disabled,
-                        disabled: true %>
-      </div>
-
-      <!-- Make Type -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :make_type %>
-      </label>
-      <div class="text-left">
-        <%= form.select :make_type,
-                        options_for_select(make_type, selected: @makesheet.make_type),
-                        { prompt: true },
+        <%= form.select :product,
+                        options_for_select(sale_product, calculation.product),
+                        { prompt: "Please select" },
                         class: field_class_flex %>
       </div>
 
-      <!-- Weight Type -->
+      <!-- Size (dropdown from Reference: wedge_sizes) -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :weight_type %>
+        <%= form.label :size %>
       </label>
       <div class="text-left">
-        <%= form.select :weight_type,
-                        options_for_select(weight_type, selected: @makesheet.weight_type),
-                        { prompt: true },
+        <%= form.select :size,
+                        options_for_select(wedges_sizes, calculation.size),
+                        { prompt: "Please select" },
                         class: field_class_flex %>
       </div>
 
-      <!-- Make Date -->
+
+      <!-- Weight -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :make_date %>
+        <%= form.label :weight %>
       </label>
       <div class="text-left">
-        <%= form.date_field :make_date, value: @makesheet.make_date, class: field_class_flex %>
+        <%= form.number_field :weight, step: 1, class: field_class_flex_med %>
       </div>
 
-      <!-- Back Link -->
+      <!-- Notes -->
+      <label class="text-right font-semibold text-gray-700">
+        <%= form.label :notes %>
+      </label>
       <div class="text-left">
-        <%= link_to "← Back to Makesheets", makesheets_path, class: gray_button %>
+        <%= form.text_area :notes, rows: 3, class: field_class_flex %>
       </div>
 
-      <!-- Submit Button -->
-      <div class="text-left">
-        <%= form.submit "Create Makesheet", class: fill_button_class %>
+      <!-- Back -->
+      <div class="text-left mt-2">
+        <%= link_to "← Back to Calculations", calculations_path, class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded" %>
       </div>
 
+      <!-- Submit -->
+      <div class="text-left mt-2">
+        <%= form.submit (calculation.persisted? ? "Update Calculation" : "Create Calculation"), class: fill_button_class %>
+      </div>
     </div>
   <% end %>
 </div>
-
