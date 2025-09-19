@@ -2,7 +2,7 @@
 <div class="overscroll-none">
   <% content_for :title,      "Poacher: System Calculations" %>
   <% content_for :page_title, "CALCULATIONS" %>
-  <% content_for :page_button, new_calculation_path %>
+
 
   <div class="mx-auto w-full lg:w-2/3 px-4" data-controller="filter">
     <!-- Subheading / note -->
@@ -12,19 +12,10 @@
       Update with care. All weights are in <strong>grams</strong>.
     </p>
 
-    <!-- Search (client-side filter like References) -->
-    <div class="flex items-center gap-4 mb-4">
-      <div>
-        <label for="calc-search" class="sr-only">Search</label>
-        <input id="calc-search"
-               type="text"
-               placeholder="Search product/size…"
-               data-filter-target="input"
-               data-action="input->filter#filter"
-               class="w-64 p-1.5 border border-gray-300 rounded text-sm shadow-sm focus:ring focus:outline-none focus:border-blue-400" />
-      </div>
-      <%= link_to "Add New", new_calculation_path, class: gray_button %>
-    </div>
+     <!-- Add New Button -->
+  <div class="mb-6">
+   <b>Open relevent section to Add New Calculation.</b>
+  </div>
 
 <% wedges = wedges_sizes %>
 

@@ -1,6 +1,6 @@
 <div class="w-full">
   <% content_for(:page_title, "BATCH INDIVIDUAL TRACEABILITY")%>
-    <% content_for(:page_button, "traceability_records/new")%>
+    <% content_for(:page_button, new_traceability_record_path)%>
 
 <div class="items-center rounded text-sm">
 <%= turbo_refreshes_with method: :morph, scroll: :preserve %>

@@ -10,7 +10,7 @@
         <%= form.label :date %>
       </label>
       <div>
-        <%= form.date_field :date, class: field_class_flex_med %>
+        <%= form.date_field :date, class: field_class_flex %>
       </div>
 
       <!-- Company Name -->
@@ -18,7 +18,7 @@
         <%= form.label :company_name %>
       </label>
       <div>
-        <%= form.text_field :company_name, class: field_class_flex_med %>
+        <%= form.text_field :company_name, class: field_class_flex %>
       </div>
 
       <!-- Registration -->
@@ -26,7 +26,7 @@
         <%= form.label :registration %>
       </label>
       <div>
-        <%= form.text_field :registration, class: field_class_flex_med %>
+        <%= form.text_field :registration, class: field_class_flex %>
       </div>
 
       <!-- Trailer Number / Type -->
@@ -34,7 +34,7 @@
         <%= form.label :trailer_number_type, "Trailer Number / Type" %>
       </label>
       <div>
-        <%= form.text_field :trailer_number_type, class: field_class_flex_med %>
+        <%= form.text_field :trailer_number_type, class: field_class_flex %>
       </div>
 
       <!-- Temperature -->
@@ -58,7 +58,7 @@
         <%= form.label :destination %>
       </label>
       <div>
-        <%= form.text_field :destination, class: field_class_flex_med %>
+        <%= form.text_field :destination, class: field_class_flex %>
       </div>
 
       <!-- Number of Pallets -->
@@ -74,7 +74,7 @@
         <%= form.label :staff_id, "Check By (Staff Member)" %>
       </label>
       <div>
-        <%= form.collection_select(:staff_id, @staffs, :id, :full_name, { prompt: true }, { class: field_class_flex_med }) %>
+        <%= form.collection_select(:staff_id, @staffs, :id, :full_name, { prompt: true }, { class: field_class_flex }) %>
       </div>
 
       <!-- Staff Signature -->
@@ -105,7 +105,7 @@
 
       <!-- Action Buttons -->
       <div class="text-left mt-2">
-        <%= link_to "← Back to Index", palletised_distributions_path, class: gray_button %>
+        <%= link_to "← Back to Index", palletised_distributions_path, class: clear_button_class %>
       </div>
       <div class="text-left mt-2">
         <%= form.submit "Save Record", class: fill_button_class %>

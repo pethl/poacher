@@ -2,18 +2,11 @@
 
 require "rails_helper"
 
-# This spec mimics what real users do: they land on each section home page
-# (Dairy, Store, Wash, Cutting, Office, Mgmt) and then click the key links
-# shown there. It favors finding links by their destination href so you can
-# freely tweak the link text on the home pages without breaking the tests.
-#
-# ✅ Easy to maintain: update the SECTIONS map below and you're done
-# ✅ Skips gracefully if a link is temporarily hidden (prints ⚠️ Skipped)
-# ✅ Prints a compact summary at the end
-# ✅ Optional per-destination title checks (case-insensitive)
-#
-# Tip: If you add or remove cards/links on a home page, just change the list
-# in the corresponding section below.
+# See README in previous messages for intent.
+# This version adds:
+# - Header-scoped "Add New" (page_button) tester
+# - Header-scoped "Print" (print_button) tester
+# - End-of-run summary for both
 
 RSpec.feature "PrimaryNavigationSmoke", type: :feature do
   include Rails.application.routes.url_helpers
@@ -23,10 +16,6 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
     login_as(admin, scope: :user)
 
     # --- Configuration ------------------------------------------------------
-    # Each section has a :home (where users start) and an array of :links.
-    # Each link uses :href (preferred, resilient to text changes) and can
-    # optionally specify :page_title to assert on a heading after navigation.
-    # Lambdas are used so route helpers/params are evaluated at runtime.
 
     ASSERT_TITLES = ENV["ASSERT_TITLES"] == "true"
 
@@ -75,7 +64,6 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       cutting: {
         home: -> { "/pages/cutting_home" },
         links: [
-          # Status counters on labels can change, so we click by href only
           { href: -> { open_picksheets_picksheets_path }, page_title: "OPEN PICKING SHEETS" },
           { href: -> { assigned_picksheets_picksheets_path }, page_title: "ASSIGNED PICKING SHEETS" },
           { href: -> { cutting_picksheets_picksheets_path }, page_title: "CUTTING PICKING SHEETS" },
@@ -123,8 +111,17 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
     skipped = []
     failed  = []
 
+    # Summary counters
+    new_buttons_actionable   = 0
+    new_buttons_passed       = 0
+    print_buttons_actionable = 0  # only non-browser-print
+    print_buttons_passed     = 0
+    print_buttons_browser    = 0  # skipped because 'browser-print'
+
+    # --- Helpers ------------------------------------------------------------
+
     def click_link_by_href_or_skip(href)
-      # Prefer exact href match; if not present, try best-effort contains()
+      # Prefer exact href match; if not present, try contains()
       link = nil
       begin
         link = find(:css, "a[href='#{href}']", match: :first)
@@ -139,6 +136,112 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       true
     end
 
+    # Detect if the header has an actionable "Add New" in the left slot
+    def page_button_actionable?
+      title_bar = "header .h-9"                       # bottom row (title bar)
+      left_slot = "#{title_bar} .flex-shrink-0:first-child"
+      return false unless page.has_css?(title_bar, wait: 0)
+      return false unless page.has_css?(left_slot, wait: 0)
+      return false unless page.has_css?("#{left_slot} a", wait: 0)
+
+      within(left_slot) do
+        link = first(:css, "a", minimum: 0, wait: 0)
+        return false unless link
+        text_ok = link.text.to_s.strip.match?(/add new/i)
+        href_ok = link[:href].to_s.match?(%r{/new(?:[/?]|$)})
+        text_ok || href_ok
+      end
+    end
+
+    # Click the "Add New" and run health checks (assumes actionable)
+    def click_and_check_page_button!
+      title_bar = "header .h-9"
+      left_slot = "#{title_bar} .flex-shrink-0:first-child"
+      within(left_slot) do
+        link = find(:css, "a", match: :first, wait: 0)
+        dest = link[:href]
+        link.click
+
+        if page.driver.respond_to?(:status_code)
+          expect(page.status_code).to be_between(200, 399),
+            "Expected success HTTP status after clicking #{dest}, got #{page.status_code}"
+        end
+
+        aggregate_failures do
+          expect(page).not_to have_text(/We're sorry, but something went wrong/i)
+          expect(page).not_to have_text(/Routing Error/i)
+          expect(page).not_to have_text(/ActiveRecord::RecordNotFound/i)
+        end
+
+        reached_new = page.has_current_path?(%r{/new(?:/|\?|$)}, url: true)
+        has_form    = page.has_css?("form", wait: 0)
+        expect(reached_new || has_form).to be(true),
+          "Expected to land on a /new page or see a form after clicking page button"
+      end
+      puts "   ↳ 🧪 page_button worked (header-scoped)"
+    end
+
+    # Detect print button presence/type in the right slot
+    # Returns :absent, :browser, or :actionable
+    def print_button_presence
+      title_bar  = "header .h-9"
+      right_slot = "#{title_bar} .flex-shrink-0:last-child"
+      return :absent unless page.has_css?(title_bar, wait: 0)
+      return :absent unless page.has_css?(right_slot, wait: 0)
+      return :absent unless page.has_css?("#{right_slot} a", wait: 0)
+
+      within(right_slot) do
+        return :browser if page.has_css?("a[onclick*='window.print']", wait: 0)
+      end
+      :actionable
+    end
+
+    # Click the Print link and verify PDF (assumes actionable)
+    def click_and_check_print_pdf!
+      title_bar  = "header .h-9"
+      right_slot = "#{title_bar} .flex-shrink-0:last-child"
+
+      within(right_slot) do
+        link = find(:css, "a", match: :first, wait: 0)
+        href = link[:href].to_s
+        link.click
+      end
+
+      if page.driver.respond_to?(:status_code)
+        expect(page.status_code).to be_between(200, 399),
+          "Expected success HTTP status after clicking Print, got #{page.status_code}"
+      end
+
+      pdf_detected = false
+
+      # 1) Content-Type header (rack_test exposes this)
+      if page.respond_to?(:response_headers)
+        ct = page.response_headers["Content-Type"].to_s
+        pdf_detected ||= ct.match?(/application\/pdf/i)
+      end
+
+      # 2) PDF magic header in body (%PDF)
+      begin
+        body = page.html.to_s
+        pdf_detected ||= body.start_with?("%PDF") || body.include?("%PDF-")
+      rescue
+        # some drivers block body for PDFs
+      end
+
+      # 3) URL pattern ends with .pdf
+      begin
+        pdf_detected ||= page.current_url.to_s.match?(/\.pdf(?:$|\?)/i)
+      rescue
+      end
+
+      expect(pdf_detected).to be(true),
+        "Expected a PDF response (content-type, %PDF magic header, or .pdf URL), but couldn't confirm."
+
+      puts "   ↳ 🧪 print_button worked (PDF detected)"
+    end
+
+    # --- Main loop ----------------------------------------------------------
+
     SECTIONS.each do |section, config|
       home_path = instance_exec(&config[:home])
       puts "\n\e[34m▶ SECTION: #{section.to_s.upcase} (#{home_path})\e[0m"
@@ -147,7 +250,7 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       expect(page).to have_current_path(home_path, url: false)
 
       config[:links].each do |link_cfg|
-        href = instance_exec(&link_cfg[:href])
+        href  = instance_exec(&link_cfg[:href])
         title = link_cfg[:page_title]
 
         begin
@@ -157,23 +260,54 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
             next
           end
 
-          # Basic health checks instead of specific titles
+          # Basic health checks
           if page.driver.respond_to?(:status_code)
             expect(page.status_code).to be_between(200, 399),
               "Expected a successful HTTP status after clicking #{href}, got #{page.status_code}"
           end
 
-          # Look for common Rails error page text to catch 500s with non-rack drivers
           aggregate_failures do
             expect(page).not_to have_text(/We're sorry, but something went wrong/i)
             expect(page).not_to have_text(/Routing Error/i)
             expect(page).not_to have_text(/ActiveRecord::RecordNotFound/i)
           end
 
-          # Optional: allow opt-in title assertions via env flag
+          # Optional title assertion
           if ASSERT_TITLES && title.present?
             expect(page).to have_text(/#{Regexp.escape(title)}/i),
               "Expected to find '#{title}' after clicking #{href}"
+          end
+
+          # 🔹 Page "Add New" button (header left slot)
+          begin
+            if page_button_actionable?
+              new_buttons_actionable += 1
+              click_and_check_page_button!
+              new_buttons_passed += 1
+            else
+              puts "   ↳ (no page_button present)"
+            end
+          rescue => e
+            failed << { section:, href: "#{href} [page_button]", error: e.message }
+            puts "\e[31m   ↳ 💥 page_button failed — #{e.class}: #{e.message}\e[0m"
+          end
+
+          # 🔹 Print button (header right slot)
+          begin
+            case print_button_presence
+            when :browser
+              print_buttons_browser += 1
+              puts "   ↳ (print_button is browser-print — skipped)"
+            when :actionable
+              print_buttons_actionable += 1
+              click_and_check_print_pdf!
+              print_buttons_passed += 1
+            else
+              puts "   ↳ (no print_button present)"
+            end
+          rescue => e
+            failed << { section:, href: "#{href} [print_button]", error: e.message }
+            puts "\e[31m   ↳ 💥 print_button failed — #{e.class}: #{e.message}\e[0m"
           end
 
           passed << { section:, href:, title: title }
@@ -182,11 +316,12 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
           failed << { section:, href:, error: e.message }
           puts "\e[31m💥 Failed: #{href} — #{e.class}: #{e.message}\e[0m"
         ensure
-          # Go back to the section home for the next link
           visit home_path
         end
       end
     end
+
+    # --- Totals & summary ---------------------------------------------------
 
     puts "\n\e[32m✅ #{passed.count} passed\e[0m"
     puts "\e[33m⚠️  #{skipped.count} skipped\e[0m"
@@ -196,6 +331,12 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       puts "\n\e[33mSkipped details:\e[0m"
       skipped.each { |s| puts " - [#{s[:section]}] #{s[:href]} — #{s[:reason]}" }
     end
+
+    # Pretty end-of-run summary focused on the header actions
+    puts "\n\e[36m📊 Summary:\e[0m"
+    puts "   New buttons:   #{new_buttons_passed}/#{new_buttons_actionable} passed"
+    puts "   Print (PDF):   #{print_buttons_passed}/#{print_buttons_actionable} passed" +
+         (print_buttons_browser.positive? ? "  (#{print_buttons_browser} browser-print skipped)" : "")
 
     expect(failed).to be_empty, "Some navigation links failed to open or validate"
   end

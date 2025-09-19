@@ -1,7 +1,7 @@
 <div class="overscroll-none bg-white min-h-screen">
   <% content_for :title, "Poacher: Customer List" %>
   <% content_for(:page_title, "CUSTOMERS")%>
-  <% content_for(:page_button, "contacts/new")%>
+  <% content_for(:page_button, new_contact_path)%>
 
   <div id="contacts" class="max-w-4xl mx-auto px-4 py-6">
     <% if notice.present? %>
