@@ -1,3 +1,4 @@
+# .github/workflows/smoke.yml
 name: Smoke Test
 
 on:
@@ -35,6 +36,24 @@ jobs:
         with:
           ruby-version: .ruby-version
           bundler-cache: true
+
+      # If you use cssbundling/esbuild/vite/webpack, include Node:
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # If you have a package.json (cssbundling etc.), install deps:
+      - name: Install JS deps
+        if: hashFiles('package.json') != ''
+        run: |
+          if [ -f yarn.lock ]; then corepack enable && yarn install --frozen-lockfile; \
+          elif [ -f package-lock.json ]; then npm ci; \
+          else npm i; fi
+
+      - name: Precompile assets
+        run: |
+          bin/rails assets:precompile
 
       - name: Prepare database
         run: |
