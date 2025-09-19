@@ -2,14 +2,27 @@
 
 ENV['RAILS_ENV'] ||= 'test'
 
-# --- SimpleCov: start BEFORE loading the Rails app ---
-require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter '/bin/'
-  add_filter '/db/'
-  add_filter '/spec/' # Don't track spec files
-  enable_coverage :branch
+# --- SimpleCov bootstrap (must run BEFORE Rails loads) -------------------
+# In GitHub Actions, ENV["CI"] == "true".
+# We disable SimpleCov in CI unless SIMPLECOV_IN_CI="true".
+enable_simplecov = !(ENV["CI"] == "true" && ENV["SIMPLECOV_IN_CI"] != "true")
+
+if enable_simplecov
+  require "simplecov"
+  SimpleCov.start "rails" do
+    add_filter "/bin/"
+    add_filter "/db/"
+    add_filter "/spec/" # Don't track spec files
+
+    enable_coverage :branch
+
+    # your local thresholds
+    minimum_coverage 85
+    minimum_coverage :branch, 70
+  end
 end
+# --------------------------------------------------------------------------
+
 
 # ✅ Only enforce coverage thresholds on CI or when explicitly opted in
 if ENV['CI'] || ENV['ENFORCE_MIN_COVERAGE'] == '1'

@@ -28,7 +28,9 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/poacher_test
       ASSERT_TITLES: "false"
       SECRET_KEY_BASE: "testkey"
+      SIMPLECOV_IN_CI: "false"
       BROWSERSLIST_IGNORE_OLD_DATA: "1"   # avoid slow Browserslist DB update
+
 
     steps:
       - name: Check out code
