@@ -13,10 +13,9 @@ if enable_simplecov
     add_filter "/bin/"
     add_filter "/db/"
     add_filter "/spec/" # Don't track spec files
-
     enable_coverage :branch
 
-    # your local thresholds
+    # local thresholds (only enforced when SimpleCov is enabled)
     minimum_coverage 85
     minimum_coverage :branch, 70
   end
