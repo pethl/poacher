@@ -1,8 +1,8 @@
-# .github/workflows/smoke.yml
 name: Smoke Test
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   smoke:
@@ -15,6 +15,7 @@ jobs:
           POSTGRES_DB: poacher_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports: ["5432:5432"]
         options: >-
           --health-cmd="pg_isready -U postgres"
@@ -26,6 +27,8 @@ jobs:
       RAILS_ENV: test
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/poacher_test
       ASSERT_TITLES: "false"
+      SECRET_KEY_BASE: "testkey"
+      BROWSERSLIST_IGNORE_OLD_DATA: "1"   # avoid slow Browserslist DB update
 
     steps:
       - name: Check out code
@@ -34,24 +37,60 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: .ruby-version
-          bundler-cache: true
+          ruby-version: .ruby-version      # ensure this is a stable version (e.g. 3.2.4)
+          bundler-cache: true              # caches gems
 
-      # If you use cssbundling/esbuild/vite/webpack, include Node:
+      # Match your package.json engines to avoid source builds / errors
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '23.7.0'           # update if your engines change
+          cache: 'yarn'                    # caches Yarn global cache automatically
 
-      # If you have a package.json (cssbundling etc.), install deps:
+      # Cache node_modules to avoid reinstalling on every push
+      - name: Cache node_modules
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            app/javascript/node_modules
+          key: node-modules-${{ hashFiles('yarn.lock', 'package-lock.json') }}
+
       - name: Install JS deps
-        if: hashFiles('package.json') != ''
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
         run: |
-          if [ -f yarn.lock ]; then corepack enable && yarn install --frozen-lockfile; \
-          elif [ -f package-lock.json ]; then npm ci; \
-          else npm i; fi
+          corepack enable
+          if [ -f yarn.lock ]; then
+            yarn install --frozen-lockfile
+          elif [ -f package-lock.json ]; then
+            npm ci
+          elif [ -f package.json ]; then
+            npm i
+          else
+            echo "No package.json found; skipping"
+          fi
 
-      - name: Precompile assets
+      # Cache compiled assets so unchanged assets skip rebuild
+      - name: Cache compiled assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/assets
+            app/assets/builds
+          key: assets-${{ hashFiles('yarn.lock', 'package.json', 'tailwind.config.*', 'postcss.config.*', 'app/assets/**/*', 'app/javascript/**/*', 'app/views/layouts/**/*') }}
+
+      # If you have a JS/CSS build script (cssbundling/vite/webpack), run it
+      - name: Build frontend (if package.json has scripts.build)
+        run: |
+          if [ -f package.json ] && jq -e '.scripts.build' package.json >/dev/null 2>&1; then
+            echo "Running yarn build…"
+            yarn build || npm run build
+          else
+            echo "No scripts.build found; skipping."
+          fi
+
+      - name: Precompile assets (test env)
         run: |
           bin/rails assets:precompile
 
@@ -61,4 +100,19 @@ jobs:
 
       - name: Run smoke spec
         run: |
-          bundle exec rspec spec/features/page_smoke_primary_navigation_spec.rb --format progress
+          bundle exec rspec spec/features/page_smoke_primary_navigation_spec.rb \
+            --format documentation --backtrace
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+
+      - name: Upload failed pages (if any)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-pages
+          path: tmp/capybara/fails/
