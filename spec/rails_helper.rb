@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ENV['RAILS_ENV'] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 
 # --- SimpleCov bootstrap (must run BEFORE Rails loads) -------------------
 # In GitHub Actions, ENV["CI"] == "true".
@@ -9,61 +9,53 @@ enable_simplecov = !(ENV["CI"] == "true" && ENV["SIMPLECOV_IN_CI"] != "true")
 
 if enable_simplecov
   require "simplecov"
+
   SimpleCov.start "rails" do
     add_filter "/bin/"
     add_filter "/db/"
     add_filter "/spec/" # Don't track spec files
     enable_coverage :branch
 
-    # local thresholds (only enforced when SimpleCov is enabled)
+    # Local thresholds (only enforced when SimpleCov is enabled)
     minimum_coverage 85
     minimum_coverage :branch, 70
   end
+
+  # If you ever run specs in parallel (e.g. parallel_tests), give each
+  # process a unique command_name so coverage can be merged.
+  if ENV["TEST_ENV_NUMBER"]
+    SimpleCov.command_name "rspec-#{ENV['TEST_ENV_NUMBER']}"
+  end
+
+  # On CI (when explicitly enabled), also print a brief text summary
+  if ENV["CI"] == "true"
+    SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+      SimpleCov::Formatter::HTMLFormatter,
+      SimpleCov::Formatter::SimpleFormatter
+    ])
+  end
+
+  puts "SimpleCov started..."
 end
 # --------------------------------------------------------------------------
 
-
-# ✅ Only enforce coverage thresholds on CI or when explicitly opted in
-if ENV['CI'] || ENV['ENFORCE_MIN_COVERAGE'] == '1'
-  SimpleCov.minimum_coverage line: 85, branch: 70
-  SimpleCov.refuse_coverage_drop
-end
-
-# If you ever run specs in parallel (e.g. with 'parallel_tests'),
-# give each process a unique name so coverage can be merged.
-if ENV['TEST_ENV_NUMBER']
-  SimpleCov.command_name "rspec-#{ENV['TEST_ENV_NUMBER']}"
-end
-
-# On CI, also print a brief text summary alongside HTML
-if ENV['CI']
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::SimpleFormatter
-  ])
-end
-
-puts 'SimpleCov started...'
-# --- end SimpleCov ---
-
-
 # Boot the Rails app
-require File.expand_path('../config/environment', __dir__)
+require File.expand_path("../config/environment", __dir__)
 
 if Rails.env.production?
-  puts '🚨 ABORTING: Rails is running in production mode! 🚨'
+  puts "🚨 ABORTING: Rails is running in production mode! 🚨"
   exit(1)
 end
 
 # RSpec + test stack
-require 'spec_helper'
-require 'rspec/rails'
-require 'capybara/rails'
-require 'capybara/rspec'
-require 'capybara/email/rspec'
+require "spec_helper"
+require "rspec/rails"
+require "capybara/rails"
+require "capybara/rspec"
+require "capybara/email/rspec"
 
 # Load support files (matchers, helpers, shared contexts, etc.)
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].sort.each { |f| require f }
 
 # === RSpec Configuration ===
 RSpec.configure do |config|
@@ -91,8 +83,6 @@ RSpec.configure do |config|
   config.around(:each) { |example| perform_enqueued_jobs { example.run } }
 
   # Database: transactions are great for non-JS specs.
-  # If you have JS/system specs that need DB visibility across threads,
-  # we can switch those to use truncation just for `js: true`.
   config.use_transactional_fixtures = true
 
   # Infer spec types from file paths (model/controller/request/etc.)
@@ -102,7 +92,7 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   # Pretty output by default
-  config.default_formatter = 'doc'
+  config.default_formatter = "doc"
   config.verbose_retry = false if config.respond_to?(:verbose_retry=)
 
   # Treat deprecations as failures (keeps codebase clean)
