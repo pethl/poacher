@@ -281,8 +281,13 @@ module ApplicationHelper
   def wash_status; Reference.where(active: true, group: 'wash_status').order(:sort_order).pluck(:value); end
   def weather; Reference.where(active: true, group: 'weather').order(:sort_order).pluck(:value); end
   def weight_type; Reference.where(active: true, group: 'weight_type').order(:sort_order).pluck(:value); end
-  def wedges_sizes; Reference.where(active: true, group: 'wedges_sizes').order(:sort_order).pluck(:value); end
+    def wedges_sizes; Reference.where(active: true, group: 'wedges_sizes').order(:sort_order).pluck(:value); end
   def yes_no; [["Yes", true], ["No", false]]; end
+
+    # Union of wedge + sale sizes = CRITICAL used in calculations pages
+    def calculation_sizes
+      wedges_sizes + sale_size.uniq
+    end
   
   def scale_check_type(scale_name)
     Reference.find_by(group: 'scale_name_serial', value: scale_name)&.description
@@ -300,6 +305,11 @@ module ApplicationHelper
     )
 
     record&.value
+  end
+
+  # to fix issue with calulations edit not selecting correct size when linked through from index
+  def wedges_sizes_for_select
+    wedges_sizes.map { |s| [s.to_s.strip, s.to_s.strip] }
   end
 
  # Lookup the bucket tare (kg) from the Reference table.

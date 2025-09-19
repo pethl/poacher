@@ -29,16 +29,16 @@
         <%= form.label :size %>
       </label>
       <div class="text-left">
-        <%= form.select :size,
-                        options_for_select(wedges_sizes, calculation.size),
-                        { prompt: "Please select" },
-                        class: field_class_flex %>
+            <%= form.select :size,
+            options_for_select(calculation_sizes, calculation.size.to_s.strip),
+            { prompt: "Please select" },
+            class: field_class_flex %>
       </div>
-
+     
 
       <!-- Weight -->
       <label class="text-right font-semibold text-gray-700">
-        <%= form.label :weight %>
+        <%= form.label :weight %> (g)
       </label>
       <div class="text-left">
         <%= form.number_field :weight, step: 1, class: field_class_flex_med %>
@@ -54,7 +54,7 @@
 
       <!-- Back -->
       <div class="text-left mt-2">
-        <%= link_to "← Back to Calculations", calculations_path, class: "bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded" %>
+        <%= link_to "← Back to Calculations", calculations_path, class: clear_button_class %>
       </div>
 
       <!-- Submit -->

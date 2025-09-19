@@ -190,7 +190,7 @@ Rails.application.routes.draw do
     resources :picksheet_items, except: [:index, :show]
   
     collection do
-      get :open_picksheets
+      get :hold_picksheets
       get :assigned_picksheets
       get :cutting_picksheets
       get :shipped_picksheets

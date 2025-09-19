@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_24_124655) do
+ActiveRecord::Schema[7.1].define(version: 2025_09_19_103532) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -548,7 +548,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_24_124655) do
     t.string "carrier_collection_notes"
     t.integer "number_of_boxes"
     t.integer "contact_id", null: false
-    t.string "status", default: "Open", null: false
+    t.string "status", default: "Assigned", null: false
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

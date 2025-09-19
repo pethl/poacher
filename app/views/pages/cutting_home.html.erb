@@ -4,7 +4,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
 
     <!-- Unique styling, but now unified layout -->
-    <%= link_to "Open (#{@open_picksheets_count})", "/picksheets/open_picksheets", class: "#{nav_box_inverse_class} mx-auto" %>
+    <%= link_to "Hold (#{@hold_picksheets_count})", "/picksheets/hold_picksheets", class: "#{nav_box_inverse_class} mx-auto" %>
     <%= link_to "Assigned (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: "#{nav_box_assigned_class} mx-auto" %>
     <%= link_to "Cutting (#{@cutting_picksheets_count})", "/picksheets/cutting_picksheets", class: "#{nav_box_cutting_class} mx-auto" %>
 

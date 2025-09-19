@@ -1,7 +1,7 @@
 <!-- app/views/shared/_navigation.html.erb -->
 <div class="mx-auto flex justify-center gap-4 mb-2 border-b-2 pb-2">
   <%= link_to "All", picksheets_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'ALL'} hover:bg-gray-200" %>
-  <%= link_to "Open", open_picksheets_picksheets_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'OPEN'} hover:bg-gray-200" %>
+  <%= link_to "Hold", hold_picksheets_picksheets_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'OPEN'} hover:bg-gray-200" %>
   <%= link_to "Assigned", assigned_picksheets_picksheets_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'ASSIGNED'} hover:bg-gray-200" %>
   <%= link_to "Cutting", cutting_picksheets_picksheets_path, class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'CUTTING'} hover:bg-gray-200" %>
   <%= link_to "Due This Week/ASAP", picksheets_path(start_date: Date.today.beginning_of_week, end_date: Date.today.end_of_week, include_asap: true), class: "px-4 py-2 #{'font-bold border-b-2 border-blue-500' if @type == 'DUE_THIS_WEEK'} hover:bg-gray-200" %>

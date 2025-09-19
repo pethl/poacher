@@ -3,12 +3,12 @@ class PicksheetsController < ApplicationController
   require 'prawn/table'
   before_action :authenticate_user!
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
-  before_action :set_picksheets, only: [:index, :open_picksheets, :assigned_picksheets, :cutting_picksheets, :shipped_picksheets, :daily_cheese_manifest, :dispatch_and_collection]
+  before_action :set_picksheets, only: [:index, :hold_picksheets, :assigned_picksheets, :cutting_picksheets, :shipped_picksheets, :daily_cheese_manifest, :dispatch_and_collection]
   
   # GET /picksheets or /picksheets.json
-  def open_picksheets
-    @picksheets = @picksheets.where(status: "Open")
-    @type = "OPEN"
+  def hold_picksheets
+    @picksheets = @picksheets.where(status: "Hold")
+    @type = "HOLD"
     render :index
   end
 
@@ -135,7 +135,7 @@ class PicksheetsController < ApplicationController
 
     @picksheet = Picksheet.new(picksheet_params)
     @picksheet.user_id = current_user.id  # Associate the picksheet with the current user
-    #@picksheet.status = "Open"
+    #@picksheet.status = "Open" value is set in DB instead
 
     respond_to do |format|
       if @picksheet.save

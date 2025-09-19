@@ -1,24 +1,17 @@
-<div id="<%= dom_id calculation %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Product:</strong>
-    <%= calculation.product %>
-  </p>
+<%# app/views/calculations/_calculation.html.erb %>
+<div id="<%= dom_id calculation %>" class="max-w-2xl mx-auto mt-6 bg-white rounded-lg">
+  <div class="grid grid-cols-2 gap-x-16 gap-y-4 px-6 py-4">
+    <dt class="block text-sm font-medium text-gray-600 text-right pr-6">Product</dt>
+    <dd class="block text-sm text-gray-900 pl-6"><%= calculation.product %></dd>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Size:</strong>
-    <p class= "shadow rounded-lg border border-green-800 outline-none px-3 w-60">
-    <%= calculation.size %>
-     </p>
-  </p>
+    <dt class="block text-sm font-medium text-gray-600 text-right pr-6">Size</dt>
+    <dd class="block text-sm text-gray-900 pl-6"><%= calculation.size %></dd>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Weight:</strong>
-    <%= calculation.weight %>
-  </p>
+    <dt class="block text-sm font-medium text-gray-600 text-right pr-6">Weight</dt>
+    <dd class="block text-sm text-gray-900 pl-6"><%= number_with_delimiter(calculation.weight) %> g</dd>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Notes:</strong>
-    <%= calculation.notes %>
-  </p>
-
+    <dt class="block text-sm font-medium text-gray-600 text-right pr-6">Notes</dt>
+    <dd class="block text-sm text-gray-900 pl-6 whitespace-pre-line"><%= calculation.notes %></dd>
+  </div>
 </div>
+
