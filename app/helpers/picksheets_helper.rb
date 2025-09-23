@@ -1,8 +1,15 @@
 module PicksheetsHelper
-  def sort_link(column:, label:)
-    direction = column == params[:column] ? next_direction : 'asc'
-    link_to(label, picksheets_path(column: column, direction: direction), data: { turbo_action: 'replace' })
-  end
+  def sort_link(column:, label:, **html_options)
+    direction = (params[:column].to_s == column.to_s) ? next_direction : "asc"
+
+    # preserve existing query params (filters/pagination) while changing sort
+    query = request.query_parameters.merge(column: column, direction: direction)
+
+    # merge default turbo data with any provided html options
+    html_options[:data] = { turbo_action: "replace" }.merge(html_options.fetch(:data, {}))
+
+    link_to(label, picksheets_path(query), html_options)
+  end 
   
   def next_direction
      params[:direction] == 'asc' ? 'desc' : 'asc'

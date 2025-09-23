@@ -1,9 +1,57 @@
 <% content_for(:page_title, "DAILY CHEESE MANIFEST")%>
-<% content_for :print_button, print_manifest_pdf_picksheets_path(format: :pdf) %>
+<% content_for :print_button,
+   print_manifest_pdf_picksheets_path(format: :pdf, status: @status.to_s.capitalize) %>
+
 <div id="picksheets">
+  <%= render 'navigation' %>
 
-<%= render 'navigation' %>
+  <div class="mx-auto w-3/4 mt-4 mb-2">
+  <div class="flex items-center justify-between gap-3">
 
+    <!-- Left: Status pills -->
+    <div class="inline-flex rounded-full bg-gray-100 p-1">
+      <% pill = ->(label, value) do
+           active  = (@status == value)
+           classes = ["px-4 py-1.5 rounded-full text-sm font-medium",
+                      (active ? "bg-white shadow text-gray-900" : "text-gray-600 hover:text-gray-900")].join(" ")
+      %>
+        <%= link_to label, daily_cheese_manifest_picksheets_path(status: value), class: classes %>
+      <% end %>
+
+      <%= pill.call("Hold (Outstanding)", "Hold") %>
+      <%= pill.call("Assigned (Coming)",  "Assigned") %>
+      <%= pill.call("Cutting (Today)",    "Cutting") %>
+    </div>
+
+    <!-- Right: Print buttons (always visible) -->
+    <div class="inline-flex items-center gap-2">
+      <%= link_to print_manifest_pdf_picksheets_path(format: :pdf, status: "Hold"),
+                  target: "_blank",
+                  data: { turbo: false },
+                  class: "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium
+                          bg-amber-100 text-amber-800 hover:bg-amber-200" do %>
+        <i class="fa-solid fa-print"></i><span>Print Hold</span>
+      <% end %>
+
+      <%= link_to print_manifest_pdf_picksheets_path(format: :pdf, status: "Assigned"),
+                  target: "_blank",
+                  data: { turbo: false },
+                  class: "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium
+                          bg-sky-100 text-sky-800 hover:bg-sky-200" do %>
+        <i class="fa-solid fa-print"></i><span>Print Assigned</span>
+      <% end %>
+
+      <%= link_to print_manifest_pdf_picksheets_path(format: :pdf, status: "Cutting"),
+                  target: "_blank",
+                  data: { turbo: false },
+                  class: "inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium
+                          bg-emerald-100 text-emerald-800 hover:bg-emerald-200" do %>
+        <i class="fa-solid fa-print"></i><span>Print Cutting</span>
+      <% end %>
+    </div>
+
+  </div>
+</div>
 
   <!-- Table Product Size -->
 

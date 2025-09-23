@@ -1,12 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./app/views/**/*.html.erb",
+    "./app/views/**/*.{html.erb,turbo_stream.erb}",
     "./app/helpers/**/*.rb",
-    "./app/assets/stylesheets/**/*.css",
-    "./app/javascript/**/*.js",
+    "./app/components/**/*.{rb,erb}", // if you use ViewComponent or view components
+    "./app/assets/stylesheets/**/*.{css,scss}",
+    "./app/javascript/**/*.{js,ts,jsx,tsx}",
     "./node_modules/flowbite/**/*.js"
   ],
+
   safelist: [
     "hidden",
     "flex",
@@ -50,7 +52,7 @@ module.exports = {
     "border",
     "border-gray-400",
 
-    // 👇 NEW: row-highlighting classes for DeliveryInspection
+    // Row-highlighting classes for DeliveryInspection
     "border-l-4",
     "border-green-500",
     "outline",
@@ -60,7 +62,11 @@ module.exports = {
     "ring-green-500",
     "rounded",
     "border-red-600"
+
+    // (Optional) Add if you generate these dynamically in Ruby/JS:
+    // "opacity-0", "opacity-100", "z-10", "z-20"
   ],
+
   theme: {
     extend: {
       screens: {
@@ -84,5 +90,10 @@ module.exports = {
       }
     }
   },
-  plugins: []
+
+  plugins: [
+    // require("@tailwindcss/forms"),        // uncomment if you want nicer form styles
+    // require("@tailwindcss/typography"),   // optional
+    require("flowbite/plugin") // keep if you use Flowbite components
+  ]
 }

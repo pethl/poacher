@@ -19,55 +19,37 @@
 
   <hr>
      <div class="relative overflow-x-auto">
-         <table class="w-full table-fixed text-sm text-left rtl:text-right text-gray-500 ">
-             <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-                 <tr>
-                     <th scope="col" class="px-2 py-2 w-64">
-                         Product
-                     </th>
+          <table class="w-full table-fixed text-left text-gray-700">
+         <colgroup>
+            <col style="width:12rem"><!-- Product -->
+            <col style="width:10rem"><!-- Size -->
+            <col style="width:8rem"><!-- Pricing -->
+            <col style="width:3rem"><!-- Count -->
+            <col style="width:6rem"><!-- Weight -->
+            <col style="width:6rem"><!-- Code -->
+            <col style="width:8rem"><!-- SP Price -->
+            <col style="width:8rem"><!-- BB Date -->
+            <col style="width:8rem"><!-- Actions -->
+         </colgroup>
 
-                     <th scope="col" class="px-2 py-2 text-left w-40">
-                         Size
-                     </th>
-                    
-                     <th scope="col" class="px-2 py-2 text-center w-48">
-                        Pricing
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-center w-[30px]">
-                        #
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-center w-24">
-                        Weight
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-center w-32">
-                        Code
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-center w-32">
-                        Sp Price
-                     </th>
-                     <th scope="col" class="px-2 py-2 text-center w-32">
-                        B/b Date
-                     </th>
-                      <th scope="col" class="px-2 py-2 text-center w-32">
-                        ""
-                     </th>
-                  </tr>
-             </thead>
-            <tbody>
-              <tr>
-                <td colspan="10">
-                  <%= turbo_frame_tag PicksheetItem.new %>
-                 </td>
-              </tr>
-              <tr>
-                 <td colspan="10">
-                   <%= turbo_frame_tag "picksheet_items" do %>
-                    <%= render @picksheet_items, picksheet: @picksheet %>
-                    <% end %>
-                </td>
-              </tr>
-             </tbody>
-          </table>  
+         <thead class="text-sm text-gray-500">
+            <tr class="bg-gray-50 border-b">
+               <th class="p-2 font-semibold">Product</th>
+               <th class="p-2 font-semibold">Size</th>
+               <th class="p-2 font-semibold">Pricing</th>
+               <th class="p-2 font-semibold text-center">Qty</th>
+               <th class="p-2 font-semibold text-right italic">Weight</th>
+               <th class="p-2 font-semibold text-center">Code</th>
+               <th class="p-2 font-semibold">SP Price</th>
+               <th class="p-2 font-semibold text-center">BB Date</th>
+               <th class="p-2 font-semibold text-center">Actions</th>
+            </tr>
+         </thead>
+
+         <tbody id="picksheet_items">
+            <%= render @picksheet_items %>
+         </tbody>
+      </table>
      
       <br>
       <div class="new_line_item text-left">
