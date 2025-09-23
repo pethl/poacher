@@ -31,6 +31,11 @@
 }
 
 @layer utilities {
+  /* Hide the fixed site header while modal is open */
+  .modal-open #site-header {
+    @apply hidden;
+  }
+
   @media print {
     @page {
       size: A4 portrait;

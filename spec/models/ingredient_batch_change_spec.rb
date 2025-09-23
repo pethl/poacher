@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+#this spec is fialing and needs work - complex area
+
 RSpec.describe IngredientBatchChange, type: :model do
   describe 'associations' do
     it { should belong_to(:makesheet) }

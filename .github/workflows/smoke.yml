@@ -118,3 +118,13 @@ jobs:
         with:
           name: failed-pages
           path: tmp/capybara/fails/
+
+
+
+
+
+
+bin/rails routes | grep -i print_single_cheese_label
+# or
+bundle exec rails routes | grep -i print_single_cheese_label
+

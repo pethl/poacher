@@ -1,28 +1,40 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "locations/edit", type: :view do
-  let(:location) {
-    Location.create!(
-      name: "MyString",
-      location_type: "MyString",
-      active: false
-    )
-  }
+  before do
+    # Make the helper deterministic in the spec
+    allow(view).to receive(:location_type_options)
+      .and_return([["Aisle", "aisle"], ["Shed", "shed"]])
 
-  before(:each) do
-    assign(:location, location)
+    assign(:location, Location.new(
+      id: 123,                # so path helper works without hitting DB
+      name: "MyString",
+      location_type: "aisle", # must match one of the stubbed options
+      active: false
+    ))
   end
 
   it "renders the edit location form" do
     render
 
-    assert_select "form[action=?][method=?]", location_path(location), "post" do
+    loc = assigns(:location)
 
-      assert_select "input[name=?]", "location[name]"
+    assert_select "form[action=?][method=?]", location_path(loc), "post" do
+      # name input
+      assert_select 'input[type="text"][name=?][value=?]', "location[name]", loc.name
 
-      assert_select "input[name=?]", "location[location_type]"
+      # location_type SELECT with the current value selected
+      assert_select 'select[name=?]', "location[location_type]" do
+        # prompt may exist but should NOT be selected on edit
+        assert_select 'option[value=""]', text: /Please select/i, count: 0
 
-      assert_select "input[name=?]", "location[active]"
+        # selected option matches the record's value
+        assert_select 'option[selected][value=?]', loc.location_type, 1
+      end
+
+      # active checkbox — ensure it's present and NOT checked
+      assert_select 'input[type="checkbox"][name=?]', "location[active]"
+      assert_select 'input[type="checkbox"][name=?][checked]', "location[active]", count: 0
     end
   end
 end

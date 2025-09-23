@@ -32,23 +32,26 @@ Rails.application.routes.draw do
   
   # Label printing routes
   get 'labels/:makesheet_id/preview', to: 'labels#preview_single_cheese', as: :preview_single_cheese_label
-
- # get "labels/print_single_cheese", to: "labels#print_single_cheese", as: :print_single_cheese_label
   get "labels/print_cheese_labels", to: "labels#print_cheese_labels", as: :print_cheese_labels
-  get "labels/print", to: "labels#print", as: :print_label
   get 'labels/:makesheet_id/print', to: 'labels#print_single_cheese_label', as: :print_single_cheese_label
 
 
-  # PDF preview/download route using RESTful labels/:id
+ # ⛳ Dev/Test-only: bare HTML label preview (no auth)
+  # Lets you eyeball/tweak label layout without firing the printer.
+  # URL: /labels/:id/show_pdf  (where :id is a Makesheet id)
+  if Rails.env.development? || Rails.env.test?
     resources :labels, only: [] do
       member do
-        get :show_pdf  # maps to labels#show_pdf
+        get :show_pdf  # maps to LabelsController#show_pdf
       end
     end
+  end
+
 
 
   get 'vacuum_pouch_calculator/new'
   get 'vacuum_pouch_calculator/create'
+  
   resources :cleaning_foreign_body_checks do
     collection do
       get :week_view
@@ -147,8 +150,7 @@ Rails.application.routes.draw do
   get "/goodbye", to: "pages#goodbye", as: :goodbye
   get "pages/rennet_guidance", to: "pages#rennet_guidance", as: :rennet_guidance
  
-  get "/print_picksheet_pdf" => "picksheets#print_picksheet_pdf" 
-  #get "/print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
+  
   get "/makesheets_print_makesheet_pdf" => "makesheets#print_makesheet_pdf" 
   get 'makesheets/:id/print_pdf', to: 'makesheets#print_makesheet_pdf', as: 'print_makesheet_pdf'
   get "makesheets_search" => "makesheets#makesheet_search" 
@@ -187,18 +189,26 @@ Rails.application.routes.draw do
   
    
   resources :picksheets do
+    # nested items
     resources :picksheet_items, except: [:index, :show]
   
+    # member endpoints (operate on a single picksheet)
+    member do
+      get :print_picksheet_pdf   # formal PDF (existing action)
+      get :summary               # NEW: HTML summary for the modal
+    end
+  
+    # collection endpoints (lists/reports/actions across many picksheets)
     collection do
-      get :hold_picksheets
-      get :assigned_picksheets
-      get :cutting_picksheets
-      get :shipped_picksheets
-      get :daily_cheese_manifest
-      get :print_manifest_pdf
-      get :print_dispatch_pdf
-      get :dispatch_and_collection
-      patch :move_to_cutting_room 
+      get  :hold_picksheets
+      get  :assigned_picksheets
+      get  :cutting_picksheets
+      get  :shipped_picksheets
+      get  :daily_cheese_manifest
+      get  :print_manifest_pdf
+      get  :print_dispatch_pdf
+      get  :dispatch_and_collection
+      patch :move_to_cutting_room
     end
   end
    

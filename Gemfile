@@ -93,6 +93,7 @@ group :test do
  # gem "selenium-webdriver"
  gem 'simplecov', require: false
  gem 'capybara-email'
+ gem "pdf-reader"
 
 end
 

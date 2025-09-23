@@ -1,36 +1,36 @@
-<div data-controller="modal"
-     data-modal-debug-value="true"
-     data-modal-name-value="recent">
+<div data-controller="dialog"
+     data-dialog-debug-value="true"
+     data-dialog-name-value="recent">
 
   <!-- Trigger button (inside a form; must NOT submit) -->
   <button type="button"
           class="inline-flex items-center px-3 py-2 text-sm rounded-md border border-gray-300 shadow-sm hover:bg-gray-50"
-          data-action="modal#open">
+          data-action="dialog#open">
     Recent Makesheets
   </button>
 
   <!-- Backdrop/overlay -->
   <div class="hidden fixed inset-0 z-40 items-center justify-center bg-black/40 p-4"
-       data-modal-target="backdrop"
-       data-action="click->modal#close keydown@window->modal#keydown"
-       aria-modal="true" role="dialog" aria-label="Recent makesheets">
+       data-dialog-target="backdrop"
+       data-action="click->dialog#close keydown@window->dialog#keydown"
+       aria-dialog="true" role="dialog" aria-label="Recent makesheets">
 
-    <!-- Modal panel -->
+    <!-- dialog panel -->
     <div class="w-full max-w-md rounded-2xl bg-white shadow-xl ring-1 ring-gray-200"
          onclick="event.stopPropagation()">
       <div class="flex items-center justify-between border-b px-4 py-3">
         <h3 class="text-sm font-semibold">Recent makesheets</h3>
         <button type="button"
                 class="text-gray-500 hover:text-gray-700"
-                data-action="modal#close"
-                aria-label="Close recent makesheets modal">
+                data-action="dialog#close"
+                aria-label="Close recent makesheets dialog">
           &times;
         </button>
       </div>
 
       <!-- Turbo Frame (lazy loads list once) -->
       <turbo-frame id="recent_makesheets_frame"
-                   data-modal-target="frame"
+                   data-dialog-target="frame"
                    data-src="<%= recent_makesheets_path(limit: (local_assigns[:limit] || 4)) %>">
         <div class="p-4 text-sm text-gray-500">Loading…</div>
       </turbo-frame>
@@ -38,7 +38,7 @@
       <div class="px-4 py-3 border-t text-right">
         <button type="button"
                 class="px-3 py-1.5 text-sm rounded-md border hover:bg-gray-50"
-                data-action="modal#close">
+                data-action="dialog#close">
           Close
         </button>
       </div>

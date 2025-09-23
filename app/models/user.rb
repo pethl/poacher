@@ -12,6 +12,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}".strip
   end
 
+  def initials
+    "#{self.first_name.chr}." + "#{self.last_name.chr}."
+  end
+
   # ✅ Move the method BEFORE marking it private
   def send_welcome_email
     UserMailer.welcome_email(self).deliver_later

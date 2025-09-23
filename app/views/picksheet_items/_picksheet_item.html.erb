@@ -1,58 +1,37 @@
 <%= turbo_frame_tag picksheet_item do %>
   <div class="picksheet_item">
-    
     <div class="picksheet_item__header">
-  <table class="w-full table-fixed text-left rtl:text-right text-gray-500">
-    <tr class="bg-white border-b">
-        <td scope="row" class="text-sm p-2  border-r whitespace-nowrap w-48 truncate">
-          <%= picksheet_item.display_product_or_grade %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r whitespace-nowrap text-left w-40">
-           <%= picksheet_item.size %>
-        </td>
+         <table class="w-full table-fixed text-left text-gray-700">
+         <colgroup>
+            <col style="width:12rem"><!-- Product -->
+            <col style="width:10rem"><!-- Size -->
+            <col style="width:8rem"><!-- Pricing -->
+            <col style="width:3rem"><!-- Count -->
+            <col style="width:6rem"><!-- Weight -->
+            <col style="width:6rem"><!-- Code -->
+            <col style="width:8rem"><!-- SP Price -->
+            <col style="width:8rem"><!-- BB Date -->
+            <col style="width:8rem"><!-- Actions -->
+         </colgroup>
 
-         <td scope="row" class="p-2  border-r text-left text-sm w-32">
-           <%= picksheet_item.pricing %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r text-center w-[30px]">
-           <%= picksheet_item.count %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r text-right italic text-gray-600 w-24">
-          <%= picksheet_item.weight %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r whitespace-nowrap text-center w-24">
-           <%= picksheet_item.code %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r whitespace-nowrap w-32">
-           <%= picksheet_item.sp_price %>
-        </td>
-    
-        <td scope="row" class="p-2  border-r whitespace-nowrap text-center w-24">
-           <%= picksheet_item.bb_date.to_formatted_s(:uk) unless picksheet_item.bb_date.to_s.empty? %>
-        </td>
-    </div>
-      <div class="picksheet_item__actions">
-      <td scope="row" class="p-1 whitespace-nowrap text-center w-24">
-         <div class="flex justify-center gap-2">
-            <%= link_to "Edit",
-                           [:edit, @picksheet, picksheet_item],
-                           class: "text-green-500" %>
-            <%= button_to "Delete",
-                           [@picksheet, picksheet_item],
-                           method: :delete,
-                           form: { data: { turbo_confirm: "Are you sure?" } },
-                           class: "text-red-500" %>
+         <thead class="text-sm text-gray-500">
+            <tr class="bg-gray-50 border-b">
+               <th class="p-2 font-semibold">Product</th>
+               <th class="p-2 font-semibold">Size</th>
+               <th class="p-2 font-semibold">Pricing</th>
+               <th class="p-2 font-semibold text-center">Qty</th>
+               <th class="p-2 font-semibold text-right italic">Weight</th>
+               <th class="p-2 font-semibold text-center">Code</th>
+               <th class="p-2 font-semibold">SP Price</th>
+               <th class="p-2 font-semibold text-center">BB Date</th>
+               <th class="p-2 font-semibold text-center">Actions</th>
+            </tr>
+         </thead>
 
-            
-         </div>
-      </td>
-      </div>
-      </tr>
+         <tbody id="picksheet_items">
+            <%= render @picksheet_items %>
+         </tbody>
       </table>
+  </div>
 </div>
 <% end %>

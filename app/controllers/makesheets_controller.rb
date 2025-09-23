@@ -14,6 +14,9 @@ class MakesheetsController < ApplicationController
     end 
   end
 
+
+
+
   def recent
     limit = params.fetch(:limit, 4).to_i.clamp(1, 20)
   
@@ -28,6 +31,8 @@ class MakesheetsController < ApplicationController
 
   def overview
   end  
+
+
 
   def yield_dashboard
     @make_types = Makesheet.distinct.pluck(:make_type)
@@ -53,16 +58,26 @@ class MakesheetsController < ApplicationController
       hash[make_type] = data
     end
   end
+
+
+
+
   
   def batch_turns
     @turns = @makesheet.turns.ordered
     @batch_turns_graph_data = get_data(@makesheet)
   end
 
+
+
+
   def graded_blackboard
     @makesheets = Makesheet.where("status NOT IN (?)", "Finished").where("grade <> ''").order("grade ASC, make_date ASC")
     @makesheets_by_grade = @makesheets.group_by { |t| t.grade }
   end
+
+
+
 
   def monthly_summary
     month = params[:month].to_i
@@ -120,6 +135,9 @@ class MakesheetsController < ApplicationController
     @average_small_cheese_count = @small_cheese_count / small_count.to_f
     @average_small_cheese_weight = @small_cheese_weight / small_count.to_f
   end
+
+
+
 
    # GET /makesheets/rennet_for_milk?milk_volume=1234
    def rennet_for_milk_lookup
@@ -184,6 +202,8 @@ class MakesheetsController < ApplicationController
     @qr_data = "28-05-2025 #{@makesheet.id}" # adjust as needed
   end
 
+
+
   def qr_code
     makesheet = Makesheet.find(params[:id])
     data = "28-05-2025 #{makesheet.id}"
@@ -191,6 +211,8 @@ class MakesheetsController < ApplicationController
     png_data = CheeseQrCodeGenerator.new(data).render_png
     send_data png_data, type: 'image/png', disposition: 'inline'
   end
+
+
 
   # GET /makesheets/new
   def new
@@ -218,10 +240,14 @@ class MakesheetsController < ApplicationController
     end
   end
 
+
+
   def simple_new
     @makesheet = Makesheet.new(status: "Store", make_type: "Standard", weight_type: "Standard (20 kgs)")
     render :simple_form
   end
+
+
 
   # GET /makesheets/1/edit
   def edit
@@ -232,6 +258,8 @@ class MakesheetsController < ApplicationController
     @selected_item = params[:ingredient].presence   # use :ingredient to avoid clashing with makesheet params
     @recent_deliveries = @selected_item.present? ? DeliveryInspection.last_three_for_item(@selected_item) : []
   end
+
+
 
   # POST /makesheets or /makesheets.json
   def create
@@ -267,6 +295,8 @@ class MakesheetsController < ApplicationController
       end
     end
   end
+
+  
   
   def update
     if @makesheet.update(makesheet_params)

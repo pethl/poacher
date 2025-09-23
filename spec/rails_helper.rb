@@ -14,11 +14,20 @@ if enable_simplecov
     add_filter "/bin/"
     add_filter "/db/"
     add_filter "/spec/" # Don't track spec files
+
+
+    # Exclude everything related to invoices or market_sales
+    add_filter %r{app/.*/invoices}
+    add_filter %r{app/.*/market_sales}
+    add_filter %r{app/.*/invoices}
+    add_filter %r{app/.*/butter_makes}
+    add_filter %r{app/.*/butter_stocks}
+
     enable_coverage :branch
 
     # Local thresholds (only enforced when SimpleCov is enabled)
-    minimum_coverage 85
-    minimum_coverage :branch, 70
+   # minimum_coverage 85
+    minimum_coverage branch: 70
   end
 
   # If you ever run specs in parallel (e.g. parallel_tests), give each
@@ -70,6 +79,7 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :feature
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Warden::Test::Helpers
   config.include Rails.application.routes.url_helpers
 

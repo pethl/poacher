@@ -1,7 +1,10 @@
 <% content_for(:page_title, "#{@type.upcase} PICKING SHEETS")%>
 <% content_for(:page_button, new_picksheet_path)%>
 
-<div id="picksheets">
+<div id="picksheets"
+     data-controller="dialog"
+     data-dialog-name-value="picksheet-preview"
+     data-dialog-debug-value="true">
 
 <%= render 'navigation' %>
 
@@ -41,130 +44,151 @@
   </div>
 </div>
 
+<!-- Table with Sticky Header (single table, aligned widths) -->
+<div class="relative overflow-x-auto">
+  <div class="overflow-y-auto" style="max-height: calc(100vh - 320px);">
+    <table class="w-full table-fixed text-left text-sm">
 
-<!-- Table Section -->
-  <div class="text-left text-sm ml-4 m-1">
-    <i class="fa-solid fa-circle-info"></i> Click any underlined column header to sort table
-  </div> 
+      <% if @type == "ASSIGNED" %>
+        <!-- 9 columns when ASSIGNED (no order/invoice cols) -->
+        <colgroup>
+          <col style="width: 96px;" />   <!-- Status -->
+          <col style="width: 128px;" />  <!-- Order Placed -->
+          <col style="width: 128px;" />  <!-- Delivery By -->
+          <col style="width: 256px;" />  <!-- Customer -->
+          <col style="width: 96px;" />   <!-- Items/Weight -->
+          <col style="width: 192px;" />  <!-- Carrier / Del Date -->
+          <col style="width: 80px;" />   <!-- # Boxes -->
+          <col style="width: 80px;" />   <!-- Taken By -->
+          <col style="width: 144px;" />  <!-- Action (wider) -->
+        </colgroup>
+      <% else %>
+        <!-- 11 columns otherwise (includes order/invoice) -->
+        <colgroup>
+          <col style="width: 96px;" />   <!-- Status -->
+          <col style="width: 128px;" />  <!-- Order Placed -->
+          <col style="width: 128px;" />  <!-- Delivery By -->
+          <col style="width: 256px;" />  <!-- Customer -->
+          <col style="width: 128px;" />   <!-- Items/Weight -->
+          <col style="width: 144px;" />  <!-- Carrier / Del Date -->
+          <col style="width: 80px;" />   <!-- # Boxes -->
+          <col style="width: 80px;" />   <!-- Taken By -->
+          <col style="width: 144px;" />  <!-- Action (wider) -->
+          <col style="width: 96px;" />   <!-- Order Number -->
+          <col style="width: 96px;" />   <!-- Invoice No. -->
+        </colgroup>
+      <% end %>
 
-   <div class="m-4">
-  <!-- Table Container -->
-  <div class="h-screen overflow-hidden rounded-lg border border-solid">
-    
-    <!-- Table with Sticky Headers -->
-    <div class="relative overflow-x-auto">
-      <table class="w-full table-auto text-left">
-        <!-- Table Header (Sticky at the top) -->
-        <thead class="sticky top-0 bg-gray-200 text-xs text-gray-700 uppercase">
-          <tr class="bg-gray-200">
-            <th scope="col" class="px-2 py-3 text-left w-24">
-               Status
-            </th>
-            <th scope="col" class="px-2 pl-4 py-3 underline underline-offset-2 w-32">
-              <%= show_sort_indicator_for("date_order_placed") %>
-              <%= sort_link(column: "date_order_placed", label: "Order Placed") %>
-            </th>
+      <thead class="sticky top-0 bg-gray-2 00 text-xs text-gray-700 uppercase z-10">
+        <tr class="bg-gray-200">
+          <th class="px-3 py-3 text-left">Status</th>
+          <th class="px-3 pl-4 py-3 underline underline-offset-2">
+            <%= show_sort_indicator_for("date_order_placed") %>
+            <%= sort_link(column: "date_order_placed", label: "Order Placed") %>
+          </th>
+          <th class="px-3 pl-4 py-3 underline underline-offset-2">
+            <%= show_sort_indicator_for("delivery_required_by") %>
+            <%= sort_link(column: "delivery_required_by", label: "Delivery By") %>
+          </th>
+          <th class="px-3 py-3 underline underline-offset-2 text-nowrap text-left">
+            <%= show_sort_indicator_for("business_name") %>
+            <%= sort_link(column: "business_name", label: "Customer") %>
+          </th>
+          <th class="px-3 py-3 text-center">Products/Weight</th>
+          <th class="px-3 py-3">Carrier / Del Date</th>
+          <th class="px-3 py-3 text-center"># Boxes</th>
+          <th class="px-3 py-3">Order By</th>
+          <th class="px-3 py-3 text-center">Action</th>
 
-            <th scope="col" class="px-2 pl-4 py-3 underline underline-offset-2 w-32">
-              <%= show_sort_indicator_for("delivery_required_by") %>
-              <%= sort_link(column: "delivery_required_by", label: "Delivery By") %>
+          <% unless @type == "ASSIGNED" %>
+            <th class="px-3 py-3  underline underline-offset-2">
+              <%= show_sort_indicator_for("order_number") %>
+              <%= sort_link(column: "order_number", label: "Order No.") %>
             </th>
-
-            <th scope="col" class="px-2 py-3 w-64 text-left underline underline-offset-2 text-nowrap">
-              <%= show_sort_indicator_for("business_name") %>
-              <%= sort_link(column: "business_name", label: "Customer") %>
-            </th>
-
-            <th scope="col" class="px-2 py-3 w-24 text-center">
-               Items/Weight
-            </th>
-
-            <th scope="col" class="px-2 py-3 w-48">
-               Carrier / Del Date
-            </th>
-           
-            <th scope="col" class="px-2 py-3 w-24 text-center">
-              No of Boxes
-            </th>
-
-            <th scope="col" class="px-2 py-3 w-24">
-              Order Taken By
-            </th>
-
-             <th scope="col" class="px-2 py-3 w-24">
-              Order Number
-            </th>
-
-            <th scope="col" class="px-2 py-3 w-24 underline underline-offset-2">
+            <th class="px-3 py-3 underline underline-offset-2">
               <%= show_sort_indicator_for("invoice_number") %>
               <%= sort_link(column: "invoice_number", label: "Invoice No.") %>
             </th>
-          </tr>
-        </thead>
-      </table>
-    
-      <!-- Table Body with Scrolling -->
-       <div class="overflow-y-auto" style="max-height: calc(100vh - 320px);">
-        
-        <table class="w-full table-auto text-left text-sm">
-          <tbody>
-            <% @picksheets.each do |picksheet| %>
-              <tr class="bg-white border-b hover:bg-gray-100">
-                <td class="px-2 py-3 border-r-2 text-left font-semibold w-24 
-                <%= 'text-green-600' if picksheet.status == 'Assigned' %>
-                 <%= 'text-blue-600' if picksheet.status == 'Cutting' %>">
-                  <%= picksheet.status %>
-                </td>
+          <% end %>
+        </tr>
+      </thead>
 
-                <td scope="row" class="px-3 py-3 border-r-2 underline underline-offset-2 w-32">
-                  <%= link_to picksheet.date_order_placed.to_formatted_s(:uk), picksheet %>
-                </td>
+      <tbody>
+        <% @picksheets.each do |picksheet| %>
+          <tr class="bg-white border-b border-l-2 hover:bg-gray-100">
+            <!-- 1: Status -->
+            <td class="px-3 py-3 border-r-2 font-semibold
+                       <%= 'text-green-600' if picksheet.status == 'Assigned' %>
+                       <%= 'text-blue-600'  if picksheet.status == 'Cutting'  %>">
+              <%= picksheet.status %>
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-32">
-                  <%= picksheet.delivery_required_by.to_formatted_s(:uk) unless picksheet.delivery_required_by.to_s.empty? %>
-                </td>
+            <!-- 2: Order Placed -->
+            <td class="px-3 py-3 border-r-2 underline underline-offset-2">
+              <%= link_to picksheet.date_order_placed.to_formatted_s(:uk), picksheet %>
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-64 whitespace-nowrap underline underline-offset-2">
-                  <% unless picksheet.contact.to_s.empty? %>
-                    <%= link_to picksheet.contact.business_name, edit_picksheet_path(picksheet) %>
-                  <% end %>
-                </td>
+            <!-- 3: Delivery By -->
+            <td class="px-3 py-3 border-r-2">
+              <%= picksheet.delivery_required_by.to_formatted_s(:uk) unless picksheet.delivery_required_by.to_s.empty? %>
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-24 text-center">
-                  <%=  picksheet.number_of_items %> /  <%=  picksheet.total_weight_kg %> kg
-                </td>
+            <!-- 4: Customer -->
+            <td class="px-3 py-3 border-r-2 whitespace-nowrap underline underline-offset-2">
+              <% unless picksheet.contact.to_s.empty? %>
+                <%= link_to picksheet.contact.business_name, edit_picksheet_path(picksheet) %>
+              <% end %>
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-48">
-                 <%= picksheet.carrier %>
-                 <%= "(#{picksheet.carrier_delivery_date.to_formatted_s(:uk)})" unless picksheet.carrier_delivery_date.to_s.empty? %>
-                </td>
-               
-                <td class="px-2 py-3 border-r-2 w-24 text-center">
-                  <%= picksheet.number_of_boxes %>
-                </td>
+            <!-- 5: Items/Weight -->
+            <td class="px-3 py-3 border-r-2 text-center">
+              <%= picksheet.number_of_items %> / <%= picksheet.total_weight_kg %> kg
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-24">
-                  <%= picksheet.user.full_name %>
-                </td>
+            <!-- 6: Carrier / Del Date -->
+            <td class="px-3 py-3 border-r-2">
+              <%= picksheet.carrier %>
+              <%= "(#{picksheet.carrier_delivery_date.to_formatted_s(:uk)})" unless picksheet.carrier_delivery_date.to_s.empty? %>
+            </td>
 
-                 <td class="px-2 py-3 border-r-2 w-24">
-                  <%= picksheet.order_number %>
-                </td>
+            <!-- 7: # Boxes -->
+            <td class="px-3 py-3 border-r-2 text-center">
+              <%= picksheet.number_of_boxes %>
+            </td>
 
-                <td class="px-2 py-3 border-r-2 w-24">
-                  <%= picksheet.invoice_number %>
-                </td>
-              </tr>
+            <!-- 8: Taken By -->
+            <td class="px-3 py-3 border-r-2">
+              <%= picksheet.user.initials %>
+            </td>
+
+            <!-- 9: Action -->
+            <td class="px-3 py-3 border-r-2">
+              <div class="flex items-center justify-center gap-2">
+                <%= button_tag "Preview",
+                  type: "button",
+                  class: "bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-medium px-3 py-1 rounded",
+                  data: { action: "click->dialog#open", url: summary_picksheet_path(picksheet) } %>
+
+                <%= link_to "Print",
+                  print_picksheet_pdf_picksheet_path(picksheet),
+                  target: "_blank",
+                  class: "bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1 rounded" %>
+              </div>
+            </td>
+
+            <% unless @type == "ASSIGNED" %>
+              <!-- 10: Order Number -->
+              <td class="px-3 py-3 border-r-2"><%= picksheet.order_number %></td>
+              <!-- 11: Invoice No. -->
+              <td class="px-3 py-3 border-r-2"><%= picksheet.invoice_number %></td>
             <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
 
-
-
-
-
-
+    <%= render "shared/picksheet_pdf_modal" %><!-- stays INSIDE the wrapper -->
+  </div>
+</div>

@@ -115,7 +115,7 @@ class PicksheetsController < ApplicationController
   # GET /picksheets/1 or /picksheets/1.json
   def show
      @picksheet_items = @picksheet.picksheet_items.ordered
-    
+     @total_weight = @picksheet.total_weight_kg
   end
 
   # GET /picksheets/new
@@ -177,10 +177,19 @@ class PicksheetsController < ApplicationController
   
   def print_picksheet_pdf
     @picksheet = Picksheet.find(params[:id])
-    pdf_data = PicksheetPdfService.new(@picksheet).generate
   
-    send_data pdf_data, filename: 'picking_sheet.pdf', type: 'application/pdf', disposition: 'inline'
+    pdf_data = Rails.cache.fetch(["picksheet_pdf", @picksheet.id, @picksheet.updated_at.to_i], expires_in: 12.hours) do
+      PicksheetPdfService.new(@picksheet).generate
+    end
+  
+    send_data pdf_data, filename: "picking_sheet.pdf", type: "application/pdf", disposition: "inline"
   end
+
+  def summary
+    @picksheet = Picksheet.includes(:contact, :user, :picksheet_items).find(params[:id])
+    render layout: false if turbo_frame_request?
+  end
+  
 
   def print_manifest_pdf
     @assigned_picksheets = Picksheet.where(status: "Assigned")

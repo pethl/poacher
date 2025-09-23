@@ -29,6 +29,5 @@ class Staff < ApplicationRecord
   
   def initials
     "#{self.first_name.chr}." + "#{self.last_name.chr}."
-
   end
 end 

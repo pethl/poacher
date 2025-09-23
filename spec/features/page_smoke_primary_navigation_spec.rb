@@ -64,7 +64,7 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       cutting: {
         home: -> { "/pages/cutting_home" },
         links: [
-          { href: -> { open_picksheets_picksheets_path }, page_title: "OPEN PICKING SHEETS" },
+          { href: -> { hold_picksheets_picksheets_path }, page_title: "HOLD PICKING SHEETS" },
           { href: -> { assigned_picksheets_picksheets_path }, page_title: "ASSIGNED PICKING SHEETS" },
           { href: -> { cutting_picksheets_picksheets_path }, page_title: "CUTTING PICKING SHEETS" },
           { href: -> { new_picksheet_path }, page_title: "NEW PICKING SHEET" },

@@ -9,7 +9,7 @@ class PicksheetPdfService
     @raleway_bold_font_path = 'app/assets/fonts/raleway/Raleway-Bold.ttf'
     @logo_img_path = 'app/assets/images/poacher_logo.jpeg'
   end
-
+ 
   def generate
     pdf = Prawn::Document.new
     set_fonts(pdf)

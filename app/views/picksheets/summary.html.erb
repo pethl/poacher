@@ -1,0 +1,112 @@
+<%# app/views/picksheets/summary.html.erb %>
+
+<% if turbo_frame_request? %><turbo-frame id="picksheet_summary_frame"><% end %>
+
+<%# Lightweight summary for modal (no layout when turbo_frame_request?) %>
+<div class="p-5 space-y-6 mt-8">
+
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+    <!-- Left: customer + order meta + boxes/carrier -->
+    <div class="space-y-2">
+      <h1 class="text-2xl font-bold leading-tight">
+        <%= @picksheet.contact&.business_name.presence || "Customer" %>
+      </h1>
+
+      <p class="text-sm text-gray-500">
+        Order placed:
+        <%= @picksheet.date_order_placed&.to_formatted_s(:uk) || "-" %>
+        <% if @picksheet.order_number.present? %>
+          • Order No: <%= @picksheet.order_number %>
+        <% end %>
+        <% if @picksheet.invoice_number.present? %>
+          • Invoice: <%= @picksheet.invoice_number %>
+        <% end %>
+      </p>
+
+      <!-- Boxes / Carrier -->
+      <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-sm">
+        <div class="text-gray-500">Boxes</div>
+        <div class="font-semibold"><%= @picksheet.number_of_boxes.presence || "-" %></div>
+
+        <div class="text-gray-500">Carrier</div>
+        <div class="font-semibold">
+          <%= @picksheet.carrier.presence || "-" %>
+          <% if @picksheet.carrier_delivery_date.present? %>
+            <span class="ml-1 text-xs text-gray-500">
+              (<%= @picksheet.carrier_delivery_date.to_formatted_s(:uk) %>)
+            </span>
+          <% end %>
+        </div>
+      </div>
+
+      <% if @picksheet.carrier_collection_notes.present? %>
+        <p class="text-xs text-gray-600">
+          <span class="font-medium">Notes:</span> <%= @picksheet.carrier_collection_notes %>
+        </p>
+      <% end %>
+    </div>
+
+    <!-- Right: delivery due pill -->
+    <div class="text-left md:text-right space-y-2">
+      <div>
+        <span class="uppercase tracking-wide text-gray-500">Delivery due</span>
+        <% due_text = format_due_with_relative(@picksheet.delivery_required_by) %>
+        <div class="inline-block mt-1 px-2 py-1 rounded-full text-sm font-medium <%= due_pill_classes(@picksheet.delivery_required_by) %>">
+          <%= due_text %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Items -->
+  <div class="border rounded-lg overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-gray-700 text-xs uppercase">
+        <tr>
+          <th class="px-3 py-2 text-left">Product</th>
+          <th class="px-3 py-2 text-left">Size</th>
+          <th class="px-3 py-2 text-left">Pricing</th>
+          <th class="px-3 py-2 text-right">Count</th>
+          <th class="px-3 py-2 text-right">Weight (kg)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @picksheet.picksheet_items.each do |item| %>
+          <tr class="border-t">
+            <td class="px-3 py-2 align-top"><%= item.product %></td>
+            <td class="px-3 py-2 align-top">
+              <% if item.wedge_size.present? %>
+                <div><%= item.size %></div>
+                <div class="text-xs text-gray-500"><%= item.wedge_size %></div>
+              <% else %>
+                <%= item.size %>
+              <% end %>
+            </td>
+            <td class="px-3 py-2 align-top"><%= item.pricing %></td>
+            <td class="px-3 py-2 text-right align-top"><%= item.count %></td>
+            <td class="px-3 py-2 text-right align-top"><%= item.weight %></td>
+          </tr>
+        <% end %>
+      </tbody>
+      <tfoot class="bg-gray-50">
+        <tr class="border-t font-semibold">
+          <td class="px-3 py-2 text-right" colspan="3">Totals</td>
+          <td class="px-3 py-2 text-right"><%= @picksheet.number_of_items %></td>
+          <td class="px-3 py-2 text-right"><%= @picksheet.total_weight_kg %>kg</td>
+          <td class="px-3 py-2" colspan="3"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-end gap-2">
+    <%= link_to "Open PDF",
+        print_picksheet_pdf_picksheet_path(@picksheet),
+        target: "_blank",
+        class: "px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 text-sm" %>
+  </div>
+</div>
+
+<% if turbo_frame_request? %></turbo-frame><% end %>

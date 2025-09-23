@@ -1,6 +1,6 @@
 <% content_for :title, "Poacher: Picking Sheet" %>
 <% content_for(:page_title, "PICKING SHEET:  #{@picksheet.contact.business_name}")%>
-<% content_for :print_button, print_picksheet_pdf_path(id: @picksheet) %>
+<% content_for :print_button, print_picksheet_pdf_picksheet_path(@picksheet) %>
 <% content_for(:page_button, new_picksheet_path)%>
 
 <%= render 'navigation' %>
