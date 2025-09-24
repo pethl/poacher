@@ -181,6 +181,28 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       puts "   ↳ 🧪 page_button worked (header-scoped)"
     end
 
+    # Returns the Node::Element links in the right slot that are "actionable print" links.
+    # Actionable = not browser print, and either:
+    #  - href ends with .pdf, or
+    #  - text starts with "Print", or
+    #  - contains a print icon (i.fa-print)
+    def actionable_print_links_in_right_slot
+      title_bar  = "header .h-9"
+      right_slot = "#{title_bar} .flex-shrink-0:last-child"
+      return [] unless page.has_css?(title_bar, wait: 0)
+      return [] unless page.has_css?(right_slot, wait: 0)
+
+      within(right_slot) do
+        all(:css, "a", minimum: 0, wait: 0).reject { |a|
+          a[:onclick].to_s.include?("window.print")
+        }.select { |a|
+          a[:href].to_s.match?(/\.pdf(?:$|\?)/i) ||
+          a.text.to_s.strip.match?(/^Print\b/i) ||
+          a.has_css?("i.fa-print", wait: 0)
+        }
+      end
+    end
+
     # Detect print button presence/type in the right slot
     # Returns :absent, :browser, or :actionable
     def print_button_presence
@@ -189,46 +211,33 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       return :absent unless page.has_css?(title_bar, wait: 0)
       return :absent unless page.has_css?(right_slot, wait: 0)
       return :absent unless page.has_css?("#{right_slot} a", wait: 0)
-
+    
       within(right_slot) do
-        return :browser if page.has_css?("a[onclick*='window.print']", wait: 0)
+        # If there is a browser print anywhere, we still may also have actionable links.
+        has_browser = page.has_css?("a[onclick*='window.print']", wait: 0)
+        actionable  = actionable_print_links_in_right_slot
+        return :actionable if actionable.any?
+        return :browser if has_browser
       end
-      :actionable
+    
+      :absent
     end
 
-    # Click the Print link and verify PDF (assumes actionable)
-    def click_and_check_print_pdf!
-      title_bar  = "header .h-9"
-      right_slot = "#{title_bar} .flex-shrink-0:last-child"
-
-      within(right_slot) do
-        link = find(:css, "a", match: :first, wait: 0)
-        href = link[:href].to_s
-        link.click
-      end
-
-      if page.driver.respond_to?(:status_code)
-        expect(page.status_code).to be_between(200, 399),
-          "Expected success HTTP status after clicking Print, got #{page.status_code}"
-      end
-
+    # Verifies PDF using headers/body/URL — factored so we can call it for each link.
+    def expect_pdf_response!
       pdf_detected = false
 
-      # 1) Content-Type header (rack_test exposes this)
       if page.respond_to?(:response_headers)
         ct = page.response_headers["Content-Type"].to_s
         pdf_detected ||= ct.match?(/application\/pdf/i)
       end
 
-      # 2) PDF magic header in body (%PDF)
       begin
         body = page.html.to_s
         pdf_detected ||= body.start_with?("%PDF") || body.include?("%PDF-")
       rescue
-        # some drivers block body for PDFs
       end
 
-      # 3) URL pattern ends with .pdf
       begin
         pdf_detected ||= page.current_url.to_s.match?(/\.pdf(?:$|\?)/i)
       rescue
@@ -236,8 +245,55 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
 
       expect(pdf_detected).to be(true),
         "Expected a PDF response (content-type, %PDF magic header, or .pdf URL), but couldn't confirm."
+    end
+    
 
-      puts "   ↳ 🧪 print_button worked (PDF detected)"
+    # Click the Print link and verify PDF (assumes actionable)
+    def click_and_check_all_print_pdfs!
+      links = actionable_print_links_in_right_slot
+      raise "No actionable print links found" if links.empty?
+    
+      # Re-find by href each time (elements can go stale after navigation/window switch).
+      hrefs = links.map { |l| l[:href].to_s }
+    
+      hrefs.each_with_index do |href, idx|
+        title_bar  = "header .h-9"
+        right_slot = "#{title_bar} .flex-shrink-0:last-child"
+    
+        within(right_slot) do
+          link = find(:css, "a[href='#{href}']", match: :first, wait: 0)
+    
+          # If the driver supports window tracking (e.g., Selenium), capture the new tab.
+          new_win = nil
+          if respond_to?(:window_opened_by)
+            new_win = window_opened_by { link.click }
+          else
+            link.click
+          end
+    
+          if new_win
+            within_window(new_win) do
+              if page.driver.respond_to?(:status_code)
+                expect(page.status_code).to be_between(200, 399),
+                  "Expected success HTTP status after clicking Print (##{idx+1}), got #{page.status_code}"
+              end
+              expect_pdf_response!
+            end
+            new_win.close
+            switch_to_window(windows.first)
+          else
+            if page.driver.respond_to?(:status_code)
+              expect(page.status_code).to be_between(200, 399),
+                "Expected success HTTP status after clicking Print (##{idx+1}), got #{page.status_code}"
+            end
+            expect_pdf_response!
+          end
+        end
+    
+        puts "   ↳ 🧪 print_button ##{idx+1} worked (PDF detected) — #{href}"
+      end
+    
+      hrefs.size
     end
 
     # --- Main loop ----------------------------------------------------------
@@ -299,9 +355,9 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
               print_buttons_browser += 1
               puts "   ↳ (print_button is browser-print — skipped)"
             when :actionable
-              print_buttons_actionable += 1
-              click_and_check_print_pdf!
-              print_buttons_passed += 1
+              tested = click_and_check_all_print_pdfs!   # ← clicks ALL matching buttons
+              print_buttons_actionable += tested
+              print_buttons_passed     += tested
             else
               puts "   ↳ (no print_button present)"
             end
