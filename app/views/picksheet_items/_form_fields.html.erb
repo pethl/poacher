@@ -11,16 +11,30 @@
   </div>
 <% end %>
 
+<% editing = picksheet_item.persisted? %>
+<% category = product_category_for(
+      picksheet_item.product,
+      sale_product_butter: sale_product_butter,
+      sale_product_other: sale_product_other,
+      cut_guest_cheeses: cut_guest_cheeses,
+      cheese_accompaniments: cheese_accompaniments,
+      sale_product: sale_product  
+    ) %>
+
 <div class="w-full flex flex-row gap-4">
   <!-- Product Column -->
   <div class="px-4 py-2 basis-1/5">
     <label class="font-bold text-base text-black">Product</label><br>
+
     <div class="w-full">
-      <% sale_product.each do |product| %>
-        <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
-          <%= radio_button_tag 'picksheet_item[product_radio]', product, picksheet_item.product == product, class: checkbox_class, id: "product_radio_#{product.parameterize}" %>
-          <%= label_tag "product_radio_#{product.parameterize}", product %>
-        </p>
+      <%# === Top-level "Sale Product" chooser: show ONLY on NEW === %>
+      <% if !editing || category == :main %>
+        <% sale_product.each do |product| %>
+          <p class="my-4 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+            <%= radio_button_tag 'picksheet_item[product]', product, picksheet_item.product == product, class: checkbox_class, id: "product_radio_#{product.parameterize}" %>
+            <%= label_tag "product_radio_#{product.parameterize}", product %>
+          </p>
+        <% end %>
       <% end %>
 
       <% if contact_ids.include?(picksheet_item.picksheet.contact_id) %>
@@ -37,49 +51,62 @@
 
       <hr class="my-4">
 
-      <div class="my-4">
-        <%= label_tag :product_butter, "Butter", class: "font-bold text-sm text-yellow-800" %>
-        <% sale_product_butter.each do |butter| %>
-          <p class="my-2 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
-            <%= radio_button_tag 'picksheet_item[product_butter]', butter, picksheet_item.product == butter, class: checkbox_class, id: "product_butter_#{butter.parameterize}" %>
-            <%= label_tag "product_butter_#{butter.parameterize}", butter %>
-          </p>
-        <% end %>
-      </div>
+      <%# === Butter === %>
+      <% if !editing || category == :butter %>
+        <div class="my-4">
+          <%= label_tag :product_butter, "Butter", class: "font-bold text-sm text-yellow-800" %>
+          <% sale_product_butter.each do |butter| %>
+            <p class="my-2 hover:bg-gray-100 whitespace-nowrap flex items-center gap-2">
+              <%= radio_button_tag 'picksheet_item[product]', butter, picksheet_item.product == butter, class: checkbox_class, id: "product_butter_#{butter.parameterize}" %>
+              <%= label_tag "product_butter_#{butter.parameterize}", butter %>
+            </p>
+          <% end %>
+        </div>
 
-      <hr class="my-4">
+        <%# add a divider ONLY when on new and other sections will follow %>
+        <% unless editing %><hr class="my-4"><% end %>
+      <% end %>
 
-      <div class="my-4">
-        <%= label_tag :product_other, "Other Products", class: "font-bold text-sm text-gray-700" %>
-        <%= select_tag 'picksheet_item[product_other]',
-                        options_for_select(sale_product_other, picksheet_item.product),
-                        include_blank: "-- Select --",
-                        class: field_class_flex_med %>
-      </div>
+      <%# === Other Products === %>
+      <% if !editing || category == :other %>
+        <div class="my-4">
+          <%= label_tag :product_other, "Other Products", class: "font-bold text-sm text-gray-700" %>
+          <%= select_tag 'picksheet_item[product]',
+                         options_for_select(sale_product_other, picksheet_item.product),
+                         include_blank: (!editing ? "-- Select --" : nil),
+                         class: field_class_flex_med %>
+        </div>
 
-      <hr class="my-4">
+        <% unless editing %><hr class="my-4"><% end %>
+      <% end %>
 
-      <div class="my-4">
-        <%= label_tag :product_cut_guest, "Cut Guest Cheeses", class: "font-bold text-sm text-blue-700" %>
-        <%= select_tag 'picksheet_item[product_cut_guest]',
-                        options_for_select(cut_guest_cheeses, picksheet_item.product),
-                        include_blank: "-- Select --",
-                        class: field_class_flex_med %>
-      </div>
+      <%# === Cut Guest Cheeses === %>
+      <% if !editing || category == :cut_guest %>
+        <div class="my-4">
+          <%= label_tag :product_cut_guest, "Cut Guest Cheeses", class: "font-bold text-sm text-blue-700" %>
+          <%= select_tag 'picksheet_item[product]',
+                         options_for_select(cut_guest_cheeses, picksheet_item.product),
+                         include_blank: (!editing ? "-- Select --" : nil),
+                         class: field_class_flex_med %>
+        </div>
 
-      <hr class="my-4">
+        <% unless editing %><hr class="my-4"><% end %>
+      <% end %>
 
-      <div class="my-4">
-        <%= label_tag :product_cheese_accompaniments, "Cheese Accompaniments", class: "font-bold text-sm " %>
-        <%= select_tag 'picksheet_item[product_cheese_accompaniments]',
-                        options_for_select(cheese_accompaniments, picksheet_item.product),
-                        include_blank: "-- Select --",
-                        class: field_class_flex_med %>
-      </div>
+      <%# === Cheese Accompaniments === %>
+      <% if !editing || category == :accompaniments %>
+        <div class="my-4">
+          <%= label_tag :product_cheese_accompaniments, "Cheese Accompaniments", class: "font-bold text-sm " %>
+          <%= select_tag 'picksheet_item[product]',
+                         options_for_select(cheese_accompaniments, picksheet_item.product),
+                         include_blank: (!editing ? "-- Select --" : nil),
+                         class: field_class_flex_med %>
+        </div>
+      <% end %>
     </div>
   </div>
 
-  <!-- Size Column (incl. Wedge Size) -->
+  <%# === keep the rest of your columns unchanged === %>
   <div class="border-l-2 px-4 py-2 basis-[17%]">
     <%= form.label :size, class:"font-bold text-base text-black" %><br>
     <div class="w-full">
@@ -102,7 +129,6 @@
     </div>
   </div>
 
-  <!-- Pricing Column -->
   <div class="border-l-2 px-4 py-2 basis-1/5">
     <%= form.label :pricing, class:"font-bold text-base text-black" %><br>
     <div class="w-full">
@@ -115,7 +141,6 @@
     </div>
   </div>
 
-  <!-- Count + Notes Column -->
   <div class="border-l-2 px-4 py-2 grow">
     <%= form.label :count, class:"font-bold text-base text-black" %><br>
     <%= form.number_field :count, class: "text-green-800 rounded-lg w-16", min: 0, step: 1 %><br><br>
