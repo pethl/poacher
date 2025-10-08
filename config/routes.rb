@@ -190,7 +190,7 @@ Rails.application.routes.draw do
    
   resources :picksheets do
     # nested items
-    resources :picksheet_items, except: [:index, :show]
+    resources :picksheet_items, only: %i[new create edit update destroy show]
   
     # member endpoints (operate on a single picksheet)
     member do

@@ -26,8 +26,12 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1 or /contacts/1.json
   def show
-    @contact = Contact.find(params[:id])
+    @contact = Contact.includes(:makesheets).find(params[:id])
+    @picksheets = @contact.picksheets
+                          .includes(:user) # for taken by initials
+                          .order(date_order_placed: :desc, id: :desc)
     @makesheets = Makesheet.where(contact_id: nil).where.not(status: "Finished").where.not(grade: [nil, '']).ordered # Only unlinked makesheets
+
   end
 
   def search_makesheets

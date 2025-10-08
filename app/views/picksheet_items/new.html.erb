@@ -5,7 +5,7 @@
     <h1>New Line Item</h1>
   </div>
 
-  <%= turbo_frame_tag @picksheet_item do %>
+  <%= turbo_frame_tag dom_id(PicksheetItem.new) do %>
     <%= render "form_new", picksheet: @picksheet, picksheet_item: @picksheet_item %>
   <% end %>
 </main>

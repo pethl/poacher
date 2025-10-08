@@ -1,6 +1,4 @@
+<!-- app/views/picksheet_items/show.turbo_stream.erb -->
 <%= turbo_stream.replace @picksheet_item do %>
   <%= render @picksheet_item, picksheet: @picksheet %>
 <% end %>
-
-<%= render_turbo_stream_flash_messages %>
-

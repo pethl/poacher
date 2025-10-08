@@ -7,18 +7,92 @@
    
       <%= render @contact %>
 
-        <div class="my-2">
+        <div class="my-2 text-right">
+          <%= link_to "<-- All Customers", contacts_path, class: clear_button_class %>
           <%= link_to "Edit this contact", edit_contact_path(@contact), class: fill_button_class %>
-          <%= link_to "All Contacts", contacts_path, class: gray_button %>
-            <div class="inline-block ml-2">
+           <% if @contact.picksheets.none? %>
+            <div class="inline-block">
               <%= button_to "Delete this Contact",
-                          @contact,
-                          method: :delete,
-                          form: { data: { turbo_confirm: "Are you sure?" } },
-                          class: gray_button %>
+                            @contact,
+                            method: :delete,
+                            form: { data: { turbo_confirm: "Are you sure?" } },
+                            class: danger_button_class %>
             </div>
+          <% end %>
         </div>
     </div>
+
+    <div class="mb-4 border border-gray-800 p-4 rounded-lg">
+  <h2 class="<%= title_two %>">Customer Orders</h2>
+
+  <% if @picksheets.any? %>
+    <div class="overflow-x-auto mt-2">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-400 text-white">
+          <tr>
+            <th class="px-2 py-2 text-left">Status</th>
+            <th class="px-2 py-2">Order Placed</th>
+            <th class="px-2 py-2">Delivery By</th>
+            <th class="px-2 py-2 text-center">Items/Weight</th>
+            <th class="px-2 py-2 text-left">Carrier / Del Date</th>
+            
+            <th class="px-2 py-2 text-center">Action</th>
+            <th class="px-2 py-2">Order No.</th>
+            <th class="px-2 py-2">Invoice No.</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <% @picksheets.each do |p| %>
+            <tr class="border-b">
+              <td class="px-2 py-2 font-semibold
+                         <%= 'text-green-600' if p.status == 'Assigned' %>
+                         <%= 'text-blue-600'  if p.status == 'Cutting'  %>">
+                <%= p.status %>
+              </td>
+
+              <td class="px-2 py-2 text-center underline underline-offset-2">
+                <%= link_to p.date_order_placed.to_formatted_s(:uk), p %>
+              </td>
+
+              <td class="px-2 py-2 text-center">
+                <%= p.delivery_required_by&.to_formatted_s(:uk) %>
+              </td>
+
+              <td class="px-2 py-2 text-center">
+                <%= p.number_of_items %> / <%= p.total_weight_kg %> kg
+              </td>
+
+              <td class="px-2 py-2">
+                <%= p.carrier %>
+                <% if p.carrier_delivery_date.present? %>
+                  (<%= p.carrier_delivery_date.to_formatted_s(:uk) %>)
+                <% end %>
+              </td>
+
+              <td class="px-2 py-2">
+                <div class="flex items-center justify-center gap-2">
+                 
+
+                  <%= action_pill "Print",
+                        print_picksheet_pdf_picksheet_path(p),
+                        color: :blue,
+                        target: "_blank" %>
+                </div>
+              </td>
+
+              <td class="px-2 py-2"><%= p.order_number %></td>
+              <td class="px-2 py-2"><%= p.invoice_number %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <br>
+    </div>
+  <% else %>
+    <p class="mt-2 text-sm text-gray-600">No picking sheets linked to this customer.</p>
+  <% end %>
+</div>
+
 
     <div class="flex flex-col md:flex-row gap-4">
 

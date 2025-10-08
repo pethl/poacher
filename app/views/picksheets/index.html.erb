@@ -134,13 +134,13 @@
 
               <!-- 2: Order Placed (row tooltip: Show) -->
               <td class="px-3 py-3 border-r-2 underline underline-offset-2 relative group">
-                <%= link_to picksheet, class: "relative z-10" do %>
+                <%= link_to picksheet_path(picksheet), class: "relative z-10" do %>
                   <span><%= picksheet.date_order_placed.to_formatted_s(:uk) %></span>
                   <span class="absolute top-full mt-3 left-1/2 -translate-x-1/2
                                bg-gray-800 text-white text-xs rounded py-1 px-2
                                opacity-0 group-hover:opacity-100 transition-opacity duration-200
                                pointer-events-none whitespace-nowrap">
-                    Show
+                    Edit
                   </span>
                 <% end %>
               </td>
@@ -153,13 +153,13 @@
               <!-- 4: Customer (row tooltip: Edit) -->
               <td class="px-3 py-3 border-r-2 whitespace-nowrap underline underline-offset-2 relative group">
                 <% unless picksheet.contact.to_s.empty? %>
-                  <%= link_to edit_picksheet_path(picksheet), class: "relative z-10" do %>
+                  <%= link_to contact_path(picksheet.contact), class: "relative z-10" do %>
                     <span><%= picksheet.contact.business_name %></span>
                     <span class="absolute top-full mt-3 left-1/2 -translate-x-1/2
                                  bg-gray-800 text-white text-xs rounded py-1 px-2
                                  opacity-0 group-hover:opacity-100 transition-opacity duration-200
                                  pointer-events-none whitespace-nowrap">
-                      Edit
+                      See Customer
                     </span>
                   <% end %>
                 <% end %>
@@ -189,17 +189,19 @@
               <!-- 9: Action -->
               <td class="px-3 py-3 border-r-2">
                 <div class="flex items-center justify-center gap-2">
-                  <%= button_tag "Preview",
-                    type: "button",
-                    class: "bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs font-medium px-3 py-1 rounded",
-                    data: { action: "click->dialog#open", url: summary_picksheet_path(picksheet) } %>
+                  <%= action_pill "Preview",
+                        nil,
+                        type: :button,
+                        color: :gray,
+                        data: { action: "click->dialog#open", url: summary_picksheet_path(picksheet) } %>
 
-                  <%= link_to "Print",
-                    print_picksheet_pdf_picksheet_path(picksheet),
-                    target: "_blank",
-                    class: "bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3 py-1 rounded" %>
+                  <%= action_pill "Print",
+                        print_picksheet_pdf_picksheet_path(picksheet),
+                        color: :blue,
+                        target: "_blank" %>
                 </div>
               </td>
+
 
               <% if @type.in?(%w[ASSIGNED HOLD CUTTING]) %>
                 <%# no Order/Invoice columns in header %>

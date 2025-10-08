@@ -1,0 +1,35 @@
+<!-- app/views/picksheet_items/_row_form.html.erb -->
+<tr id="<%= dom_id(picksheet_item) %>">
+  <td colspan="9" class="p-0">
+    <div class="mt-2 w-full box-border p-6 bg-white rounded-2xl border-2 border-black">
+      <%= form_with model: [picksheet, picksheet_item],
+                    format: :turbo_stream,
+                    data: { turbo: true },
+                    html: { class: "form line-item-date" } do |form| %>
+
+        <%= render "picksheet_items/form_fields",
+                   form: form,
+                   picksheet: picksheet,
+                   picksheet_item: picksheet_item,
+                   sale_product: sale_product,
+                   sale_product_butter: sale_product_butter,
+                   sale_product_other: sale_product_other,
+                   cut_guest_cheeses: cut_guest_cheeses,
+                   cheese_accompaniments: cheese_accompaniments,
+                   sale_size: sale_size,
+                   wedges_sizes: wedges_sizes,
+                   sale_pricing: sale_pricing,
+                   contact_ids: contact_ids,
+                   checkbox_class: checkbox_class,
+                   field_class_flex_med: field_class_flex_med %>
+
+        <div class="mt-4 flex justify-end space-x-2">
+          <%= form.submit "Save Line Item", class: tight_fill_button_class %>
+          <%= link_to "Cancel",
+                picksheet_picksheet_item_path(picksheet, picksheet_item, format: :turbo_stream),
+                class: tight_clear_button_class %>
+        </div>
+      <% end %>
+    </div>
+  </td>
+</tr>

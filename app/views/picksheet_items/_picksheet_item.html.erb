@@ -1,45 +1,27 @@
-<%= turbo_frame_tag picksheet_item do %>
-  <div class="picksheet_item">
-    <div class="picksheet_item__header">
-        <tr id="<%= dom_id(picksheet_item) %>" class="bg-white border-b align-middle">
-               <td class="p-2 border-r whitespace-nowrap truncate">
-                  <%= picksheet_item.display_product_or_grade %>
-               </td>
-               <td class="p-2 border-r whitespace-nowrap">
-                  <%= picksheet_item.size %>
-               </td>
-               <td class="p-2 border-r text-sm">
-                  <%= picksheet_item.pricing %>
-               </td>
-               <td class="p-2 border-r text-center">
-                  <%= picksheet_item.count %>
-               </td>
-               <td class="p-2 border-r text-right italic text-gray-600">
-                  <%= picksheet_item.weight %>
-               </td>
-               <td class="p-2 border-r text-center">
-                  <%= picksheet_item.code %>
-               </td>
-               <td class="p-2 border-r">
-                  <%= picksheet_item.sp_price %>
-               </td>
-               <td class="p-2 border-r text-center">
-                  <%= picksheet_item.bb_date&.to_formatted_s(:uk) %>
-               </td>
-               <td class="p-1 text-center">
-                  <div class="flex justify-center gap-2">
-                     <%= link_to "Edit",
-                                 [:edit, @picksheet, picksheet_item],
-                                 class: "text-green-600 hover:underline" %>
-                     <%= button_to "Delete",
-                                 [@picksheet, picksheet_item],
-                                 method: :delete,
-                                 form: { data: { turbo_confirm: "Are you sure?" } },
-                                 class: "text-red-600 hover:underline" %>
-                  </div>
-               </td>
-               </tr>
+<tr id="<%= dom_id(picksheet_item) %>" class="border-b">
+  <td class="p-2"><%= picksheet_item.display_product_or_grade %></td>
+  <td class="p-2"><%= picksheet_item.size %></td>
+  <td class="p-2"><%= picksheet_item.pricing %></td>
+  <td class="p-2 text-center"><%= picksheet_item.count %></td>
+  <td class="p-2 text-right italic">
+    <%= number_with_precision(picksheet_item.get_weight, precision: 2) %> kg
+  </td>
+  <td class="p-2 text-center"><%= picksheet_item.code %></td>
+  <td class="p-2"><%= picksheet_item.sp_price %></td>
+  <td class="p-2 text-center"><%= picksheet_item.bb_date&.strftime('%d/%m/%y') %></td>
+  <td class="p-2 text-center">
+      <div class="inline-flex items-center justify-center gap-2">
+        <%= action_pill "Edit",
+              edit_picksheet_picksheet_item_path(picksheet_item.picksheet, picksheet_item, format: :turbo_stream),
+              color: :green %>
 
-  </div>
-</div>
-<% end %>
+        <%= action_pill "Delete",
+              picksheet_picksheet_item_path(picksheet_item.picksheet, picksheet_item),
+              color: :red,
+              method: :delete,                    # Rails will turn this into a turbo delete
+              confirm: "Delete this line?" %>
+      </div>
+  </td>
+
+</tr> 
+

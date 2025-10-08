@@ -56,6 +56,37 @@ module ApplicationHelper
     "w-64 h-32 bg-white text-gray-800 p-6 rounded-lg text-center font-bold border-4 border-blue-600 shadow-md hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-blue-300 transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
 
+  # Generic action pill – used for links or buttons
+  def action_pill(label, path = nil, color: :gray, method: nil, data: {}, type: :link, target: nil, confirm: nil, **html_options)
+      base_classes  = "inline-flex items-center justify-center rounded px-2.5 py-1 text-xs font-medium shadow-sm focus:outline-none transition"
+      color_classes = {
+        gray:  "border border-gray-800 text-gray-800 hover:bg-gray-100",
+        blue:  "border border-blue-600 text-blue-600 hover:bg-blue-100",
+        green: "border border-green-600 text-green-600 hover:bg-green-100",
+        red:   "border border-red-600 text-red-600 hover:bg-red-100",
+        amber: "border border-amber-600 text-amber-600 hover:bg-amber-100"
+      }
+
+      options = {
+        class: [base_classes, color_classes[color] || color_classes[:gray]].join(" "),
+        data:  data,
+        target: target
+      }
+      options[:data] ||= {}
+      options[:data][:turbo_confirm] = confirm if confirm.present?
+      options[:method] = method if method
+
+      # merge any extra html options, including nested :data
+      if html_options.key?(:data)
+        options[:data] = (options[:data] || {}).merge(html_options[:data] || {})
+        html_options = html_options.except(:data)
+      end
+      options.merge!(html_options)
+
+      type == :button ? button_tag(label, options) : link_to(label, path, options)
+    end
+
+
   # --- Text and Label Classes ---
   def information_text_class
     "text-base text-left font-normal"
@@ -179,6 +210,10 @@ module ApplicationHelper
 
   def clear_button_class
     "#{BASE_BUTTON} text-gray-800 bg-white hover:bg-gray-100 border-gray-600"
+  end
+
+  def danger_button_class
+    "#{BASE_BUTTON} text-red-800 bg-white hover:bg-red-100 border-red-600"
   end
 
   def clear_button_large_class

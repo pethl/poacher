@@ -2,16 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base tweaks */
 @layer base {
   html {
     font-family: "Raleway", system-ui, sans-serif;
   }
 }
 
+/* Imports */
 @import "components/flash";
 @import "config/animations";
 @import "flowbite";
 
+/* Sort arrow helpers */
 .sort {
   position: absolute;
   top: 1rem;
@@ -30,6 +33,16 @@
   border-bottom: 8px solid #386628;
 }
 
+/* --- Turbo + tables: make inline edit frames behave like rows --- */
+@layer base {
+  /* When a <turbo-frame> wraps a <tr> inside a <tbody>, we want the <tr>
+     to be treated as a direct child of <tbody>. */
+  tbody turbo-frame {
+    display: contents;
+  }
+}
+
+/* Utilities + print styles */
 @layer utilities {
   /* Hide the fixed site header while modal is open */
   .modal-open #site-header {

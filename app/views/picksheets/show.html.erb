@@ -1,66 +1,72 @@
 <% content_for :title, "Poacher: Picking Sheet" %>
 <% content_for(:page_title, "PICKING SHEET:  #{@picksheet.contact.business_name}")%>
 <% content_for :print_button, print_picksheet_pdf_picksheet_path(@picksheet) %>
-<% content_for(:page_button, new_picksheet_path)%>
+<% content_for(:page_button, new_picksheet_path) %>
 
 <%= render 'navigation' %>
 
 <div class="mx-auto w-full lg:w-3/4 text-center mt-2">
-   <% if @picksheet.status=="Assigned" %>
-  <div class="border border-double border-4 border-green-600 p-2 rounded-lg">
-    <% else %>
-   <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
-       <% end %>
-    <div class="mx-auto">
+  <% if @picksheet.status == "Assigned" %>
+    <div class="border border-double border-4 border-green-600 p-2 rounded-lg">
+  <% else %>
+    <div class="border border-double border-4 border-gray-800 p-2 rounded-lg">
+  <% end %>
+      <div class="mx-auto">
 
-     <div class="header">
-      <%= render @picksheet %>
-      </div>
+        <div class="header">
+          <%= render @picksheet %>
+        </div>
 
-  <hr>
-     <div class="relative overflow-x-auto">
+        <hr>
+
+        <div class="relative overflow-x-auto">
           <table class="w-full table-fixed text-left text-gray-700">
-         <colgroup>
-            <col style="width:12rem"><!-- Product -->
-            <col style="width:10rem"><!-- Size -->
-            <col style="width:8rem"><!-- Pricing -->
-            <col style="width:3rem"><!-- Count -->
-            <col style="width:6rem"><!-- Weight -->
-            <col style="width:6rem"><!-- Code -->
-            <col style="width:8rem"><!-- SP Price -->
-            <col style="width:8rem"><!-- BB Date -->
-            <col style="width:8rem"><!-- Actions -->
-         </colgroup>
+            <colgroup>
+              <col style="width:12rem"><!-- Product -->
+              <col style="width:10rem"><!-- Size -->
+              <col style="width:8rem"><!-- Pricing -->
+              <col style="width:3rem"><!-- Count -->
+              <col style="width:6rem"><!-- Weight -->
+              <col style="width:6rem"><!-- Code -->
+              <col style="width:8rem"><!-- SP Price -->
+              <col style="width:8rem"><!-- BB Date -->
+              <col style="width:8rem"><!-- Actions -->
+            </colgroup>
 
-         <thead class="text-sm text-gray-500">
-            <tr class="bg-gray-50 border-b">
-               <th class="p-2 font-semibold">Product</th>
-               <th class="p-2 font-semibold">Size</th>
-               <th class="p-2 font-semibold">Pricing</th>
-               <th class="p-2 font-semibold text-center">Qty</th>
-               <th class="p-2 font-semibold text-right italic">Weight</th>
-               <th class="p-2 font-semibold text-center">Code</th>
-               <th class="p-2 font-semibold">SP Price</th>
-               <th class="p-2 font-semibold text-center">BB Date</th>
-               <th class="p-2 font-semibold text-center">Actions</th>
-            </tr>
-         </thead>
+            <thead class="text-sm text-gray-500">
+              <tr class="bg-gray-200 border-b">
+                <th class="p-2 font-semibold">Product</th>
+                <th class="p-2 font-semibold">Size</th>
+                <th class="p-2 font-semibold">Pricing</th>
+                <th class="p-2 font-semibold text-center">Qty</th>
+                <th class="p-2 font-semibold text-right italic">Weight</th>
+                <th class="p-2 font-semibold text-center">Code</th>
+                <th class="p-2 font-semibold">SP Price</th>
+                <th class="p-2 font-semibold text-center">BB Date</th>
+                <th class="p-2 font-semibold text-center">Actions</th>
+              </tr>
+            </thead>
 
-         <tbody id="picksheet_items">
-            <%= render @picksheet_items %>
-         </tbody>
-      </table>
-     
-      <br>
-      <div class="new_line_item text-left">
-       <div class="mt-4 mb-4">
-          <%= link_to " Add New Line Item ",
-                  new_picksheet_picksheet_item_path(@picksheet),
-               data: { turbo_frame: dom_id(PicksheetItem.new) },
-               class: tight_fill_button_class %>
+            <tbody id="picksheet_items">
+              <%= render @picksheet_items %>
+            </tbody>
+          </table>
+
+          <br>
+
+          <div class="new_line_item text-left">
+            <div class="mt-4 mb-4">
+              <%= link_to " Add New Line Item ",
+                    new_picksheet_picksheet_item_path(@picksheet),
+                    data: { turbo_frame: dom_id(PicksheetItem.new) },
+                    class: tight_fill_button_class %>
+            </div>
+
+            <!-- Placeholder for inline “new item” form -->
+            <turbo-frame id="<%= dom_id(PicksheetItem.new) %>"></turbo-frame>
           </div>
-     </div>
-   
-  </div>
-  </div>
+        </div>
+      </div>
+    </div>
 </div>
+
