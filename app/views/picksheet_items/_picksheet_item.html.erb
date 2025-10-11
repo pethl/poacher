@@ -15,11 +15,11 @@
               edit_picksheet_picksheet_item_path(picksheet_item.picksheet, picksheet_item, format: :turbo_stream),
               color: :green %>
 
-        <%= action_pill "Delete",
-              picksheet_picksheet_item_path(picksheet_item.picksheet, picksheet_item),
-              color: :red,
-              method: :delete,                    # Rails will turn this into a turbo delete
-              confirm: "Delete this line?" %>
+       <%= action_pill "Delete",
+      picksheet_picksheet_item_path(picksheet_item.picksheet, picksheet_item),
+      color: :red,
+      data: { turbo_method: :delete, turbo_confirm: "Delete this line?" } %>
+
       </div>
   </td>
 
