@@ -40,35 +40,47 @@ class PicksheetPdfService
   end
 
   def add_picksheet_details(pdf)
+    notes_text = @picksheet.carrier_collection_notes.to_s.strip
+
     picksheet_header_table_data = [
       ["Date Order Placed:", format_date(@picksheet.date_order_placed), "Customer:", customer_details],
       ["Delivery Required By:", @picksheet.full_delivery_info, "Contact Telephone:", @picksheet.contact_telephone_number.to_s],
       ["Order Number:", @picksheet.order_number, "Invoice Number:", @picksheet.invoice_number],
       ["", "", "Carrier:", @picksheet.carrier],
       ["No of Boxes:", @picksheet.number_of_boxes.to_s.presence, "Carrier Delivery Date:", format_date(@picksheet.carrier_delivery_date)],
-      ["Carrier/Cust Collection Notes", {content: @picksheet.carrier_collection_notes, colspan: 2}]
+      ["Carrier/Cust Collection Notes", { content: (notes_text.presence || ""), colspan: 3 }]
     ]
 
     pdf.table(picksheet_header_table_data, width: 460, cell_style: { inline_format: true, size: 10 }) do |t|
-      t.row(0).font_style = :bold
+      # widths / alignment
       t.column(0).width = 110
       t.column(1).width = 120
       t.column(2).width = 110
       t.column(3).width = 120
+  
       t.column(0).align = :right
       t.column(1).align = :center
       t.column(2).align = :right
       t.column(3).align = :center
+  
+      # label styling
       t.column(0).background_color = 'D3D3D3'
       t.column(2).background_color = 'D3D3D3'
       t.column(0).size = 7
       t.column(2).size = 7
+  
+      # ---- overrides for the LAST row (notes) ----
+      # remove grey bg from merged cell (cols 1..3), left-align, add padding
+      t.row(-1).columns(1..3).background_color = nil
+      t.row(-1).columns(1..3).align = :left
+      t.row(-1).columns(1..3).padding = [6, 8, 6, 8]
+      # keep the label cell (col 0) styled as normal; optional smaller font:
+      t.row(-1).column(0).size = 7
     end
-
-    pdf.move_down 8
-    pdf.text "Carrier/Cust Collection Notes: #{ @picksheet.carrier_collection_notes.presence || 'No notes ' }\n", size: 8, align: :left
-    pdf.move_down 12
+    pdf.move_down 16
   end
+
+ 
 
   def add_picksheet_items(pdf)
     picksheet_item_table_data = [["Product", "Size", "Pricing", "Count", "Weight(kg)", "Code", "Sp Price", "B/B Date"]]
