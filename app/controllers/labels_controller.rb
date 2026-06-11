@@ -53,12 +53,46 @@ if: -> { Rails.env.development? || Rails.env.test? }
 
   def print_single_cheese_label
     makesheet = Makesheet.find(params[:makesheet_id])
-    CheeseSingleLabelService.new(makesheet).print
+    pdf = CheeseSingleLabelService.new(makesheet).generate
+
+      send_data pdf,
+                filename: "cheese_label_#{makesheet.id}.pdf",
+                type: "application/pdf",
+                disposition: "inline"
   
-    redirect_back fallback_location: makesheets_path,
-                  notice: "Label sent to printer."
   end
-  
+
+
+  def hold_label
+      makesheet = Makesheet.find(params[:makesheet_id])
+      pdf = HoldLabelService.new(makesheet).generate
+
+      send_data pdf,
+                filename: "hold_label_#{makesheet.id}.pdf",
+                type: "application/pdf",
+                disposition: "inline"
+    end
+
+    def hold_update_label
+      makesheet = Makesheet.find(params[:makesheet_id])
+      pdf = HoldUpdateLabelService.new(makesheet).generate
+
+      send_data pdf,
+                filename: "hold_update_label_#{makesheet.id}.pdf",
+                type: "application/pdf",
+                disposition: "inline"
+    end
+    
+
+    def release_label
+      makesheet = Makesheet.find(params[:makesheet_id])
+      pdf = ReleaseLabelService.new(makesheet).generate
+
+      send_data pdf,
+                filename: "release_label_#{makesheet.id}.pdf",
+                type: "application/pdf",
+                disposition: "inline"
+    end
   
 end
 

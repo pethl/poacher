@@ -348,6 +348,7 @@ class MakesheetsController < ApplicationController
               type: "application/pdf",
               disposition: "inline"
   end
+  
 
    #used in JS by traceability records form - very important never delete
    def summary

@@ -10,7 +10,7 @@
   },
   "description": "A Rails app with Node.js, Tailwind, Chartkick for the cheese industry",
   "engines": {
-    "node": "23.7.0"
+    "node": "24.13.1"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",

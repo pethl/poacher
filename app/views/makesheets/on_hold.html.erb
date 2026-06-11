@@ -1,6 +1,6 @@
 <% content_for :title, "Poacher: On Hold Makesheets" %>
 <% content_for :page_title, "ON HOLD – #{params[:status] == 'finished' ? 'Finished' : 'In Store'}" %>
-  <%= render 'shared/dairy_nav' %>
+<%= render 'shared/dairy_nav' %>
 
 <div class="max-w-4xl mx-auto px-4">
 
@@ -21,27 +21,81 @@
           <th class="text-left px-4 py-2">Status</th>
           <th class="text-left px-4 py-2">Grade</th>
           <th class="text-left px-4 py-2">Hold Reason</th>
+          <th class="text-center px-4 py-2">Print Label</th>
         </tr>
       </thead>
       <tbody>
         <% @makesheets.each do |ms| %>
-          <tr class="border-t">
-           <td class="px-4 py-2"> <%= link_to ms.make_date&.strftime("%d %b %Y"), makesheet_path(ms), class: link_class %></td>
-            <td class="px-4 py-2"><%= ms.status %></td>
-            <td class="px-4 py-2"><%= ms.grade.presence || "–" %></td>
-            <td class="px-4 py-2">
-              <% reasons = [] %>
-              <% reasons << "Glass Breakage" if ms.glass_breakage %>
-              <% reasons << "Metal Contamination" if ms.metal_contamination %>
-              <% reasons << "Slow Cheese" if ms.slow_cheese %>
-              <%= reasons.join(", ") %>
-            </td>
-          </tr>
+        <tr class="border-t">
+          <td class="px-4 py-2"> <%= link_to ms.make_date&.strftime("%d %b %Y"), makesheet_path(ms), class: link_class %></td>
+          <td class="px-4 py-2"><%= ms.status %></td>
+          <td class="px-4 py-2"><%= ms.grade.presence || "–" %></td>
+          <td class="px-4 py-2">
+            <% reasons = [] %>
+            <% reasons << "Glass Breakage" if ms.glass_breakage %>
+            <% reasons << "Metal Contamination" if ms.metal_contamination %>
+            <% reasons << "Slow Cheese" if ms.slow_cheese %>
+            <%= reasons.join(", ") %>
+          </td>
+          <td class="px-4 py-2">
+            <div class="flex gap-3 justify-center">
+
+              <!-- Hold Label -->
+              <div class="relative group">
+                <%= link_to hold_label_path(ms),
+                    class: "text-red-600 hover:text-red-800",
+                    data: { turbo: false } do %>
+                <i class="fas fa-tag"></i>
+                <% end %>
+
+                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2
+                            bg-gray-800 text-white text-xs rounded py-1 px-2
+                            opacity-0 group-hover:opacity-100 transition-opacity
+                            duration-200 pointer-events-none whitespace-nowrap">
+                  Hold Label
+                </span>
+              </div>
+
+              <!-- Hold Update -->
+              <div class="relative group">
+                <%= link_to hold_update_label_path(ms),
+                    class: "text-yellow-700 hover:text-yellow-900",
+                    data: { turbo: false } do %>
+                <i class="fas fa-sync-alt"></i>
+                <% end %>
+
+                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2
+                            bg-gray-800 text-white text-xs rounded py-1 px-2
+                            opacity-0 group-hover:opacity-100 transition-opacity
+                            duration-200 pointer-events-none whitespace-nowrap">
+                  Hold Update Label
+                </span>
+              </div>
+
+              <!-- Release -->
+              <div class="relative group">
+                <%= link_to release_label_path(ms),
+                    class: "text-green-600 hover:text-green-800",
+                    data: { turbo: false } do %>
+                <i class="fas fa-check-circle"></i>
+                <% end %>
+
+                <span class="absolute top-full mt-2 left-1/2 -translate-x-1/2
+                            bg-gray-800 text-white text-xs rounded py-1 px-2
+                            opacity-0 group-hover:opacity-100 transition-opacity
+                            duration-200 pointer-events-none whitespace-nowrap">
+                  Release Label
+                </span>
+              </div>
+
+            </div>
+          </td>
+        </tr>
         <% end %>
         <% if @makesheets.empty? %>
-          <tr>
-            <td colspan="4" class="px-4 py-6 text-center italic text-gray-500">No makesheets currently on hold.</td>
-          </tr>
+        <tr>
+          <td colspan="4" class="px-4 py-6 text-center italic text-gray-500">No makesheets currently on hold.</td>
+        </tr>
         <% end %>
       </tbody>
     </table>

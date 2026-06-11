@@ -34,7 +34,15 @@ Rails.application.routes.draw do
   get 'labels/:makesheet_id/preview', to: 'labels#preview_single_cheese', as: :preview_single_cheese_label
   get "labels/print_cheese_labels", to: "labels#print_cheese_labels", as: :print_cheese_labels
   get 'labels/:makesheet_id/print', to: 'labels#print_single_cheese_label', as: :print_single_cheese_label
-
+  get "labels/:makesheet_id/hold", 
+    to: "labels#hold_label", 
+    as: :hold_label
+  get "labels/:makesheet_id/release", 
+      to: "labels#release_label", 
+      as: :release_label
+  get "labels/:makesheet_id/hold_update", 
+      to: "labels#hold_update_label", 
+      as: :hold_update_label
 
  # ⛳ Dev/Test-only: bare HTML label preview (no auth)
   # Lets you eyeball/tweak label layout without firing the printer.

@@ -39,13 +39,17 @@ class CheeseSingleLabelService
       file.write(generate)
       file.flush
   
+      printer_name = Current.user.label_printer_name
+
+      raise "No label printer configured for #{Current.user.email}" if printer_name.blank?
+
       cmd = [
-        "lp",
+        "/usr/bin/lp",
         "-o", "PageSize=Custom.41x89mm",
         "-o", "fit-to-page=false",
         "-o", "scaling=100",
-        "-o", "print-quality=5", 
-        "-d", "650", # Replace with your printer name if needed
+        "-o", "print-quality=5",
+        "-d", printer_name,
         file.path
       ]
   
