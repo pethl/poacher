@@ -44,7 +44,9 @@ class HoldLabelService
 
           reason =
             if @makesheet.metal_contamination?
-              "Metal Contamination"
+              "Suspected Metal Contamination"
+            elsif @makesheet.glass_contamination?
+               "Suspected Glass Contamination"
             elsif @makesheet.slow_cheese?
               "SLOW at make"
             else
@@ -58,7 +60,7 @@ class HoldLabelService
               styles: [:bold] }
             ])
 
-            if @makesheet.metal_contamination?
+           if @makesheet.metal_contamination? || @makesheet.glass_breakage?
             pdf.move_down 4
 
             pdf.fill_color "AA0000"

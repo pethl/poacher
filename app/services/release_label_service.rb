@@ -48,9 +48,11 @@ class ReleaseLabelService
 
           pdf.move_down 6
 
-          reason =
+           reason =
             if @makesheet.metal_contamination?
-              "Metal Contamination"
+              "Suspected Metal Contamination"
+            elsif @makesheet.glass_contamination?
+               "Suspected Glass Contamination"
             elsif @makesheet.slow_cheese?
               "SLOW at make"
             else
