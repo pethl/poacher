@@ -1,7 +1,7 @@
 class DeliveryInspection < ApplicationRecord
   include UserTrackable
   belongs_to :staff
-  has_many :ingredient_batch_changes, dependent: :nullify
+  has_many :ingredient_batch_changes, dependent: :restrict_with_error
   has_many :makesheets, through: :ingredient_batch_changes
 
   validates :delivery_date,  presence: { message: "Delivery date must be provided" }

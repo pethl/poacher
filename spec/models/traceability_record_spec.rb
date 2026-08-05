@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe TraceabilityRecord, type: :model do
   describe 'associations' do
-    it { should belong_to(:makesheet).optional }
-    it { should have_many(:waste_records).dependent(:destroy) }
+    it { should belong_to(:makesheet) }
+    it { should have_many(:waste_records).dependent(:restrict_with_error) }
   end
 
   describe 'validations' do
@@ -52,6 +52,18 @@ RSpec.describe TraceabilityRecord, type: :model do
     end
   end
 
+  describe 'deletion' do
+    it 'cannot be deleted when waste records exist' do
+      traceability_record = create(:traceability_record)
+      create(:waste_record, traceability_record: traceability_record)
+
+      expect(traceability_record.destroy).to be false
+      expect(traceability_record.errors[:base]).to be_present
+      expect(described_class.exists?(traceability_record.id)).to be true
+    end
+  end
+
+
   describe 'waste record sums' do
     let(:traceability_record) { FactoryBot.create(:traceability_record) }
 
@@ -59,8 +71,6 @@ RSpec.describe TraceabilityRecord, type: :model do
       FactoryBot.create(:waste_record, traceability_record: traceability_record, waste_date: Date.today, wedges: 1.0, cooking: 2.0, blue: 0.5, t_and_bs: 0.3, waste: 0.7)
       FactoryBot.create(:waste_record, traceability_record: traceability_record, waste_date: Date.today + 1, wedges: 1.5, cooking: 1.0, blue: 1.5, t_and_bs: 0.7, waste: 1.3)
     end
-
-  
 
     it 'totals waste wedges' do
       expect(traceability_record.waste_records_total_wedges).to eq(2.5)
@@ -75,11 +85,43 @@ RSpec.describe TraceabilityRecord, type: :model do
     end
 
     it 'totals t_and_bs' do
-      expect(traceability_record.waste_records_t_and_bs).to eq(1.0)
+      expect(traceability_record.waste_records_total_t_and_bs).to eq(1.0)
     end
 
     it 'totals general waste' do
-      expect(traceability_record.waste_records_waste).to eq(2.0)
+      expect(traceability_record.waste_records_total_waste).to eq(2.0)
+    end
+    it 'totals all waste categories' do
+      expect(traceability_record.total_waste).to eq(10.5)
+    end
+  end
+
+  describe 'calculated batch values' do
+    it 'stores the current entered cheese count and total weight' do
+      record = create(
+        :traceability_record,
+        individual_cheese_weight_1: 20.1,
+        individual_cheese_weight_2: 19.8,
+        individual_cheese_weight_3: 20.0
+      )
+
+      expect(record.confirmed_number_of_cheeses).to eq(3)
+      expect(record.total_weight_of_batch).to eq(59.9)
+    end
+
+    it 'updates the stored values as more cheese weights are entered' do
+      record = create(
+        :traceability_record,
+        individual_cheese_weight_1: 20.1
+      )
+
+      record.update!(
+        individual_cheese_weight_2: 19.8,
+        individual_cheese_weight_3: 20.0
+      )
+
+      expect(record.confirmed_number_of_cheeses).to eq(3)
+      expect(record.total_weight_of_batch).to eq(59.9)
     end
   end
 end

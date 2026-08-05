@@ -69,6 +69,17 @@ class HoldLabelService
                     size: 7,
                     style: :bold,
                     align: :left
+
+              else @makesheet.slow_cheese?
+               pdf.move_down 4
+
+               pdf.fill_color "AA0000"
+
+               pdf.text "TO BE RELEASED ON RECIPT OF TEST RESULTS",
+                    size: 7,
+                    style: :bold,
+                    align: :left
+
           end
 
             pdf.move_down 6

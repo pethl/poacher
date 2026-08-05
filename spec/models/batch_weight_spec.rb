@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe BatchWeight, type: :model do
   describe 'associations' do
-    it { should belong_to(:makesheet).optional }
+    it { should belong_to(:makesheet) }
   end
 
   describe 'validations' do
@@ -15,6 +15,8 @@ RSpec.describe BatchWeight, type: :model do
 
   describe 'scopes' do
     it 'returns records in ascending date order' do
+      # Clear existing test data because this project retains
+      # reference records in the test database.
       BatchWeight.destroy_all
 
       b1 = BatchWeight.create!(makesheet: FactoryBot.create(:makesheet), date: Date.today - 2)
@@ -44,6 +46,50 @@ RSpec.describe BatchWeight, type: :model do
       BatchWeight.create!(makesheet: makesheet, date: Date.today)
 
       expect(makesheet.reload.status).to eq("Finished")
+    end
+  end
+
+  describe '#weight_minus_waste' do
+    it 'subtracts total waste from the washed batch weight' do
+      batch_weight = build(
+        :batch_weight,
+        washed_batch_weight: 350.5,
+        total_waste: 12.25
+      )
+
+      expect(batch_weight.weight_minus_waste).to eq(338.25)
+    end
+  end
+
+  describe '#waste_percentage' do
+    it 'calculates waste as a percentage of washed batch weight' do
+      batch_weight = build(
+        :batch_weight,
+        washed_batch_weight: 400,
+        total_waste: 20
+      )
+
+      expect(batch_weight.waste_percentage).to eq(5.0)
+    end
+
+    it 'returns zero when washed batch weight is zero' do
+      batch_weight = build(
+        :batch_weight,
+        washed_batch_weight: 0,
+        total_waste: 20
+      )
+
+      expect(batch_weight.waste_percentage).to eq(0.0)
+    end
+
+    it 'returns zero when total waste is zero' do
+      batch_weight = build(
+        :batch_weight,
+        washed_batch_weight: 400,
+        total_waste: 0
+      )
+
+      expect(batch_weight.waste_percentage).to eq(0.0)
     end
   end
 end

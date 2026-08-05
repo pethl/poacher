@@ -1,13 +1,17 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require 'tempfile'
 
 RSpec.describe MilkQualityMonitor, type: :model do
   describe '.import' do
-    it 'adds new and skips duplicates by [sample_date, makesheet_id]' do
-      # Create minimal valid makesheets (match your model validations)
-      m1 = Makesheet.create!(make_type: 'Cheddar', make_date: Time.zone.now)
-      m2 = Makesheet.create!(make_type: 'Cheddar', make_date: Time.zone.now)
+    it 'adds new rows and skips duplicates by sample_date and makesheet_id' do
+      csv = nil
+
+     base_date = 5.years.from_now.beginning_of_day
+
+      m1 = create(:makesheet, make_date: base_date)
+      m2 = create(:makesheet, make_date: base_date + 1.day)
 
       csv = Tempfile.new(['monitor', '.csv'])
       csv.write(<<~CSV)
@@ -23,14 +27,33 @@ RSpec.describe MilkQualityMonitor, type: :model do
 
       expect(result).to eq(added: 2, skipped: 1)
       expect(described_class.count).to eq(2)
-      expect(described_class.pluck(:sample_date, :makesheet_id)).to contain_exactly(
+
+      expect(
+        described_class.pluck(:sample_date, :makesheet_id)
+      ).to contain_exactly(
         [Date.parse('2025-01-01'), m1.id],
         [Date.parse('2025-01-02'), m2.id]
       )
     ensure
-      csv&.close!  # guard in case the example failed before csv was created
+      csv&.close!
+    end
+
+    it 'skips rows that fail validation' do
+      csv = nil
+
+      csv = Tempfile.new(['monitor', '.csv'])
+      csv.write(<<~CSV)
+        sample_date,makesheet_id,cell_count,bactoscan
+        2025-01-01,,not-a-number,200
+      CSV
+      csv.flush
+
+      file = double('File', path: csv.path)
+
+      expect(described_class.import(file)).to eq(added: 0, skipped: 1)
+      expect(described_class.count).to eq(0)
+    ensure
+      csv&.close!
     end
   end
 end
-
-
