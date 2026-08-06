@@ -1,7 +1,7 @@
 # Staff / User Audit
 
 Model	Current Staff usage	Likely decision
-Makesheet 🔴	cheese_made_by_staff, assistant_staff, pre_start_inspection_by_staff	Biggest one. Decide User vs retained Staff
+Decide User vs retained Staff
 DeliveryInspection	staff_id, signature	Likely → User
 CleaningForeignBodyCheck	staff_id, staff_id_2, staff_id_3	Likely → User(s)
 ScaleCheck	staff_id	Likely → User
@@ -44,38 +44,6 @@ Guest tasters do not require system accounts.
 
 # Priority Audit Areas
 
-## 1. Makesheets 🔴 HIGH PRIORITY
-
-Files:
-app/models/makesheet.rb
-app/controllers/makesheets_controller.rb
-app/views/makesheets/
-spec/models/makesheet_spec.rb
-spec/factories/makesheet.rb
-db/migrate/20240804162025_create_makesheets.rb
-
-Current fields:
-
-pre_start_inspection_by_staff_id
-pre_start_inspection_by_2_staff_id
-cheese_made_by_staff_id
-assistant_staff_id
-
-Questions:
-
-- Are these people always employees?
-- Do they need login accounts?
-- Should they become User references?
-- Should assistant remain a name?
-
-Likely outcome:
-
-cheese_made_by_staff_id
-→ User
-inspection_by_staff_id
-→ User
-assistant_staff_id
-→ maybe User or text
 
 ---
 

@@ -42,7 +42,7 @@ FactoryBot.define do
     end
 
     trait :with_IV do
-      association :pre_start_inspection_by_staff, factory: :staff
+      association :pre_start_inspection_by_user, factory: :user
     end
 
     # Handy extra traits you might find useful

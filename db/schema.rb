@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_124422) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -373,15 +373,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
     t.string "type_of_starter_culture_used"
     t.decimal "qty_of_starter_used", precision: 6, scale: 3
     t.boolean "pre_start_inspection_of_high_risk_items"
-    t.integer "pre_start_inspection_by_staff_id"
     t.text "ingredient_batch_change"
     t.string "thermometer_change"
     t.string "farm_change"
     t.string "scale_change"
     t.boolean "batch_dipped"
     t.text "post_make_notes"
-    t.integer "cheese_made_by_staff_id"
-    t.integer "assistant_staff_id"
     t.string "milling_help"
     t.float "salt_weight_net"
     t.float "salt_weight_gross"
@@ -423,7 +420,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
     t.time "md_88_in_time"
     t.float "md_88_in_temp"
     t.text "md_88_qty_used"
-    t.bigint "pre_start_inspection_by_2_staff_id"
     t.time "seventh_cut_time"
     t.decimal "seventh_cut_titration", precision: 6, scale: 4
     t.decimal "freezer_temp", precision: 4, scale: 1
@@ -442,7 +438,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
     t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
-    t.index ["pre_start_inspection_by_2_staff_id"], name: "index_makesheets_on_pre_start_inspection_by_2_staff_id"
     t.index ["pre_start_inspection_by_2_user_id"], name: "index_makesheets_on_pre_start_inspection_by_2_user_id"
     t.index ["pre_start_inspection_by_user_id"], name: "index_makesheets_on_pre_start_inspection_by_user_id"
     t.index ["status"], name: "index_makesheets_on_status"
@@ -857,7 +852,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
   add_foreign_key "locations", "users", column: "updated_by_id"
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "makesheets", "locations"
-  add_foreign_key "makesheets", "staffs", column: "pre_start_inspection_by_2_staff_id"
   add_foreign_key "makesheets", "users", column: "assistant_user_id"
   add_foreign_key "makesheets", "users", column: "cheese_made_by_user_id"
   add_foreign_key "makesheets", "users", column: "created_by_id"

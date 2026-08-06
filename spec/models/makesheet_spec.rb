@@ -11,9 +11,6 @@ RSpec.describe Makesheet, type: :model do
     it { is_expected.to have_and_belong_to_many(:samples) }
     it { is_expected.to have_one(:grading_note).dependent(:destroy) }
 
-    it { is_expected.to belong_to(:pre_start_inspection_by_staff).class_name('Staff').with_foreign_key('pre_start_inspection_by_staff_id').optional }
-    it { is_expected.to belong_to(:pre_start_inspection_by_2_staff).class_name('Staff').with_foreign_key('pre_start_inspection_by_2_staff_id').optional }
-    it { is_expected.to belong_to(:cheese_made_by_staff).class_name('Staff').with_foreign_key('cheese_made_by_staff_id').optional }
     it { is_expected.to belong_to(:contact).optional }
     it { is_expected.to belong_to(:location).optional }
   end
@@ -86,7 +83,7 @@ end
       makesheet = build(:makesheet, :with_I, :with_II,
                         total_weight: nil,
                         number_of_cheeses: nil,
-                        pre_start_inspection_by_staff: nil)
+                        pre_start_inspection_by_user: nil)
       expect(makesheet.progress).to eq('II')
     end
     

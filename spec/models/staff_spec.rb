@@ -6,8 +6,6 @@ RSpec.describe Staff, type: :model do
     it { should have_many(:chillers) }
     it { should have_many(:breakages) }
   
-    it { should have_many(:cheese_makes).class_name('Makesheet').with_foreign_key('cheese_made_by_staff_id') }
-    it { should have_many(:assists).class_name('Makesheet').with_foreign_key('assistant_staff_id') }
   end
 
   describe 'validations' do
