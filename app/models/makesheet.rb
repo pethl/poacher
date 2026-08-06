@@ -55,7 +55,7 @@ class Makesheet < ApplicationRecord
       if make_type.present? && milk_used.present? && salt_weight_net? && type_of_starter_culture_used? && qty_of_starter_used?
         if first_cut_time.present? && second_cut_time.present? && third_cut_time? && fourth_cut_time?
           if total_weight.present? && number_of_cheeses.present? 
-            if pre_start_inspection_by_user_id.present?.present?
+            if pre_start_inspection_by_user_id.present?
               return "IV"  # All conditions met
             end
             return "III"  # Everything except pre_start_inspection_by_user_id

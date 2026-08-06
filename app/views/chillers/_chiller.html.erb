@@ -1,38 +1,38 @@
 <div id="<%= dom_id chiller %>">
   <% if Date.today == chiller.date %>
-            <tr class="border-b  bg-green-100 hover:bg-gray-100">
-            <% else %>
-            <tr class="border-b hover:bg-gray-100"> 
-          <% end %>
+  <tr class="border-b  bg-green-100 hover:bg-gray-100">
+    <% else %>
+  <tr class="border-b hover:bg-gray-100">
+    <% end %>
 
-  <td class="px-4 py-2 text-left">
-    <%= link_to chiller.date.to_formatted_s(:short_day), edit_chiller_path(chiller) %>
-  </td>
+    <td class="px-4 py-2 text-left">
+      <%= link_to chiller.date.to_formatted_s(:short_day), edit_chiller_path(chiller) %>
+    </td>
 
-  <td class="px-4 py-2 text-left underline underline-offset-2">
-    <%= link_to chiller.date.to_formatted_s(:uk), edit_chiller_path(chiller) %>
-  </td>
+    <td class="px-4 py-2 text-left underline underline-offset-2">
+      <%= link_to chiller.date.to_formatted_s(:uk), edit_chiller_path(chiller) %>
+    </td>
 
-  <td class="px-4 py-2  text-right">
-     <% if chiller.chiller_1? %>
+    <td class="px-4 py-2  text-right">
+      <% if chiller.chiller_1? %>
       <%= chiller.chiller_1 %> °C
-    <% end %>
-  </td>
-  
-  <td class="px-4 py-2 text-right ">
-    <% if chiller.chiller_2? %>
+      <% end %>
+    </td>
+
+    <td class="px-4 py-2 text-right ">
+      <% if chiller.chiller_2? %>
       <%= chiller.chiller_2 %> °C
-    <% end %>
-  </td>
-  
-  <td class="px-4 py-2 text-center ">
-    <%= chiller.action_taken %>
-  </td>
-  
-  <td class="px-4 py-2  text-left">
-    <% if chiller.staff_id? %>
-      <%= chiller.staff.full_name %>
-    <% end %>
+      <% end %>
+    </td>
+
+    <td class="px-4 py-2 text-center ">
+      <%= chiller.action_taken %>
+    </td>
+
+    <td class="px-4 py-2  text-left">
+      <% if chiller.user_id? %>
+      <%= chiller.user.full_name %>
+      <% end %>
     </td>
 
     <td class="px-4 py-2 text-center ">
@@ -40,7 +40,6 @@
       <img src="<%= chiller.signature %>" alt="Signature">
       <% end %>
     </td>
-  
+
   </tr>
 </div>
-

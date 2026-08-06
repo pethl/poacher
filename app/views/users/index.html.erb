@@ -1,41 +1,64 @@
 <div class="overscroll-none">
-<% content_for :title, "Poacher: System Users" %>
-<% content_for(:page_title, "USERS")%>
-<div id="users">
+  <% content_for :title, "Poacher: System Users" %>
+  <% content_for(:page_title, "USERS") %>
 
-<br>
-<div class="flex flex-col h-screen">
-    <div class="flex-grow overflow-auto">
-      <table class="relative w-full md:w-4/5 lg:w-2/3 mx-auto table-auto border text-sm text-left text-gray-600  ">
-       <thead class="text-xs text-gray-700 uppercase bg-gray-200 ">
-        <tr class="bg-gray-200 sticky top-0">
-                <th scope="col" class="sticky top-0 px-4 py-2  underline underline-offset-2">
-                   Name</th>
-                <th id="batch" class="sticky top-0 px-4 py-2  text-left underline underline-offset-2">
-                   created at </th>
-                <th scope="col" class="sticky top-0 px-4 py-2 text-left underline underline-offset-2">
-                    is admin? </th>
-            </tr>
+  <div id="users" class="w-full md:w-4/5 lg:w-2/3 mx-auto mb-8">
+
+    <% @users.group_by(&:dept).each do |department, users| %>
+
+    <div class="mt-6">
+
+      <h2 class="mb-2 text-lg font-semibold">
+        <%= department.presence || "No Department" %>
+      </h2>
+
+      <table class="w-full table-fixed border text-sm text-left text-gray-600">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+          <tr>
+            <th class="w-1/5 px-3 py-2 underline">Name</th>
+            <th class="w-1/5 px-3 py-2 underline">Title</th>
+            <th class="w-1/5 px-3 py-2 underline">Role</th>
+            <th class="w-1/5 px-3 py-2 underline">Status</th>
+            <th class="w-1/10 px-3 py-2 underline">Created</th>
+            <th class="w-1/10 px-3 py-2 underline">Admin</th>
+          </tr>
         </thead>
-        <tbody class="overflow-contain">
-      <% @users.each do |user| %>
-            <tr class="border-b  hover:bg-gray-100">
-                <td scope="row" class="px-6 py-4 whitespace-nowrap">
-                   <%= user.full_name %>
-                </td>
-                <td class="px-4 py-3 text-left">
-                  <%=  user.created_at.to_formatted_s(:uk_clean_date) %>
-                </td>
-                <td class="px-4 py-3 text-left">
-                 <%= user.admin? ? 'Yes' : 'No'   %></td>
-                </td>
-                
-            </tr>
-              <% end %>
-        </tbody>
-    </table>
-</div>
-  
-  </div>
-</div>
 
+        <tbody>
+          <% users.sort_by(&:full_name).each do |user| %>
+          <tr class="border-b hover:bg-gray-100">
+
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= user.full_name %>
+            </td>
+
+            <td class="px-4 py-3">
+              <%= user.title %>
+            </td>
+
+            <td class="px-4 py-3">
+              <%= user.role %>
+            </td>
+
+            <td class="px-4 py-3">
+              <%= user.employment_status %>
+            </td>
+
+            <td class="px-4 py-3">
+              <%= user.created_at.to_formatted_s(:uk_clean_date) %>
+            </td>
+
+            <td class="px-4 py-3">
+              <%= user.admin? ? "Yes" : "No" %>
+            </td>
+
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div>
+
+        <% end %>
+
+      </div>
+    </div>

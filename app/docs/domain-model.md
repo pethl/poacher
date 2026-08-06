@@ -337,18 +337,17 @@ Composite samples are linked to each relevant makesheet so the laboratory result
 
 ## Storage and Ageing
 
-### Location
+## Location
 
-A **Location** represents a physical or operational place used by the application.
+A Location represents a physical storage position for cheese.
 
-A location has:
+Examples include shelf positions, aisles and trolleys.
 
-- a name
-- a location type
-- a display order
-- an active status
+A Location can hold one current Makesheet only.
 
-Makesheets may be assigned to a location. The precise location types and the point at which location changes occur should be confirmed from the application workflows.
+The relationship is current state only — the system does not keep location history. When a batch moves, the Makesheet location is updated.
+
+Trolleys are treated as physical locations. Trolley capacity is calculated from current Makesheet assignments.
 
 ### Turn
 
@@ -679,26 +678,35 @@ These fields link changes to application users and provide an audit trail of who
 
 ## Supporting and Reference Data
 
-### Reference
+## Reference
 
-A **Reference** record provides configurable lookup values.
+Reference stores configurable lists used throughout the system.
 
-It includes:
+Examples include departments, grades, make types, sale products and statuses.
 
-- group
-- value
-- description
-- related model
-- sort order
-- active status
+References should not be deleted. They should be made inactive so historical records remain valid.
 
-Reference data may be used for selectable values that need to be maintained without changing application code.
+A value should only appear once within a reference group.
 
-### Calculation
+## Calculation
 
-A **Calculation** stores product, size, weight and notes.
+Calculation stores standard cheese sizes and their equivalent weights.
 
-Its precise role should be confirmed from the relevant model and user interface.
+It is used when creating wash records and picksheets to convert named product sizes into actual weights.
+
+Example:
+- 1/4 → 500g
+- 1/2 → 1kg
+
+Calculations provide a consistent link between the product size name used operationally and the weight used for stock and production calculations.
+
+## Validation Range
+
+Validation Range stores acceptable numeric ranges for fields that require checking during data entry.
+
+Ranges are linked to a model and field name and are used to identify values outside expected limits.
+
+Validation ranges do not prevent unusual values automatically; they provide a warning/check against expected values.
 
 ---
 

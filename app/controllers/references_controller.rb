@@ -62,12 +62,7 @@ class ReferencesController < ApplicationController
 
   # DELETE /references/1 or /references/1.json
   def destroy
-    @reference.destroy
-
-    respond_to do |format|
-      format.html { redirect_to references_url, notice: "Reference was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to references_url, alert: "Delete not allowed, please set to Inactive."
   end
 
   private

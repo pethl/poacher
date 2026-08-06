@@ -50,7 +50,7 @@ class ValidationRangesController < ApplicationController
 
   # PATCH/PUT /validation_ranges/1 or /validation_ranges/1.json
   def update
-    @validation_range.updated_by = current_user.id
+    @validation_range.updated_by = current_user
     
     respond_to do |format|
       if @validation_range.update(validation_range_params)
@@ -81,7 +81,7 @@ class ValidationRangesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def validation_range_params
-      params.require(:validation_range).permit(:target_model, :field_name, :min_value, :max_value, :active)
+      params.require(:validation_range).permit(:target_model, :field_name, :min_value, :max_value, :active, :created_by, :updated_by)
     end
 
     def field_names_for(model_name)

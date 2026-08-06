@@ -34,19 +34,22 @@ class ChillersController < ApplicationController
 
   # GET /chillers/new
   def new
-    @chiller = Chiller.new
-    @staffs = Staff.cutting_room.ordered
+     @chiller = Chiller.new(
+      date: Date.today,
+      user_id: current_user.id
+    )
+    @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
   end
 
   # GET /chillers/1/edit
   def edit
-    @staffs = Staff.cutting_room.ordered
+    @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
   end
 
   # POST /chillers or /chillers.json
   def create
     @chiller = Chiller.new(chiller_params)
-    @staffs = Staff.cutting_room.ordered
+    @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
      Rails.logger.debug "Params: #{params.inspect}"
 
     respond_to do |format|
@@ -54,7 +57,7 @@ class ChillersController < ApplicationController
         format.html { redirect_to chillers_path, notice: "Chiller was successfully created." }
         format.json { render :show, status: :created, location: @chiller }
       else
-        @staffs = Staff.cutting_room.ordered
+        @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @chiller.errors, status: :unprocessable_entity }
       end
@@ -64,7 +67,7 @@ class ChillersController < ApplicationController
   # PATCH/PUT /chillers/1 or /chillers/1.json
   def update
    
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
     respond_to do |format|
       if @chiller.update(chiller_params)
         format.html { redirect_to chillers_path, notice: "Chiller temperature record was successfully updated." }
@@ -94,6 +97,6 @@ class ChillersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def chiller_params
-      params.require(:chiller).permit(:date, :chiller_1, :chiller_2, :action_taken, :signature, :staff_id)
+      params.require(:chiller).permit(:date, :chiller_1, :chiller_2, :action_taken, :signature, :user_id)
     end
 end

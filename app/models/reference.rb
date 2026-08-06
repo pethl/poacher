@@ -6,6 +6,7 @@ class Reference < ApplicationRecord
      validates :model, presence: true
      validates :group, presence: true
      validates :value, presence: true
+     validates :value, uniqueness: { scope: :group }
     
      scope :ordered, -> { order(sort_order: :asc) }
 end

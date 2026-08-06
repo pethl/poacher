@@ -36,8 +36,12 @@ class LocationAssignmentsController < ApplicationController
    # Trolleys General – treat as 100 virtual slots
    # Trolleys General – treat as 100 virtual slots
    trolley = Location.find_by(name: "Trolley - General")
-   occupied = trolley.present? ? trolley.all_makesheets.count : 0
-   capacity = 100
+   occupied = Location
+  .where(location_type: "Trolley")
+  .joins(:makesheet)
+  .count
+
+capacity = Location.where(location_type: "Trolley").count
 
       @trolley_data    = { "Full" => occupied, "Empty" => capacity - occupied }
       @trolley_percent = ((occupied.to_f / capacity) * 100).round

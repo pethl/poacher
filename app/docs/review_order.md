@@ -1,4 +1,4 @@
-1. Makesheet ✅
+x1. Makesheet ✅
 
 x2. IngredientBatchChange
 x3. DeliveryInspection
@@ -18,18 +18,18 @@ x12. GradingNote
 x13. Contact
 14. Picksheet
 15. PicksheetItem
-16. Invoice
+x16. Invoice
 17. MarketSale
 
-18. Reference
-19. ValidationRange
-20. Location
+x18. Reference
+x19. ValidationRange
+x20. Location
 
 21. Staff
-22. User
+x22. User
 
 23. Supporting operational records
-    - Chiller
+x    - Chiller
     - Cleaning
     - ScaleCheck
     - Breakages

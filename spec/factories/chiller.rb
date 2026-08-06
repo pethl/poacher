@@ -4,7 +4,7 @@ FactoryBot.define do
     chiller_1 { 4.5 }
     chiller_2 { 5.1 }
     action_taken { "Adjusted door seal" }
-    staff
+    user
     signature { "Signed by John" }
   end
 end

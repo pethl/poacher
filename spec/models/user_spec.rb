@@ -37,4 +37,14 @@ RSpec.describe User, type: :model do
       user.save!
     end
   end
+
+  describe "scopes" do
+      it ".active returns active users only" do
+        active = create(:user, account_active: true)
+        inactive = create(:user, account_active: false)
+
+        expect(User.active).to include(active)
+        expect(User.active).not_to include(inactive)
+      end
+    end
 end

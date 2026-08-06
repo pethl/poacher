@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_124422) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_153728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -165,15 +165,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_124422) do
     t.decimal "chiller_1", precision: 5, scale: 2
     t.decimal "chiller_2", precision: 5, scale: 2
     t.string "action_taken"
-    t.bigint "staff_id"
     t.text "signature"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.bigint "user_id"
     t.index ["created_by_id"], name: "index_chillers_on_created_by_id"
-    t.index ["staff_id"], name: "index_chillers_on_staff_id"
+    t.index ["date"], name: "index_chillers_on_date"
     t.index ["updated_by_id"], name: "index_chillers_on_updated_by_id"
+    t.index ["user_id"], name: "index_chillers_on_user_id"
   end
 
   create_table "cleaning_foreign_body_checks", force: :cascade do |t|
@@ -829,7 +830,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_124422) do
   add_foreign_key "cheese_wash_records", "makesheets"
   add_foreign_key "cheese_wash_records", "users", column: "created_by_id"
   add_foreign_key "cheese_wash_records", "users", column: "updated_by_id"
-  add_foreign_key "chillers", "staffs"
+  add_foreign_key "chillers", "users"
   add_foreign_key "chillers", "users", column: "created_by_id"
   add_foreign_key "chillers", "users", column: "updated_by_id"
   add_foreign_key "cleaning_foreign_body_checks", "staffs"
