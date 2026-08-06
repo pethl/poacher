@@ -4,6 +4,20 @@ RSpec.describe Contact, type: :model do
   describe 'associations' do
     it { should have_many(:picksheets).with_foreign_key('contact_id') }
     it { should have_many(:makesheets) }
+  
+
+    it do
+      should belong_to(:created_by)
+        .class_name('User')
+        .optional
+    end
+
+    it do
+      should belong_to(:updated_by)
+        .class_name('User')
+        .optional
+    
+    end
   end
 
   describe 'scopes' do
@@ -34,9 +48,10 @@ RSpec.describe Contact, type: :model do
       expect(contact.payment_terms).to eq("14 Days After Invoice")
     end
 
-    it 'returns empty string if no payment terms are set' do
+    it 'returns nil if no payment terms are set' do
       contact = FactoryBot.build(:contact)
-      expect(contact.payment_terms).to eq("")
+
+      expect(contact.payment_terms).to be_nil
     end
   end
 

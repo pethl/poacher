@@ -1,27 +1,34 @@
 <% content_for(:page_title, "STORE") %>
 
 <div class="max-w-5xl mx-auto px-4 mt-8 mb-8">
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
 
 
     <%= link_to "Location Tracking", "/location_assignments/new", class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Location Report", "/location_report", class: "#{nav_box_class} mx-auto" %>
 
-    <%= link_to "Aisle Inspection", "/location_inspection", class: "#{nav_box_class} mx-auto" %> <!-- 🔍 New link -->
+    <%= link_to "Aisle Inspection", "/location_inspection", class: "#{nav_box_class} mx-auto" %>
 
+
+    <%= link_to "Duplicate Location Checker", duplicate_assignments_locations_path, class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "#{nav_box_class} mx-auto" %>
 
+    <!-- Space between sections -->
+    <div class="h-8"></div>
+
+
+
     <%= link_to "New Turns", "/turns/new", class: "#{nav_box_class} mx-auto" %>
-    
+
     <%= link_to "Florence Turns", "/turns/bulk_new", class: "#{nav_box_class} mx-auto" %>
-   
-   <%= link_to "Duplicate Location Checker", duplicate_assignments_locations_path, class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "All Turns", "/turns", class: "#{nav_box_class} mx-auto" %>
 
 
-    
-     <%= link_to "Graded Whiteboard", "/makesheets/graded_blackboard", class: "#{nav_box_class} mx-auto" %>
+
+    <%= link_to "Graded Whiteboard", "/makesheets/graded_blackboard", class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Start<br>Grading Session".html_safe, preload_grading_notes_path, class: "#{nav_box_class} mx-auto" %>
 
@@ -30,4 +37,3 @@
 
   </div>
 </div>
-

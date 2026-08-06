@@ -179,3 +179,44 @@ Items should only be removed from this document when:
   - Group records by the linked Makesheet `make_type`.
   - Allow filtering by date range and cheese type.
   - Consider showing both individual batch results and a monthly rolling average.
+
+  ## Contact
+
+- [x] Confirm whether Contact represents customers only or also suppliers and other business contacts.
+- [x] Add validation requiring a business name.
+- [x] Add tests for payment terms and the rule allowing only one payment term.
+- [x] Review deletion behaviour for Contacts linked to Picksheets or Makesheets.
+
+## Cheese Wash Record
+
+- [ ] Flag wash records where `remaining_to_wash` is zero but `date_batch_finished` is blank.
+  - Show the warning on the index.
+  - Prompt staff to enter the finish date.
+  - Do not auto-finish the record, as the finish date should still be confirmed by a user.
+
+  ## Turn
+
+- [x] Rename `date_and_grade` to `date_and_batch` so the name matches its output.
+- [x] Confirm the permitted values and meaning of `turned_by`.
+- [x] Confirm whether more than one turn can be recorded for the same makesheet and date.
+- [x] Confirm deletion rules for maturation records.
+  - Turn records should not be deleted through the normal user interface.
+  - Corrections should be made by editing the record.
+  - Older turn records may later be archived or removed under an agreed retention policy once the related cheese has been sold.
+  - Any archival process should preserve enough summary information for traceability and reporting.
+  - [ ] Define a retention and archiving policy for historic turn records.
+  - Decide how long detailed turn history must be retained.
+  - Confirm whether sold batches still require full turn-level traceability.
+  - Consider archiving old records before physical deletion.
+  - Ensure any cleanup process is auditable and restricted to authorised management.
+
+  ## Makesheet
+
+- [ ] Add a `turnable` scope to return batches that are still in maturation and available for turning.
+- [ ] Replace `Makesheet.all.order(:make_date)` in `TurnsController` with the new scope.
+
+## User
+
+- [ ] Add department information to User when Staff is retired.
+- [ ] Add a scope for active Cheese Store users.
+- [ ] Restrict the Turn `turned_by` selector to Cheese Store users.

@@ -68,3 +68,18 @@ add_index :waste_records,
           unique: true
 
 Status: ☐ Pending
+
+## Turn
+
+### One turn per makesheet per date
+
+**Reason**
+
+A cheese batch should only be turned once on a given date. A second turn would reverse the first and defeat the purpose of the process.
+
+**Migration**
+
+```ruby
+add_index :turns,
+          %i[makesheet_id turn_date],
+          unique: true

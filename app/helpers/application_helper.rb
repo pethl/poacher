@@ -385,4 +385,9 @@ module ApplicationHelper
       types[(idx + 1) % types.length]
     end
   end
+
+  #DO NOT DELETE - USED IN GRADING NOTE WHERE NAME IS TEXT ENTERED
+  def initials_from_name(name)
+    name.to_s.split.map(&:first).join.upcase.presence
+  end
 end

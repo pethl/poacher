@@ -1,20 +1,24 @@
 class Contact < ApplicationRecord
   include UserTrackable
-  has_many :picksheets, foreign_key: :contact_id
-  has_many :makesheets
+  has_many :picksheets,
+         foreign_key: :contact_id,
+         dependent: :restrict_with_error
+
+  has_many :makesheets,
+         dependent: :restrict_with_error
+
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
 
   validate :only_one_payment_term_allowed
+  validates :business_name, presence: true
 
   scope :ordered, -> { order(business_name: :asc) }
 
   def payment_terms
     return "Pre Payment Required" if pre_payment
     return "Payment on Receipt" if payment_on_receipt
-    return "#{days_after_invoice} Days After Invoice" if days_after_invoice.present? && days_after_invoice.is_a?(Integer)
-  
-    ""
+    return "#{days_after_invoice} Days After Invoice" if days_after_invoice.present?
   end
 
   private

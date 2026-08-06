@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :grading_note do
     association :makesheet
-    date { Date.today }
+    association :head_taster, factory: :user
+
+    date { Date.current }
 
     appearance { "Clean" }
     bore { "Consistent" }
@@ -10,8 +12,7 @@ FactoryBot.define do
     score { 85 }
     comments { "Nice cheese." }
 
-    head_taster { association(:staff).id }
-    assistant_taster_1 { association(:staff).id }
-    assistant_taster_2 { association(:staff).id }
+    taster_1_name { "Guest Taster One" }
+    taster_2_name { "Guest Taster Two" }
   end
 end

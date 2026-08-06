@@ -1,14 +1,4 @@
-Wash
-    ↓
-Need to understand why there are both:
 
-    Wash
-
-and
-
-    CheeseWashRecord
-
-before documenting further.
 
 Question
 

@@ -1,74 +1,95 @@
 class GradingNotesController < ApplicationController
   before_action :set_grading_note, only: %i[ show edit update destroy ]
   before_action :set_makesheets, only: %i[ new edit update create ]
+  before_action :set_users, only: %i[new edit create update preload preload_form]
 
   def preload_form
-    @staffs = Staff.all_active.ordered
+    @users = User.where(account_active: true).ordered
   end 
   
+
   def preload
     @grading_note = GradingNote.new
-  
-    # Find the oldest ungraded makesheet
-    @starting_makesheet = Makesheet.where(grade: [nil, ""]).order(:make_date).first
-  
-    # Default the start date to that makesheet’s make_date, or today if none found
-    @start_date = @starting_makesheet&.make_date || Date.today
-  
-    @staffs = Staff.all_active.ordered
+
+    @starting_makesheet =
+      Makesheet
+      .where(grade: [nil, ""])
+      .order(:make_date)
+      .first
+
+    @start_date =
+      params[:start_date].presence&.to_date ||
+      @starting_makesheet&.make_date ||
+      Date.current
+
+   
   end
-  
+
+
   def create_preloaded
     start_date = params[:start_date].to_date
-    head_taster_id = params[:head_taster]
-    assistant_taster_1_id = params[:assistant_taster_1]
-    assistant_taster_2_id = params[:assistant_taster_2]
+    head_taster_id = params[:head_taster_id]
+    taster_1_name = params[:taster_1_name]
+    taster_2_name = params[:taster_2_name]
     batch_count = (params[:batch_count].presence || 5).to_i
-  
-    # ✅ SAFETY CHECK: Require at least head taster + one assistant
-    if head_taster_id.blank? || assistant_taster_1_id.blank?
-      flash[:alert] = "Please select both a Head Taster and at least one Assistant Taster before continuing."
-      redirect_to preload_grading_notes_path(start_date: start_date, batch_count: batch_count,
-                                             head_taster: head_taster_id,
-                                             assistant_taster_1: assistant_taster_1_id,
-                                             assistant_taster_2: assistant_taster_2_id) and return
+
+    if head_taster_id.blank?
+      redirect_to(
+        preload_grading_notes_path(
+          start_date: start_date,
+          batch_count: batch_count,
+          head_taster_id: head_taster_id,
+          taster_1_name: taster_1_name,
+          taster_2_name: taster_2_name
+        ),
+        alert: "Please select the Head Taster before continuing."
+      )
+      return
     end
-  
-    # ✅ SELECT makesheets with no grade AND no existing grading note
-    makesheets_to_grade = Makesheet
+
+    makesheets_to_grade =
+      Makesheet
       .where(grade: [nil, ""])
       .where("make_date >= ?", start_date)
       .where.not(id: GradingNote.select(:makesheet_id))
       .order(:make_date)
       .limit(batch_count)
-  
+
     if makesheets_to_grade.empty?
-      redirect_to grading_notes_path, alert: "No ungraded batches available to preload."
+      redirect_to(
+        grading_notes_path,
+        alert: "No ungraded batches available to preload."
+      )
       return
     end
-  
+
     makesheets_to_grade.each do |makesheet|
       GradingNote.create!(
-        date: Date.today,
-        makesheet_id: makesheet.id,
-        head_taster: head_taster_id,
-        assistant_taster_1: assistant_taster_1_id,
-        assistant_taster_2: assistant_taster_2_id
+        date: Date.current,
+        makesheet: makesheet,
+        head_taster_id: head_taster_id,
+        taster_1_name: taster_1_name,
+        taster_2_name: taster_2_name
       )
     end
-  
-    flash[:alert] = "Only #{makesheets_to_grade.count} grading notes created (less than requested)." if makesheets_to_grade.count < batch_count
-  
-    redirect_to grading_notes_path, notice: "Preloaded #{makesheets_to_grade.count} grading notes."
+
+    if makesheets_to_grade.count < batch_count
+      flash[:alert] =
+        "Only #{makesheets_to_grade.count} grading notes created (less than requested)."
+    end
+
+    redirect_to(
+      grading_notes_path,
+      notice: "Preloaded #{makesheets_to_grade.count} grading notes."
+    )
   end
-  
-  
 
   # GET /grading_notes or /grading_notes.json
   def index
-    @grading_notes = GradingNote.all.ordered_by_makesheet_date 
-    staff_ids = @grading_notes.flat_map { |g| [g.head_taster, g.assistant_taster_1, g.assistant_taster_2] }.compact.uniq
-    @staff_lookup = Staff.where(id: staff_ids).index_by(&:id)
+    @grading_notes =
+      GradingNote
+      .includes(:makesheet, :head_taster)
+      .ordered_by_makesheet_date
   end
 
   # GET /grading_notes/1 or /grading_notes/1.json
@@ -77,20 +98,23 @@ class GradingNotesController < ApplicationController
 
   # GET /grading_notes/new
   def new
-    @grading_note = GradingNote.new(date: Date.today)
-    # Only makesheets that don't have a grade yet
-    @makesheets = Makesheet.where(grade: [nil, ""]).order(make_date: :asc)
-end
+    @grading_note = GradingNote.new(
+      date: Date.current
+    )
+  end
 
   # GET /grading_notes/1/edit
   def edit
-    @grading_note = GradingNote.find(params[:id])
-    @makesheets = Makesheet.all
-    @staffs = Staff.all
+   
+    preloaded_ids =
+      GradingNote
+      .where(date: Date.current)
+      .order(:id)
+      .pluck(:id)
 
-    # Progress tracking
-    preloaded_ids = GradingNote.where(date: Date.today).order(:id).pluck(:id)
-    @current_batch_number = preloaded_ids.index(@grading_note.id)&.+(1) || 1
+    @current_batch_number =
+      preloaded_ids.index(@grading_note.id)&.+(1) || 1
+
     @total_batches = preloaded_ids.count
   end
 
@@ -118,8 +142,7 @@ end
 
   # PATCH/PUT /grading_notes/1 or /grading_notes/1.json
   def update
-    @grading_note = GradingNote.find(params[:id])
-  
+   
     if @grading_note.update(grading_note_params)
       if params[:commit] == "save_next"
         next_note = GradingNote.where("id > ?", @grading_note.id).order(:id).first
@@ -154,10 +177,14 @@ end
 
     # Only allow a list of trusted parameters through.
     def grading_note_params
-      params.require(:grading_note).permit(:makesheet_id, :date, :appearance, :bore, :texture, :taste, :score, :comments, :head_taster, :assistant_taster_1, :assistant_taster_2, makesheet_attributes: [:grade])
+      params.require(:grading_note).permit(:makesheet_id, :date, :appearance, :bore, :texture, :taste, :score, :comments, :head_taster_id, :taster_1_name, :taster_2_name, makesheet_attributes: [:grade])
     end
 
     def set_makesheets
       @makesheets = Makesheet.where.not(status: "Finished").ordered_reverse
+    end
+
+    def set_users
+      @users = User.active.ordered
     end
 end

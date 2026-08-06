@@ -6,16 +6,16 @@ x4. MilkQualityMonitor
 x5. Sample
 
 x6. TraceabilityRecord
-7. BatchWeight
+= 7. BatchWeight
 x8. WasteRecord
 
-9. Turn
-10. CheeseWashRecord
-11. Wash
+x9. Turn
+x10. CheeseWashRecord
+x11. Wash
 
-12. GradingNote
+x12. GradingNote
 
-13. Contact
+x13. Contact
 14. Picksheet
 15. PicksheetItem
 16. Invoice

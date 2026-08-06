@@ -352,37 +352,29 @@ Makesheets may be assigned to a location. The precise location types and the poi
 
 ### Turn
 
-A **Turn** records that cheeses from a makesheet were turned during storage or ageing.
+## Cheese Turning
 
-It contains:
+A Turn records that a cheese batch was turned during maturation.
 
-- the makesheet
-- the date and time of the turn
-- who performed the turn
+Cheeses are typically turned weekly for the first three weeks and then monthly. Turning may be carried out manually or by the turning machine, Florence.
 
-### Cheese Wash Record
+Each Turn is linked to the relevant Makesheet.
 
-A **Cheese Wash Record** records the washing process for cheeses belonging to a makesheet.
+## Cheese Wash Record
 
-It contains:
+A CheeseWashRecord records the progress of washing a batch of cheeses.
 
-- the date the batch entered the washing process
-- the date the batch completed the process
-- up to 24 recorded wash dates
-- the number of cheeses washed on each date
+Large batches are washed over one or more days. Each washing session records the number of cheeses washed and the washing date.
 
-The record appears to represent the complete washing history for one production batch.
+A batch cannot be marked as finished until every cheese recorded on the linked Makesheet has been washed.
 
-### Wash
+This stage provides operational control of batches during the period when loss, damage or theft is most likely.
 
-A **Wash** appears to represent an operational washing activity or washing work allocation.
+## Wash Planning
 
-It records:
+A Wash is a planning record used to calculate how much cheese must be washed to fulfil one or more customer picksheets.
 
-- action date
-- wash status
-
-Washes can be connected to picksheets through wash-picksheet records. The distinction between a `Wash` and a `CheeseWashRecord` should be confirmed from the code and business workflow.
+It supports forward planning from customer demand and is separate from CheeseWashRecord, which records the actual washing of a production batch.
 
 ### Grading Note
 
@@ -493,22 +485,15 @@ Makesheets and samples have a many-to-many relationship, allowing a sample to be
 
 ## Customers, Orders and Sales
 
-### Contact
+## Contact
 
-A **Contact** represents a customer, supplier, or other business contact.
+A Contact represents a customer account.
 
-It records:
+It stores customer contact details, account information and payment terms.
 
-- business and contact names
-- internal reference
-- email and telephone details
-- address and country
-- payment arrangements
-- terms and conditions
-- delivery-note preferences
-- notes
+Contacts are linked to customer orders (Picksheets) and may also be referenced from Makesheets for production and reporting purposes.
 
-The different roles a contact may play should be confirmed from the application.
+The system does not store suppliers or other business contacts.
 
 ### Picksheet
 

@@ -80,6 +80,10 @@ class Makesheet < ApplicationRecord
     "#{make_date.strftime('%d-%b')} [#{batch}]"
   end
 
+  def makedate_batch
+    "#{make_date.strftime('%d-%b-%y')} [#{batch}]"
+  end
+
 
   def yield
     return 0 if milk_used.to_f.zero?

@@ -1,10 +1,10 @@
 <div class="overscroll-none">
   <% content_for :title, "Poacher: Grading List" %>
   <% content_for(:page_title, "GRADING") %>
-<% content_for(:page_button, new_grading_note_path) %>
+  <% content_for(:page_button, new_grading_note_path) %>
   <%= render 'shared/store_nav' %>
   <div id="grading_notes" class="w-full max-w-4xl mx-auto px-4">
-  
+
 
     <!-- Wizard Button -->
     <div class="flex justify-end mt-2 mb-4">
@@ -25,11 +25,8 @@
           </tr>
         </thead>
         <tbody>
-        <% @grading_notes.each do |grading_note| %>
-         <tr class="bg-white border-b hover:bg-gray-100"
-              data-controller="click-to-visit"
-              data-click-to-visit-href-value="<%= edit_grading_note_path(grading_note) %>"
-              data-action="click->click-to-visit#visit">
+          <% @grading_notes.each do |grading_note| %>
+          <tr class="bg-white border-b hover:bg-gray-100" data-controller="click-to-visit" data-click-to-visit-href-value="<%= edit_grading_note_path(grading_note) %>" data-action="click->click-to-visit#visit">
 
             <td class="px-2 py-2 text-center text-gray-500">
               <%= grading_note.date&.to_formatted_s(:uk) %>
@@ -48,16 +45,22 @@
             </td>
 
             <td class="px-2 py-2 text-left text-sm text-gray-600">
-              <% head = @staff_lookup[grading_note.head_taster] %>
-              <% a1 = @staff_lookup[grading_note.assistant_taster_1] %>
-              <% a2 = @staff_lookup[grading_note.assistant_taster_2] %>
+              <% head = grading_note.head_taster %>
+              <%= grading_note.taster_1_name.presence || "N/A" %>
+              <%= grading_note.taster_2_name.presence || "N/A" %>
 
               <span class="font-semibold text-gray-800">
-                <%= head&.initials %>
+                <%= head&.initials || "N/A" %>
               </span>
-              <% if a1 || a2 %>
-                <span class="text-gray-400"> / </span>
-                <%= [a1&.initials, a2&.initials].compact.join(", ") %>
+
+              <% taster_initials = [
+                initials_from_name(grading_note.taster_1_name),
+                initials_from_name(grading_note.taster_2_name)
+              ].reject(&:blank?) %>
+
+              <% if taster_initials.any? %>
+              <span class="text-gray-400"> / </span>
+              <%= taster_initials.join(", ") %>
               <% end %>
             </td>
 
@@ -65,11 +68,10 @@
               <%= grading_note.comments.presence || "—" %>
             </td>
           </tr>
-        <% end %>
-      </tbody>
+          <% end %>
+        </tbody>
 
       </table>
     </div>
 
   </div>
-  

@@ -1,40 +1,58 @@
 class TurnsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_turn, only: %i[ show edit update destroy ]
+  before_action :load_makesheets, only: %i[new edit create update]
 
   # GET /turns or /turns.json
   def index
-    @turns = Turn.all
+    @turns = Turn.ordered
   end
 
   # GET /turns/1 or /turns/1.json
   def show
-      @makesheets = Makesheet.all.order(:make_date)
   end
 
   # GET /turns/new
   def new
-    @turn = Turn.new
-    @makesheets = Makesheet.all.order(:make_date)
+     @turn = Turn.new(
+      turn_date: Date.current,
+      turn_method: "Manual",
+      turned_by: current_user
+    )
+   
   end
 
   # GET /turns/1/edit
   def edit
-      @makesheets = Makesheet.all.order(:make_date)
+     
   end
 
   # POST /turns or /turns.json
   def create
     @turn = Turn.new(turn_params)
-     @makesheets = Makesheet.all.order(:make_date)
 
     respond_to do |format|
       if @turn.save
-        format.html { redirect_to turn_url(@turn), notice: "Turn was successfully created." }
-        format.json { render :show, status: :created, location: @turn }
+        format.html do
+          redirect_to turn_url(@turn),
+                      notice: "Turn was successfully created."
+        end
+
+        format.json do
+          render :show,
+                status: :created,
+                location: @turn
+        end
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @turn.errors, status: :unprocessable_entity }
+        format.html do
+          render :new,
+                status: :unprocessable_entity
+        end
+
+        format.json do
+          render json: @turn.errors,
+                status: :unprocessable_entity
+        end
       end
     end
   end
@@ -73,11 +91,12 @@ class TurnsController < ApplicationController
     locations.each do |location|
       makesheet = location.makesheet
       next if makesheet.blank?
-      next if makesheet.turns.where("DATE(turn_date) = ?", Date.today).exists?
+      next if makesheet.turns.exists?(turn_date: Date.current)
   
-      makesheet.turns.create!(
-        turn_date: Time.current,
-        turned_by: current_user.full_name, # or just current_user.id if it's a relation
+     makesheet.turns.create!(
+        turn_date: Date.current,
+        turn_method: "Florence",
+        turned_by: nil,
         created_by: current_user,
         updated_by: current_user
       )
@@ -131,8 +150,12 @@ class TurnsController < ApplicationController
       @turn = Turn.find(params[:id])
     end
 
+    def load_makesheets
+      @makesheets = Makesheet.all.order(:make_date)
+    end
+
     # Only allow a list of trusted parameters through.
     def turn_params
-      params.require(:turn).permit(:turn_date, :makesheet_id, :turned_by)
+      params.require(:turn).permit(:turn_date, :makesheet_id, :turn_method, :turned_by_id)
     end
 end

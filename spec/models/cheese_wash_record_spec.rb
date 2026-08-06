@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CheeseWashRecord, type: :model do
   describe 'associations' do
-    it { should belong_to(:makesheet).optional }
+    it { should belong_to(:makesheet) }
     it { should belong_to(:created_by).class_name('User').optional }
     it { should belong_to(:updated_by).class_name('User').optional }
   end
@@ -64,6 +64,22 @@ RSpec.describe CheeseWashRecord, type: :model do
       rec = build(:cheese_wash_record, :partial, makesheet: m, date_batch_finished: Date.today)
       expect(rec).to be_invalid
       expect(rec.errors[:date_batch_finished]).to include("Cheeses remaining, please check count - can't set Finish Date")
+    end
+
+    it 'adds an error when the washed count exceeds the makesheet count' do
+      makesheet = create(:makesheet, number_of_cheeses: 30)
+
+      record = build(
+        :cheese_wash_record,
+        makesheet: makesheet,
+        number_washed_1: 31,
+        date_batch_finished: Date.current
+      )
+
+      expect(record).to be_invalid
+      expect(record.errors[:date_batch_finished]).to include(
+        "Cheeses remaining, please check count - can't set Finish Date"
+      )
     end
 
     it 'is valid when fully washed' do

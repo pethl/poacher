@@ -8,6 +8,9 @@ class User < ApplicationRecord
 
   has_many :picksheets, foreign_key: :contact_id
 
+  scope :active, -> { where(account_active: true) }
+  scope :ordered, -> { order(:last_name, :first_name) }
+
   def full_name
     "#{first_name} #{last_name}".strip
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_05_074702) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -268,14 +268,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_05_074702) do
     t.string "taste"
     t.integer "score"
     t.text "comments"
-    t.integer "head_taster"
-    t.integer "assistant_taster_1"
-    t.integer "assistant_taster_2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.bigint "head_taster_id", null: false
+    t.string "taster_1_name"
+    t.string "taster_2_name"
     t.index ["created_by_id"], name: "index_grading_notes_on_created_by_id"
+    t.index ["head_taster_id"], name: "index_grading_notes_on_head_taster_id"
     t.index ["makesheet_id"], name: "index_grading_notes_on_makesheet_id"
     t.index ["updated_by_id"], name: "index_grading_notes_on_updated_by_id"
   end
@@ -725,15 +726,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_05_074702) do
   end
 
   create_table "turns", force: :cascade do |t|
-    t.datetime "turn_date"
+    t.date "turn_date"
     t.bigint "makesheet_id", null: false
-    t.string "turned_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.string "turn_method", default: "Manual", null: false
+    t.bigint "turned_by_id"
     t.index ["created_by_id"], name: "index_turns_on_created_by_id"
     t.index ["makesheet_id"], name: "index_turns_on_makesheet_id"
+    t.index ["turned_by_id"], name: "index_turns_on_turned_by_id"
     t.index ["updated_by_id"], name: "index_turns_on_updated_by_id"
   end
 
@@ -831,6 +834,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_05_074702) do
   add_foreign_key "delivery_inspections", "users", column: "updated_by_id"
   add_foreign_key "grading_notes", "makesheets"
   add_foreign_key "grading_notes", "users", column: "created_by_id"
+  add_foreign_key "grading_notes", "users", column: "head_taster_id"
   add_foreign_key "grading_notes", "users", column: "updated_by_id"
   add_foreign_key "ingredient_batch_changes", "delivery_inspections"
   add_foreign_key "ingredient_batch_changes", "makesheets"
@@ -873,6 +877,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_05_074702) do
   add_foreign_key "traceability_records", "users", column: "updated_by_id"
   add_foreign_key "turns", "makesheets"
   add_foreign_key "turns", "users", column: "created_by_id"
+  add_foreign_key "turns", "users", column: "turned_by_id"
   add_foreign_key "turns", "users", column: "updated_by_id"
   add_foreign_key "wash_picksheets", "picksheets"
   add_foreign_key "wash_picksheets", "washes"
