@@ -460,7 +460,7 @@ class MakesheetsController < ApplicationController
         :post_make_notes,
         :milling_help,
         :cheese_made_by_user_id,
-        :assistant_staff_id,
+        :assistant_user_id,
 
         :salt_weight_net,
         :salt_weight_gross,
@@ -516,8 +516,11 @@ class MakesheetsController < ApplicationController
       )
     end
 
-    def set_cheese_makers
-      @cheese_makers = Staff.where(dept: "Cheesemaking Team").where(employment_status: "Active").ordered
+   def set_cheese_makers
+      @cheese_makers = User
+        .where(dept: "Cheesemaking Team")
+        .where(employment_status: "Active")
+        .order(:first_name)
     end
 
     def sort_direction

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_111706) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_113110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -435,6 +435,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_111706) do
     t.bigint "cheese_made_by_user_id"
     t.bigint "pre_start_inspection_by_user_id"
     t.bigint "pre_start_inspection_by_2_user_id"
+    t.bigint "assistant_user_id"
+    t.index ["assistant_user_id"], name: "index_makesheets_on_assistant_user_id"
     t.index ["cheese_made_by_user_id"], name: "index_makesheets_on_cheese_made_by_user_id"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
@@ -856,6 +858,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_111706) do
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "makesheets", "locations"
   add_foreign_key "makesheets", "staffs", column: "pre_start_inspection_by_2_staff_id"
+  add_foreign_key "makesheets", "users", column: "assistant_user_id"
   add_foreign_key "makesheets", "users", column: "cheese_made_by_user_id"
   add_foreign_key "makesheets", "users", column: "created_by_id"
   add_foreign_key "makesheets", "users", column: "pre_start_inspection_by_2_user_id"

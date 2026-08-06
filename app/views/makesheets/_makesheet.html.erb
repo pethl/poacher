@@ -1,285 +1,285 @@
 <div id="<%= dom_id makesheet %>">
 
   <!-- Section 1-->
-   <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-6 gap-4 bg-gray-200 text-lg justify-between border border-gray-200 rounded-md p-2 m-2">
+  <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-6 gap-4 bg-gray-200 text-lg justify-between border border-gray-200 rounded-md p-2 m-2">
 
-      <p><strong>Make type:</strong>
+    <p><strong>Make type:</strong>
       <%= makesheet.make_type %></p>
 
-      <p><strong>Weight type:</strong>
+    <p><strong>Weight type:</strong>
       <%=  makesheet.weight_type %></p>
-      
-      <p><strong>Make date:</strong>
+
+    <p><strong>Make date:</strong>
       <%= makesheet.make_date.to_formatted_s(:uk_clean_date)%></p>
-      
-      <p><strong>Batch:</strong>
+
+    <p><strong>Batch:</strong>
       <%= makesheet.batch %></p>
 
-      <p><strong>Total weight:</strong>
+    <p><strong>Total weight:</strong>
       <%= makesheet.total_weight %></p>
-    
-      <p><strong>No. of cheeses:</strong>
+
+    <p><strong>No. of cheeses:</strong>
       <%= makesheet.number_of_cheeses %></p>
 
-      <p><strong>Grade:</strong>
+    <p><strong>Grade:</strong>
       <%= makesheet.grade %></p>
 
   </div>
 
-   <!-- Section 1-->
-   <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-2 gap-4">
+  <!-- Section 1-->
+  <div class="mx-10 mr-10 flex w-full ml-8 flex-cols-2 gap-4">
     <% if @makesheet.samples.any?%>
 
-     <%= render "samples" %>
+    <%= render "samples" %>
 
-     <% end %>
+    <% end %>
 
-    </div>
-
- <div class="mx-10 flex flex-row gap-4">
-  
-    <!-- Section 2-->
-  <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
-    <div class="grid grid-cols-2 text-right">
-      <p><strong>Starter Used:</strong></p>
-      <p><%= makesheet.type_of_starter_culture_used %></p>
-
-      <p><strong>Qty Used:</strong></p>
-      <p><%= makesheet.qty_of_starter_used %></p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Milk used:</strong></p>
-      <p><%= makesheet.milk_used %></p>
-
-      <p><strong>Warm AM:</strong></p>
-      <p><%= boolean_label(makesheet.warm_am) %></p>
-
-      <p><strong>12 Hour PM:</strong></p>
-      <p><%= boolean_label(makesheet.twelve_hr_pm) %></p>
-
-      <p><strong>Bottles back from FMs</strong><br>
-      <p></p>
-
-      <p><strong>Number of Bottles:</strong></p>
-      <p><%= makesheet.number_of_bottles_from_fm %></p>
-
-      <p><strong>Use By Date:</strong></p>
-      <p><%= makesheet.use_by_date_milk_from_fm %></p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Calculated Salt Weight Net:</strong></p>
-      <p><%= number_with_precision(makesheet.calc_salt_net, precision: 3) %> kg</p>
-
-      <p><strong>Sale Weight Net:</strong></p>
-      <p><%= makesheet.salt_weight_net %> kg</p>
-
-      <p><strong>Calculated Salt Weight Net:</strong></p>
-      <p><%= number_with_precision(makesheet.calc_salt_gross, precision: 3) %> kg</p>
-
-      <p><strong>Salt Weight Gross:</strong></p>
-      <p><%= makesheet.salt_weight_gross %> kg</p>
-
-     <hr class="col-span-2 my-2">
-
-      <p><strong>Cold Milk IN Time:</strong></p>
-      <p><%= makesheet.cold_milk_in_time&.strftime("%I:%M %p") %></p>
-    
-      <p><strong>Cold Milk IN Temp State:</strong></p>
-      <p><%= makesheet.cold_milk_in_state %></p>
-
-      <p><strong>Steam/Hot Water ON time:</strong></p>
-      <p><%= makesheet.steam_hot_water_on_time&.strftime("%I:%M %p") %></p>
-    
-      <p><strong>Warm Milk Finish Time:</strong></p>
-      <p><%= makesheet.warm_milk_finish_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Warm Milk Finish Titration:</strong></p>
-      <p><%= makesheet.warm_milk_finish_titration %></p>
-
-      <p><strong>Starter IN Time:</strong></p>
-      <p><%= makesheet.starter_in_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Starter IN Temp:</strong></p>
-      <p><%= makesheet.starter_in_temp %>°C</p>
-
-      <p><strong>Heat OFF Time:</strong></p>
-      <p><%= makesheet.heat_off_1_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Heat OFF Temp:</strong></p>
-      <p><%= makesheet.heat_off_1_temp %>°C</p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Rennet Time:</strong></p>
-      <p><%= makesheet.rennet_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Rennet Temp:</strong></p>
-      <p><%= makesheet.rennet_temp %>°C</p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Cut Start Time:</strong></p>
-      <p><%= makesheet.cut_start_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Cut End Time:</strong></p>
-      <p><%= makesheet.cut_end_time&.strftime("%I:%M %p") %></p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>Heat ON Time:</strong></p>
-      <p><%= makesheet.heat_on_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Heat OFF Time:</strong></p>
-      <p><%= makesheet.heat_off_2_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Heat OFF Temp:</strong></p>
-      <p><%= makesheet.heat_off_2_temp %>°C</p>
-
-      <p><strong>Pitch Time:</strong></p>
-      <p><%= makesheet.pitch_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Whey Time:</strong></p>
-      <p><%= makesheet.whey_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>Whey Titration:</strong></p>
-      <p><%= makesheet.whey_titration %></p>
-
-      <hr class="col-span-2 my-2">
-
-      <p><strong>1st Cut Time:</strong></p>
-      <p><%= makesheet.first_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>1st Cut Titration:</strong></p>
-      <p><%= makesheet.first_cut_titration %></p>
-
-      <p><strong>2nd Cut Time:</strong></p>
-      <p><%= makesheet.second_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>2nd Cut Titration:</strong></p>
-      <p><%= makesheet.second_cut_titration %></p>
-
-      <p><strong>3rd Cut Time:</strong></p>
-      <p><%= makesheet.third_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>3rd Cut Titration:</strong></p>
-      <p><%= makesheet.third_cut_titration %></p>
-
-      <p><strong>4th Cut Time:</strong></p>
-      <p><%= makesheet.fourth_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>4th Cut Titration:</strong></p>
-      <p><%= makesheet.fourth_cut_titration %></p>
-
-      <p><strong>5th Cut Time:</strong></p>
-      <p><%= makesheet.fifth_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>5th Cut Titration:</strong></p>
-      <p><%= makesheet.fifth_cut_titration %></p>
-
-      <p><strong>6th Cut Time:</strong></p>
-      <p><%= makesheet.sixth_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>6th Cut Titration:</strong></p>
-      <p><%= makesheet.sixth_cut_titration %></p>
-
-       <p><strong>7th Cut Time:</strong></p>
-      <p><%= makesheet.seventh_cut_time&.strftime("%I:%M %p") %></p>
-
-      <p><strong>7th Cut Titration:</strong></p>
-      <p><%= makesheet.seventh_cut_titration %></p>
-
-      <p><strong>Mill Used:</strong></p>
-      <p><%= makesheet.identify_mill_used %></p>
-
-    </div>
   </div>
 
-   <!-- Section 2-->
-  <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
-    <div class="grid grid-cols-2 text-right">
+  <div class="mx-10 flex flex-row gap-4">
 
-      <p><strong>Unusal Smell or Appearance:</strong></p>
-      <p><%= makesheet.unusual_smell_appearance %></p>
+    <!-- Section 2-->
+    <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
+      <div class="grid grid-cols-2 text-right">
+        <p><strong>Starter Used:</strong></p>
+        <p><%= makesheet.type_of_starter_culture_used %></p>
 
-       <hr class="col-span-2 my-2">
+        <p><strong>Qty Used:</strong></p>
+        <p><%= makesheet.qty_of_starter_used %></p>
 
-      <p class="col-span-2 text-left"><strong>Pre Start Inspection:</strong><br>
-      All high risk glass/brittle material and<br> 
-      metal items inspected prior to use -<br> are they in good condition?</p>
+        <hr class="col-span-2 my-2">
 
-      <p></p>
-      <p><%= boolean_label(makesheet.pre_start_inspection_of_high_risk_items) %></p>
+        <p><strong>Milk used:</strong></p>
+        <p><%= makesheet.milk_used %></p>
 
-      <p><strong>By:</strong></p>
-      <p><%= makesheet.pre_start_inspection_by_staff&.full_name || "Not Given" %> | <%= makesheet.pre_start_inspection_by_2_staff&.full_name || "Not Given" %></p>
+        <p><strong>Warm AM:</strong></p>
+        <p><%= boolean_label(makesheet.warm_am) %></p>
 
-       <hr class="col-span-2 my-2">
-      
-      <p><strong>Ingredient Batch Change:</strong></p>
-      <p><%= makesheet.ingredient_batch_change  %></p>
+        <p><strong>12 Hour PM:</strong></p>
+        <p><%= boolean_label(makesheet.twelve_hr_pm) %></p>
 
-      <p><strong>Thermometer Change:</strong></p>
-      <p><%= makesheet.thermometer_change %></p>
+        <p><strong>Bottles back from FMs</strong><br>
+        <p></p>
 
-      <p><strong>Scale Change:</strong></p>
-      <p><%= makesheet.scale_change  %></p>
+        <p><strong>Number of Bottles:</strong></p>
+        <p><%= makesheet.number_of_bottles_from_fm %></p>
 
-      <hr class="col-span-2 my-2">
+        <p><strong>Use By Date:</strong></p>
+        <p><%= makesheet.use_by_date_milk_from_fm %></p>
 
-      <%# WHAT FORMAT SHOULD THIS TAKE? %>
-      <p><strong>Batch Dipped:</strong></p>
-      <p><%= boolean_label(makesheet.batch_dipped) %></p>
+        <hr class="col-span-2 my-2">
 
-      <p><strong>Post Make Notes:</strong></p>
-      <p><%= makesheet.post_make_notes %></p>
+        <p><strong>Calculated Salt Weight Net:</strong></p>
+        <p><%= number_with_precision(makesheet.calc_salt_net, precision: 3) %> kg</p>
 
-      <p><strong>Cheese Made By:</strong></p>
-      <p><%= makesheet.cheese_made_by_staff&.full_name || "Not Given" %></p>
+        <p><strong>Sale Weight Net:</strong></p>
+        <p><%= makesheet.salt_weight_net %> kg</p>
 
-      <p><strong>Milling Help:</strong></p>
-      <p><%= makesheet.milling_help %></p>
+        <p><strong>Calculated Salt Weight Net:</strong></p>
+        <p><%= number_with_precision(makesheet.calc_salt_gross, precision: 3) %> kg</p>
 
-      <hr class="col-span-2 my-2">
+        <p><strong>Salt Weight Gross:</strong></p>
+        <p><%= makesheet.salt_weight_gross %> kg</p>
 
-      <p><strong>Weather Today:</strong></p>
-      <p><%= makesheet.weather_today %></p>
+        <hr class="col-span-2 my-2">
 
-      <p><strong>Temperature:</strong></p>
-      <p><%= makesheet.weather_temp %></p>
+        <p><strong>Cold Milk IN Time:</strong></p>
+        <p><%= makesheet.cold_milk_in_time&.strftime("%I:%M %p") %></p>
 
-      <p><strong>Humidity:</strong></p>
-      <p><%= makesheet.weather_humidity %></p>
+        <p><strong>Cold Milk IN Temp State:</strong></p>
+        <p><%= makesheet.cold_milk_in_state %></p>
 
-      <hr class="col-span-2 my-2">
+        <p><strong>Steam/Hot Water ON time:</strong></p>
+        <p><%= makesheet.steam_hot_water_on_time&.strftime("%I:%M %p") %></p>
 
-      <p><strong>Glass Breakage:</strong></p>
-      <p><%= boolean_label(makesheet.glass_breakage)  %></p>
+        <p><strong>Warm Milk Finish Time:</strong></p>
+        <p><%= makesheet.warm_milk_finish_time&.strftime("%I:%M %p") %></p>
 
-      <p><strong>Glass Contamination:</strong></p>
-      <p><%= boolean_label(makesheet.glass_contamination) %></p>
+        <p><strong>Warm Milk Finish Titration:</strong></p>
+        <p><%= makesheet.warm_milk_finish_titration %></p>
 
-      <p><strong>Comments/Actions:</strong></p>
-      <p><%= makesheet.glass_comments %></p>
+        <p><strong>Starter IN Time:</strong></p>
+        <p><%= makesheet.starter_in_time&.strftime("%I:%M %p") %></p>
 
-      <hr class="col-span-2 my-2">
+        <p><strong>Starter IN Temp:</strong></p>
+        <p><%= makesheet.starter_in_temp %>°C</p>
 
-      <p><strong>Metal Breakage:</strong></p>
-      <p><%= boolean_label(makesheet.metal_breakage) %></p>
+        <p><strong>Heat OFF Time:</strong></p>
+        <p><%= makesheet.heat_off_1_time&.strftime("%I:%M %p") %></p>
 
-      <p><strong>Metal Contamination:</strong></p>
-      <p><%= boolean_label(makesheet.metal_contamination)  %></p>
+        <p><strong>Heat OFF Temp:</strong></p>
+        <p><%= makesheet.heat_off_1_temp %>°C</p>
 
-      <p><strong>Comments/Actions:</strong></p>
-      <p><%= makesheet.metal_comments %></p>
+        <hr class="col-span-2 my-2">
 
-      <hr class="col-span-2 my-2">
-      <div class="col-span-2">
-      <p class="mt-4 text-center font-semibold">Acidity Profile</p>
-        <%= line_chart @chart_data, xtitle: "Elapsed Time in Hours", ytitle: "Titration Value"%>
+        <p><strong>Rennet Time:</strong></p>
+        <p><%= makesheet.rennet_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Rennet Temp:</strong></p>
+        <p><%= makesheet.rennet_temp %>°C</p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Cut Start Time:</strong></p>
+        <p><%= makesheet.cut_start_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Cut End Time:</strong></p>
+        <p><%= makesheet.cut_end_time&.strftime("%I:%M %p") %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Heat ON Time:</strong></p>
+        <p><%= makesheet.heat_on_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Heat OFF Time:</strong></p>
+        <p><%= makesheet.heat_off_2_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Heat OFF Temp:</strong></p>
+        <p><%= makesheet.heat_off_2_temp %>°C</p>
+
+        <p><strong>Pitch Time:</strong></p>
+        <p><%= makesheet.pitch_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Whey Time:</strong></p>
+        <p><%= makesheet.whey_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>Whey Titration:</strong></p>
+        <p><%= makesheet.whey_titration %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>1st Cut Time:</strong></p>
+        <p><%= makesheet.first_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>1st Cut Titration:</strong></p>
+        <p><%= makesheet.first_cut_titration %></p>
+
+        <p><strong>2nd Cut Time:</strong></p>
+        <p><%= makesheet.second_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>2nd Cut Titration:</strong></p>
+        <p><%= makesheet.second_cut_titration %></p>
+
+        <p><strong>3rd Cut Time:</strong></p>
+        <p><%= makesheet.third_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>3rd Cut Titration:</strong></p>
+        <p><%= makesheet.third_cut_titration %></p>
+
+        <p><strong>4th Cut Time:</strong></p>
+        <p><%= makesheet.fourth_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>4th Cut Titration:</strong></p>
+        <p><%= makesheet.fourth_cut_titration %></p>
+
+        <p><strong>5th Cut Time:</strong></p>
+        <p><%= makesheet.fifth_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>5th Cut Titration:</strong></p>
+        <p><%= makesheet.fifth_cut_titration %></p>
+
+        <p><strong>6th Cut Time:</strong></p>
+        <p><%= makesheet.sixth_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>6th Cut Titration:</strong></p>
+        <p><%= makesheet.sixth_cut_titration %></p>
+
+        <p><strong>7th Cut Time:</strong></p>
+        <p><%= makesheet.seventh_cut_time&.strftime("%I:%M %p") %></p>
+
+        <p><strong>7th Cut Titration:</strong></p>
+        <p><%= makesheet.seventh_cut_titration %></p>
+
+        <p><strong>Mill Used:</strong></p>
+        <p><%= makesheet.identify_mill_used %></p>
+
       </div>
-
     </div>
-</div>
-</div>
+
+    <!-- Section 2-->
+    <div class="flex-none w-1/2 border border-gray-200 rounded-md p-2">
+      <div class="grid grid-cols-2 text-right">
+
+        <p><strong>Unusal Smell or Appearance:</strong></p>
+        <p><%= makesheet.unusual_smell_appearance %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p class="col-span-2 text-left"><strong>Pre Start Inspection:</strong><br>
+          All high risk glass/brittle material and<br>
+          metal items inspected prior to use -<br> are they in good condition?</p>
+
+        <p></p>
+        <p><%= boolean_label(makesheet.pre_start_inspection_of_high_risk_items) %></p>
+
+        <p><strong>By:</strong></p>
+        <p><%= makesheet.pre_start_inspection_by_user&.full_name || "Not Given" %> | <%= makesheet.pre_start_inspection_by_2_user&.full_name || "Not Given" %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Ingredient Batch Change:</strong></p>
+        <p><%= makesheet.ingredient_batch_change  %></p>
+
+        <p><strong>Thermometer Change:</strong></p>
+        <p><%= makesheet.thermometer_change %></p>
+
+        <p><strong>Scale Change:</strong></p>
+        <p><%= makesheet.scale_change  %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <%# WHAT FORMAT SHOULD THIS TAKE? %>
+        <p><strong>Batch Dipped:</strong></p>
+        <p><%= boolean_label(makesheet.batch_dipped) %></p>
+
+        <p><strong>Post Make Notes:</strong></p>
+        <p><%= makesheet.post_make_notes %></p>
+
+        <p><strong>Cheese Made By:</strong></p>
+        <p><%= makesheet.cheese_made_by_user&.full_name || "Not Given" %></p>
+
+        <p><strong>Milling Help:</strong></p>
+        <p><%= makesheet.milling_help %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Weather Today:</strong></p>
+        <p><%= makesheet.weather_today %></p>
+
+        <p><strong>Temperature:</strong></p>
+        <p><%= makesheet.weather_temp %></p>
+
+        <p><strong>Humidity:</strong></p>
+        <p><%= makesheet.weather_humidity %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Glass Breakage:</strong></p>
+        <p><%= boolean_label(makesheet.glass_breakage)  %></p>
+
+        <p><strong>Glass Contamination:</strong></p>
+        <p><%= boolean_label(makesheet.glass_contamination) %></p>
+
+        <p><strong>Comments/Actions:</strong></p>
+        <p><%= makesheet.glass_comments %></p>
+
+        <hr class="col-span-2 my-2">
+
+        <p><strong>Metal Breakage:</strong></p>
+        <p><%= boolean_label(makesheet.metal_breakage) %></p>
+
+        <p><strong>Metal Contamination:</strong></p>
+        <p><%= boolean_label(makesheet.metal_contamination)  %></p>
+
+        <p><strong>Comments/Actions:</strong></p>
+        <p><%= makesheet.metal_comments %></p>
+
+        <hr class="col-span-2 my-2">
+        <div class="col-span-2">
+          <p class="mt-4 text-center font-semibold">Acidity Profile</p>
+          <%= line_chart @chart_data, xtitle: "Elapsed Time in Hours", ytitle: "Titration Value"%>
+        </div>
+
+      </div>
+    </div>
+  </div>

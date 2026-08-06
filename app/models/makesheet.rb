@@ -9,8 +9,8 @@ class Makesheet < ApplicationRecord
   has_one :grading_note, dependent: :destroy
 
   belongs_to :pre_start_inspection_by_user,
-            class_name: "User",
-            optional: true
+           class_name: "User",
+           optional: true
 
   belongs_to :pre_start_inspection_by_2_user,
             class_name: "User",
@@ -20,12 +20,18 @@ class Makesheet < ApplicationRecord
             class_name: "User",
             optional: true
 
-  belongs_to :created_by, class_name: 'User', optional: true
-  belongs_to :updated_by, class_name: 'User', optional: true
-  belongs_to :pre_start_inspection_by_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_staff_id', optional: true
-  belongs_to :pre_start_inspection_by_2_staff, class_name: 'Staff', foreign_key: 'pre_start_inspection_by_2_staff_id', optional: true
+  belongs_to :assistant_user,
+           class_name: "User",
+           optional: true
 
-  belongs_to :cheese_made_by_staff, :class_name => 'Staff', :foreign_key => 'cheese_made_by_staff_id', optional: true
+  belongs_to :created_by,
+            class_name: "User",
+            optional: true
+
+  belongs_to :updated_by,
+            class_name: "User",
+            optional: true
+  
   belongs_to :contact, optional: true
   belongs_to :location, optional: true
   
@@ -52,7 +58,7 @@ class Makesheet < ApplicationRecord
             if pre_start_inspection_by_user_id.present?.present?
               return "IV"  # All conditions met
             end
-            return "III"  # Everything except pre_start_inspection_by_staff_id
+            return "III"  # Everything except pre_start_inspection_by_user_id
           end
           return "II"  # Everything except total_weight and number_of_cheeses
         end

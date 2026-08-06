@@ -262,9 +262,8 @@ module MakesheetPdfPage1
         yes_val  = yn ? "YES" : ""
         no_val   = yn ? ""    : "YES"
 
-        checked_by_1 = Staff.find_by(id: makesheet.pre_start_inspection_by_staff_id)&.full_name.to_s
-        checked_by_2 = Staff.find_by(id: makesheet.pre_start_inspection_by_2_staff_id)&.full_name.to_s
-
+      checked_by_1 = makesheet.pre_start_inspection_by_user&.full_name.to_s
+checked_by_2 = makesheet.pre_start_inspection_by_2_user&.full_name.to_s
         high_risk_box = []
         high_risk_box << [{ content: "<b>PRE-START INSPECTION OF HIGH RISK ITEMS</b>", colspan: 3 }]
         high_risk_box << [{ content: "ALL HIGH RISK GLASS/BRITTLE MATERIAL AND METAL ITEMS INSPECTED PRIOR TO USE - ARE THEY IN GOOD CONDITION?", colspan: 3 }]
@@ -385,10 +384,10 @@ module MakesheetPdfPage1
                pdf.text "\n", size: 6
 
                sign_box = Array.new
-               assistant = Staff.find_by(id: makesheet.assistant_staff_id)
+               assistant = makesheet.assistant_user
                sign_box << ["<b>CHEESE MADE BY:</b>", "<b>MILLING HELP</b>"]
                sign_box << [
-                  "<font size='10'>#{makesheet.cheese_made_by_staff&.full_name}</font><br/><font size='8'>#{assistant&.full_name}</font>",
+                  "<font size='10'>#{makesheet.cheese_made_by_user&.full_name}</font><br/><font size='8'>#{assistant&.full_name}</font>",
                   "<font size='8'>#{makesheet.milling_help}</font>"
                 ]
 

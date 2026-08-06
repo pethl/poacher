@@ -1,35 +1,33 @@
-
 <% content_for(:page_title, "MAKE SHEET for #{@makesheet.make_date.to_formatted_s(:uk)}")%>
 <% content_for :print_button, print_makesheet_pdf_path(id: @makesheet) %>
 
-  <!-- Buttons -->
- <div class="w-full md:flex md:justify-end">
+<!-- Buttons -->
+<div class="w-full md:flex md:justify-end">
   <div class="w-full md:max-w-[33%]">
     <div class="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
       <%= link_to "Edit this Make Sheet", edit_makesheet_path(@makesheet), class: "#{fill_button_class} w-full md:w-auto flex-1" %>
-      <%= link_to "Print Label", print_label_path(makesheet_id: @makesheet.id), class: "#{gray_button} w-full md:w-auto flex-1" %>
-      <%= link_to "Back to Make Sheets", makesheets_path, class: "#{clear_button_class} w-full md:w-auto flex-1" %>
+      <%= link_to "Print Label", print_single_cheese_label_path(@makesheet.id), class: "#{gray_button} w-full md:w-auto flex-1" %> <%= link_to "Back to Make Sheets", makesheets_path, class: "#{clear_button_class} w-full md:w-auto flex-1" %>
     </div>
 
-  <%# if is_admin? %>
-  <%#= button_to "Delete Make Sheet",
+    <%# if is_admin? %>
+    <%#= button_to "Delete Make Sheet",
       @makesheet,
       method: :delete,
       form: { data: { turbo_confirm: "Are you sure?" } },
       class: gray_button %>
-<%# end %>
+    <%# end %>
   </div>
 </div>
 
 
-  <div class="text-left">
-    <%= render @makesheet %>
-  </div>
+<div class="text-left">
+  <%= render @makesheet %>
+</div>
 
-  <% if @makesheet.samples.any? %>
-  <div class="text-left">
-    <%= render "samples", makesheet: @makesheet %>
-  </div>
-  <% end %>
+<% if @makesheet.samples.any? %>
+<div class="text-left">
+  <%= render "samples", makesheet: @makesheet %>
+</div>
+<% end %>
 
- </div>
+</div>
