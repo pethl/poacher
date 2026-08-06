@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_06_111706) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -432,11 +432,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
     t.decimal "chiller_temp", precision: 4, scale: 1
     t.integer "churns_out"
     t.text "samples_required_summary"
+    t.bigint "cheese_made_by_user_id"
+    t.bigint "pre_start_inspection_by_user_id"
+    t.bigint "pre_start_inspection_by_2_user_id"
+    t.index ["cheese_made_by_user_id"], name: "index_makesheets_on_cheese_made_by_user_id"
     t.index ["contact_id"], name: "index_makesheets_on_contact_id"
     t.index ["created_by_id"], name: "index_makesheets_on_created_by_id"
     t.index ["location_id"], name: "index_makesheets_on_location_id"
     t.index ["make_date"], name: "index_makesheets_on_make_date"
     t.index ["pre_start_inspection_by_2_staff_id"], name: "index_makesheets_on_pre_start_inspection_by_2_staff_id"
+    t.index ["pre_start_inspection_by_2_user_id"], name: "index_makesheets_on_pre_start_inspection_by_2_user_id"
+    t.index ["pre_start_inspection_by_user_id"], name: "index_makesheets_on_pre_start_inspection_by_user_id"
     t.index ["status"], name: "index_makesheets_on_status"
     t.index ["updated_by_id"], name: "index_makesheets_on_updated_by_id"
   end
@@ -670,8 +676,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.bigint "user_id"
     t.index ["created_by_id"], name: "index_staffs_on_created_by_id"
     t.index ["updated_by_id"], name: "index_staffs_on_updated_by_id"
+    t.index ["user_id"], name: "index_staffs_on_user_id"
   end
 
   create_table "traceability_records", force: :cascade do |t|
@@ -753,6 +761,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
     t.boolean "account_active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "dept"
+    t.string "title"
+    t.string "employment_status"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -845,7 +856,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
   add_foreign_key "makesheets", "contacts"
   add_foreign_key "makesheets", "locations"
   add_foreign_key "makesheets", "staffs", column: "pre_start_inspection_by_2_staff_id"
+  add_foreign_key "makesheets", "users", column: "cheese_made_by_user_id"
   add_foreign_key "makesheets", "users", column: "created_by_id"
+  add_foreign_key "makesheets", "users", column: "pre_start_inspection_by_2_user_id"
+  add_foreign_key "makesheets", "users", column: "pre_start_inspection_by_user_id"
   add_foreign_key "makesheets", "users", column: "updated_by_id"
   add_foreign_key "market_sales", "users", column: "created_by_id"
   add_foreign_key "market_sales", "users", column: "updated_by_id"
@@ -870,6 +884,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_094308) do
   add_foreign_key "scale_checks", "staffs"
   add_foreign_key "scale_checks", "users", column: "created_by_id"
   add_foreign_key "scale_checks", "users", column: "updated_by_id"
+  add_foreign_key "staffs", "users"
   add_foreign_key "staffs", "users", column: "created_by_id"
   add_foreign_key "staffs", "users", column: "updated_by_id"
   add_foreign_key "traceability_records", "makesheets"

@@ -5,9 +5,20 @@ class Makesheet < ApplicationRecord
   has_many :batch_weights 
   has_many :ingredient_batch_changes, dependent: :destroy
   has_many :delivery_inspections, through: :ingredient_batch_changes
-
   has_and_belongs_to_many :samples
   has_one :grading_note, dependent: :destroy
+
+  belongs_to :pre_start_inspection_by_user,
+            class_name: "User",
+            optional: true
+
+  belongs_to :pre_start_inspection_by_2_user,
+            class_name: "User",
+            optional: true
+
+  belongs_to :cheese_made_by_user,
+            class_name: "User",
+            optional: true
 
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
@@ -38,7 +49,7 @@ class Makesheet < ApplicationRecord
       if make_type.present? && milk_used.present? && salt_weight_net? && type_of_starter_culture_used? && qty_of_starter_used?
         if first_cut_time.present? && second_cut_time.present? && third_cut_time? && fourth_cut_time?
           if total_weight.present? && number_of_cheeses.present? 
-            if pre_start_inspection_by_staff_id.present?
+            if pre_start_inspection_by_user_id.present?.present?
               return "IV"  # All conditions met
             end
             return "III"  # Everything except pre_start_inspection_by_staff_id
