@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_06_153728) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_07_080855) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -199,16 +199,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_153728) do
     t.boolean "floor_under_handwash"
     t.boolean "compressors"
     t.text "additional_comments"
-    t.bigint "staff_id"
-    t.bigint "staff_id_2"
-    t.bigint "staff_id_3"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.bigint "user_id"
+    t.bigint "user_2_id"
+    t.bigint "user_3_id"
     t.index ["created_by_id"], name: "index_cleaning_foreign_body_checks_on_created_by_id"
-    t.index ["staff_id"], name: "index_cleaning_foreign_body_checks_on_staff_id"
+    t.index ["date"], name: "index_cleaning_foreign_body_checks_on_date"
     t.index ["updated_by_id"], name: "index_cleaning_foreign_body_checks_on_updated_by_id"
+    t.index ["user_2_id"], name: "index_cleaning_foreign_body_checks_on_user_2_id"
+    t.index ["user_3_id"], name: "index_cleaning_foreign_body_checks_on_user_3_id"
+    t.index ["user_id"], name: "index_cleaning_foreign_body_checks_on_user_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -833,9 +836,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_06_153728) do
   add_foreign_key "chillers", "users"
   add_foreign_key "chillers", "users", column: "created_by_id"
   add_foreign_key "chillers", "users", column: "updated_by_id"
-  add_foreign_key "cleaning_foreign_body_checks", "staffs"
+  add_foreign_key "cleaning_foreign_body_checks", "users"
   add_foreign_key "cleaning_foreign_body_checks", "users", column: "created_by_id"
   add_foreign_key "cleaning_foreign_body_checks", "users", column: "updated_by_id"
+  add_foreign_key "cleaning_foreign_body_checks", "users", column: "user_2_id"
+  add_foreign_key "cleaning_foreign_body_checks", "users", column: "user_3_id"
   add_foreign_key "contacts", "users", column: "created_by_id"
   add_foreign_key "contacts", "users", column: "updated_by_id"
   add_foreign_key "delivery_inspections", "staffs"

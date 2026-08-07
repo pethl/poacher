@@ -9,14 +9,14 @@
       <tr>
         <th class="border px-2 py-1 text-left">Equipment</th>
         <% @week_days.each do |day| %>
-          <% check = @cleaning_checks.find { |cc| cc.date == day } %>
-          <% path = check.present? ? edit_cleaning_foreign_body_check_path(check) : new_cleaning_foreign_body_check_path(date: day) %>
-          <th class="border px-2 py-1 text-center whitespace-normal max-w-[8rem]">
-            <%= link_to path, class: "text-blue-600 hover:underline block" do %>
-              <div class="font-semibold"><%= day.strftime("%a") %></div>
-              <div class="text-xs"><%= day.strftime("%d %b") %></div>
-            <% end %>
-          </th>
+        <% check = @cleaning_checks.find { |cc| cc.date == day } %>
+        <% path = check.present? ? edit_cleaning_foreign_body_check_path(check) : new_cleaning_foreign_body_check_path(date: day) %>
+        <th class="border px-2 py-1 text-center whitespace-normal max-w-[8rem]">
+          <%= link_to path, class: "text-blue-600 hover:underline block" do %>
+          <div class="font-semibold"><%= day.strftime("%a") %></div>
+          <div class="text-xs"><%= day.strftime("%d %b") %></div>
+          <% end %>
+        </th>
         <% end %>
       </tr>
     </thead>
@@ -26,19 +26,19 @@
       <tr>
         <td class="border px-2 py-1 text-sm font-semibold">Milk pipeline - plus check threads</td>
         <% @week_days.each do |day| %>
-          <% check = @cleaning_checks.find { |cc| cc.date == day } %>
-          <td class="border px-2 py-1 text-center text-xs max-w-[8rem] break-words">
-            <span class="italic">Visual only</span>
-            <% if check.present? %>
-              <% if check[:milk_pipeline] %>
-                ✅
-              <% else %>
-                ❌
-              <% end %>
-            <% else %>
-              -
-            <% end %>
-          </td>
+        <% check = @cleaning_checks.find { |cc| cc.date == day } %>
+        <td class="border px-2 py-1 text-center text-xs max-w-[8rem] break-words">
+          <span class="italic">Visual only</span>
+          <% if check.present? %>
+          <% if check[:milk_pipeline] %>
+          ✅
+          <% else %>
+          ❌
+          <% end %>
+          <% else %>
+          -
+          <% end %>
+        </td>
         <% end %>
       </tr>
 
@@ -71,54 +71,54 @@
       ] %>
 
       <% equipment_list.each do |equipment| %>
-        <tr>
-          <td class="border px-2 py-1 text-sm">
-            <div class="font-semibold"><%= equipment[:label] %></div>
-            <% if equipment[:description].present? %>
-              <div class="text-xs text-gray-500"><%= equipment[:description] %></div>
-            <% end %>
-          </td>
-          <% @week_days.each do |day| %>
-            <% check = @cleaning_checks.find { |cc| cc.date == day } %>
-            <td class="border px-2 py-1 text-center max-w-[8rem] break-words">
-              <% if check.present? %>
-                <% if check[equipment[:field]] %>
-                  ✅
-                <% else %>
-                  ❌
-                <% end %>
-              <% else %>
-                -
-              <% end %>
-            </td>
+      <tr>
+        <td class="border px-2 py-1 text-sm">
+          <div class="font-semibold"><%= equipment[:label] %></div>
+          <% if equipment[:description].present? %>
+          <div class="text-xs text-gray-500"><%= equipment[:description] %></div>
           <% end %>
-        </tr>
+        </td>
+        <% @week_days.each do |day| %>
+        <% check = @cleaning_checks.find { |cc| cc.date == day } %>
+        <td class="border px-2 py-1 text-center max-w-[8rem] break-words">
+          <% if check.present? %>
+          <% if check[equipment[:field]] %>
+          ✅
+          <% else %>
+          ❌
+          <% end %>
+          <% else %>
+          -
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
       <% end %>
 
       <!-- Comments & Staff Initials Row -->
       <tr>
         <td class="border px-2 py-1 text-sm font-semibold">Comments / Staff</td>
         <% @week_days.each do |day| %>
-          <% check = @cleaning_checks.find { |cc| cc.date == day } %>
-          <td class="border px-2 py-1 text-xs text-left align-top max-w-[8rem] break-words">
-            <!-- Comments box (always shows) -->
-            <div class="min-h-[2rem] mb-1 p-1 border border-gray-300 rounded">
-              <% if check.present? && check.additional_comments.present? %>
-                <span class="text-gray-700"><%= check.additional_comments %></span>
-              <% else %>
-                <span class="text-gray-400 italic">No comments</span>
-              <% end %>
-            </div>
-            
-            <!-- Staff initials (separate section) -->
-            <div class="text-gray-500">
-              <% if check.present? && [check.staff, check.staff_2, check.staff_3].compact.any? %>
-                <%= [check.staff, check.staff_2, check.staff_3].compact.map(&:initials).join(", ") %>
-              <% else %>
-                <span class="text-gray-300">No staff</span>
-              <% end %>
-            </div>
-          </td>
+        <% check = @cleaning_checks.find { |cc| cc.date == day } %>
+        <td class="border px-2 py-1 text-xs text-left align-top max-w-[8rem] break-words">
+          <!-- Comments box (always shows) -->
+          <div class="min-h-[2rem] mb-1 p-1 border border-gray-300 rounded">
+            <% if check.present? && check.additional_comments.present? %>
+            <span class="text-gray-700"><%= check.additional_comments %></span>
+            <% else %>
+            <span class="text-gray-400 italic">No comments</span>
+            <% end %>
+          </div>
+
+          <!-- User initials -->
+          <div class="text-gray-500">
+            <% if check.present? && [check.user, check.user_2, check.user_3].compact.any? %>
+            <%= [check.user, check.user_2, check.user_3].compact.map(&:initials).join(", ") %>
+            <% else %>
+            <span class="text-gray-300">No staff</span>
+            <% end %>
+          </div>
+        </td>
         <% end %>
       </tr>
     </tbody>
@@ -126,5 +126,3 @@
 </div>
 
 <hr class="my-4">
-
-

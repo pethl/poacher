@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :market_sale do
+    who {"Tom"}
     market { "Test Market" }
     sale_date { Date.today }
     cheese_sales { 100.0 }

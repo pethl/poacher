@@ -1,14 +1,20 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CleaningForeignBodyCheck, type: :model do
   describe "associations" do
-    it { should belong_to(:staff).class_name('Staff').optional }
-    it { should belong_to(:staff_2).class_name('Staff').with_foreign_key('staff_id_2').optional }
-    it { should belong_to(:staff_3).class_name('Staff').with_foreign_key('staff_id_3').optional }
+    it { should belong_to(:user).optional }
+    it { should belong_to(:user_2).class_name('User').with_foreign_key('user_2_id').optional }
+    it { should belong_to(:user_3).class_name('User').with_foreign_key('user_3_id').optional }
+
+    it { should belong_to(:created_by).class_name('User').optional }
+    it { should belong_to(:updated_by).class_name('User').optional }
   end
 
   describe "validations" do
     it { should validate_presence_of(:date) }
+    it { should validate_uniqueness_of(:date) }
   end
 
   describe "database columns" do
@@ -33,9 +39,9 @@ RSpec.describe CleaningForeignBodyCheck, type: :model do
     it { should have_db_column(:floor_under_handwash).of_type(:boolean) }
     it { should have_db_column(:compressors).of_type(:boolean) }
     it { should have_db_column(:additional_comments).of_type(:text) }
-    it { should have_db_column(:staff_id).of_type(:integer) }
-    it { should have_db_column(:staff_id_2).of_type(:integer) }
-    it { should have_db_column(:staff_id_3).of_type(:integer) }
+
+    it { should have_db_column(:user_id).of_type(:integer) }
+    it { should have_db_column(:user_2_id).of_type(:integer) }
+    it { should have_db_column(:user_3_id).of_type(:integer) }
   end
 end
-

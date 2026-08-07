@@ -1,6 +1,6 @@
 class CleaningForeignBodyChecksController < ApplicationController
   before_action :set_cleaning_foreign_body_check, only: %i[ show edit update destroy ]
-  before_action :set_staffs, only: [:new, :edit, :create, :update]
+  before_action :set_users, only: [:new, :edit, :create, :update]
 
   # GET /cleaning_foreign_body_checks or /cleaning_foreign_body_checks.json
   def index
@@ -18,13 +18,14 @@ class CleaningForeignBodyChecksController < ApplicationController
 
   # GET /cleaning_foreign_body_checks/new
   def new
-    @cleaning_foreign_body_check = CleaningForeignBodyCheck.new(date: params[:date])
+    @cleaning_foreign_body_check = CleaningForeignBodyCheck.new(
+      date: params[:date].presence || Date.current,
+      user: current_user
+    )
   end
 
   # GET /cleaning_foreign_body_checks/1/edit
   def edit
-    @staffs = Staff.where(employment_status: "Active").where(dept: "Cheesemaking Team").ordered
-
   end
 
   # POST /cleaning_foreign_body_checks or /cleaning_foreign_body_checks.json
@@ -44,7 +45,7 @@ class CleaningForeignBodyChecksController < ApplicationController
 
   # PATCH/PUT /cleaning_foreign_body_checks/1 or /cleaning_foreign_body_checks/1.json
   def update
-    @staffs = Staff.where(employment_status: "Active").where(dept: "Cheesemaking Team").ordered
+    
 
   
     respond_to do |format|
@@ -76,11 +77,19 @@ class CleaningForeignBodyChecksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cleaning_foreign_body_check_params
-      params.require(:cleaning_foreign_body_check).permit(:date, :milk_pipeline, :cheese_vat, :used_mill, :cooler_moulds_tables, :hand_equipment, :blue_food_contact_equipment, :plastic_sleeves, :metal_shovels, :aprons, :drain_lower_level, :drain_upper_level, :presses, :sinks, :floor_difficult_areas, :footbaths, :internal_door_handles, :change_chlorine, :floor_under_handwash, :compressors, :additional_comments, :staff_id, :staff_id_2, :staff_id_3)
+      params.require(:cleaning_foreign_body_check).permit(:date, :milk_pipeline, :cheese_vat, :used_mill, 
+      :cooler_moulds_tables, :hand_equipment, 
+      :blue_food_contact_equipment, :plastic_sleeves, 
+      :metal_shovels, :aprons, :drain_lower_level, 
+      :drain_upper_level, :presses, :sinks, 
+      :floor_difficult_areas, :footbaths, 
+      :internal_door_handles, :change_chlorine, 
+      :floor_under_handwash, :compressors, :additional_comments,
+      :user_id, :user_2_id, :user_3_id)
     end
 
-    def set_staffs
-      @staffs = Staff.where(employment_status: "Active", dept: "Cheesemaking Team").ordered
+    def set_users
+      @users = User.where(employment_status: "Active", dept: "Cheesemaking Team").ordered
     end
   
 end
