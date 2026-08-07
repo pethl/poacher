@@ -1,5 +1,6 @@
 class ScaleChecksController < ApplicationController
   before_action :set_scale_check, only: %i[show edit update destroy]
+  before_action :set_users, only: %i[new edit create update]
 
   def index
     @scale_checks = ScaleCheck.all
@@ -27,23 +28,21 @@ class ScaleChecksController < ApplicationController
   end
 
   def new
-    @staffs = Staff.cutting_room.ordered
     @scale_check = ScaleCheck.new(
       scale_name: params[:scale_name],
       check_date: params[:check_date],
-      frequency: params[:frequency]
+      frequency: params[:frequency],
+      user: current_user
     )
   end
 
 
   def edit
-    @staffs = Staff.cutting_room.ordered
-  end
+     end
 
   def create
     @scale_check = ScaleCheck.new(scale_check_params)
-    @staffs = Staff.cutting_room.ordered
-
+   
     if @scale_check.save
       redirect_to week_view_scale_checks_path, notice: "Scale check was successfully created."
     else
@@ -52,7 +51,6 @@ class ScaleChecksController < ApplicationController
   end
 
   def update
-    @staffs = Staff.cutting_room.ordered
     if @scale_check.update(scale_check_params)
       redirect_to week_view_scale_checks_path, notice: "Scale check was successfully updated."
     else
@@ -75,7 +73,14 @@ class ScaleChecksController < ApplicationController
     params.require(:scale_check).permit(:frequency, :check_date, :scale_name, 
                                         :scale_100g, :scale_500g, :scale_1kg, 
                                         :scale_5kg, :scale_10kg, :scale_20kg, :comments, 
-                                        :signature, :staff_id)
+                                        :signature, :user_id)
   end
+
+  def set_users
+      @users = User.where(
+        dept: "Cutting Room",
+        employment_status: "Active"
+      ).ordered
+    end
 end
 

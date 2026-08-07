@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_07_080855) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_07_161638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -657,14 +657,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_080855) do
     t.boolean "scale_20kg"
     t.string "comments"
     t.text "signature"
-    t.bigint "staff_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.bigint "user_id"
+    t.index ["check_date"], name: "index_scale_checks_on_check_date"
     t.index ["created_by_id"], name: "index_scale_checks_on_created_by_id"
-    t.index ["staff_id"], name: "index_scale_checks_on_staff_id"
     t.index ["updated_by_id"], name: "index_scale_checks_on_updated_by_id"
+    t.index ["user_id"], name: "index_scale_checks_on_user_id"
   end
 
   create_table "staffs", force: :cascade do |t|
@@ -884,7 +885,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_07_080855) do
   add_foreign_key "references", "users", column: "updated_by_id"
   add_foreign_key "samples", "users", column: "created_by_id"
   add_foreign_key "samples", "users", column: "updated_by_id"
-  add_foreign_key "scale_checks", "staffs"
+  add_foreign_key "scale_checks", "users"
   add_foreign_key "scale_checks", "users", column: "created_by_id"
   add_foreign_key "scale_checks", "users", column: "updated_by_id"
   add_foreign_key "staffs", "users"

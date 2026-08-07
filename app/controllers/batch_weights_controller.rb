@@ -7,6 +7,25 @@ class BatchWeightsController < ApplicationController
   def index
     @batch_weights = BatchWeight.all.ordered
   end
+
+  def waste_trend
+    @range_options = [3, 6, 9, 12]
+    @months = params[:months].to_i
+    @months = 12 unless @range_options.include?(@months)
+    @make_types = Makesheet.where.not(make_type: [nil, ""]).distinct.order(:make_type).pluck(:make_type)
+    @selected_make_type = params[:make_type].presence_in(@make_types)
+    @end_date = Date.current
+    @start_date = (@end_date - (@months - 1).months).beginning_of_month
+
+    records = BatchWeight.waste_trend(
+      start_date: @start_date,
+      end_date: @end_date,
+      make_type: @selected_make_type
+    )
+
+    @chart_series = build_waste_trend_series(records)
+    @record_count = records.length
+  end
  
   # GET /batch_weights/1 or /batch_weights/1.json
   def show
@@ -64,6 +83,31 @@ class BatchWeightsController < ApplicationController
   end
  
   private
+    def build_waste_trend_series(records)
+      records.group_by { |record| record.makesheet.make_type }.sort.flat_map do |make_type, type_records|
+        batch_points = type_records.map { |record| [record.date, record.waste_percentage] }
+        monthly_averages = type_records.group_by { |record| record.date.beginning_of_month }
+                                       .transform_values { |month_records| month_records.sum(&:waste_percentage) / month_records.length }
+        rolling_points = monthly_averages.keys.sort.map do |month|
+          window = monthly_averages.keys.select { |key| key.between?(month - 2.months, month) }
+          [month, (window.sum { |key| monthly_averages.fetch(key) } / window.length).round(2)]
+        end
+
+        [
+          {
+            name: "#{make_type} batches",
+            data: batch_points,
+            dataset: { showLine: false, pointRadius: 4, pointHoverRadius: 6 }
+          },
+          {
+            name: "#{make_type} 3-month rolling average",
+            data: rolling_points,
+            dataset: { borderWidth: 3, pointRadius: 2, tension: 0.2 }
+          }
+        ]
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_batch_weight
       @batch_weight = BatchWeight.find(params[:id])

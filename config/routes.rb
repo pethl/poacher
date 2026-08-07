@@ -106,7 +106,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :batch_weights
+  resources :batch_weights do
+    collection do
+      get :waste_trend
+    end
+  end
   
   get "breakages/create_month"
   resources :breakages

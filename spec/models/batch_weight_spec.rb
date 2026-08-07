@@ -92,4 +92,39 @@ RSpec.describe BatchWeight, type: :model do
       expect(batch_weight.waste_percentage).to eq(0.0)
     end
   end
+
+
+  describe '.waste_trend' do
+    it 'filters by BatchWeight date and the linked makesheet make type' do
+      standard = create(:batch_weight,
+                        date: Date.new(2025, 4, 10),
+                        makesheet: create(:makesheet, make_type: 'Standard'))
+      create(:batch_weight,
+             date: Date.new(2025, 4, 11),
+             makesheet: create(:makesheet, make_type: 'Red'))
+      create(:batch_weight,
+             date: Date.new(2024, 4, 10),
+             makesheet: create(:makesheet, make_type: 'Standard'))
+
+      result = described_class.waste_trend(
+        start_date: Date.new(2025, 4, 1),
+        end_date: Date.new(2025, 4, 30),
+        make_type: 'Standard'
+      )
+
+      expect(result).to contain_exactly(standard)
+    end
+
+    it 'excludes records whose waste percentage cannot be calculated' do
+      create(:batch_weight, washed_batch_weight: 0, total_waste: 10)
+      usable = create(:batch_weight, washed_batch_weight: 100, total_waste: 2)
+
+      result = described_class.waste_trend(
+        start_date: Date.yesterday,
+        end_date: Date.tomorrow
+      )
+
+      expect(result).to contain_exactly(usable)
+    end
+  end
 end

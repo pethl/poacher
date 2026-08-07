@@ -8,6 +8,14 @@ class BatchWeight < ApplicationRecord
   validates :date, presence: true
 
   scope :ordered, -> { order(date: :asc) }
+  scope :recorded_between, ->(start_date, end_date) { where(date: start_date..end_date) }
+  scope :with_waste_measurements, -> {
+    where.not(washed_batch_weight: nil, total_waste: nil)
+      .where("washed_batch_weight > 0")
+  }
+  scope :for_make_type, ->(make_type) {
+    make_type.present? ? joins(:makesheet).where(makesheets: { make_type: make_type }) : all
+  }
   #scope :not_finished, -> { where.not(status: "Finished") } believe this is worong
   scope :not_finished, -> { joins(:makesheet).where.not(makesheets: { status: "Finished" }) }
 
@@ -23,6 +31,16 @@ class BatchWeight < ApplicationRecord
     return 0.0 if total_waste.to_f.zero?
   
     ((total_waste.to_f / washed_batch_weight.to_f) * 100).round(2)
+  end
+
+  def self.waste_trend(start_date:, end_date:, make_type: nil)
+    joins(:makesheet)
+      .where.not(makesheets: { make_type: [nil, ""] })
+      .recorded_between(start_date, end_date)
+      .with_waste_measurements
+      .for_make_type(make_type)
+      .includes(:makesheet)
+      .order(:date)
   end
 
    private

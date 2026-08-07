@@ -174,11 +174,29 @@ Items should only be removed from this document when:
 - [ ] Review overlap between BatchWeight and TraceabilityRecord reporting.
 
 ## Batch Weight - URGENT
-- [ ] Add a management trend report showing waste percentage over time by cheese type.
+- [x] Add a management trend report showing waste percentage over time by cheese type.
   - Use the BatchWeight date for the timeline.
   - Group records by the linked Makesheet `make_type`.
   - Allow filtering by date range and cheese type.
   - Consider showing both individual batch results and a monthly rolling average.
+  ## IMPLEMENTATION
+  Implemented the management waste trend report using the app’s existing Chartkick/Chart.js stack—no new gems required.
+    Key features:
+    Uses BatchWeight.date.
+    Calculates waste as total_waste / washed_batch_weight × 100.
+    Filters by 3, 6, 9, or 12 months.
+    Filters/groups by Makesheet.make_type.
+    Plots individual batches plus trailing three-calendar-month averages.
+    Excludes incomplete measurements and zero washed weights.
+    Accessible from Batch Weights, Cutting Room, and Management pages.
+    New route: /batch_weights/waste_trend.
+    Main changes:
+    [BatchWeight model](/Users/pethickl/Documents/rails/poacher/app/models/batch_weight.rb)
+    [BatchWeights controller](/Users/pethickl/Documents/rails/poacher/app/controllers/batch_weights_controller.rb)
+    [Waste trend view](/Users/pethickl/Documents/rails/poacher/app/views/batch_weights/waste_trend.html.erb)
+    [Routes](/Users/pethickl/Documents/rails/poacher/config/routes.rb)
+    [Request spec](/Users/pethickl/Documents/rails/poacher/spec/requests/batch_weights_waste_trend_spec.rb)
+    Verification: 14 focused model/request examples pass with zero failures. The focused run still triggers the project’s global 70% SimpleCov threshold, as expected when running only two spec files. Existing unrelated working-tree changes were preserved.
 
   ## Contact
 
@@ -217,6 +235,6 @@ Items should only be removed from this document when:
 
 ## User
 
-- [ ] Add department information to User when Staff is retired.
+- [x] Add department information to User when Staff is retired.
 - [ ] Add a scope for active Cheese Store users.
 - [ ] Restrict the Turn `turned_by` selector to Cheese Store users.

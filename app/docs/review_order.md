@@ -19,7 +19,7 @@ x13. Contact
 14. Picksheet
 15. PicksheetItem
 x16. Invoice
-17. MarketSale
+x17. MarketSale
 
 x18. Reference
 x19. ValidationRange
@@ -29,8 +29,8 @@ x20. Location
 x22. User
 
 23. Supporting operational records
-x    - Chiller
-    - Cleaning
+x   - Chiller
+x    - Cleaning
     - ScaleCheck
     - Breakages
     - Butter

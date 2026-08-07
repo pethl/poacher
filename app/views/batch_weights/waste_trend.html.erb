@@ -1,0 +1,62 @@
+<% content_for :title, "Poacher: Waste Trend Report" %>
+<% content_for :page_title, "BATCH WASTE TREND" %>
+
+<div class="mx-auto w-full max-w-7xl px-4 py-6">
+  <div class="mb-6 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <%= form_with url: waste_trend_batch_weights_path, method: :get, local: true,
+                  class: "grid grid-cols-1 items-end gap-4 md:grid-cols-3" do |form| %>
+      <div>
+        <%= form.label :months, "Date range", class: "mb-1 block text-sm font-medium text-gray-700" %>
+        <%= form.select :months,
+                        options_for_select(@range_options.map { |months| ["Last #{months} months", months] }, @months),
+                        {}, class: "w-full rounded-md border-gray-300" %>
+      </div>
+
+      <div>
+        <%= form.label :make_type, "Cheese type", class: "mb-1 block text-sm font-medium text-gray-700" %>
+        <%= form.select :make_type,
+                        options_for_select([["All cheese types", ""]] + @make_types.map { |type| [type, type] }, @selected_make_type),
+                        {}, class: "w-full rounded-md border-gray-300" %>
+      </div>
+
+      <%= form.submit "Update report",
+                      class: "cursor-pointer rounded-md bg-gray-800 px-4 py-2 text-white hover:bg-gray-700" %>
+    <% end %>
+  </div>
+
+  <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+    <div class="mb-4 flex flex-col justify-between gap-1 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900">Waste percentage over time</h2>
+        <p class="text-sm text-gray-500">
+          <%= @start_date.to_formatted_s(:long) %> to <%= @end_date.to_formatted_s(:long) %>
+          · <%= pluralize(@record_count, "batch") %>
+        </p>
+      </div>
+      <%= link_to "Back to batch weights", batch_weights_path, class: "text-sm text-gray-700 underline" %>
+    </div>
+
+    <% if @chart_series.any? %>
+      <%= line_chart @chart_series,
+                     height: "520px",
+                     xtitle: "BatchWeight date",
+                     ytitle: "Waste (%)",
+                     min: 0,
+                     suffix: "%",
+                     points: true,
+                     curve: false,
+                     legend: "bottom",
+                     library: {
+                       interaction: { mode: "nearest", intersect: false },
+                       scales: { x: { time: { tooltipFormat: "dd MMM yyyy" } } }
+                     } %>
+      <p class="mt-3 text-xs text-gray-500">
+        Dots are individual batches. Lines show the trailing three-month average of monthly waste percentages.
+      </p>
+    <% else %>
+      <div class="py-16 text-center text-gray-500">
+        No batch weights with usable waste measurements were found for these filters.
+      </div>
+    <% end %>
+  </div>
+</div>
