@@ -615,9 +615,13 @@ It also records whether product was contaminated and what action was taken.
 
 A **Chiller Check** records chiller temperatures, corrective action, staff member and signature.
 
-### Scale Check
+## Scale Checks
 
-A **Scale Check** records calibration or accuracy checks for named scales using defined test weights.
+A Scale Check records the routine verification of weighing scales used in production.
+
+Checks are carried out daily and weekly to confirm scales remain accurate. Each record identifies the scale checked, the check frequency, the date, the recorded weights, and the user who completed the check.
+
+Only one check is permitted for a given scale, frequency, and date.
 
 ### Validation Range
 

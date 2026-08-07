@@ -10,6 +10,6 @@ FactoryBot.define do
     scale_10kg { false }
     comments { "MyString" }
     signature { "MyText" }
-    staff 
+    user 
   end
 end
