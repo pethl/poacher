@@ -26,6 +26,7 @@
     "chartjs-adapter-dayjs-4": "^1.0.4",
     "chartjs-plugin-datalabels": "^2.2.0",
     "chartkick": "^5.0.1",
+    "date-fns": "^4.4.0",
     "dayjs": "^1.11.18",
     "flatpickr": "^4.6.13",
     "flowbite": "^2.4.1",

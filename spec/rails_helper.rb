@@ -11,32 +11,27 @@ if enable_simplecov
   require "simplecov"
 
   SimpleCov.start "rails" do
-    add_filter "/bin/"
-    add_filter "/db/"
-    add_filter "/spec/" # Don't track spec files
+    SimpleCov.skip "/bin/"
+    SimpleCov.skip "/db/"
+    SimpleCov.skip "/spec/"
+    SimpleCov.skip "/config/"
 
-
-    # Exclude everything related to invoices or market_sales
-    add_filter %r{app/.*/invoices}
-    add_filter %r{app/.*/market_sales}
-    add_filter %r{app/.*/invoices}
-    add_filter %r{app/.*/butter_makes}
-    add_filter %r{app/.*/butter_stocks}
+    SimpleCov.skip %r{app/.*/invoices}
+    SimpleCov.skip %r{app/.*/market_sales}
+    SimpleCov.skip %r{app/.*/butter_makes}
+    SimpleCov.skip %r{app/.*/butter_stocks}
 
     enable_coverage :branch
 
-    # Local thresholds (only enforced when SimpleCov is enabled)
-   # minimum_coverage 85
+    # Local thresholds
+    # minimum_coverage 85
     minimum_coverage branch: 70
   end
 
-  # If you ever run specs in parallel (e.g. parallel_tests), give each
-  # process a unique command_name so coverage can be merged.
   if ENV["TEST_ENV_NUMBER"]
     SimpleCov.command_name "rspec-#{ENV['TEST_ENV_NUMBER']}"
   end
 
-  # On CI (when explicitly enabled), also print a brief text summary
   if ENV["CI"] == "true"
     SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
       SimpleCov::Formatter::HTMLFormatter,
@@ -46,6 +41,8 @@ if enable_simplecov
 
   puts "SimpleCov started..."
 end
+
+ 
 # --------------------------------------------------------------------------
 
 # Boot the Rails app

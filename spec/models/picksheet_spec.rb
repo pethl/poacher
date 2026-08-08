@@ -14,15 +14,36 @@ RSpec.describe Picksheet, type: :model do
         .with_foreign_key(:assigned_user_id)
     end
 
-    it { should belong_to(:contact) }
+    it { should belong_to(:contact).optional }
 
     it { should belong_to(:created_by).class_name('User').optional }
     it { should belong_to(:updated_by).class_name('User').optional }
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:date_order_placed) }
-    it { should validate_presence_of(:contact_id) }
+    it 'requires date_order_placed with custom message' do
+      picksheet = build(
+        :picksheet,
+        date_order_placed: nil
+      )
+
+      expect(picksheet).to be_invalid
+      expect(picksheet.errors[:date_order_placed]).to include(
+        "Please enter Date Order Placed"
+      )
+    end
+
+    it 'requires contact_id with custom message' do
+      picksheet = build(
+        :picksheet,
+        contact: nil
+      )
+
+      expect(picksheet).to be_invalid
+      expect(picksheet.errors[:contact_id]).to include(
+        "Please select Customer"
+      )
+    end
   end
 
   describe 'creation_source enum' do
@@ -36,14 +57,14 @@ RSpec.describe Picksheet, type: :model do
     end
 
     it 'defaults new persisted picksheets to staff' do
-      picksheet = FactoryBot.create(:picksheet)
+      picksheet = create(:picksheet)
 
       expect(picksheet.creation_source).to eq('staff')
       expect(picksheet).to be_staff
     end
 
     it 'supports an external source name for external orders' do
-      picksheet = FactoryBot.create(
+      picksheet = create(
         :picksheet,
         creation_source: :external,
         external_source_name: 'Shopify'
@@ -56,12 +77,12 @@ RSpec.describe Picksheet, type: :model do
 
   describe 'scopes' do
     it 'returns in ascending order of date_order_placed' do
-      p1 = FactoryBot.create(
+      p1 = create(
         :picksheet,
         date_order_placed: Date.new(2023, 5, 1)
       )
 
-      p2 = FactoryBot.create(
+      p2 = create(
         :picksheet,
         date_order_placed: Date.new(2023, 5, 2)
       )
@@ -74,9 +95,9 @@ RSpec.describe Picksheet, type: :model do
 
   describe '#number_of_products' do
     it 'returns count of associated picksheet_items' do
-      picksheet = FactoryBot.create(:picksheet)
+      picksheet = create(:picksheet)
 
-      FactoryBot.create_list(
+      create_list(
         :picksheet_item,
         3,
         picksheet: picksheet
@@ -88,15 +109,15 @@ RSpec.describe Picksheet, type: :model do
 
   describe '#number_of_items' do
     it 'returns the total count across associated picksheet items' do
-      picksheet = FactoryBot.create(:picksheet)
+      picksheet = create(:picksheet)
 
-      FactoryBot.create(
+      create(
         :picksheet_item,
         picksheet: picksheet,
         count: 2
       )
 
-      FactoryBot.create(
+      create(
         :picksheet_item,
         picksheet: picksheet,
         count: 3
@@ -108,12 +129,12 @@ RSpec.describe Picksheet, type: :model do
 
   describe '#picksheet_title_detail' do
     it 'returns formatted delivery date, contact name, and product count' do
-      picksheet = FactoryBot.create(
+      picksheet = create(
         :picksheet,
         delivery_required_by: Date.new(2025, 5, 1)
       )
 
-      FactoryBot.create_list(
+      create_list(
         :picksheet_item,
         2,
         picksheet: picksheet
@@ -127,7 +148,7 @@ RSpec.describe Picksheet, type: :model do
 
   describe '#full_delivery_info' do
     it 'returns formatted date and time if present' do
-      picksheet = FactoryBot.build(
+      picksheet = build(
         :picksheet,
         delivery_required_by: Date.new(2025, 5, 2),
         delivery_time_of_day: "AM"
@@ -139,7 +160,7 @@ RSpec.describe Picksheet, type: :model do
     end
 
     it 'returns date only if time is missing' do
-      picksheet = FactoryBot.build(
+      picksheet = build(
         :picksheet,
         delivery_required_by: Date.new(2025, 5, 2),
         delivery_time_of_day: nil
@@ -151,7 +172,7 @@ RSpec.describe Picksheet, type: :model do
     end
 
     it 'returns empty string if date is nil' do
-      picksheet = FactoryBot.build(
+      picksheet = build(
         :picksheet,
         delivery_required_by: nil
       )
