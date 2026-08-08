@@ -1,23 +1,23 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Turn, type: :model do
   describe 'associations' do
-  it { should belong_to(:makesheet) }
+    it { should belong_to(:makesheet) }
 
-  
+    it do
+      should belong_to(:created_by)
+        .class_name('User')
+        .optional
+    end
 
-  it do
-    should belong_to(:created_by)
-      .class_name('User')
-      .optional
+    it do
+      should belong_to(:updated_by)
+        .class_name('User')
+        .optional
+    end
   end
-
-  it do
-    should belong_to(:updated_by)
-      .class_name('User')
-      .optional
-  end
-end
 
   describe 'validations' do
     subject do
@@ -28,8 +28,23 @@ end
       )
     end
 
-    it { should validate_presence_of(:turn_date) }
-    it { should validate_presence_of(:turn_method) }
+    it 'requires a turn date' do
+      turn = build(:turn, turn_date: nil)
+
+      expect(turn).to be_invalid
+      expect(turn.errors[:turn_date]).to include(
+        "Please enter the turn date."
+      )
+    end
+
+    it 'requires a turn method' do
+      turn = build(:turn, turn_method: nil)
+
+      expect(turn).to be_invalid
+      expect(turn.errors[:turn_method]).to include(
+        "Please select how the cheeses were turned."
+      )
+    end
 
     it do
       should validate_inclusion_of(:turn_method)
@@ -44,7 +59,9 @@ end
       )
 
       expect(turn).to be_invalid
-      expect(turn.errors[:turned_by]).to include("can't be blank")
+      expect(turn.errors[:turned_by]).to include(
+        "Please select who turned the cheeses."
+      )
     end
 
     it 'allows turned_by to be blank for a Florence turn' do

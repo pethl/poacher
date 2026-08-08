@@ -1,5 +1,16 @@
 module ApplicationHelper
 
+    # --- Dev only http address qr codeHelpers ---
+  require "socket"
+
+    def development_url
+      ip = Socket.ip_address_list
+                .find { |addr| addr.ipv4_private? && !addr.ipv4_loopback? }
+                &.ip_address
+
+      "http://#{ip}:3000"
+    end
+
   # --- Turbo and Page Helpers ---
   def render_turbo_stream_flash_messages
     turbo_stream.prepend "flash", partial: "layouts/flash"
@@ -84,6 +95,23 @@ module ApplicationHelper
       options.merge!(html_options)
 
       type == :button ? button_tag(label, options) : link_to(label, path, options)
+    end
+
+    # primary use in Contacts
+    def record_card_link_class
+      "block
+      border-2 border-gray-300
+      rounded-lg
+      shadow-sm
+      p-4
+      bg-white
+      hover:border-green-600
+      hover:bg-green-50
+      hover:shadow-xl
+      hover:scale-[1.02]
+      cursor-pointer
+      transition-all
+      duration-200"
     end
 
 
@@ -389,5 +417,14 @@ module ApplicationHelper
   #DO NOT DELETE - USED IN GRADING NOTE WHERE NAME IS TEXT ENTERED
   def initials_from_name(name)
     name.to_s.split.map(&:first).join.upcase.presence
+  end
+
+  #DO NOT DELETE - USED IN CALCS and PICKSHEET get_weight
+  def calculation_products
+    (
+      Reference.values_for("sale_product") +
+      Reference.values_for("sale_product_butter") +
+      Reference.values_for("cut_guest_cheeses")
+    ).uniq
   end
 end

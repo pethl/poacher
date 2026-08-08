@@ -25,7 +25,7 @@ x18. Reference
 x19. ValidationRange
 x20. Location
 
-21. Staff
+x21. Staff
 x22. User
 
 23. Supporting operational records
@@ -34,3 +34,4 @@ x    - Cleaning
 x   - ScaleCheck
 x   - Breakages
     - Butter
+    - palletised distribution

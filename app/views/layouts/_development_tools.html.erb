@@ -1,0 +1,16 @@
+<% qr = RQRCode::QRCode.new(development_url) %>
+
+<<div class="fixed bottom-3 right-3 bg-white/90 backdrop-blur
+            border border-green-600 rounded-lg shadow-lg
+            p-2 z-50">
+
+  <div class="text-[10px] font-semibold text-center text-green-700 mb-1">
+    📱 Dev
+  </div>
+
+  <%= raw qr.as_svg(
+        module_size: 1.5,
+        standalone: true,
+        use_path: true
+      ) %>
+  </div>

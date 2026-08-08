@@ -1,56 +1,66 @@
 <!DOCTYPE html>
 <html class="scroll-smooth">
-  <head>
-    <title><%= yield(:title) %></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= yield(:title) %></title>
 
-    <!-- Styles -->
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css", media: "all" %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <!-- Styles -->
+  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css", media: "all" %>
 
 
-    <!-- Favicon -->
-    <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
-    <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' %>
+  <!-- Favicon -->
+  <%= favicon_link_tag 'favicon.png', type: 'image/png' %>
+  <%= favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180' %>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-    <!-- JavaScript -->
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
-    <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
-    <!-- for QRcode -->
-    <script src="https://unpkg.com/html5-qrcode"></script>
-  
+  <!-- JavaScript -->
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.turbo.min.js"></script>
+  <script src="https://kit.fontawesome.com/d868e3ba9e.js" crossorigin="anonymous"></script>
+  <!-- for QRcode -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <% if content_for?(:head) %>
-      <%= yield :head %>
-    <% end %>
-  </head>
+
+  <% if content_for?(:head) %>
+  <%= yield :head %>
+  <% end %>
+</head>
 
 <body class="min-h-screen flex flex-col overflow-x-hidden bg-white text-gray-900">
 
-    <%= render "layouts/header" %>
+  <%= render "layouts/header" %>
 
-   <main class="flex-grow pt-20 px-4">
-      <% if flash.present? %>
-        <div id="flash" class="text-center ">
-          <%= render "layouts/flash" %> 
-        </div>
-      <% end %>
+  <main class="flex-grow pt-20 px-4">
+    <% if flash.present? %>
+    <div id="flash" class="text-center ">
+      <%= render "layouts/flash" %>
+    </div>
+    <% end %>
 
-      <div class="mt-2">
-        <%= yield %>
-      </div>
-    </main>
+    <div class="mt-2">
+      <%= yield %>
+    </div>
+  </main>
 
-    <footer></footer>
-  </body>
+  <% if Rails.env.development? %>
+  <footer>
+    <div class="fixed bottom-4 right-4 z-50 bg-red-500 text-white p-4">
+      DEV TOOLS TEST
+    </div>
+
+    <%= render "layouts/development_tools" %>
+  </footer>
+  <% end %>
+</body>
+
 </html>

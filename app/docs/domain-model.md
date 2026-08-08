@@ -502,30 +502,27 @@ Each Picksheet belongs to a customer and contains one or more Picksheet Items de
 
 From a production perspective, the Picksheet is the document used by staff to identify what must be cut, packed and made ready for dispatch. Additional operational processes, including washing requirements, are linked to the Picksheet through associated records.
 
+# Notes
+created_by_id      immutable audit creator
+updated_by_id      last person to change the record
+assigned_user_id   current operational owner; can change
+creation_source    how the Picksheet entered Poacher
+
+
 ### Future Picksheet Sources
 
 Picksheets may later be created by trusted wholesale customers with system access. These users may also be linked to a Contact. Customer-created Picksheets will require staff approval before entering the production workflow.
 
 Picksheets may also be created from online retail orders received through an external API. The relationship between these orders and Contact records will be decided when that integration is designed.
 
-### Picksheet Item
+### Picksheet Items
+A Picksheet Item represents an individual product requirement within a wholesale Picksheet.
+Each item records the product or reserved Makesheet batch to be prepared, together with the required size, quantity, pricing option and any customer-specific cutting or packing instructions.
 
-A **Picksheet Item** represents an individual product line on a picksheet.
+Standard cheese items use the Calculation table to convert the selected product and size into an expected production weight. Butter and guest cheeses follow their own fixed-size rules.
+Some customers may select a specific Makesheet batch rather than a generic product. In these cases the Picksheet Item links directly to that Makesheet so production staff know exactly which batch to use.
 
-It may contain:
-
-- associated makesheet
-- product
-- size
-- count
-- weight
-- product code
-- selling price
-- best-before date
-- pricing method
-- custom notes
-
-Linking a picksheet item to a makesheet supports traceability from an ordered product back to its production batch.
+Picksheet Items form the detailed production instructions used for cutting, packing, washing and dispatch preparation.
 
 ### Invoice
 

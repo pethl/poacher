@@ -1,66 +1,66 @@
 <div class="max-w-xl mx-auto mt-4 bg-white p-4">
   <%= form_with(model: calculation, class: "contents", local: true) do |form| %>
 
-    <% if calculation.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-600 px-3 py-2 font-medium rounded-lg mt-3">
-        <h2><%= pluralize(calculation.errors.count, "error") %> prohibited this calculation from being saved:</h2>
-        <ul class="list-disc pl-5">
-          <% calculation.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+  <% if calculation.errors.any? %>
+  <div id="error_explanation" class="bg-red-50 text-red-600 px-3 py-2 font-medium rounded-lg mt-3">
+    <h2><%= pluralize(calculation.errors.count, "error") %> prohibited this calculation from being saved:</h2>
+    <ul class="list-disc pl-5">
+      <% calculation.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
 
-    <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
-      <!-- Product (dropdown from Reference: sale_product) -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :product %>
-      </label>
-      <div class="text-left">
-        <%= form.select :product,
-                        options_for_select(sale_product, calculation.product),
-                        { prompt: "Please select" },
-                        class: field_class_flex %>
-      </div>
+  <div class="grid grid-cols-2 gap-x-5 gap-y-3 items-center">
+    <!-- Product (dropdown from Reference: sale_product) -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :product %>
+    </label>
+    <div class="text-left">
+      <%= form.select :product,
+                options_for_select(calculation_products, calculation.product),
+                { prompt: "Please select" },
+                class: field_class_flex %>
+    </div>
 
-      <!-- Size (dropdown from Reference: wedge_sizes) -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :size %>
-      </label>
-      <div class="text-left">
-            <%= form.select :size,
+    <!-- Size (dropdown from Reference: wedge_sizes) -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :size %>
+    </label>
+    <div class="text-left">
+      <%= form.select :size,
             options_for_select(calculation_sizes, calculation.size.to_s.strip),
             { prompt: "Please select" },
             class: field_class_flex %>
-      </div>
-     
-
-      <!-- Weight -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :weight %> (g)
-      </label>
-      <div class="text-left">
-        <%= form.number_field :weight, step: 1, class: field_class_flex_med %>
-      </div>
-
-      <!-- Notes -->
-      <label class="text-right font-semibold text-gray-700">
-        <%= form.label :notes %>
-      </label>
-      <div class="text-left">
-        <%= form.text_area :notes, rows: 3, class: field_class_flex %>
-      </div>
-
-      <!-- Back -->
-      <div class="text-left mt-2">
-        <%= link_to "← Back to Calculations", calculations_path, class: clear_button_class %>
-      </div>
-
-      <!-- Submit -->
-      <div class="text-left mt-2">
-        <%= form.submit (calculation.persisted? ? "Update Calculation" : "Create Calculation"), class: fill_button_class %>
-      </div>
     </div>
+
+
+    <!-- Weight -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :weight %> (g)
+    </label>
+    <div class="text-left">
+      <%= form.number_field :weight, step: 1, class: field_class_flex_med %>
+    </div>
+
+    <!-- Notes -->
+    <label class="text-right font-semibold text-gray-700">
+      <%= form.label :notes %>
+    </label>
+    <div class="text-left">
+      <%= form.text_area :notes, rows: 3, class: field_class_flex %>
+    </div>
+
+    <!-- Back -->
+    <div class="text-left mt-2">
+      <%= link_to "← Back to Calculations", calculations_path, class: clear_button_class %>
+    </div>
+
+    <!-- Submit -->
+    <div class="text-left mt-2">
+      <%= form.submit (calculation.persisted? ? "Update Calculation" : "Create Calculation"), class: fill_button_class %>
+    </div>
+  </div>
   <% end %>
 </div>

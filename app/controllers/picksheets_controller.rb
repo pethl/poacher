@@ -2,9 +2,19 @@ class PicksheetsController < ApplicationController
   require 'prawn'
   require 'prawn/table'
   before_action :authenticate_user!
-  before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
-  before_action :set_picksheets, only: [:index, :hold_picksheets, :assigned_picksheets, :cutting_picksheets, :shipped_picksheets, :daily_cheese_manifest, :dispatch_and_collection]
-  
+  before_action :set_picksheet, only: %i[show edit update destroy print_picksheet_pdf]
+  before_action :set_contacts, only: %i[new edit create update]
+
+  before_action :set_picksheets,
+                only: %i[
+                  index
+                  hold_picksheets
+                  assigned_picksheets
+                  cutting_picksheets
+                  shipped_picksheets
+                  daily_cheese_manifest
+                  dispatch_and_collection
+                ]
 
 # ==========================================================
 # CRUD
@@ -26,44 +36,73 @@ class PicksheetsController < ApplicationController
     @total_weight = @picksheet.total_weight_kg
   end
 
-  # GET /picksheets/new
   def new
-    @picksheet = Picksheet.new
-    @contacts = Contact.all.ordered
+    @picksheet = Picksheet.new(
+      date_order_placed: Date.current,
+      status: "Assigned",
+      assigned_user: current_user,
+      creation_source: :staff
+    )
   end
 
-  # GET /picksheets/1/edit
   def edit
-    @contacts = Contact.all.ordered
   end
 
-  # POST /picksheets or /picksheets.json
   def create
-    @contacts = Contact.all.ordered
-
     @picksheet = Picksheet.new(picksheet_params)
-    @picksheet.user = current_user  # Associate the picksheet with the current user
+
+    @picksheet.assigned_user ||= current_user
+    @picksheet.creation_source = :staff
 
     respond_to do |format|
       if @picksheet.save
-        format.html { redirect_to picksheet_url(@picksheet), notice: "Picking Sheet was successfully created." }
-        format.json { render :show, status: :created, location: @picksheet }
+        format.html {
+          redirect_to picksheet_url(@picksheet),
+          notice: "Picking Sheet was successfully created."
+        }
+
+        format.json {
+          render :show,
+                status: :created,
+                location: @picksheet
+        }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @picksheet.errors, status: :unprocessable_entity }
+        format.html {
+          render :new,
+                status: :unprocessable_entity
+        }
+
+        format.json {
+          render json: @picksheet.errors,
+                status: :unprocessable_entity
+        }
       end
     end
   end
 
-  # PATCH/PUT /picksheets/1 or /picksheets/1.json
   def update
     respond_to do |format|
       if @picksheet.update(picksheet_params)
-        format.html { redirect_to picksheet_url(@picksheet), notice: "Picking Sheet was successfully updated." }
-        format.json { render :show, status: :ok, location: @picksheet }
+        format.html {
+          redirect_to picksheet_url(@picksheet),
+          notice: "Picking Sheet was successfully updated."
+        }
+
+        format.json {
+          render :show,
+                status: :ok,
+                location: @picksheet
+        }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @picksheet.errors, status: :unprocessable_entity }
+        format.html {
+          render :edit,
+                status: :unprocessable_entity
+        }
+
+        format.json {
+          render json: @picksheet.errors,
+                status: :unprocessable_entity
+        }
       end
     end
   end
@@ -110,10 +149,12 @@ class PicksheetsController < ApplicationController
 
 
   def move_to_cutting_room
-    @picksheets = Picksheet.where(status: "Assigned")
-    @picksheets.update_all(status: "Cutting")
-  
-    redirect_to assigned_picksheets_picksheets_path, notice: "Picksheets moved to Cutting Room!"
+    Picksheet.where(status: "Assigned").find_each do |picksheet|
+      picksheet.update!(status: "Cutting")
+    end
+
+    redirect_to assigned_picksheets_picksheets_path,
+                notice: "Picksheets moved to Cutting Room!"
   end
 
   def daily_cheese_manifest
@@ -177,7 +218,10 @@ class PicksheetsController < ApplicationController
 
 
   def summary
-    @picksheet = Picksheet.includes(:contact, :user, :picksheet_items).find(params[:id])
+    @picksheet = Picksheet
+                .includes(:contact, :assigned_user, :picksheet_items)
+                .find(params[:id])
+
     render layout: false if turbo_frame_request?
   end
   
@@ -186,13 +230,17 @@ class PicksheetsController < ApplicationController
 # ==========================================================
   
   def print_picksheet_pdf
-    @picksheet = Picksheet.find(params[:id])
-  
-    pdf_data = Rails.cache.fetch(["picksheet_pdf", @picksheet.id, @picksheet.updated_at.to_i], expires_in: 12.hours) do
+    pdf_data = Rails.cache.fetch(
+      ["picksheet_pdf", @picksheet.id, @picksheet.updated_at.to_i],
+      expires_in: 12.hours
+    ) do
       PicksheetPdfService.new(@picksheet).generate
     end
-  
-    send_data pdf_data, filename: "picking_sheet.pdf", type: "application/pdf", disposition: "inline"
+
+    send_data pdf_data,
+              filename: "picking_sheet.pdf",
+              type: "application/pdf",
+              disposition: "inline"
   end
 
   def print_manifest_pdf
@@ -266,13 +314,26 @@ class PicksheetsController < ApplicationController
 
 
     # Only allow a list of trusted parameters through. User_id removed to prevent change of ownership, to track who created it
-    def picksheet_params
+   def picksheet_params
       params.require(:picksheet).permit(
-        :status, :date_order_placed, :delivery_required_by, :delivery_time_of_day,
-        :order_number, :contact_telephone_number, :invoice_number, :carrier,
-        :carrier_delivery_date, :carrier_collection_notes, :number_of_boxes,
-        :contact_id
+        :status,
+        :date_order_placed,
+        :delivery_required_by,
+        :delivery_time_of_day,
+        :order_number,
+        :contact_telephone_number,
+        :invoice_number,
+        :carrier,
+        :carrier_delivery_date,
+        :carrier_collection_notes,
+        :number_of_boxes,
+        :contact_id,
+        :assigned_user_id
       )
+    end
+
+    def set_contacts
+      @contacts = Contact.ordered
     end
 
     def set_picksheets
@@ -303,7 +364,7 @@ class PicksheetsController < ApplicationController
         end
       elsif params[:start_date].present? && params[:end_date].nil?
         # "Due Later" - delivery_required_by > end of this week
-        end_of_week = Date.today.end_of_week
+        end_of_week = Date.current.end_of_week
         @picksheets = @picksheets.where("delivery_required_by > ?", end_of_week)
       end
 

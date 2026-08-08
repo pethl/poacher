@@ -3,18 +3,26 @@ class Picksheet < ApplicationRecord
   has_many :picksheet_items, dependent: :destroy
   has_many :wash_picksheets
   has_many :washes, through: :wash_picksheets
-  belongs_to :user
-  belongs_to :contact
+  belongs_to :assigned_user,
+           class_name: "User",
+           foreign_key: :assigned_user_id
+  belongs_to :contact, optional: true # set to optional but reinforced by validation rule
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
   
+  validates :date_order_placed, presence: { message: "Please enter Date Order Placed" }
+  validates :contact_id, presence: { message: "Please select Customer" }
 
-  
-  validates :date_order_placed, presence: true
-  validates :contact_id, presence: true
    
   scope :ordered, -> { order(date_order_placed: :asc) }
-   
+
+  enum :creation_source, {
+    staff: 0,
+    portal: 1,
+    external: 2,
+    file_import: 3
+  }
+    
    def picksheet_title_detail
     "Due: #{self.delivery_required_by&.strftime('%b %d, %Y')} - #{self.contact.business_name}, Products: #{self.number_of_products}"
    end

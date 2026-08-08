@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_08_062052) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -557,15 +557,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_062052) do
     t.integer "number_of_boxes"
     t.integer "contact_id", null: false
     t.string "status", default: "Assigned", null: false
-    t.integer "user_id", null: false
+    t.integer "assigned_user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
+    t.integer "creation_source", default: 0, null: false
+    t.string "external_source_name"
+    t.index ["assigned_user_id"], name: "index_picksheets_on_assigned_user_id"
     t.index ["contact_id"], name: "index_picksheets_on_contact_id"
     t.index ["created_by_id"], name: "index_picksheets_on_created_by_id"
+    t.index ["creation_source"], name: "index_picksheets_on_creation_source"
+    t.index ["external_source_name"], name: "index_picksheets_on_external_source_name"
     t.index ["updated_by_id"], name: "index_picksheets_on_updated_by_id"
-    t.index ["user_id"], name: "index_picksheets_on_user_id"
   end
 
   create_table "references", force: :cascade do |t|
@@ -879,7 +883,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_062052) do
   add_foreign_key "picksheet_items", "users", column: "created_by_id"
   add_foreign_key "picksheet_items", "users", column: "updated_by_id"
   add_foreign_key "picksheets", "contacts"
-  add_foreign_key "picksheets", "users"
+  add_foreign_key "picksheets", "users", column: "assigned_user_id"
   add_foreign_key "picksheets", "users", column: "created_by_id"
   add_foreign_key "picksheets", "users", column: "updated_by_id"
   add_foreign_key "references", "users", column: "created_by_id"

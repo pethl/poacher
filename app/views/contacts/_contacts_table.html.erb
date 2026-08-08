@@ -1,52 +1,55 @@
 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
   <% @contacts.each do |contact| %>
-    <div class="border rounded-lg shadow-sm p-4 bg-white hover:shadow-md transition-shadow duration-300">
-      <div class="font-bold text-lg text-gray-800 mb-2">
-        <%= link_to contact.business_name, contact, class: "underline underline-offset-2 hover:text-blue-600", data: { turbo: false } %>
-      </div>
-      
-      <div class="text-sm text-gray-600 mb-1">
-        <span class="font-medium">Contact:</span> <%= contact.contact_name %>
-      </div>
-      
-      <div class="text-sm text-gray-600 mb-1">
-        <span class="font-medium">Email:</span> <%= contact.email %>
-      </div>
-      
-      <div class="text-sm text-gray-600 mb-1">
-        <span class="font-medium">Mobile:</span> <%= contact.mobile %>
-      </div>
-      
-      <div class="text-sm text-gray-600 mb-1">
-        <span class="font-medium">Phone:</span> <%= contact.phone %>
-      </div>
-      
-      <div class="text-sm text-gray-600 mb-1">
-        <span class="font-medium">Country:</span> <%= contact.country %>
-      </div>
-      
-      <% if contact.payment_terms.present? %>
-        <div class="text-sm mt-2 <%= 'font-semibold text-red-600' if contact.payment_terms == 'Pre Payment Required' %>">
-          Payment Terms: <%= contact.payment_terms %>
-        </div>
-      <% end %>
-
-      <% if contact.sage_delivery_note? %>
-        <div class="text-xs text-green-600 font-semibold mt-2">
-          SAGE Delivery Note
-        </div>
-      <% end %>
-
-      <% if contact.terms_and_conditions.present? || contact.notes.present? %>
-        <div class="text-xs text-gray-500 mt-2">
-          <% if contact.terms_and_conditions.present? %>
-            <div><span class="font-medium">T&Cs:</span> <%= truncate(contact.terms_and_conditions, length: 50) %></div>
-          <% end %>
-          <% if contact.notes.present? %>
-            <div><span class="font-medium">Notes:</span> <%= truncate(contact.notes, length: 50) %></div>
-          <% end %>
-        </div>
-      <% end %>
+  <%= link_to contact_path(contact),
+      class: record_card_link_class do %>
+  <div class="font-bold text-lg text-gray-800 mb-2">
+    <div class="font-bold text-lg text-gray-800 mb-2">
+      <%= contact.business_name %>
     </div>
+  </div>
+
+  <div class="text-sm text-gray-600 mb-1">
+    <span class="font-medium">Contact:</span> <%= contact.contact_name %>
+  </div>
+
+  <div class="text-sm text-gray-600 mb-1">
+    <span class="font-medium">Email:</span> <%= contact.email %>
+  </div>
+
+  <div class="text-sm text-gray-600 mb-1">
+    <span class="font-medium">Mobile:</span> <%= contact.mobile %>
+  </div>
+
+  <div class="text-sm text-gray-600 mb-1">
+    <span class="font-medium">Phone:</span> <%= contact.phone %>
+  </div>
+
+  <div class="text-sm text-gray-600 mb-1">
+    <span class="font-medium">Country:</span> <%= contact.country %>
+  </div>
+
+  <% if contact.payment_terms.present? %>
+  <div class="text-sm mt-2 <%= 'font-semibold text-red-600' if contact.payment_terms == 'Pre Payment Required' %>">
+    Payment Terms: <%= contact.payment_terms %>
+  </div>
+  <% end %>
+
+  <% if contact.sage_delivery_note? %>
+  <div class="text-xs text-green-600 font-semibold mt-2">
+    SAGE Delivery Note
+  </div>
+  <% end %>
+
+  <% if contact.terms_and_conditions.present? || contact.notes.present? %>
+  <div class="text-xs text-gray-500 mt-2">
+    <% if contact.terms_and_conditions.present? %>
+    <div><span class="font-medium">T&Cs:</span> <%= truncate(contact.terms_and_conditions, length: 50) %></div>
+    <% end %>
+    <% if contact.notes.present? %>
+    <div><span class="font-medium">Notes:</span> <%= truncate(contact.notes, length: 50) %></div>
+    <% end %>
+  </div>
+  <% end %>
+  <% end %>
   <% end %>
 </div>

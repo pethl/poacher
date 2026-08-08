@@ -5,7 +5,8 @@ FactoryBot.define do
     delivery_time_of_day { "AM" }
 
     contact
-    user
+    association :assigned_user, factory: :user
+    creation_source { :staff }
 
     status { "Hold" }
 

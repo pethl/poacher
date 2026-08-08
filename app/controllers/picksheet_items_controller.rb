@@ -63,8 +63,18 @@ class PicksheetItemsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render :new, status: :unprocessable_entity }
-        format.html         { render :new, status: :unprocessable_entity }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            helpers.dom_id(PicksheetItem.new),
+            partial: "picksheet_items/row_form",
+            locals: {
+              picksheet: @picksheet,
+              picksheet_item: @picksheet_item
+            }
+          ), status: :unprocessable_entity
+        end
+
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end

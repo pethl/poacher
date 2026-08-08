@@ -7,7 +7,7 @@
                     data: { turbo: true },
                     html: { class: "form line-item-date" } do |form| %>
 
-        <%= render "picksheet_items/form_fields",
+      <%= render "picksheet_items/form_fields",
                    form: form,
                    picksheet: picksheet,
                    picksheet_item: picksheet_item,
@@ -23,12 +23,24 @@
                    checkbox_class: checkbox_class,
                    field_class_flex_med: field_class_flex_med %>
 
-        <div class="mt-4 flex justify-end space-x-2">
-          <%= form.submit "Save Line Item", class: tight_fill_button_class %>
-          <%= link_to "Cancel",
-                picksheet_picksheet_item_path(picksheet, picksheet_item, format: :turbo_stream),
+      <div class="mt-4 flex justify-end space-x-2">
+        <%= form.submit "Save Line Item", class: tight_fill_button_class %>
+
+        <% if picksheet_item.persisted? %>
+        <%= link_to "Cancel",
+                picksheet_picksheet_item_path(
+                  picksheet,
+                  picksheet_item,
+                  format: :turbo_stream
+                ),
                 class: tight_clear_button_class %>
-        </div>
+        <% else %>
+        <%= link_to "Cancel",
+                picksheet_path(picksheet),
+                data: { turbo_frame: "_top" },
+                class: tight_clear_button_class %>
+        <% end %>
+      </div>
       <% end %>
     </div>
   </td>

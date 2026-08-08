@@ -1,58 +1,59 @@
 class ContactsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_contact, only: %i[ show edit update destroy ]
 
-  # GET /contacts or /contacts.json
+  before_action :set_contact,
+                only: %i[
+                  show
+                  edit
+                  update
+                  destroy
+                  search_makesheets
+                  link_makesheets
+                ]
+
+  # ==========================================================
+  # CRUD
+  # ==========================================================
+
+  # GET /contacts
   def index
-    @contacts = Contact.all.order(:business_name)
+    @contacts = Contact.all
 
-    # Apply search filter if present
+    # Search by business name
     if params[:search].present?
-      @contacts = @contacts.where("business_name ILIKE ?", "%#{params[:search]}%")
+      @contacts = @contacts.where(
+        "business_name ILIKE ?",
+        "%#{params[:search]}%"
+      )
     end
-  
-    # Apply sorting if present
-    if params[:column].present? && params[:direction].present?
-      @contacts = @contacts.order("#{params[:column]} #{params[:direction]}")
-    else
-      @contacts = @contacts.order(:business_name) # Default ordering
-    end
+
+    # Whitelisted sorting
+    sortable_columns = %w[
+      business_name
+      contact_name
+      reference
+      email
+      country
+    ]
+
+    column =
+      params[:column].presence_in(sortable_columns) ||
+      "business_name"
+
+    direction =
+      params[:direction] == "desc" ? "desc" : "asc"
+
+    @contacts = @contacts.order(column => direction)
 
     respond_to do |format|
-      format.html # Normal page load
-      format.turbo_stream # Handles Turbo update
+      format.html
+      format.turbo_stream
     end
   end
 
-  # GET /contacts/1 or /contacts/1.json
+  # GET /contacts/1
   def show
-    @contact = Contact.includes(:makesheets).find(params[:id])
-    @picksheets = @contact.picksheets
-                          .includes(:user) # for taken by initials
-                          .order(date_order_placed: :desc, id: :desc)
-    @makesheets = Makesheet.where(contact_id: nil).where.not(status: "Finished").where.not(grade: [nil, '']).ordered # Only unlinked makesheets
-
-  end
-
-  def search_makesheets
-    @contact = Contact.find(params[:id])
-    if params[:make_date].present?
-      @makesheets = Makesheet.where(make_date: params[:make_date], contact_id: nil)
-    else
-      @makesheets = Makesheet.where(contact_id: nil).where.not(status: "Finished")
-    end
-    render :show
-  end
-
-  def link_makesheets
-    @contact = Contact.find(params[:id])
-
-    selected_makesheets = Makesheet.where(id: params[:makesheet_ids])
-
-    # Link the selected makesheets to the contact
-    selected_makesheets.update_all(contact_id: @contact.id)
-
-    redirect_to @contact, notice: "Makesheets linked successfully!"
+    prepare_show_data
   end
 
   # GET /contacts/new
@@ -64,52 +65,155 @@ class ContactsController < ApplicationController
   def edit
   end
 
-  # POST /contacts or /contacts.json
+  # POST /contacts
   def create
     @contact = Contact.new(contact_params)
 
     respond_to do |format|
       if @contact.save
-        format.html { redirect_to contact_url(@contact), notice: "Contact was successfully created." }
-        format.json { render :show, status: :created, location: @contact }
+        format.html {
+          redirect_to contact_url(@contact),
+                      notice: "Contact was successfully created."
+        }
+
+        format.json {
+          render :show,
+                 status: :created,
+                 location: @contact
+        }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
+        format.html {
+          render :new,
+                 status: :unprocessable_entity
+        }
+
+        format.json {
+          render json: @contact.errors,
+                 status: :unprocessable_entity
+        }
       end
     end
   end
 
-  # PATCH/PUT /contacts/1 or /contacts/1.json
+  # PATCH/PUT /contacts/1
   def update
     respond_to do |format|
       if @contact.update(contact_params)
-        format.html { redirect_to contact_url(@contact), notice: "Contact was successfully updated." }
-        format.json { render :show, status: :ok, location: @contact }
+        format.html {
+          redirect_to contact_url(@contact),
+                      notice: "Contact was successfully updated."
+        }
+
+        format.json {
+          render :show,
+                 status: :ok,
+                 location: @contact
+        }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
+        format.html {
+          render :edit,
+                 status: :unprocessable_entity
+        }
+
+        format.json {
+          render json: @contact.errors,
+                 status: :unprocessable_entity
+        }
       end
     end
   end
 
-  # DELETE /contacts/1 or /contacts/1.json
+  # DELETE /contacts/1
   def destroy
     @contact.destroy
 
     respond_to do |format|
-      format.html { redirect_to contacts_url, notice: "Contact was successfully destroyed." }
+      format.html {
+        redirect_to contacts_url,
+                    notice: "Contact was successfully destroyed."
+      }
+
       format.json { head :no_content }
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = Contact.find(params[:id])
+  # ==========================================================
+  # Reserved Customer Batches
+  # ==========================================================
+
+  def search_makesheets
+    prepare_show_data
+
+    @makesheets =
+      if params[:make_date].present?
+        available_makesheets.where(make_date: params[:make_date])
+      else
+        available_makesheets
+      end
+
+    render :show
+  end
+
+  def link_makesheets
+    selected_makesheets = Makesheet.where(id: params[:makesheet_ids])
+
+    selected_makesheets.find_each do |makesheet|
+      makesheet.update!(contact: @contact)
     end
 
-    # Only allow a list of trusted parameters through.
-    def contact_params
-      params.require(:contact).permit(:business_name, :contact_name, :reference, :email, :mobile, :phone, :country, :address, :pre_payment, :payment_on_receipt, :days_after_invoice, :terms_and_conditions, :sage_delivery_note, :contact_id, :notes)
-    end
+    redirect_to @contact,
+                notice: "Makesheets linked successfully!"
+  end
+
+  private
+
+  # ==========================================================
+  # Setup
+  # ==========================================================
+
+  def set_contact
+    @contact = Contact.find(params[:id])
+  end
+
+  def prepare_show_data
+    @picksheets = @contact.picksheets
+                          .order(
+                            date_order_placed: :desc,
+                            id: :desc
+                          )
+
+    @makesheets ||= available_makesheets
+  end
+
+  def available_makesheets
+    Makesheet
+      .where(contact_id: nil)
+      .where.not(status: "Finished")
+      .where.not(grade: [nil, ""])
+      .ordered
+  end
+
+  # ==========================================================
+  # Strong params
+  # ==========================================================
+
+  def contact_params
+    params.require(:contact).permit(
+      :business_name,
+      :contact_name,
+      :reference,
+      :email,
+      :mobile,
+      :phone,
+      :country,
+      :address,
+      :pre_payment,
+      :payment_on_receipt,
+      :days_after_invoice,
+      :terms_and_conditions,
+      :sage_delivery_note,
+      :contact_id,
+      :notes
+    )
+  end
 end

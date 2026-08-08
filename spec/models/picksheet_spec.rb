@@ -8,7 +8,12 @@ RSpec.describe Picksheet, type: :model do
     it { should have_many(:wash_picksheets) }
     it { should have_many(:washes).through(:wash_picksheets) }
 
-    it { should belong_to(:user) }
+    it do
+      should belong_to(:assigned_user)
+        .class_name('User')
+        .with_foreign_key(:assigned_user_id)
+    end
+
     it { should belong_to(:contact) }
 
     it { should belong_to(:created_by).class_name('User').optional }
@@ -18,6 +23,35 @@ RSpec.describe Picksheet, type: :model do
   describe 'validations' do
     it { should validate_presence_of(:date_order_placed) }
     it { should validate_presence_of(:contact_id) }
+  end
+
+  describe 'creation_source enum' do
+    it 'defines the expected creation sources' do
+      expect(described_class.creation_sources).to eq(
+        'staff' => 0,
+        'portal' => 1,
+        'external' => 2,
+        'file_import' => 3
+      )
+    end
+
+    it 'defaults new persisted picksheets to staff' do
+      picksheet = FactoryBot.create(:picksheet)
+
+      expect(picksheet.creation_source).to eq('staff')
+      expect(picksheet).to be_staff
+    end
+
+    it 'supports an external source name for external orders' do
+      picksheet = FactoryBot.create(
+        :picksheet,
+        creation_source: :external,
+        external_source_name: 'Shopify'
+      )
+
+      expect(picksheet).to be_external
+      expect(picksheet.external_source_name).to eq('Shopify')
+    end
   end
 
   describe 'scopes' do
