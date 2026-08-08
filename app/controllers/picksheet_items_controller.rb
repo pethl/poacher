@@ -1,22 +1,20 @@
 class PicksheetItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_picksheet
-  before_action :set_picksheet_item, only: %i[edit update destroy]
-  before_action :set_contact_ids, only: %i[new edit create update]
-  before_action :prepare_form_collections, only: [:new, :create, :edit, :update]
+  before_action :set_picksheet_item, only: %i[show edit update destroy]  
+  before_action :prepare_customer_makesheets, only: %i[new edit create update]
+  before_action :prepare_form_collections, only: %i[new edit create update]
 
+  
   # NEW (inline in a frame)
   def new
     @picksheet_item = @picksheet.picksheet_items.build
-    @makesheets = Makesheet.not_finished.where(contact_id: @picksheet.contact_id)
     render layout: false if turbo_frame_request?
   end
 
   # EDIT (inline in a frame)
   def edit
-    @picksheet = Picksheet.find(params[:picksheet_id])
-    @picksheet_item = @picksheet.picksheet_items.find(params[:id])
-  
+
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
@@ -32,8 +30,6 @@ class PicksheetItemsController < ApplicationController
   
   
   def show
-    @picksheet = Picksheet.find(params[:picksheet_id])
-    @picksheet_item = @picksheet.picksheet_items.find(params[:id])
   
     respond_to do |format|
       format.turbo_stream # will use show.turbo_stream.erb
@@ -48,8 +44,6 @@ class PicksheetItemsController < ApplicationController
 
     # keep virtual wedge_size available for re-render if needed
     @picksheet_item.wedge_size = params.dig(:picksheet_item, :wedge_size)
-
-    @makesheets = Makesheet.not_finished.where(contact_id: @picksheet.contact_id) if @contact_ids.include?(@picksheet.contact_id)
 
     if @picksheet_item.save
       respond_to do |format|
@@ -77,9 +71,7 @@ class PicksheetItemsController < ApplicationController
 
   # UPDATE
   def update
-    @picksheet = Picksheet.find(params[:picksheet_id])
-    @picksheet_item = @picksheet.picksheet_items.find(params[:id])
-  
+   
     if @picksheet_item.update(picksheet_item_params)
       respond_to do |format|
         format.turbo_stream # uses update.turbo_stream.erb you already have
@@ -144,23 +136,19 @@ class PicksheetItemsController < ApplicationController
     )
   end
 
-  def set_contact_ids
-    @contact_ids = Makesheet.not_finished.distinct.pluck(:contact_id).compact
+  def prepare_customer_makesheets
+    @makesheets = Makesheet.not_finished.where(contact_id: @picksheet.contact_id)
   end
 
   def prepare_form_collections
-    # however you currently build these for "new"
-    @contact_ids = Makesheet.not_finished.distinct.pluck(:contact_id)
-    @makesheets  = Makesheet.not_finished.where(contact_id: @picksheet.contact_id) if @contact_ids.include?(@picksheet.contact_id)
-  
-    # if these are helpers already, skip; else set ivars or helpers so the views/partials see them
-    @sale_product         = Reference.where(group: "sale_product", active: true).pluck(:value)
-    @sale_product_butter  = Reference.where(group: "sale_product_butter", active: true).pluck(:value)
-    @sale_product_other   = Reference.where(group: "sale_product_other", active: true).pluck(:value)
-    @cut_guest_cheeses    = Reference.where(group: "cut_guest_cheeses", active: true).pluck(:value)
-    @cheese_accompaniments= Reference.where(group: "cheese_accompaniments", active: true).pluck(:value)
-    @sale_size            = Reference.where(group: "sale_size", active: true).pluck(:value)
-    @wedges_sizes         = Reference.where(group: "wedges_sizes", active: true).pluck(:value)
-    @sale_pricing         = Reference.where(group: "sale_pricing", active: true).pluck(:value)
+   
+    @sale_product          = Reference.values_for("sale_product")
+    @sale_product_butter   = Reference.values_for("sale_product_butter")
+    @sale_product_other    = Reference.values_for("sale_product_other")
+    @cut_guest_cheeses     = Reference.values_for("cut_guest_cheeses")
+    @cheese_accompaniments = Reference.values_for("cheese_accompaniments")
+    @sale_size             = Reference.values_for("sale_size")
+    @wedges_sizes          = Reference.values_for("wedges_sizes")
+    @sale_pricing          = Reference.values_for("sale_pricing")
   end
 end

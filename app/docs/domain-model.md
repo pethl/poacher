@@ -494,21 +494,19 @@ Contacts are linked to customer orders (Picksheets) and may also be referenced f
 
 The system does not store suppliers or other business contacts.
 
-### Picksheet
+## Picksheets
 
-A **Picksheet** represents a customer order or fulfilment instruction.
+A Picksheet represents a wholesale customer order and acts as the primary production work order within the cheesemaking process.
 
-It records:
+Each Picksheet belongs to a customer and contains one or more Picksheet Items defining the products, quantities, cutting and packaging requirements to be prepared. Picksheets record the order date, required delivery date and other operational information needed to fulfil the order.
 
-- customer
-- date the order was placed
-- required delivery date and time
-- order number
-- invoice number
-- carrier details
-- number of boxes
-- assigned user
-- status
+From a production perspective, the Picksheet is the document used by staff to identify what must be cut, packed and made ready for dispatch. Additional operational processes, including washing requirements, are linked to the Picksheet through associated records.
+
+### Future Picksheet Sources
+
+Picksheets may later be created by trusted wholesale customers with system access. These users may also be linked to a Contact. Customer-created Picksheets will require staff approval before entering the production workflow.
+
+Picksheets may also be created from online retail orders received through an external API. The relationship between these orders and Contact records will be decided when that integration is designed.
 
 ### Picksheet Item
 
@@ -597,19 +595,13 @@ Records cleaning and foreign-body checks for production areas and equipment, inc
 
 The record may be signed or completed by several staff members.
 
-### Breakage
+## Breakages
 
-A **Breakage** records damaged tools or equipment that may present a contamination risk.
+A Breakage records any equipment damage or breakage identified within the Cutting Room as part of the site's food safety and health & safety procedures.
 
-It can record breakage involving:
+A daily record is maintained, even when no breakages occur, providing a complete audit trail. Where a breakage is identified, the record captures the type of equipment involved, whether product contamination occurred, the corrective action taken, and the user completing the record.
 
-- knives
-- cutting boards or wires
-- ringing-machine wires
-- cutting springs
-- other equipment
-
-It also records whether product was contaminated and what action was taken.
+Monthly blank records may be generated in advance to provide operators with a visual prompt to complete the daily check.
 
 ### Chiller Check
 
@@ -694,11 +686,29 @@ A value should only appear once within a reference group.
 
 ## Calculation
 
-Calculation stores standard cheese sizes and their equivalent weights.
+# Purpose
+The Calculation model defines the standard weight conversions used throughout the production system. It translates the product and size selected on a Picksheet into a standard weight in grams, allowing accurate production planning, wash calculations, and reporting.
+Calculations are considered reference data and should only be changed deliberately. All weights are stored in grams.
 
-It is used when creating wash records and picksheets to convert named product sizes into actual weights.
+# Business Rules
+Every active standard cheese product must have a Calculation for every active sale size.
+Every active butter product must have a single Calculation for its standard pack size.
+Every active guest cheese must have a single Calculation for its standard sale size.
+Grated cheese requires a single Calculation for its standard pack size.
+A Calculation with a weight of zero is considered incomplete and should be corrected before use.
 
-Example:
+# System Integrity
+The Calculation Coverage page compares the expected products defined in the Reference model with the Calculations currently stored in the database. This provides an operational integrity check, ensuring new products cannot be introduced without the corresponding production weight conversions.
+Missing or incomplete Calculations should be resolved before new products are used operationally.
+
+# Used By
+Picksheet item weight calculations
+Wash list generation
+Production planning
+Operational reporting
+Product weight integrity auditing
+
+# Example:
 - 1/4 → 500g
 - 1/2 → 1kg
 

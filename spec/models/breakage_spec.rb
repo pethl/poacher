@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe Breakage, type: :model do
   describe 'associations' do
-    it { should belong_to(:staff).optional }
+    it { should belong_to(:user).optional }
   end
 
   describe 'scopes' do

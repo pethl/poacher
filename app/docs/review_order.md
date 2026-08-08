@@ -16,8 +16,8 @@ x11. Wash
 x12. GradingNote
 
 x13. Contact
-14. Picksheet
-15. PicksheetItem
+x14. Picksheet
+x15. PicksheetItem
 x16. Invoice
 x17. MarketSale
 
@@ -31,6 +31,6 @@ x22. User
 23. Supporting operational records
 x   - Chiller
 x    - Cleaning
-    - ScaleCheck
-    - Breakages
+x   - ScaleCheck
+x   - Breakages
     - Butter

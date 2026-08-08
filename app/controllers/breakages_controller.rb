@@ -1,20 +1,21 @@
 class BreakagesController < ApplicationController
   before_action :set_breakage, only: %i[ show edit update destroy ]
+  before_action :set_users, only: %i[new edit create update]
 
   def create_month
-    get_latest_date = Breakage.exists? ? Breakage.all.ordered.last.date : Date.today.beginning_of_month - 1.day
-    i = 31
-    
-    while i >0
-      puts i
-      get_latest_date = get_latest_date+1.day
-      @breakage = Breakage.new
-      @breakage.date = get_latest_date
-      @breakage.save
-      i = i-1
-      
+    latest_date =
+      if Breakage.exists?
+        Breakage.ordered.last.date
+      else
+        Date.current.beginning_of_month - 1.day
+      end
+
+    31.times do
+      latest_date += 1.day
+      Breakage.create!(date: latest_date)
     end
-    redirect_to breakages_path, notice: "One months records have been added." 
+
+    redirect_to breakages_path, notice: "One month's records have been added."
   end
 
   # GET /breakages or /breakages.json
@@ -32,20 +33,19 @@ class BreakagesController < ApplicationController
 
   # GET /breakages/new
   def new
-    @breakage = Breakage.new
-    @staffs = Staff.where(employment_status: "Active").ordered
+    @breakage = Breakage.new(
+      date: Date.current,
+      user: current_user
+    )
   end
 
   # GET /breakages/1/edit
-  def edit
-    @staffs = Staff.where(employment_status: "Active").ordered
+  def edit  
   end
 
   # POST /breakages or /breakages.json
   def create
     @breakage = Breakage.new(breakage_params)
-    @staffs = Staff.where(employment_status: "Active").ordered
-
     respond_to do |format|
       if @breakage.save
         format.html { redirect_to breakages_path, notice: "Breakage was successfully created." }
@@ -61,8 +61,7 @@ class BreakagesController < ApplicationController
   def update
     respond_to do |format|
       if @breakage.update(breakage_params)
-        @staffs = Staff.where(employment_status: "Active").ordered
-        format.html { redirect_to breakages_path, notice: "Breakage was successfully updated." }
+          format.html { redirect_to breakages_path, notice: "Breakage was successfully updated." }
         format.json { render :show, status: :ok, location: @breakage }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -87,8 +86,15 @@ class BreakagesController < ApplicationController
       @breakage = Breakage.find(params[:id])
     end
 
+    def set_users
+      @users = User.where(
+        dept: "Cutting Room",
+        employment_status: "Active"
+      ).ordered
+    end
+
     # Only allow a list of trusted parameters through.
     def breakage_params
-      params.require(:breakage).permit(:date, :breakage_occured, :knife, :cutting_board_cutting_wire, :ringing_machine_cutting_wire, :cutting_spring, :wire_broken_into_2, :wire_unwound, :other_number, :other_desc, :product_contaminated, :action_taken, :staff_id)
+      params.require(:breakage).permit(:date, :breakage_occured, :knife, :cutting_board_cutting_wire, :ringing_machine_cutting_wire, :cutting_spring, :wire_broken_into_2, :wire_unwound, :other_number, :other_desc, :product_contaminated, :action_taken, :user_id)
     end
 end

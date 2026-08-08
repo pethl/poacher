@@ -5,37 +5,10 @@ class PicksheetsController < ApplicationController
   before_action :set_picksheet, only: %i[ show edit update destroy print_picksheet_pdf ]
   before_action :set_picksheets, only: [:index, :hold_picksheets, :assigned_picksheets, :cutting_picksheets, :shipped_picksheets, :daily_cheese_manifest, :dispatch_and_collection]
   
-  # GET /picksheets or /picksheets.json
-  def hold_picksheets
-    @picksheets = @picksheets.where(status: "Hold")
-    @type = "HOLD"
-    render :index
-  end
 
-  def assigned_picksheets
-    @picksheets = @picksheets.where(status: "Assigned")
-    @type = "ASSIGNED"
-    render :index
-  end
-
-  def move_to_cutting_room
-    @picksheets = Picksheet.where(status: "Assigned")
-    @picksheets.update_all(status: "Cutting")
-  
-    redirect_to assigned_picksheets_picksheets_path, notice: "Picksheets moved to Cutting Room!"
-  end
-
-  def cutting_picksheets
-    @picksheets = @picksheets.where(status: "Cutting")
-    @type = "CUTTING"
-    render :index
-  end
-
-  def shipped_picksheets
-    @picksheets = @picksheets.where(status: "Shipped")
-    @type = "SHIPPED"
-    render :index
-  end
+# ==========================================================
+# CRUD
+# ==========================================================
 
   def index
     if params[:start_date].present? && params[:end_date].present? && params[:include_asap].present?
@@ -46,66 +19,6 @@ class PicksheetsController < ApplicationController
       @type = "ALL"
     end
   end
-
-  def daily_cheese_manifest
-    @type   = 'MANIFEST'
-     @status = normalized_status(params[:status]) || "Cutting"
-  
-    # Query for the chosen status
-    @picksheets = Picksheet.includes(:contact, :picksheet_items)
-                           .where(status: @status)
-  
-    # Build grouped data for the HTML view
-    @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @picksheets.select(:id))
-    @final_grouped_items      = group_picksheet_items(@assigned_picksheet_items)
-  
-    @product_names = Reference.where(active: true, group: 'sale_product')
-                              .order(:sort_order).pluck(:value)
-  
-    @product_to_business_names = Hash.new { |h, k| h[k] = [] }
-    @picksheets.each do |p|
-      business = p.contact&.business_name
-      p.picksheet_items.each do |item|
-        name = item.product.to_s.strip
-        @product_to_business_names[name] << business if @product_names.include?(name)
-      end
-    end
-
-     # IMPORTANT: do NOT call send_data or render PDF here
-  # This action should render app/views/picksheets/daily_cheese_manifest.html.erb
-    end
-  
-
-  def dispatch_and_collection
-    @type = 'DISPATCH'
-
-    @assigned_picksheets = Picksheet.includes(:contact)
-                                    .where(status: 'Assigned')
-                                    .where.not(carrier: [nil, ''])
-                                    .order('contacts.business_name ASC')
-
-    # Separate the records where carrier is "Langdons" or "Palletline"
-    @special_carriers = @assigned_picksheets.select { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
-
-    # Get the rest of the records
-    @other_carriers = @assigned_picksheets.reject { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
-
-    # Group both arrays by carrier
-    @grouped_picksheets = (@special_carriers + @other_carriers).group_by(&:carrier)
-
-    # Combine "Tim to Deliver" and "Customer Collect" under a new name
-    combined_carriers = @assigned_picksheets.select { |p| ['Tim to Deliver', 'Customer Collect'].include?(p.carrier) }
-    @grouped_picksheets['Get ready for Tim or farm collections'] = combined_carriers
-
-    # Remove the individual carrier entries for "Tim to Deliver" and "Customer Collect"
-    @grouped_picksheets.delete('Tim to Deliver')
-    @grouped_picksheets.delete('Customer Collect')
-
-    @prepayments = Picksheet.includes(:contact)
-                            .where(status: "Assigned", contacts: { pre_payment: true })
-                            .order("contacts.business_name ASC")
-  end
-  
 
   # GET /picksheets/1 or /picksheets/1.json
   def show
@@ -129,7 +42,7 @@ class PicksheetsController < ApplicationController
     @contacts = Contact.all.ordered
 
     @picksheet = Picksheet.new(picksheet_params)
-    @picksheet.user_id = current_user.id  # Associate the picksheet with the current user
+    @picksheet.user = current_user  # Associate the picksheet with the current user
 
     respond_to do |format|
       if @picksheet.save
@@ -164,6 +77,113 @@ class PicksheetsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+# ==========================================================
+# Workflow
+# ==========================================================
+
+  # GET /picksheets or /picksheets.json
+  def hold_picksheets
+    @picksheets = @picksheets.where(status: "Hold")
+    @type = "HOLD"
+    render :index
+  end
+
+  def assigned_picksheets
+    @picksheets = @picksheets.where(status: "Assigned")
+    @type = "ASSIGNED"
+    render :index
+  end
+
+  def cutting_picksheets
+    @picksheets = @picksheets.where(status: "Cutting")
+    @type = "CUTTING"
+    render :index
+  end
+
+  def shipped_picksheets
+    @picksheets = @picksheets.where(status: "Shipped")
+    @type = "SHIPPED"
+    render :index
+  end
+
+
+
+  def move_to_cutting_room
+    @picksheets = Picksheet.where(status: "Assigned")
+    @picksheets.update_all(status: "Cutting")
+  
+    redirect_to assigned_picksheets_picksheets_path, notice: "Picksheets moved to Cutting Room!"
+  end
+
+  def daily_cheese_manifest
+    @type   = 'MANIFEST'
+     @status = normalized_status(params[:status]) || "Cutting"
+  
+    # Query for the chosen status
+    @picksheets = Picksheet.includes(:contact, :picksheet_items)
+                           .where(status: @status)
+  
+    # Build grouped data for the HTML view
+    @assigned_picksheet_items = PicksheetItem.where(picksheet_id: @picksheets.select(:id))
+    @final_grouped_items      = group_picksheet_items(@assigned_picksheet_items)
+  
+    @product_names = Reference.where(active: true, group: 'sale_product')
+                              .order(:sort_order).pluck(:value)
+  
+    @product_to_business_names = Hash.new { |h, k| h[k] = [] }
+    @picksheets.each do |p|
+      business = p.contact&.business_name
+      p.picksheet_items.each do |item|
+        name = item.product.to_s.strip
+        @product_to_business_names[name] << business if @product_names.include?(name)
+      end
+    end
+
+     # IMPORTANT: do NOT call send_data or render PDF here
+  # This action should render app/views/picksheets/daily_cheese_manifest.html.erb
+  end
+  
+
+  def dispatch_and_collection
+    @type = 'DISPATCH'
+
+    @assigned_picksheets = Picksheet.includes(:contact)
+                                    .where(status: 'Assigned')
+                                    .where.not(carrier: [nil, ''])
+                                    .order('contacts.business_name ASC')
+
+    # Separate the records where carrier is "Langdons" or "Palletline"
+    @special_carriers = @assigned_picksheets.select { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+    # Get the rest of the records
+    @other_carriers = @assigned_picksheets.reject { |p| ['Langdons', 'Palletline'].include?(p.carrier) }
+
+    # Group both arrays by carrier
+    @grouped_picksheets = (@special_carriers + @other_carriers).group_by(&:carrier)
+
+    # Combine "Tim to Deliver" and "Customer Collect" under a new name
+    combined_carriers = @assigned_picksheets.select { |p| ['Tim to Deliver', 'Customer Collect'].include?(p.carrier) }
+    @grouped_picksheets['Get ready for Tim or farm collections'] = combined_carriers
+
+    # Remove the individual carrier entries for "Tim to Deliver" and "Customer Collect"
+    @grouped_picksheets.delete('Tim to Deliver')
+    @grouped_picksheets.delete('Customer Collect')
+
+    @prepayments = Picksheet.includes(:contact)
+                            .where(status: "Assigned", contacts: { pre_payment: true })
+                            .order("contacts.business_name ASC")
+  end
+
+
+  def summary
+    @picksheet = Picksheet.includes(:contact, :user, :picksheet_items).find(params[:id])
+    render layout: false if turbo_frame_request?
+  end
+  
+# ==========================================================
+# Reports / PDFs
+# ==========================================================
   
   def print_picksheet_pdf
     @picksheet = Picksheet.find(params[:id])
@@ -174,12 +194,6 @@ class PicksheetsController < ApplicationController
   
     send_data pdf_data, filename: "picking_sheet.pdf", type: "application/pdf", disposition: "inline"
   end
-
-  def summary
-    @picksheet = Picksheet.includes(:contact, :user, :picksheet_items).find(params[:id])
-    render layout: false if turbo_frame_request?
-  end
-  
 
   def print_manifest_pdf
     status = normalized_status(params[:status]) || "Cutting"
@@ -251,13 +265,13 @@ class PicksheetsController < ApplicationController
     end
 
 
-    # Only allow a list of trusted parameters through.
+    # Only allow a list of trusted parameters through. User_id removed to prevent change of ownership, to track who created it
     def picksheet_params
       params.require(:picksheet).permit(
         :status, :date_order_placed, :delivery_required_by, :delivery_time_of_day,
         :order_number, :contact_telephone_number, :invoice_number, :carrier,
         :carrier_delivery_date, :carrier_collection_notes, :number_of_boxes,
-        :contact_id, :user_id
+        :contact_id
       )
     end
 

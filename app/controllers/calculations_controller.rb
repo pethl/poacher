@@ -4,9 +4,19 @@ class CalculationsController < ApplicationController
   before_action :load_reference_options, only: %i[new edit create update]
 
   # GET /calculations or /calculations.json
-  def index
+ def index
     @calculations = Calculation.order(:product, :size)
     @calculations_by_product = @calculations.group_by(&:product)
+
+    @standard_products = Reference.values_for("sale_product")
+    @butter_products   = Reference.values_for("sale_product_butter")
+    @guest_cheeses     = Reference.values_for("cut_guest_cheeses")
+
+    @product_groups = {
+      "STANDARD CHEESE" => @standard_products,
+      "BUTTER"          => @butter_products,
+      "GUEST CHEESE"    => @guest_cheeses
+    }
   end
 
   # GET /calculations/1 or /calculations/1.json

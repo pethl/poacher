@@ -1,153 +1,267 @@
 <%# app/views/calculations/index.html.erb %>
+
 <div class="overscroll-none">
-  <% content_for :title,      "Poacher: System Calculations" %>
+  <% content_for :title, "Poacher: System Calculations" %>
   <% content_for :page_title, "CALCULATIONS" %>
 
   <div class="mx-auto w-full lg:w-2/3 px-4" data-controller="filter">
-    <!-- Subheading / note -->
+
     <p class="mx-auto mb-4 text-base text-center font-light">
       IMPORTANT: These values convert Picklist options to grams for wash list calculations.
       <br>
       Update with care. All weights are in <strong>grams</strong>.
     </p>
 
-    <!-- Add New Button -->
     <div class="mb-6">
       <b>Open relevant section to Add New Calculation.</b>
     </div>
 
-    <%# Use the COMBINED set (wedges_sizes ∪ sale_size) %>
-    <% sizes_required = calculation_sizes %>
-    <% total_required = sizes_required.size %>
+    <% standard_sizes_required = calculation_sizes %>
 
-    <% @calculations_by_product.each do |product, rows| %>
-      <% # Index rows by normalized size for quick lookups %>
-      <% size_index = rows.index_by { |r| r.size.to_s.strip } %>
+    <% @product_groups.each do |group_name, products| %>
 
-      <% # Compute coverage: must have a row AND weight > 0 %>
-      <% missing    = [] %>
-      <% incomplete = [] %>
+    <h2 class="mt-8 mb-3 text-lg font-semibold text-gray-800">
+      <%= group_name %>
+    </h2>
 
-      <% sizes_required.each do |size| %>
-        <% key = size.to_s.strip %>
-        <% row = size_index[key] %>
-        <% if row.nil? %>
-          <% missing << key %>
-        <% elsif row.weight.to_i <= 0 %>
-          <% incomplete << key %>
-        <% end %>
-      <% end %>
+    <% products.each do |product| %>
 
-      <% coverage_ok = missing.empty? && incomplete.empty? %>
+    <% rows = @calculations_by_product.fetch(product, []) %>
 
-      <% # For client-side filtering %>
-      <% existing_sizes = rows.map { |r| r.size.to_s.strip } %>
+    <% single_size_product =
+             group_name != "STANDARD CHEESE" || product == "Grated" %>
 
-      <div data-filter-target="item"
-           data-filter-value="<%= [product, existing_sizes.join(' ')].join(' ').parameterize %>">
+    <% if single_size_product %>
 
-        <div data-controller="accordion" class="mt-3 border border-gray-200 rounded-lg shadow bg-white overflow-hidden">
+    <% valid_rows = rows.select { |row| row.weight.to_f > 0 } %>
+    <% incomplete_rows = rows.select { |row| row.weight.to_f <= 0 } %>
+    <% coverage_ok = valid_rows.any? %>
 
-          <!-- Accordion header -->
-          <button
-            type="button"
-            data-action="click->accordion#toggle"
-            class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 text-sm border-b transition flex items-center justify-between"
-            aria-expanded="false">
-            <span><%= product %></span>
+    <% else %>
 
-           <% if coverage_ok %>
-              <span class="ml-3 inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                <span class="h-2 w-2 rounded-full bg-green-500"></span>
-                All sizes covered (<%= total_required %>)
-              </span>
+    <% size_index = rows.index_by { |row| row.size.to_s.strip } %>
+
+    <% missing = [] %>
+    <% incomplete = [] %>
+
+    <% standard_sizes_required.each do |size| %>
+    <% key = size.to_s.strip %>
+    <% row = size_index[key] %>
+
+    <% if row.nil? %>
+    <% missing << key %>
+    <% elsif row.weight.to_f <= 0 %>
+    <% incomplete << key %>
+    <% end %>
+    <% end %>
+
+    <% coverage_ok = missing.empty? && incomplete.empty? %>
+
+    <% end %>
+
+    <% existing_sizes = rows.map { |row| row.size.to_s.strip } %>
+
+    <div data-filter-target="item" data-filter-value="<%= [product, existing_sizes.join(' ')].join(' ').parameterize %>">
+
+      <div data-controller="accordion" class="mt-3 border border-gray-200 rounded-lg shadow bg-white overflow-hidden">
+
+        <!-- Header -->
+        <button type="button" data-action="click->accordion#toggle" class="w-full text-left px-4 py-3 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 text-sm border-b transition flex items-center justify-between" aria-expanded="false">
+
+          <span><%= product %></span>
+
+          <% if coverage_ok %>
+
+          <span class="ml-3 inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
+            <span class="h-2 w-2 rounded-full bg-green-500"></span>
+
+            <% if single_size_product %>
+            Covered
             <% else %>
-              <span class="ml-3 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
-                <span class="h-2 w-2 rounded-full bg-red-500"></span>
-                <% if missing.any? %>
-                  Missing <%= missing.size %>
-                <% end %>
-                <% if missing.any? && incomplete.any? %> • <% end %>
-                <% if incomplete.any? %>
-                  Incomplete <%= incomplete.size %>
-                <% end %>
-                / <%= total_required %>
+            All sizes covered (<%= standard_sizes_required.size %>)
+            <% end %>
+          </span>
+
+          <% else %>
+
+          <span class="ml-3 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded">
+            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+
+            <% if single_size_product %>
+            <% if rows.empty? %>
+            Missing calculation
+            <% else %>
+            Needs weight
+            <% end %>
+            <% else %>
+            <% if missing.any? %>
+            Missing <%= missing.size %>
+            <% end %>
+
+            <% if missing.any? && incomplete.any? %>
+            •
+            <% end %>
+
+            <% if incomplete.any? %>
+            Incomplete <%= incomplete.size %>
+            <% end %>
+
+            / <%= standard_sizes_required.size %>
+            <% end %>
+          </span>
+
+          <% end %>
+
+        </button>
+
+        <!-- Body -->
+        <div data-accordion-target="section" class="px-4 py-4 hidden transition-all duration-200 ease-in-out">
+
+          <!-- Add -->
+          <div class="mb-4">
+            <%= link_to "Add to #{product}",
+                            new_calculation_path(product: product),
+                            class: gray_button %>
+          </div>
+
+          <!-- Standard cheese missing sizes -->
+          <% if !single_size_product && !coverage_ok %>
+
+          <div class="mb-3 text-sm space-y-1">
+
+            <% if missing.any? %>
+            <div>
+              <span class="text-gray-600 mr-2">Missing sizes:</span>
+
+              <% missing.each do |missing_size| %>
+              <%= link_to missing_size,
+                                    new_calculation_path(
+                                      product: product,
+                                      size: missing_size
+                                    ),
+                                    class: "inline-block text-xs bg-red-50 text-red-700 border border-red-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-red-100" %>
+              <% end %>
+            </div>
+            <% end %>
+
+            <% if incomplete.any? %>
+            <div>
+              <span class="text-gray-600 mr-2">
+                Needs weight &gt; 0:
               </span>
-            <% end %>
 
-          </button>
+              <% incomplete.each do |size| %>
+              <% row = size_index[size] %>
 
-          <!-- Accordion body -->
-          <div data-accordion-target="section" class="px-4 py-4 hidden transition-all duration-200 ease-in-out">
-
-            <!-- Add-new button prefilling product -->
-            <div class="mb-4">
-              <%= link_to "Add to #{product}", new_calculation_path(product: product), class: gray_button %>
+              <%= link_to size,
+                                    edit_calculation_path(row),
+                                    class: "inline-block text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-yellow-100" %>
+              <% end %>
             </div>
-
-            <!-- Missing / Incomplete chips -->
-            <% unless coverage_ok %>
-              <div class="mb-3 text-sm space-y-1">
-                <% if missing.any? %>
-                  <div>
-                    <span class="text-gray-600 mr-2">Missing sizes:</span>
-                    <% missing.each do |ms| %>
-                      <%= link_to ms,
-                                  new_calculation_path(product: product, size: ms),
-                                  class: "inline-block text-xs bg-red-50 text-red-700 border border-red-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-red-100" %>
-                    <% end %>
-                  </div>
-                <% end %>
-
-                <% if incomplete.any? %>
-                  <div>
-                    <span class="text-gray-600 mr-2">Needs weight &gt; 0:</span>
-                    <% incomplete.each do |isize| %>
-                      <% row = size_index[isize] %>
-                      <%# Link directly to the row needing fix %>
-                      <%= link_to isize,
-                                  edit_calculation_path(row),
-                                  class: "inline-block text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-yellow-100" %>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div>
             <% end %>
-
-            <!-- Table -->
-            <div class="border border-gray-200 rounded">
-              <table class="w-full text-left text-sm">
-                <thead class="text-xs bg-gray-200 text-gray-600 uppercase border-b">
-                  <tr>
-                    <th class="px-3 py-2 w-40">Size</th>
-                    <th class="px-3 py-2 w-28 text-right">Weight (g)</th>
-                    <th class="px-3 py-2">Notes</th>
-                    <th class="px-3 py-2 w-20 text-right">Edit</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% rows.each do |c| %>
-                    <tr class="border-b last:border-b-0 hover:bg-gray-50">
-                      <td class="px-3 py-2">
-                        <%= link_to c.size, calculation_path(c), class: link_class %>
-                      </td>
-                      <td class="px-3 py-2 text-right <%= 'text-red-600 font-semibold' if c.weight.to_i <= 0 %>">
-                        <%= number_with_delimiter(c.weight) %>g
-                      </td>
-                      <td class="px-3 py-2"><%= c.notes %></td>
-                      <td class="px-3 py-2 text-right text-green-600">
-                        <%= link_to "Edit", edit_calculation_path(c), class: link_class %>
-                      </td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
 
           </div>
+
+          <% end %>
+
+          <!-- Single-size product warning -->
+          <% if single_size_product && !coverage_ok %>
+
+          <div class="mb-3 text-sm">
+
+            <% if rows.empty? %>
+
+            <span class="text-red-700">
+              No calculation has been entered for this product.
+            </span>
+
+            <% else %>
+
+            <span class="text-yellow-700 mr-2">
+              Calculation needs a weight greater than 0:
+            </span>
+
+            <% incomplete_rows.each do |row| %>
+            <%= link_to row.size.presence || "Edit",
+                                  edit_calculation_path(row),
+                                  class: "inline-block text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 rounded px-2 py-0.5 mr-1 mb-1 hover:bg-yellow-100" %>
+            <% end %>
+
+            <% end %>
+
+          </div>
+
+          <% end %>
+
+          <!-- Existing calculations -->
+          <div class="border border-gray-200 rounded">
+
+            <table class="w-full text-left text-sm">
+
+              <thead class="text-xs bg-gray-200 text-gray-600 uppercase border-b">
+                <tr>
+                  <th class="px-3 py-2 w-40">Size</th>
+                  <th class="px-3 py-2 w-28 text-right">Weight (g)</th>
+                  <th class="px-3 py-2">Notes</th>
+                  <th class="px-3 py-2 w-20 text-right">Edit</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                <% if rows.any? %>
+
+                <% rows.each do |calculation| %>
+
+                <tr class="border-b last:border-b-0 hover:bg-gray-50">
+
+                  <td class="px-3 py-2">
+                    <%= link_to calculation.size.presence || "—",
+                                        calculation_path(calculation),
+                                        class: link_class %>
+                  </td>
+
+                  <td class="px-3 py-2 text-right <%= 'text-red-600 font-semibold' if calculation.weight.to_f <= 0 %>">
+                    <%= number_with_delimiter(calculation.weight) %>g
+                  </td>
+
+                  <td class="px-3 py-2">
+                    <%= calculation.notes %>
+                  </td>
+
+                  <td class="px-3 py-2 text-right text-green-600">
+                    <%= link_to "Edit",
+                                        edit_calculation_path(calculation),
+                                        class: link_class %>
+                  </td>
+
+                </tr>
+
+                <% end %>
+
+                <% else %>
+
+                <tr>
+                  <td colspan="4" class="px-3 py-4 text-gray-400 italic">
+                    No calculation entered.
+                  </td>
+                </tr>
+
+                <% end %>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
         </div>
       </div>
+    </div>
+
     <% end %>
+    <% end %>
+
   </div>
 </div>
 
