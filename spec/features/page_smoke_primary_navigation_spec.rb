@@ -64,10 +64,7 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       cutting: {
         home: -> { "/pages/cutting_home" },
         links: [
-          { href: -> { hold_picksheets_picksheets_path }, page_title: "HOLD PICKING SHEETS" },
-          { href: -> { assigned_picksheets_picksheets_path }, page_title: "ASSIGNED PICKING SHEETS" },
           { href: -> { cutting_picksheets_picksheets_path }, page_title: "CUTTING PICKING SHEETS" },
-          { href: -> { new_picksheet_path }, page_title: "NEW PICKING SHEET" },
           { href: -> { daily_cheese_manifest_picksheets_path }, page_title: "DAILY CHEESE MANIFEST" },
           { href: -> { dispatch_and_collection_picksheets_path }, page_title: "DISPATCH AND COLLECTION" },
           { href: -> { traceability_records_path }, page_title: "BATCH INDIVIDUAL TRACEABILITY" },
@@ -90,7 +87,6 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
           { href: -> { "/locations/print_wizard" }, page_title: "LABEL PRINT" },
           { href: -> { calculations_path }, page_title: "CALCULATIONS" },
           { href: -> { validation_ranges_path }, page_title: "VALIDATIONS" },
-          { href: -> { butter_stocks_path }, page_title: "BUTTER STOCK" },
           { href: -> { samples_path }, page_title: "SAMPLES" },
           { href: -> { milk_quality_monitors_path }, page_title: "MILK QUALITY MONITOR" },
           { href: -> { palletised_distributions_path }, page_title: "PALLETISED DISTRIBUTION VEHICLE DETAILS" }

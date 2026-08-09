@@ -1,8 +1,4 @@
-
-
-Question
-
-
+### Questions
 
 Need to inspect authentication and business workflow.
 ## Delivery Inspection / Ingredient Batch Change
@@ -30,10 +26,3 @@ Need to inspect authentication and business workflow.
 ## Laboratory Samples
 
 - Where will sample holds and releases be recorded?
-
-
-## Batch Traceability
-
-- Is `total_weight_of_batch` manually confirmed by user or expected to equal the calculated sum of individual weights?
-- Should traceability records and their waste records ever be physically deleted?
-- What does the waste category `T and Bs` mean?
