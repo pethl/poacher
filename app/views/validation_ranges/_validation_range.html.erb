@@ -7,9 +7,9 @@
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Min Value:</strong>
-   
-      <%= validation_range.min_value %>
-    </p>
+
+    <%= validation_range.min_value %>
+  </p>
   </p>
 
   <p class="my-5">
@@ -22,15 +22,15 @@
     <%= validation_range.active? ? "Active" : "Inactive" %>
   </p>
 
-   <p class="my-5">
+  <p class="my-5">
     <strong class="block font-medium mb-1">Created:</strong>
-    <%= validation_range.creator&.full_name || validation_range.created_by %> |
+    <%= validation_range.created_by&.full_name || "—" %>
     <%= validation_range.created_at.strftime("%Y-%m-%d %H:%M") %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Updated:</strong>
-    <%= validation_range.updater&.full_name || validation_range.updated_by %> |
+    <%= validation_range.updated_by&.full_name || "—" %>
     <%= validation_range.updated_at.strftime("%Y-%m-%d %H:%M") %>
   </p>
 

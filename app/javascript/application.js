@@ -41,6 +41,7 @@ import LocationHighlightController from "./controllers/location_highlight_contro
 import TurningController from "./controllers/turning_controller"
 import CheeseWashController from "./controllers/cheese_wash_controller"
 import DialogController from "./controllers/dialog_controller"
+import OfficeTabsController from "./controllers/office_tabs_controller"
 
 import "flowbite"
 import "flatpickr/dist/flatpickr.min.css"
@@ -64,6 +65,7 @@ application.register("location-highlight", LocationHighlightController)
 application.register("turning", TurningController)
 application.register("cheese-wash", CheeseWashController)
 application.register("dialog", DialogController)
+application.register("office-tabs", OfficeTabsController)
 
 document.addEventListener("turbo:load", () => {
   console.log(

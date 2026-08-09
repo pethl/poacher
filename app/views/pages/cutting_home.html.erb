@@ -4,18 +4,12 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
 
     <!-- Unique styling, but now unified layout -->
-    <%= link_to "Hold (#{@hold_picksheets_count})", "/picksheets/hold_picksheets", class: "#{nav_box_inverse_class} mx-auto" %>
-    <%= link_to "Assigned (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: "#{nav_box_assigned_class} mx-auto" %>
     <%= link_to "Cutting (#{@cutting_picksheets_count})", "/picksheets/cutting_picksheets", class: "#{nav_box_cutting_class} mx-auto" %>
-
-    <!-- Main nav items -->
-    <%= link_to "New Picking Sheet", "/picksheets/new", class: "#{nav_box_class} mx-auto" %>
     <%= link_to "Daily Cheese Manifest", "/picksheets/daily_cheese_manifest", class: "#{nav_box_class} mx-auto" %>
     <%= link_to "Dispatch and Collection", "/picksheets/dispatch_and_collection", class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Individual Batch Traceability", "/traceability_records", class: "#{nav_box_class} mx-auto" %>
     <%= link_to "Cheese Batch Weights", "/batch_weights", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Batch Waste Trend", waste_trend_batch_weights_path, class: "#{nav_box_class} mx-auto" %>
     <%= link_to "Calculator", "/vacuum_pouch_calculator", class: "#{nav_box_class} mx-auto" %>
 
 
@@ -25,4 +19,3 @@
 
   </div>
 </div>
-

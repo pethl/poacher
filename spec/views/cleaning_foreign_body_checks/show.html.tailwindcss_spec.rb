@@ -23,7 +23,7 @@ RSpec.describe "cleaning_foreign_body_checks/show", type: :view do
       floor_under_handwash: false,
       compressors: false,
       additional_comments: "MyText",
-      staff: nil
+      user: nil
     ))
   end
 

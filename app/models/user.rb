@@ -5,8 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   after_create :send_welcome_email, :notify_admin
-  has_one :staff, inverse_of: :user
-
+  
   has_many :picksheets, foreign_key: :contact_id
 
   scope :active, -> { where(account_active: true) }

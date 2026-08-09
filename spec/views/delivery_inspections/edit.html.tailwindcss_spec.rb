@@ -44,7 +44,7 @@ RSpec.describe "delivery_inspections/edit", type: :view do
 
       assert_select "textarea[name=?]", "delivery_inspection[comments]"
 
-      assert_select "input[name=?]", "delivery_inspection[staff_id]"
+      assert_select "input[name=?]", "delivery_inspection[user_id]"
 
       assert_select "input[name=?]", "delivery_inspection[staff_signature]"
     end

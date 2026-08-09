@@ -131,8 +131,6 @@ Rails.application.routes.draw do
   resources :samples do 
     collection { post :import }
   end
-  
-  resources :staffs
 
   resources :contacts do
     member do

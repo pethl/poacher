@@ -1,29 +1,34 @@
 class PalletisedDistribution < ApplicationRecord
   include UserTrackable
-  belongs_to :staff, optional: true
-  belongs_to :created_by, class_name: 'User', optional: true
-  belongs_to :updated_by, class_name: 'User', optional: true
-  
+
+  belongs_to :user, optional: true
+
+  belongs_to :created_by, class_name: "User", optional: true
+  belongs_to :updated_by, class_name: "User", optional: true
+
   scope :ordered, -> { order(date: :desc) }
 
-   # Assuming these are the fields you're working with:
-   FIELDS_TO_CHECK = [
-    :company_name, :registration, :trailer_number_type, :temperature, 
-    :vehicle_clean, :destination, :number_of_pallets,
-    :staff_id, :staff_signature, :driver_signature
-  ]
+  FIELDS_TO_CHECK = %i[
+    company_name
+    registration
+    trailer_number_type
+    temperature
+    vehicle_clean
+    destination
+    number_of_pallets
+    user_id
+    staff_signature
+    driver_signature
+  ].freeze
 
   before_validation :set_default_date_if_needed
 
-  # Prevent saving if no fields at all (including date)
   validate :at_least_one_field_present
 
   private
 
   def set_default_date_if_needed
-    if date.blank? && fields_filled?
-      self.date = Date.today
-    end
+    self.date ||= Date.current if fields_filled?
   end
 
   def fields_filled?
@@ -31,8 +36,8 @@ class PalletisedDistribution < ApplicationRecord
   end
 
   def at_least_one_field_present
-    unless date.present? || fields_filled?
-      errors.add(:base, "No fields entered – nothing to save!")
-    end
+    return if date.present? || fields_filled?
+
+    errors.add(:base, "No fields entered – nothing to save!")
   end
 end

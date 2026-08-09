@@ -1,6 +1,9 @@
 class DeliveryInspection < ApplicationRecord
   include UserTrackable
-  belongs_to :staff
+  belongs_to :user
+  belongs_to :created_by, class_name: "User", optional: true
+  belongs_to :updated_by, class_name: "User", optional: true
+  
   has_many :ingredient_batch_changes, dependent: :restrict_with_error
   has_many :makesheets, through: :ingredient_batch_changes
 
@@ -8,14 +11,16 @@ class DeliveryInspection < ApplicationRecord
   validates :item,           presence: { message: "Item must be selected" }
   validates :batch_no,       presence: { message: "Batch No. must be entered" }
   validates :best_before,    presence: { message: "Best before date must be entered" }
-  validates :cert_received,  inclusion: { in: [true, false], message: "must be specified" }
-  validates :damage,         inclusion: { in: [true, false], message: "must be specified" }
-  validates :foreign_contam, inclusion: { in: [true, false], message: "must be specified" }
-  validates :pest_contam,    inclusion: { in: [true, false], message: "must be specified" }
-  validates :satisfactory,   inclusion: { in: [true, false], message: "must be specified" }
+  validates :cert_received,  inclusion: { in: [true, false], message: "Certificate Received must be specified" }
+  validates :damage,         inclusion: { in: [true, false], message: "Damage must be specified" }
+  validates :foreign_contam, inclusion: { in: [true, false], message: "Foreign contamination must be specified" }
+  validates :pest_contam,    inclusion: { in: [true, false], message: "Pest contamination must be specified" }
+  validates :satisfactory,   inclusion: { in: [true, false], message: "Satisfactory or not must be answered " }
  
-  validates :staff_id,       presence: { message: "is required" }
-  validates :staff_signature, presence: { message: "please sign" }
+  validates :user_id,
+          presence: { message: "Staff member responsible is required" }
+  validates :staff_signature,
+          presence: { message: "Staff signature is required" }
 
   # custom validation
   validate :best_before_cannot_be_in_past
@@ -35,9 +40,8 @@ class DeliveryInspection < ApplicationRecord
 
   def best_before_cannot_be_in_past
     return if best_before.blank?
-    if best_before < Date.current
-      errors.add(:best_before, "cannot be before today")
-    end
+
+    errors.add(:best_before, "Best before date cannot be before today") if best_before < Date.current
   end
 
 end

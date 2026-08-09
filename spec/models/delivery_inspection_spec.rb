@@ -4,13 +4,18 @@ require 'rails_helper'
 RSpec.describe DeliveryInspection, type: :model do
   let(:item) { 'Rennet - Vegetable' }
 
-  # Tiny helper to keep builds consistent
   def create_di(date:, item: 'Rennet - Vegetable', attrs: {})
-    create(:delivery_inspection, { delivery_date: date, item: item }.merge(attrs))
+    create(
+      :delivery_inspection,
+      { delivery_date: date, item: item }.merge(attrs)
+    )
   end
 
   describe 'associations' do
-    it { should belong_to(:staff) }
+    it { should belong_to(:user) }
+
+    it { should belong_to(:created_by).class_name('User').optional }
+    it { should belong_to(:updated_by).class_name('User').optional }
 
     it do
       should have_many(:ingredient_batch_changes)
@@ -44,44 +49,43 @@ RSpec.describe DeliveryInspection, type: :model do
     end
 
     it do
-      should validate_presence_of(:staff_id)
-        .with_message('is required')
+      should validate_presence_of(:user_id)
+        .with_message('Staff member responsible is required')
     end
 
     it do
       should validate_presence_of(:staff_signature)
-        .with_message('please sign')
+        .with_message('Staff signature is required')
     end
 
-    # Shoulda Matchers may display warnings for boolean inclusion tests.
     it do
       should validate_inclusion_of(:cert_received)
         .in_array([true, false])
-        .with_message('must be specified')
+        .with_message('Certificate Received must be specified')
     end
 
     it do
       should validate_inclusion_of(:damage)
         .in_array([true, false])
-        .with_message('must be specified')
+        .with_message('Damage must be specified')
     end
 
     it do
       should validate_inclusion_of(:foreign_contam)
         .in_array([true, false])
-        .with_message('must be specified')
+        .with_message('Foreign contamination must be specified')
     end
 
     it do
       should validate_inclusion_of(:pest_contam)
         .in_array([true, false])
-        .with_message('must be specified')
+        .with_message('Pest contamination must be specified')
     end
 
     it do
       should validate_inclusion_of(:satisfactory)
         .in_array([true, false])
-        .with_message('must be specified')
+        .with_message('Satisfactory or not must be answered')
     end
 
     it 'rejects best_before in the past with a custom message' do
@@ -91,8 +95,10 @@ RSpec.describe DeliveryInspection, type: :model do
       )
 
       expect(delivery_inspection).to be_invalid
-      expect(delivery_inspection.errors[:best_before])
-        .to include('cannot be before today')
+
+      expect(delivery_inspection.errors[:best_before]).to include(
+        'Best before date cannot be before today'
+      )
     end
   end
 
@@ -120,7 +126,11 @@ RSpec.describe DeliveryInspection, type: :model do
                .by_delivery_date_desc
                .pluck(:id)
 
-      expect(result).to eq([newer.id, older.id, oldest.id])
+      expect(result).to eq([
+        newer.id,
+        older.id,
+        oldest.id
+      ])
     end
 
     it 'filters by exact item' do
@@ -139,8 +149,12 @@ RSpec.describe DeliveryInspection, type: :model do
         item: item
       )
 
-      expect(DeliveryInspection.for_item(item).pluck(:id).sort)
-        .to eq([first_match.id, second_match.id].sort)
+      expect(
+        DeliveryInspection.for_item(item).pluck(:id).sort
+      ).to eq([
+        first_match.id,
+        second_match.id
+      ].sort)
     end
   end
 
@@ -168,7 +182,12 @@ RSpec.describe DeliveryInspection, type: :model do
 
       result = DeliveryInspection.last_three_for_item(item)
 
-      expect(result).to eq([fourth, third, second])
+      expect(result).to eq([
+        fourth,
+        third,
+        second
+      ])
+
       expect(result).not_to include(first)
     end
   end
@@ -186,7 +205,9 @@ RSpec.describe DeliveryInspection, type: :model do
 
       expect(delivery_inspection.destroy).to be false
       expect(delivery_inspection.errors[:base]).to be_present
-      expect(DeliveryInspection.exists?(delivery_inspection.id)).to be true
+      expect(
+        DeliveryInspection.exists?(delivery_inspection.id)
+      ).to be true
     end
   end
 end

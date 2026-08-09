@@ -72,7 +72,7 @@
         <%= boolean_label(@delivery_inspection.apply_hold) %>
         <%# Optional tiny bar to mirror index style %>
         <% if @delivery_inspection.apply_hold? %>
-          <span class="h-4 border-l-4 border-red-600"></span>
+        <span class="h-4 border-l-4 border-red-600"></span>
         <% end %>
       </div>
     </div>
@@ -86,18 +86,16 @@
     <%# Staff (name + id fallback) %>
     <div class="text-right font-semibold text-gray-700">Checked By</div>
     <div class="text-left">
-      <%= @delivery_inspection.try(:staff)&.try(:full_name) || @delivery_inspection.staff_id || "—" %>
+      <%= @delivery_inspection.user&.full_name || "—" %>
     </div>
 
     <%# Staff Signature %>
     <div class="text-right font-semibold text-gray-700">Staff Signature</div>
     <div class="text-left">
       <% if @delivery_inspection.staff_signature.present? %>
-        <img src="<%= @delivery_inspection.staff_signature %>"
-             alt="Signature"
-             class="max-h-24 border border-gray-400 rounded bg-white shadow-sm">
+      <img src="<%= @delivery_inspection.staff_signature %>" alt="Signature" class="max-h-24 border border-gray-400 rounded bg-white shadow-sm">
       <% else %>
-        —
+      —
       <% end %>
     </div>
 
@@ -106,7 +104,7 @@
     <div class="text-left text-sm text-gray-600">
       <%= @delivery_inspection.created_at&.to_formatted_s(:long) %>
       <% if @delivery_inspection.respond_to?(:created_by) && @delivery_inspection.created_by.present? %>
-        by <%= @delivery_inspection.created_by.full_name rescue @delivery_inspection.created_by.email %>
+      by <%= @delivery_inspection.created_by.full_name rescue @delivery_inspection.created_by.email %>
       <% end %>
     </div>
 
@@ -114,26 +112,26 @@
     <div class="text-left text-sm text-gray-600">
       <%= @delivery_inspection.updated_at&.to_formatted_s(:long) %>
       <% if @delivery_inspection.respond_to?(:updated_by) && @delivery_inspection.updated_by.present? %>
-        by <%= @delivery_inspection.updated_by.full_name rescue @delivery_inspection.updated_by.email %>
+      by <%= @delivery_inspection.updated_by.full_name rescue @delivery_inspection.updated_by.email %>
       <% end %>
     </div>
 
     <%# Back / Edit buttons %>
     <div class="col-span-2 flex items-center justify-between pt-4">
       <%# Always show All Deliveries %>
-          <%= link_to "← All Deliveries",
+      <%= link_to "← All Deliveries",
                       delivery_inspections_path,
                       class: clear_button_class %>
 
-          <%# Conditionally show Back to Audit %>
-          <% if request.referer&.include?("/audit") %>
-            <%= link_to "← Back to Audit Report",
+      <%# Conditionally show Back to Audit %>
+      <% if request.referer&.include?("/audit") %>
+      <%= link_to "← Back to Audit Report",
                         request.referer,
                         class: clear_button_class %>
-          <% end %>
+      <% end %>
 
-          <%# Edit button %>
-          <%= link_to "Edit",
+      <%# Edit button %>
+      <%= link_to "Edit",
                       edit_delivery_inspection_path(@delivery_inspection),
                       class: fill_button_class %>
     </div>
@@ -141,4 +139,3 @@
   <br>
 </div>
 <br><br>
-

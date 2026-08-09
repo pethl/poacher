@@ -12,7 +12,7 @@ RSpec.describe "delivery_inspections/new", type: :view do
       timely_delivery: false,
       satisfactory: false,
       comments: "MyText",
-      staff: nil,
+      user: nil,
       staff_signature: "MyString"
     ))
   end
@@ -40,7 +40,7 @@ RSpec.describe "delivery_inspections/new", type: :view do
 
       assert_select "textarea[name=?]", "delivery_inspection[comments]"
 
-      assert_select "input[name=?]", "delivery_inspection[staff_id]"
+      assert_select "input[name=?]", "delivery_inspection[user_id]"
 
       assert_select "input[name=?]", "delivery_inspection[staff_signature]"
     end

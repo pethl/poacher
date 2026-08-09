@@ -13,7 +13,7 @@ RSpec.describe "delivery_inspections/index", type: :view do
         timely_delivery: false,
         satisfactory: false,
         comments: "MyText",
-        staff: nil,
+        user: nil,
         staff_signature: "Staff Signature"
       ),
       DeliveryInspection.create!(
@@ -26,7 +26,7 @@ RSpec.describe "delivery_inspections/index", type: :view do
         timely_delivery: false,
         satisfactory: false,
         comments: "MyText",
-        staff: nil,
+        user: nil,
         staff_signature: "Staff Signature"
       )
     ])

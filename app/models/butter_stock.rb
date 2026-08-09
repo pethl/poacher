@@ -3,7 +3,9 @@ class ButterStock < ApplicationRecord
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
   
-  validates :make_date, presence: true
+  validates :make_date,
+          presence: true,
+          uniqueness: { message: "A butter stock record already exists for this date." }
 
   scope :ordered, -> { order(make_date: :asc) }
 end

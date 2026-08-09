@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :delivery_inspection do
     # associations
-    association :staff   # assumes you already have a :staff factory
+    association :user   # assumes you already have a :user factory
 
     # realistic defaults (you can override these in specs)
     delivery_date    { Date.today }

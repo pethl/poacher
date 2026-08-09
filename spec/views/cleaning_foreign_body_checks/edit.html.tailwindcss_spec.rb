@@ -23,7 +23,7 @@ RSpec.describe "cleaning_foreign_body_checks/edit", type: :view do
       floor_under_handwash: false,
       compressors: false,
       additional_comments: "MyText",
-      staff: nil
+      user: nil
     )
   }
 
@@ -76,7 +76,7 @@ RSpec.describe "cleaning_foreign_body_checks/edit", type: :view do
 
       assert_select "textarea[name=?]", "cleaning_foreign_body_check[additional_comments]"
 
-      assert_select "input[name=?]", "cleaning_foreign_body_check[staff_id]"
+      assert_select "input[name=?]", "cleaning_foreign_body_check[user_id]"
     end
   end
 end

@@ -56,7 +56,6 @@ RSpec.feature "PageSmoke (dynamic)", type: :feature do
     "milk_quality_monitors#rolling_geo_average" => "ROLLING GEO AVERAGE",
     "traceability_records#index" => "BATCH INDIVIDUAL TRACEABILITY",
     "samples#index" => "SAMPLES",
-    "staffs#index" => "STAFF",
     "contacts#index" => "CUSTOMERS",
     "calculations#index" => "CALCULATIONS",
     "references#index" => "REFERENCE DATA",

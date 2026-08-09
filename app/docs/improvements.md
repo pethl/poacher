@@ -209,7 +209,7 @@ Items should only be removed from this document when:
 
 - [ ] Flag wash records where `remaining_to_wash` is zero but `date_batch_finished` is blank.
   - Show the warning on the index.
-  - Prompt staff to enter the finish date.
+  - Prompt user to enter the finish date.
   - Do not auto-finish the record, as the finish date should still be confirmed by a user.
 
   ## Turn
@@ -235,6 +235,5 @@ Items should only be removed from this document when:
 
 ## User
 
-- [x] Add department information to User when Staff is retired.
 - [ ] Add a scope for active Cheese Store users.
 - [ ] Restrict the Turn `turned_by` selector to Cheese Store users.

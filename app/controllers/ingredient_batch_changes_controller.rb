@@ -1,5 +1,6 @@
 # app/controllers/ingredient_batch_changes_controller.rb
 class IngredientBatchChangesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_makesheet
 
   def new

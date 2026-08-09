@@ -8,7 +8,7 @@ FactoryBot.define do
     vehicle_clean { true }
     destination { "Main Warehouse" }
     number_of_pallets { 3 }
-    staff
+    user
     staff_signature { "Signed by staff" }
     driver_signature { "Signed by driver" }
   end

@@ -24,7 +24,7 @@ RSpec.describe "cleaning_foreign_body_checks/index", type: :view do
         floor_under_handwash: false,
         compressors: false,
         additional_comments: "MyText",
-        staff: nil
+        user: nil
       ),
       CleaningForeignBodyCheck.create!(
         milk_pipeline: false,
@@ -47,7 +47,7 @@ RSpec.describe "cleaning_foreign_body_checks/index", type: :view do
         floor_under_handwash: false,
         compressors: false,
         additional_comments: "MyText",
-        staff: nil
+        user: nil
       )
     ])
   end

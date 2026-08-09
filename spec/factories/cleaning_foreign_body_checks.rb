@@ -24,9 +24,9 @@ FactoryBot.define do
 
     additional_comments { "Routine check completed." }
 
-    association :staff, factory: :staff
-    association :staff_2, factory: :staff
-    association :staff_3, factory: :staff
+    association :user, factory: :user
+    association :user_2, factory: :user
+    association :user_3, factory: :user
   end
 end
 

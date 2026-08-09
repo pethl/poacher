@@ -734,11 +734,9 @@ A **Butter Make** records:
 - quantity made
 - stock
 
-### Butter Stock
+### ButterStock is legacy/interim stock tracking.
 
-A **Butter Stock** records butter production, returns and stock across several butter types and storage categories.
-
-The units used by these fields should be documented once confirmed.
+The current record combines daily butter production, returned market stock, freezer stock, family/free stock, and saleable stock. It is intentionally excluded from the current audit/refactor work. Future redesign should model these as separate stock movements before linking butter PicksheetItems to stock depletion.
 
 ---
 

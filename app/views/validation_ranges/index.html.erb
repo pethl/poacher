@@ -47,8 +47,8 @@
               <span class="text-red-600 font-medium">No</span>
               <% end %>
             </td>
-            <td class="px-6 py-4 text-left"><%= vr.creator&.full_name || "—" %></td>
-            <td class="px-6 py-4 text-left"><%= vr.updater&.full_name || "—" %></td>
+            <td class="px-6 py-4 text-left"><%= vr.created_by&.full_name || "—" %></td>
+            <td class="px-6 py-4 text-left"><%= vr.updated_by&.full_name || "—" %></td>
             <td class="px-6 py-4 text-left text-blue-600">
               <%= link_to "Edit", edit_validation_range_path(vr), class: "underline underline-offset-2" %>
             </td>

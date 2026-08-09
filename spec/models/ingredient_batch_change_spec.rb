@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-#this spec is fialing and needs work - complex area
-
 RSpec.describe IngredientBatchChange, type: :model do
   describe 'associations' do
     it { should belong_to(:makesheet) }
     it { should belong_to(:delivery_inspection) }
+
+    it { should belong_to(:created_by).class_name('User').optional }
+    it { should belong_to(:updated_by).class_name('User').optional }
   end
 
   describe 'valid factory' do

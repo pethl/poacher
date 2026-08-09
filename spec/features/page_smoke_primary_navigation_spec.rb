@@ -82,7 +82,7 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
       office: {
         home: -> { "/pages/office_home" },
         links: [
-          { href: -> { staffs_path }, page_title: "STAFF" },
+         
           { href: -> { contacts_path }, page_title: "CUSTOMERS" },
           { href: -> { users_path }, page_title: "USERS" },
           { href: -> { references_path }, page_title: "REFERENCE DATA" },

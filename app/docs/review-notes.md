@@ -2,7 +2,6 @@
 
 Question
 
-Why are Staff and User separate?
 
 
 Need to inspect authentication and business workflow.
@@ -35,6 +34,6 @@ Need to inspect authentication and business workflow.
 
 ## Batch Traceability
 
-- Is `total_weight_of_batch` manually confirmed by staff or expected to equal the calculated sum of individual weights?
+- Is `total_weight_of_batch` manually confirmed by user or expected to equal the calculated sum of individual weights?
 - Should traceability records and their waste records ever be physically deleted?
 - What does the waste category `T and Bs` mean?

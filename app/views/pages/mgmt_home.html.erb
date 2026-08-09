@@ -26,7 +26,7 @@
     <!-- Stock % Spread -->
     <div class="bg-white p-4 rounded shadow text-center">
       <p class="text-lg font-semibold mb-4">Stock % Spread</p>
-     <%
+      <%
 # Step 1: Group batches by grade (with 'Ungraded' fallback)
 grouped = Makesheet.where.not(status: 'Finished').group_by { |m| m.grade.presence || 'Ungraded' }
 
@@ -40,7 +40,7 @@ chart_data = grouped.transform_keys do |grade|
 end.transform_values(&:size)
 %>
 
-<%= pie_chart chart_data,
+      <%= pie_chart chart_data,
               donut: true,
               height: "400px",
               legend: true,
@@ -81,10 +81,10 @@ end.transform_values(&:size)
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
     <% @charts_data.each do |grade, data| %>
-      <div class="bg-white p-4 rounded shadow text-center">
-        <p class="text-lg font-semibold mb-4"><%= grade %></p>
-        <%= line_chart data, xtitle: "Age (months)", ytitle: "Count" %>
-      </div>
+    <div class="bg-white p-4 rounded shadow text-center">
+      <p class="text-lg font-semibold mb-4"><%= grade %></p>
+      <%= line_chart data, xtitle: "Age (months)", ytitle: "Count" %>
+    </div>
     <% end %>
 
   </div>

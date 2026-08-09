@@ -12,7 +12,7 @@ RSpec.describe "scale_checks/edit", type: :view do
       scale_10kg: false,
       comments: "MyString",
       signature: "MyText",
-      staff: nil
+      user: nil
     )
   }
 
@@ -43,7 +43,7 @@ RSpec.describe "scale_checks/edit", type: :view do
 
       assert_select "textarea[name=?]", "scale_check[signature]"
 
-      assert_select "input[name=?]", "scale_check[staff_id]"
+      assert_select "input[name=?]", "scale_check[user_id]"
     end
   end
 end

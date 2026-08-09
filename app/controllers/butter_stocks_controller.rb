@@ -1,9 +1,10 @@
 class ButterStocksController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_butter_stock, only: %i[ show edit update destroy ]
 
   # GET /butter_stocks or /butter_stocks.json
   def index
-    @butter_stocks = ButterStock.all
+    @butter_stocks = ButterStoc.ordered
   end
 
   # GET /butter_stocks/1 or /butter_stocks/1.json

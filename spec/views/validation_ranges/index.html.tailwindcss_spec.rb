@@ -3,27 +3,33 @@ require 'rails_helper'
 RSpec.describe "validation_ranges/index", type: :view do
   before(:each) do
     assign(:validation_ranges, [
-      ValidationRange.create!(
-        field_name: "Field Name",
-        min_value: 2.5,
-        max_value: 3.5,
-        active: false
+      build_stubbed(
+        :validation_range,
+        target_model: "Makesheet",
+        field_name: "milk_used",
+        min_value: 4000.0,
+        max_value: 8000.0,
+        active: true
       ),
-      ValidationRange.create!(
-        field_name: "Field Name",
-        min_value: 2.5,
-        max_value: 3.5,
-        active: false
+      build_stubbed(
+        :validation_range,
+        target_model: "Makesheet",
+        field_name: "salt_weight_net",
+        min_value: 5.0,
+        max_value: 20.0,
+        active: true
       )
     ])
   end
 
   it "renders a list of validation_ranges" do
     render
-    cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Field Name".to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(2.5.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(3.5.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(false.to_s), count: 2
+
+    expect(rendered).to include("milk_used")
+    expect(rendered).to include("salt_weight_net")
+    expect(rendered).to include("4000.0")
+    expect(rendered).to include("8000.0")
+    expect(rendered).to include("5.0")
+    expect(rendered).to include("20.0")
   end
 end

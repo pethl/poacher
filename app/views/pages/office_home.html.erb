@@ -1,20 +1,58 @@
-<% content_for(:page_title, "OFFICE")%>
+<% content_for(:page_title, "OFFICE") %>
 
-<div class="my-4 mt-8  mb-8 max-w-5xl mx-auto px-4">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+<div class="my-4 mt-8 mb-8 max-w-5xl mx-auto px-4" data-controller="office-tabs">
 
-    <%= link_to "Staff", "/staffs", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Customers", "/contacts", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Users", "/users", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "References", "/references", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Locations", "/locations", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Label Print", "/locations/print_wizard", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Calculations", "/calculations", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Validations", "/validation_ranges", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Butter Stocks", "/butter_stocks", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Samples", "/samples", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Milk Quality", "/milk_quality_monitors", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Palletised Distribution Report", "/palletised_distributions", class: "#{nav_box_class} mx-auto" %>
+  <!-- Tabs -->
+  <div class="flex justify-center mb-8">
+    <div class="inline-flex rounded-full bg-gray-200 p-1">
 
+      <button type="button" data-office-tabs-target="everydayButton" data-action="click->office-tabs#showEveryday" class="px-5 py-2 rounded-full bg-white shadow font-semibold text-gray-900 transition">
+        Everyday
+      </button>
+
+      <button type="button" data-office-tabs-target="adminButton" data-action="click->office-tabs#showAdmin" class="px-5 py-2 rounded-full text-gray-600 transition hover:bg-gray-100">
+        Administration
+      </button>
+
+    </div>
   </div>
+
+  <!-- Everyday -->
+  <div data-office-tabs-target="everydayPanel">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+
+      <%= link_to "Hold (#{@hold_picksheets_count})", "/picksheets/hold_picksheets", class: "#{nav_box_inverse_class} mx-auto" %>
+      <%= link_to "Assigned (#{@assigned_picksheets_count})", "/picksheets/assigned_picksheets", class: "#{nav_box_assigned_class} mx-auto" %>
+      <%= link_to "Cutting (#{@cutting_picksheets_count})", "/picksheets/cutting_picksheets", class: "#{nav_box_cutting_class} mx-auto" %>
+
+      <%= link_to "New Picking Sheet", "/picksheets/new", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Daily Cheese Manifest", "/picksheets/daily_cheese_manifest", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Dispatch and Collection", "/picksheets/dispatch_and_collection", class: "#{nav_box_class} mx-auto" %>
+
+
+      <%= link_to "Customers", "/contacts", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Butter Stocks", "/butter_stocks", class: "#{nav_box_class} mx-auto" %>
+
+      <%= link_to "Samples", "/samples", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Milk Quality", "/milk_quality_monitors", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Palletised Distribution Report", "/palletised_distributions", class: "#{nav_box_class} mx-auto" %>
+
+    </div>
+  </div>
+
+  <!-- Administration -->
+  <div data-office-tabs-target="adminPanel" class="hidden">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+
+      <%= link_to "Users", "/users", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "References", "/references", class: "#{nav_box_class} mx-auto" %>
+
+      <%= link_to "Locations", "/locations", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Label Print", "/locations/print_wizard", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Calculations", "/calculations", class: "#{nav_box_class} mx-auto" %>
+      <%= link_to "Validations", "/validation_ranges", class: "#{nav_box_class} mx-auto" %>
+
+    </div>
+  </div>
+
 </div>

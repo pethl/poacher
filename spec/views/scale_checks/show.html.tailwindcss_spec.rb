@@ -12,7 +12,7 @@ RSpec.describe "scale_checks/show", type: :view do
       scale_10kg: false,
       comments: "Comments",
       signature: "MyText",
-      staff: nil
+      user: nil
     ))
   end
 

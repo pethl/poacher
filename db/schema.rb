@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -251,17 +251,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.boolean "satisfactory"
     t.boolean "apply_hold"
     t.text "comments"
-    t.bigint "staff_id", null: false
     t.string "staff_signature"
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["created_by_id"], name: "index_delivery_inspections_on_created_by_id"
     t.index ["delivery_date"], name: "index_delivery_inspections_on_delivery_date"
     t.index ["item"], name: "index_delivery_inspections_on_item"
-    t.index ["staff_id"], name: "index_delivery_inspections_on_staff_id"
     t.index ["updated_by_id"], name: "index_delivery_inspections_on_updated_by_id"
+    t.index ["user_id"], name: "index_delivery_inspections_on_user_id"
   end
 
   create_table "grading_notes", force: :cascade do |t|
@@ -294,8 +294,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.index ["created_by_id"], name: "index_ingredient_batch_changes_on_created_by_id"
     t.index ["delivery_inspection_id"], name: "index_ingredient_batch_changes_on_delivery_inspection_id"
     t.index ["makesheet_id"], name: "index_ingredient_batch_changes_on_makesheet_id"
+    t.index ["updated_by_id"], name: "index_ingredient_batch_changes_on_updated_by_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -510,7 +514,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.boolean "vehicle_clean"
     t.string "destination"
     t.integer "number_of_pallets"
-    t.bigint "staff_id"
+    t.bigint "user_id"
     t.text "staff_signature"
     t.text "driver_signature"
     t.datetime "created_at", null: false
@@ -518,8 +522,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
     t.index ["created_by_id"], name: "index_palletised_distributions_on_created_by_id"
-    t.index ["staff_id"], name: "index_palletised_distributions_on_staff_id"
     t.index ["updated_by_id"], name: "index_palletised_distributions_on_updated_by_id"
+    t.index ["user_id"], name: "index_palletised_distributions_on_user_id"
   end
 
   create_table "picksheet_items", force: :cascade do |t|
@@ -673,22 +677,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.index ["user_id"], name: "index_scale_checks_on_user_id"
   end
 
-  create_table "staffs", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "employment_status"
-    t.string "dept"
-    t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "created_by_id"
-    t.bigint "updated_by_id"
-    t.bigint "user_id"
-    t.index ["created_by_id"], name: "index_staffs_on_created_by_id"
-    t.index ["updated_by_id"], name: "index_staffs_on_updated_by_id"
-    t.index ["user_id"], name: "index_staffs_on_user_id"
-  end
-
   create_table "traceability_records", force: :cascade do |t|
     t.bigint "makesheet_id"
     t.datetime "date_started_batch"
@@ -781,10 +769,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
     t.float "min_value"
     t.float "max_value"
     t.boolean "active"
-    t.integer "created_by"
-    t.integer "updated_by"
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_validation_ranges_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_validation_ranges_on_updated_by_id"
   end
 
   create_table "wash_picksheets", force: :cascade do |t|
@@ -849,7 +839,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   add_foreign_key "cleaning_foreign_body_checks", "users", column: "user_3_id"
   add_foreign_key "contacts", "users", column: "created_by_id"
   add_foreign_key "contacts", "users", column: "updated_by_id"
-  add_foreign_key "delivery_inspections", "staffs"
+  add_foreign_key "delivery_inspections", "users"
   add_foreign_key "delivery_inspections", "users", column: "created_by_id"
   add_foreign_key "delivery_inspections", "users", column: "updated_by_id"
   add_foreign_key "grading_notes", "makesheets"
@@ -858,6 +848,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   add_foreign_key "grading_notes", "users", column: "updated_by_id"
   add_foreign_key "ingredient_batch_changes", "delivery_inspections"
   add_foreign_key "ingredient_batch_changes", "makesheets"
+  add_foreign_key "ingredient_batch_changes", "users", column: "created_by_id"
+  add_foreign_key "ingredient_batch_changes", "users", column: "updated_by_id"
   add_foreign_key "invoices", "users", column: "created_by_id"
   add_foreign_key "invoices", "users", column: "updated_by_id"
   add_foreign_key "locations", "users", column: "created_by_id"
@@ -875,7 +867,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "milk_quality_monitors", "users", column: "created_by_id"
   add_foreign_key "milk_quality_monitors", "users", column: "updated_by_id"
-  add_foreign_key "palletised_distributions", "staffs"
+  add_foreign_key "palletised_distributions", "users"
   add_foreign_key "palletised_distributions", "users", column: "created_by_id"
   add_foreign_key "palletised_distributions", "users", column: "updated_by_id"
   add_foreign_key "picksheet_items", "makesheets"
@@ -893,9 +885,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   add_foreign_key "scale_checks", "users"
   add_foreign_key "scale_checks", "users", column: "created_by_id"
   add_foreign_key "scale_checks", "users", column: "updated_by_id"
-  add_foreign_key "staffs", "users"
-  add_foreign_key "staffs", "users", column: "created_by_id"
-  add_foreign_key "staffs", "users", column: "updated_by_id"
   add_foreign_key "traceability_records", "makesheets"
   add_foreign_key "traceability_records", "users", column: "created_by_id"
   add_foreign_key "traceability_records", "users", column: "updated_by_id"
@@ -903,6 +892,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_08_092255) do
   add_foreign_key "turns", "users", column: "created_by_id"
   add_foreign_key "turns", "users", column: "turned_by_id"
   add_foreign_key "turns", "users", column: "updated_by_id"
+  add_foreign_key "validation_ranges", "users", column: "created_by_id"
+  add_foreign_key "validation_ranges", "users", column: "updated_by_id"
   add_foreign_key "wash_picksheets", "picksheets"
   add_foreign_key "wash_picksheets", "washes"
   add_foreign_key "washes", "users", column: "created_by_id"

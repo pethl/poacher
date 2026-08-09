@@ -1,7 +1,11 @@
 # app/models/ingredient_batch_change.rb
 class IngredientBatchChange < ApplicationRecord
+  include UserTrackable
   belongs_to :makesheet
   belongs_to :delivery_inspection
+
+  belongs_to :created_by, class_name: "User", optional: true
+  belongs_to :updated_by, class_name: "User", optional: true
 
   validates :item, presence: true
   validates :changed_on, presence: true
