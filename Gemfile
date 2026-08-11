@@ -23,6 +23,9 @@ gem "jbuilder"
 # Authentication
 gem "devise"
 
+# Authorization
+#gem "cancancan"
+
 # Charts and reporting
 gem "chartkick"
 gem "highcharts-rails"
