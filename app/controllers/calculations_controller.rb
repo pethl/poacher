@@ -3,6 +3,10 @@ class CalculationsController < ApplicationController
   before_action :set_calculation, only: %i[ show edit update destroy ]
   before_action :load_reference_options, only: %i[new edit create update]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_calculation_read!, only: %i[index show]
+  before_action :authorize_calculation_manage!, only: %i[new create edit update destroy]
+
   # GET /calculations or /calculations.json
  def index
     @calculations = Calculation.order(:product, :size)
@@ -77,6 +81,14 @@ class CalculationsController < ApplicationController
 
     def set_calculation
       @calculation = Calculation.find(params[:id])
+    end
+
+    def authorize_calculation_read!
+      authorize! :read, @calculation || Calculation
+    end
+
+    def authorize_calculation_manage!
+      authorize! :manage, @calculation || Calculation
     end
 
     def calculation_params

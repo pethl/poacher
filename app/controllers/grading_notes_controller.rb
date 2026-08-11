@@ -3,6 +3,12 @@ class GradingNotesController < ApplicationController
   before_action :set_makesheets, only: %i[ new edit update create ]
   before_action :set_users, only: %i[new edit create update preload preload_form]
 
+  # Office: manage · H&S: read · Cutting: read.
+  before_action :authorize_grading_note_read!, only: %i[index show]
+  before_action :authorize_grading_note_manage!, only: %i[
+    new edit create update destroy preload preload_form create_preloaded
+  ]
+
   def preload_form
     @users = User.where(account_active: true).ordered
   end 
@@ -173,6 +179,14 @@ class GradingNotesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_grading_note
       @grading_note = GradingNote.find(params[:id])
+    end
+
+    def authorize_grading_note_read!
+      authorize! :read, @grading_note || GradingNote
+    end
+
+    def authorize_grading_note_manage!
+      authorize! :manage, @grading_note || GradingNote
     end
 
     # Only allow a list of trusted parameters through.

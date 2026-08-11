@@ -4,6 +4,11 @@ RSpec.describe "Batch weight waste trend", type: :request do
   let(:user) { create(:user) }
 
   before do
+    # BatchWeight is Cutting-read / Admin+Mgmt only — grant directly rather than relying
+    # on the business matrix (db/seeds/authorization.rb), which can change independently.
+    join_group(user, "cutting")
+    grant("cutting", "batch_weight", :read)
+
     sign_in user
   end
 
@@ -26,5 +31,14 @@ RSpec.describe "Batch weight waste trend", type: :request do
     expect(response.body).to include("Standard 3-month rolling average")
     expect(response.body).not_to include("Red batches")
     expect(response.body).to include("1 batch")
+  end
+
+  it "is denied for a user without :read on BatchWeight" do
+    outsider = create(:user)
+    sign_in outsider
+
+    get waste_trend_batch_weights_path
+
+    expect(response).to redirect_to(root_path)
   end
 end

@@ -145,7 +145,6 @@ Rails.application.routes.draw do
   resources :references
   resources :wash_picksheets
   
-  get "washes/wash_home"
   resources :washes
   
   get "pages/home"
@@ -154,7 +153,7 @@ Rails.application.routes.draw do
   get "pages/wash_home"
   get "pages/cutting_home"
   get "pages/office_home"
-  get "pages/sales_home"
+  get "pages/hs_home"
   get "pages/mgmt_home"
   get "pages/credits"
   get "/goodbye", to: "pages#goodbye", as: :goodbye
@@ -223,6 +222,7 @@ Rails.application.routes.draw do
   end
    
   match '/users',   to: 'users#index',   via: 'get'
+  resources :users, only: [:edit, :update]
 
   get  'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#new'
   post 'vacuum_pouch_calculator', to: 'vacuum_pouch_calculator#create'

@@ -33,6 +33,9 @@
       <%= link_to "Customers", "/contacts", class: "#{nav_box_class} mx-auto" %>
       <%= link_to "Butter Stocks", "/butter_stocks", class: "#{nav_box_class} mx-auto" %>
 
+      <% if can? :read, Makesheet %>
+        <%= link_to "Makesheets", "/makesheets", class: "#{nav_box_class} mx-auto" %>
+      <% end %>
       <%= link_to "Samples", "/samples", class: "#{nav_box_class} mx-auto" %>
       <%= link_to "Milk Quality", "/milk_quality_monitors", class: "#{nav_box_class} mx-auto" %>
       <%= link_to "Palletised Distribution Report", "/palletised_distributions", class: "#{nav_box_class} mx-auto" %>

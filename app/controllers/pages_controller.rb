@@ -1,5 +1,21 @@
 class PagesController < ApplicationController
   require 'ostruct'
+
+  # Which group a section's "_home" action requires. Nav hides links the user can't see
+  # (app/views/layouts/_main_nav.html.erb), but that's UX only — this before_action is the
+  # actual enforcement, since hiding a link never stops someone typing the URL directly.
+  SECTION_GROUPS = {
+    dairy_home: "dairy",
+    store_home: "store",
+    wash_home: "store",
+    cutting_home: "cutting",
+    office_home: "office",
+    hs_home: "hs",
+    mgmt_home: "mgmt",
+  }.freeze
+
+  before_action :require_section_access!, only: SECTION_GROUPS.keys
+
   def home
   end
   
@@ -19,6 +35,9 @@ class PagesController < ApplicationController
   end
 
   def office_home
+  end
+
+  def hs_home
   end
   
   def mgmt_home
@@ -48,13 +67,24 @@ class PagesController < ApplicationController
   end
 
   def goodbye
-  
+
   end
 
   def rennet_guidance
     @rows = Reference
               .where(group: "rennet_usage", active: true)
               .order(:sort_order) # ascending = 1,2,3
+  end
+
+  private
+
+  def require_section_access!
+    required_group = SECTION_GROUPS.fetch(action_name.to_sym)
+    return if current_user.can_access_section?(required_group)
+
+    raise CanCan::AccessDenied.new(
+      "You don't have access to that section.", action_name, PagesController
+    )
   end
 
 end

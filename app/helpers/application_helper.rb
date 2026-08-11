@@ -55,6 +55,12 @@ module ApplicationHelper
     "w-64 h-32 bg-gray-800 text-gray-50 p-6 rounded-lg text-center font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300 transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
 
+  # Slightly lighter than nav_box_class — for read-only/oversight tiles, so they read as
+  # secondary next to a group's "own" tasks without needing a text label to say so.
+  def nav_box_light_class
+    "w-64 h-32 bg-gray-600 text-gray-50 p-6 rounded-lg text-center font-semibold shadow-md hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300 transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
+  end
+
   def nav_box_inverse_class
     "w-64 h-32 bg-white text-gray-800 p-6 rounded-lg text-center font-bold border-4 border-gray-800 shadow-md hover:shadow-lg hover:scale-105 hover:ring hover:ring-offset-2 hover:ring-gray-300 transition-transform duration-200 ease-in-out flex items-center justify-center text-lg"
   end
@@ -318,6 +324,32 @@ module ApplicationHelper
   def department; Reference.where(active: true, group: 'department').order(:sort_order).pluck(:value); end
   def dairy_ingredients; Reference.where(active: true, group: 'dairy_ingredients').order(:sort_order).pluck(:value); end
   def employment_status; Reference.where(active: true, group: 'employment_status').order(:sort_order).pluck(:value); end
+
+  # Pill badge for a user's employment_status. "Active" gets a soft green pill;
+  # anything else (Inactive, blank, or any future status) gets a bold red pill,
+  # deliberately more attention-grabbing than the green so inactive staff stand out.
+  def employment_status_pill(status)
+    if status == "Active"
+      content_tag :span, status,
+        class: "inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-300"
+    else
+      content_tag :span, status.presence || "Unknown",
+        class: "inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-red-600 text-white"
+    end
+  end
+
+  # Small pill per group a user belongs to. Read-only display — anyone who can see the
+  # users index can see this; editing group membership stays gated to Admin separately.
+  def group_pills(user)
+    return content_tag(:span, "—", class: "text-gray-400 text-xs") if user.groups.empty?
+
+    safe_join(
+      user.groups.sort_by(&:display_name).map do |group|
+        content_tag :span, group.display_name,
+          class: "inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-300 mr-1 mb-1"
+      end
+    )
+  end
   def farmers_markets; Reference.where(active: true, group: 'farmers_markets').order(:sort_order).pluck(:value); end
   def grade; Reference.where(active: true, group: 'grade').order(:sort_order).pluck(:value); end
   def grade_appearance; Reference.where(active: true, group: 'grade_appearance').order(:sort_order).pluck(:value); end

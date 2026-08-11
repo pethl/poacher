@@ -35,5 +35,10 @@
     <%= link_to "Grading", "/grading_notes", class: "#{nav_box_class} mx-auto" %>
 
 
+    <% if can? :read, Makesheet %>
+    <%= link_to "Makesheets", "/makesheets", class: "#{nav_box_class} mx-auto" %>
+    <% end %>
+
+
   </div>
 </div>

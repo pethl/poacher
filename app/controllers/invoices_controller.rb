@@ -2,6 +2,10 @@ class InvoicesController < ApplicationController
   before_action :set_invoice, only: %i[ show edit update destroy ]
   before_action :set_existing_names, only: [:new, :edit]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_invoice_read!, only: %i[index show summary]
+  before_action :authorize_invoice_manage!, only: %i[new create edit update destroy]
+
   # GET /invoices or /invoices.json
   def index
     @invoices = Invoice.all
@@ -100,6 +104,14 @@ class InvoicesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_invoice
       @invoice = Invoice.find(params[:id])
+    end
+
+    def authorize_invoice_read!
+      authorize! :read, @invoice || Invoice
+    end
+
+    def authorize_invoice_manage!
+      authorize! :manage, @invoice || Invoice
     end
 
     # Only allow a list of trusted parameters through.

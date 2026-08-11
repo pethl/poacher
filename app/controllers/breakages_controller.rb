@@ -2,6 +2,11 @@ class BreakagesController < ApplicationController
   before_action :set_breakage, only: %i[ show edit update destroy ]
   before_action :set_users, only: %i[new edit create update]
 
+  # Cutting: manage (they own this log) · H&S: read (+ print_labels, once a print
+  # view exists for it — no controller action to gate yet).
+  before_action :authorize_breakage_read!, only: %i[index show]
+  before_action :authorize_breakage_manage!, only: %i[new create edit update destroy create_month]
+
   def create_month
     latest_date =
       if Breakage.exists?
@@ -40,7 +45,11 @@ class BreakagesController < ApplicationController
   end
 
   # GET /breakages/1/edit
-  def edit  
+  def edit
+    # Whoever opens the edit form is the one signing it — default the Staff Member
+    # field to them so it's one less thing to pick, same as new does. Still just a
+    # form default: only takes effect if they actually save the edit.
+    @breakage.user = current_user
   end
 
   # POST /breakages or /breakages.json
@@ -84,6 +93,14 @@ class BreakagesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_breakage
       @breakage = Breakage.find(params[:id])
+    end
+
+    def authorize_breakage_read!
+      authorize! :read, @breakage || Breakage
+    end
+
+    def authorize_breakage_manage!
+      authorize! :manage, @breakage || Breakage
     end
 
     def set_users

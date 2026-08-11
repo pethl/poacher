@@ -1,5 +1,12 @@
 # app/controllers/audit_reports_controller.rb
 class AuditReportsController < ApplicationController
+  # No dedicated AuditReport model — this is a read-only report over Makesheet /
+  # IngredientBatchChange / DeliveryInspection. Dairy owns it, Office can read, Mgmt reads
+  # via its blanket access. That's exactly DeliveryInspection's existing split
+  # (office: read · dairy: manage), so we peg the check to that rather than inventing a new
+  # resource_key for a controller with no backing model.
+  before_action :authorize_audit_report_read!
+
   def show
     # Blank page until a makesheet is chosen
     unless params[:makesheet_id].present? || params[:make_date].present?
@@ -84,6 +91,10 @@ class AuditReportsController < ApplicationController
   end
 
   private
+
+  def authorize_audit_report_read!
+    authorize! :read, DeliveryInspection
+  end
 
   def find_makesheet
     scope = Makesheet.includes(ingredient_batch_changes: :delivery_inspection)

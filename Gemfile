@@ -24,7 +24,7 @@ gem "jbuilder"
 gem "devise"
 
 # Authorization
-#gem "cancancan"
+gem "cancancan"
 
 # Charts and reporting
 gem "chartkick"

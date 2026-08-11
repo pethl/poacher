@@ -1,5 +1,9 @@
 # app/controllers/cheese_wash_records_controller.rb
 class CheeseWashRecordsController < ApplicationController
+  # Store: manage (they own it) · Cutting: read.
+  before_action :authorize_cheese_wash_record_read!, only: %i[index show]
+  before_action :authorize_cheese_wash_record_manage!, only: %i[new create edit update]
+
   def index
     @cheese_wash_records = case params[:status]
     when 'started'
@@ -50,6 +54,14 @@ class CheeseWashRecordsController < ApplicationController
   
 
   private
+
+  def authorize_cheese_wash_record_read!
+    authorize! :read, CheeseWashRecord
+  end
+
+  def authorize_cheese_wash_record_manage!
+    authorize! :manage, CheeseWashRecord
+  end
 
   def cheese_wash_record_params
     params.require(:cheese_wash_record).permit(

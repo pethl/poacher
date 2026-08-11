@@ -1,5 +1,12 @@
 class VacuumPouchCalculatorController < ApplicationController
 
+  # No model, nothing persisted — a standalone calculator page. Belongs to Cutting; exact
+  # future use still undecided (may launch from a picksheet to calc a value for a
+  # PicksheetItem, which Cutting already manages). Pegged to PicksheetItem's existing
+  # :manage split (Office + Cutting) rather than inventing a new resource_key — revisit if
+  # this tool ends up standalone and Office shouldn't see it.
+  before_action :authorize_vacuum_pouch_calculator!
+
   # disables Turbo fallback stream behavior
   skip_forgery_protection if: -> { request.format.turbo_stream? }
 
@@ -50,7 +57,12 @@ class VacuumPouchCalculatorController < ApplicationController
       format.html { render :new }
     end
   end
-  
+
+  private
+
+  def authorize_vacuum_pouch_calculator!
+    authorize! :manage, PicksheetItem
+  end
 
 end
 

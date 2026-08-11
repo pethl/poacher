@@ -11,6 +11,10 @@ class ContactsController < ApplicationController
                   link_makesheets
                 ]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_contact_read!, only: %i[index show search_makesheets]
+  before_action :authorize_contact_manage!, only: %i[new create edit update destroy link_makesheets]
+
   # ==========================================================
   # CRUD
   # ==========================================================
@@ -173,6 +177,14 @@ class ContactsController < ApplicationController
 
   def set_contact
     @contact = Contact.find(params[:id])
+  end
+
+  def authorize_contact_read!
+    authorize! :read, @contact || Contact
+  end
+
+  def authorize_contact_manage!
+    authorize! :manage, @contact || Contact
   end
 
   def prepare_show_data

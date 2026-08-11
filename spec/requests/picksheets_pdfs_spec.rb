@@ -5,6 +5,12 @@ RSpec.describe "Picksheets PDF endpoints", type: :request do
   let(:user) { create(:user) }
 
   before do
+    # All three print actions require :read on Picksheet — grant directly rather than
+    # relying on the business matrix (db/seeds/authorization.rb), which can change
+    # independently.
+    join_group(user, "office")
+    grant("office", "picksheet", :read)
+
     sign_in user
     # quiet mailers
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
@@ -68,6 +74,17 @@ RSpec.describe "Picksheets PDF endpoints", type: :request do
 
       expect(response).to have_http_status(:internal_server_error)
       expect(response.body).to match(/PDF generation failed/i)
+    end
+  end
+
+  describe "authorization" do
+    it "is denied for a user without :read on Picksheet" do
+      outsider = create(:user)
+      sign_in outsider
+
+      get print_manifest_pdf_picksheets_path
+
+      expect(response).to redirect_to(root_path)
     end
   end
 end

@@ -1,6 +1,11 @@
 class SamplesController < ApplicationController
   before_action :set_sample, only: %i[ show edit update destroy ]
 
+  # Per the permission matrix: Office reads, H&S manages, nobody else has any access
+  # (Dairy included — samples are a lab/H&S concern, not a dairy one).
+  before_action :authorize_sample_read!, only: %i[index show]
+  before_action :authorize_sample_manage!, only: %i[new create edit update destroy import]
+
   # GET /samples or /samples.json
   def index
     @filter = params[:filter]
@@ -119,6 +124,14 @@ class SamplesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_sample
       @sample = Sample.find(params[:id])
+    end
+
+    def authorize_sample_read!
+      authorize! :read, @sample || Sample
+    end
+
+    def authorize_sample_manage!
+      authorize! :manage, @sample || Sample
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,0 +1,46 @@
+<div class="overscroll-none">
+  <% content_for :title, "Poacher: Edit User" %>
+  <% content_for(:page_title, "EDIT USER") %>
+
+  <div id="edit-user" class="w-full md:w-4/5 lg:w-1/2 mx-auto mb-8 mt-6">
+
+    <h2 class="mb-1 text-3xl font-semibold"><%= @user.full_name %></h2>
+    <p class="mb-4 text-sm text-gray-500"><%= @user.email %></p>
+
+    <%= form_with model: @user, url: user_path(@user), method: :patch, local: true do |f| %>
+
+      <div class="mb-4">
+        <%= f.label :dept, "Department", class: label_class %>
+        <%= f.select :dept, department, { include_blank: "— none —" },
+              class: field_class_unsized %>
+      </div>
+
+      <fieldset class="border rounded-lg p-4">
+        <legend class="text-xs font-semibold text-gray-700 uppercase px-1">Groups</legend>
+
+        <div class="space-y-2">
+          <% @groups.each do |group| %>
+            <label class="flex items-center gap-2 text-sm text-gray-800">
+              <%= check_box_tag "user[group_ids][]", group.id,
+                    @user.groups.include?(group),
+                    id: "group_#{group.id}",
+                    class: checkbox_class %>
+              <%= group.display_name %>
+              <span class="text-xs text-gray-400">(<%= group.key %>)</span>
+            </label>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <%# Ensures unchecking every box still submits an empty group_ids param,
+          rather than the key being missing from params entirely. %>
+      <%= hidden_field_tag "user[group_ids][]", "" %>
+
+      <div class="mt-4 flex gap-2">
+        <%= f.submit "Save", class: fill_button_class %>
+        <%= link_to "Cancel", users_path, class: clear_button_class %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

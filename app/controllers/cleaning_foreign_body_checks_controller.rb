@@ -2,6 +2,10 @@ class CleaningForeignBodyChecksController < ApplicationController
   before_action :set_cleaning_foreign_body_check, only: %i[ show edit update destroy ]
   before_action :set_users, only: [:new, :edit, :create, :update]
 
+  # H&S: read · Dairy: manage (they own it).
+  before_action :authorize_cfbc_read!, only: %i[index show week_view]
+  before_action :authorize_cfbc_manage!, only: %i[new create edit update destroy]
+
   # GET /cleaning_foreign_body_checks or /cleaning_foreign_body_checks.json
   def index
     @cleaning_foreign_body_checks = CleaningForeignBodyCheck.all
@@ -73,6 +77,14 @@ class CleaningForeignBodyChecksController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_cleaning_foreign_body_check
       @cleaning_foreign_body_check = CleaningForeignBodyCheck.find(params[:id])
+    end
+
+    def authorize_cfbc_read!
+      authorize! :read, @cleaning_foreign_body_check || CleaningForeignBodyCheck
+    end
+
+    def authorize_cfbc_manage!
+      authorize! :manage, @cleaning_foreign_body_check || CleaningForeignBodyCheck
     end
 
     # Only allow a list of trusted parameters through.

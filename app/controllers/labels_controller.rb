@@ -20,6 +20,11 @@ class LabelsController < ApplicationController
 skip_before_action :authenticate_user!, only: [:show_pdf],
 if: -> { Rails.env.development? || Rails.env.test? }
 
+  # Printing/holding/releasing a cheese label requires :print_labels on Makesheet
+  # (Store and H&S have it; Dairy's :manage covers it too). show_pdf is the dev/test-only
+  # unauthenticated preview above and deliberately excluded.
+  before_action :authorize_print_labels!, except: [:show_pdf]
+
     def show_pdf
     @makesheet = Makesheet.find(params[:id])  # (id is actually a makesheet id)
     render layout: false
@@ -93,6 +98,12 @@ if: -> { Rails.env.development? || Rails.env.test? }
                 type: "application/pdf",
                 disposition: "inline"
     end
-  
+
+  private
+
+  def authorize_print_labels!
+    authorize! :print_labels, Makesheet
+  end
+
 end
 

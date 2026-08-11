@@ -3,6 +3,10 @@ class TurnsController < ApplicationController
   before_action :set_turn, only: %i[ show edit update destroy ]
   before_action :load_makesheets, only: %i[new edit create update]
 
+  # Office: read · Store: manage (they own it).
+  before_action :authorize_turn_read!, only: %i[index show aisle_summary]
+  before_action :authorize_turn_manage!, only: %i[new create edit update destroy bulk_create]
+
   # GET /turns or /turns.json
   def index
     @turns = Turn.ordered
@@ -148,6 +152,14 @@ class TurnsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_turn
       @turn = Turn.find(params[:id])
+    end
+
+    def authorize_turn_read!
+      authorize! :read, @turn || Turn
+    end
+
+    def authorize_turn_manage!
+      authorize! :manage, @turn || Turn
     end
 
     def load_makesheets

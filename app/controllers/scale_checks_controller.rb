@@ -2,6 +2,10 @@ class ScaleChecksController < ApplicationController
   before_action :set_scale_check, only: %i[show edit update destroy]
   before_action :set_users, only: %i[new edit create update]
 
+  # Office: read · H&S: read · Cutting: manage (they own it).
+  before_action :authorize_scale_check_read!, only: %i[index show week_view]
+  before_action :authorize_scale_check_manage!, only: %i[new create edit update destroy]
+
   def index
     @scale_checks = ScaleCheck.all
   end 
@@ -38,7 +42,9 @@ class ScaleChecksController < ApplicationController
 
 
   def edit
-     end
+    # Whoever opens the edit form is doing the signing — default to them.
+    @scale_check.user = current_user
+  end
 
   def create
     @scale_check = ScaleCheck.new(scale_check_params)
@@ -67,6 +73,14 @@ class ScaleChecksController < ApplicationController
 
   def set_scale_check
     @scale_check = ScaleCheck.find(params[:id])
+  end
+
+  def authorize_scale_check_read!
+    authorize! :read, @scale_check || ScaleCheck
+  end
+
+  def authorize_scale_check_manage!
+    authorize! :manage, @scale_check || ScaleCheck
   end
 
   def scale_check_params

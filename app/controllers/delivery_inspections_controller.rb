@@ -2,6 +2,10 @@ class DeliveryInspectionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_delivery_inspection, only: %i[show edit update destroy]
 
+  # Office: read · Dairy: manage (they own it).
+  before_action :authorize_delivery_inspection_read!, only: %i[index show]
+  before_action :authorize_delivery_inspection_manage!, only: %i[new create edit update destroy]
+
   def index
     @item_name = params[:item].presence
 
@@ -100,6 +104,14 @@ class DeliveryInspectionsController < ApplicationController
 
   def set_delivery_inspection
     @delivery_inspection = DeliveryInspection.find(params[:id])
+  end
+
+  def authorize_delivery_inspection_read!
+    authorize! :read, @delivery_inspection || DeliveryInspection
+  end
+
+  def authorize_delivery_inspection_manage!
+    authorize! :manage, @delivery_inspection || DeliveryInspection
   end
 
   def delivery_inspection_params

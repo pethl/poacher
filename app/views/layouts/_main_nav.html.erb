@@ -1,8 +1,23 @@
 
-  <a href="/pages/dairy_home" class="hover:opacity-90">Dairy</a>
-  <a href="/pages/store_home" class="hover:opacity-90">Store</a>
-  <a href="/pages/wash_home" class="hover:opacity-90">Wash</a>
-  <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
-  <a href="/pages/office_home" class="hover:opacity-90">Office</a>
-  <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
+  <% if current_user&.can_access_section?("dairy") %>
+    <a href="/pages/dairy_home" class="hover:opacity-90">Dairy</a>
+  <% end %>
+  <% if current_user&.can_access_section?("store") %>
+    <a href="/pages/store_home" class="hover:opacity-90">Store</a>
+  <% end %>
+  <% if current_user&.can_access_section?("store") %>
+    <a href="/pages/wash_home" class="hover:opacity-90">Wash</a>
+  <% end %>
+  <% if current_user&.can_access_section?("cutting") %>
+    <a href="/pages/cutting_home" class="hover:opacity-90">Cutting</a>
+  <% end %>
+  <% if current_user&.can_access_section?("office") %>
+    <a href="/pages/office_home" class="hover:opacity-90">Office</a>
+  <% end %>
+  <% if current_user&.can_access_section?("hs") %>
+    <a href="/pages/hs_home" class="hover:opacity-90">H&amp;S</a>
+  <% end %>
+  <% if current_user&.can_access_section?("mgmt") %>
+    <a href="/pages/mgmt_home" class="hover:opacity-90">Mgmt</a>
+  <% end %>
 

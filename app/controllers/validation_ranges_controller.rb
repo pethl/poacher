@@ -4,6 +4,10 @@ class ValidationRangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_validation_range, only: %i[show edit update destroy]
 
+  # Office: manage · Dairy: manage (dual owner, confirmed intentional).
+  before_action :authorize_validation_range_read!, only: %i[index show]
+  before_action :authorize_validation_range_manage!, only: %i[new create edit update destroy]
+
   # GET /validation_ranges
   def index
     scope =
@@ -115,6 +119,14 @@ class ValidationRangesController < ApplicationController
 
   def set_validation_range
     @validation_range = ValidationRange.find(params[:id])
+  end
+
+  def authorize_validation_range_read!
+    authorize! :read, @validation_range || ValidationRange
+  end
+
+  def authorize_validation_range_manage!
+    authorize! :manage, @validation_range || ValidationRange
   end
 
   def validation_range_params

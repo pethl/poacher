@@ -7,6 +7,11 @@ RSpec.describe "Makesheet PDF", type: :request do
   let!(:makesheet) { create(:makesheet, make_date: Date.current) }
 
   before do
+    # print_makesheet_pdf requires :read on Makesheet — grant directly rather than relying
+    # on the business matrix (db/seeds/authorization.rb), which can change independently.
+    join_group(user, "office")
+    grant("office", "makesheet", :read)
+
     sign_in user
     # Optional: silence mailers triggered by user creation
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
@@ -43,6 +48,15 @@ RSpec.describe "Makesheet PDF", type: :request do
     end
 
     puts "\n📊 Tested #{tested_count} existing makesheet PDF#{'s' unless tested_count == 1}\n"
+  end
+
+  it "is denied for a user without :read on Makesheet" do
+    outsider = create(:user)
+    sign_in outsider
+
+    get print_makesheet_pdf_path(makesheet)
+
+    expect(response).to redirect_to(root_path)
   end
 end
 

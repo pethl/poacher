@@ -3,6 +3,10 @@ class IngredientBatchChangesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_makesheet
 
+  # Office: read · H&S: read · Dairy: manage (they own it). Only new/create exist here.
+  before_action :authorize_ingredient_batch_change_read!, only: %i[new]
+  before_action :authorize_ingredient_batch_change_manage!, only: %i[create]
+
   def new
     @items = dairy_ingredients
     @item  = params[:item].presence
@@ -62,6 +66,14 @@ end
   private
   def set_makesheet
     @makesheet = Makesheet.find(params[:makesheet_id])
+  end
+
+  def authorize_ingredient_batch_change_read!
+    authorize! :read, IngredientBatchChange
+  end
+
+  def authorize_ingredient_batch_change_manage!
+    authorize! :manage, IngredientBatchChange
   end
 end
 

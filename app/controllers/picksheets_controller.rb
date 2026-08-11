@@ -16,6 +16,19 @@ class PicksheetsController < ApplicationController
                   dispatch_and_collection
                 ]
 
+  # Office: manage · Cutting: read. All the dashboards/reports/PDFs are viewing, not
+  # editing, so they sit on :read (covers Cutting printing their own picking sheets).
+  # move_to_cutting_room bulk-updates status on every Assigned picksheet — a write, so
+  # :manage (Office only, same as Cutting's other read-only relationship to Picksheet).
+  before_action :authorize_picksheet_read!, only: %i[
+    index show hold_picksheets assigned_picksheets cutting_picksheets shipped_picksheets
+    daily_cheese_manifest dispatch_and_collection summary
+    print_picksheet_pdf print_manifest_pdf print_dispatch_pdf
+  ]
+  before_action :authorize_picksheet_manage!, only: %i[
+    new create edit update destroy move_to_cutting_room
+  ]
+
 # ==========================================================
 # CRUD
 # ==========================================================
@@ -305,6 +318,14 @@ class PicksheetsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_picksheet
       @picksheet = Picksheet.find(params[:id])
+    end
+
+    def authorize_picksheet_read!
+      authorize! :read, @picksheet || Picksheet
+    end
+
+    def authorize_picksheet_manage!
+      authorize! :manage, @picksheet || Picksheet
     end
 
 

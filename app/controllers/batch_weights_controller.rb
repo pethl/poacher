@@ -2,6 +2,10 @@ class BatchWeightsController < ApplicationController
   before_action :set_batch_weight, only: %i[ show edit update destroy ]
   before_action :set_makesheets, only: %i[new create]
 
+  # Admin/Mgmt only — not in the bounded-group matrix at all, so no other group ever
+  # passes either check; kept as a read/manage split for consistency with the rest.
+  before_action :authorize_batch_weight_read!, only: %i[index show waste_trend]
+  before_action :authorize_batch_weight_manage!, only: %i[new create edit update destroy]
 
   # GET /batch_weights or /batch_weights.json
   def index
@@ -111,6 +115,14 @@ class BatchWeightsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_batch_weight
       @batch_weight = BatchWeight.find(params[:id])
+    end
+
+    def authorize_batch_weight_read!
+      authorize! :read, @batch_weight || BatchWeight
+    end
+
+    def authorize_batch_weight_manage!
+      authorize! :manage, @batch_weight || BatchWeight
     end
 
     # Only allow a list of trusted parameters through.

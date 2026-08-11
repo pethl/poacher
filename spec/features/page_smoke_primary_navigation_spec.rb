@@ -12,7 +12,10 @@ RSpec.feature "PrimaryNavigationSmoke", type: :feature do
   include Rails.application.routes.url_helpers
 
   scenario "admin can open the primary navigation links from each section" do
-    admin = create(:user, role: :admin)
+    # `role:` is the old pre-group attribute and no longer grants anything — is_admin?
+    # and every authorize! check now read from the admin Group/Membership instead.
+    admin = create(:user)
+    join_group(admin, "admin")
     login_as(admin, scope: :user)
 
     # --- Configuration ------------------------------------------------------

@@ -1,6 +1,19 @@
 class LocationsController < ApplicationController
   before_action :set_location, only: %i[ show edit update destroy ]
 
+  # Office: manage (they own it) · H&S: read · Store: read.
+  before_action :authorize_location_read!, only: %i[
+    index show shed_map print_labels print_markers print_wizard duplicate_assignments
+  ]
+  before_action :authorize_location_manage!, only: %i[new create edit update destroy]
+
+  # clear_location_assignment writes to makesheet.location_id, same as
+  # LocationAssignmentsController#create — reuses the same narrow :assign_location
+  # action on Makesheet (Store) rather than requiring :manage on Location, since Store
+  # only has :read there but already has a "Duplicate Location Checker" button on
+  # store_home that leads here.
+  before_action :authorize_location_assign!, only: %i[clear_location_assignment]
+
   # GET /locations or /locations.json
   def index
     @locations = Location.all
@@ -84,6 +97,11 @@ class LocationsController < ApplicationController
       format.html { redirect_to locations_path, status: :see_other, notice: "Location was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  # GET /locations/print_wizard — just renders the form hub linking to print_labels,
+  # print_markers and print_cheese_labels. No instance vars needed, same as show/edit.
+  def print_wizard
   end
 
   def print_labels
@@ -191,6 +209,18 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_location
       @location = Location.find(params[:id])
+    end
+
+    def authorize_location_read!
+      authorize! :read, @location || Location
+    end
+
+    def authorize_location_manage!
+      authorize! :manage, @location || Location
+    end
+
+    def authorize_location_assign!
+      authorize! :assign_location, Makesheet
     end
 
     # Only allow a list of trusted parameters through.

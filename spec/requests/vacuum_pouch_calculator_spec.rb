@@ -15,6 +15,12 @@ RSpec.describe "VacuumPouchCalculator", type: :request do
   end
 
   before do
+    # VacuumPouchCalculatorController requires :manage on PicksheetItem — grant directly
+    # rather than relying on the business matrix (db/seeds/authorization.rb), which can
+    # change independently.
+    join_group(user, "cutting")
+    grant("cutting", "picksheet_item", :manage)
+
     sign_in user
   end
 
@@ -60,6 +66,17 @@ RSpec.describe "VacuumPouchCalculator", type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("200 x 300")
       expect(response.body).to include("875.0 g")
+    end
+  end
+
+  describe "authorization" do
+    it "is denied for a user without :manage on PicksheetItem" do
+      outsider = create(:user)
+      sign_in outsider
+
+      get vacuum_pouch_calculator_new_path
+
+      expect(response).to redirect_to(root_path)
     end
   end
 end

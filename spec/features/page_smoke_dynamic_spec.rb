@@ -21,7 +21,7 @@ RSpec.feature "PageSmoke (dynamic)", type: :feature do
 
   SAFE_ACTIONS = %w[
     index new summary week_view preload rolling_geo_average
-    home dairy_home store_home wash_home cutting_home office_home mgmt_home
+    home dairy_home store_home wash_home cutting_home office_home hs_home mgmt_home
     credits graded_blackboard monthly_summary overview recent
   ].freeze
 
@@ -33,6 +33,7 @@ RSpec.feature "PageSmoke (dynamic)", type: :feature do
     "pages#wash_home"   => "WASH",
     "pages#cutting_home"=> "CUTTING",
     "pages#office_home" => "OFFICE",
+    "pages#hs_home"     => "HEALTH & SAFETY",
     "pages#mgmt_home"   => "MANAGEMENT",
     "pages#credits"     => "CREDITS",
     "vacuum_pouch_calculator#new" => "WEIGHT CALCULATOR",
@@ -110,7 +111,10 @@ RSpec.feature "PageSmoke (dynamic)", type: :feature do
   end
 
   scenario "admin user loads all safe pages and sees content_for titles or OK status" do
-    admin = create(:user, role: :admin)
+    # `role:` is the old pre-group attribute and no longer grants anything — is_admin?
+    # and every authorize! check now read from the admin Group/Membership instead.
+    admin = create(:user)
+    join_group(admin, "admin")
     login_as(admin, scope: :user)
 
     discovered = discover_paramless_get_paths

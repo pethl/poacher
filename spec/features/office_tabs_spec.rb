@@ -5,6 +5,8 @@ RSpec.describe 'Office tabs', type: :feature, js: true do
   let(:user) { create(:user) }
 
   before do
+    # office_home now requires section access — grant it directly.
+    join_group(user, "office")
     login_as(user, scope: :user)
   end
 

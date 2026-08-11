@@ -5,7 +5,11 @@ class PicksheetItemsController < ApplicationController
   before_action :prepare_customer_makesheets, only: %i[new edit create update]
   before_action :prepare_form_collections, only: %i[new edit create update]
 
-  
+  # Office: manage · Cutting: manage. Both groups manage this one, so read vs manage
+  # doesn't actually gate anyone out here — kept for consistency with the rest.
+  before_action :authorize_picksheet_item_read!, only: %i[show]
+  before_action :authorize_picksheet_item_manage!, only: %i[new edit create update destroy]
+
   # NEW (inline in a frame)
   def new
     @picksheet_item = @picksheet.picksheet_items.build
@@ -119,6 +123,14 @@ class PicksheetItemsController < ApplicationController
 
   def set_picksheet_item
     @picksheet_item = @picksheet.picksheet_items.find(params[:id])
+  end
+
+  def authorize_picksheet_item_read!
+    authorize! :read, @picksheet_item || PicksheetItem
+  end
+
+  def authorize_picksheet_item_manage!
+    authorize! :manage, @picksheet_item || PicksheetItem
   end
 
   # Build canonical product + size from your multiple inputs

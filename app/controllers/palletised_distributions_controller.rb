@@ -2,6 +2,10 @@ class PalletisedDistributionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_palletised_distribution, only: %i[show edit update destroy]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_palletised_distribution_read!, only: %i[index show]
+  before_action :authorize_palletised_distribution_manage!, only: %i[new create edit update destroy]
+
   def index
     @palletised_distributions = PalletisedDistribution.ordered
   end
@@ -99,6 +103,14 @@ class PalletisedDistributionsController < ApplicationController
 
   def set_palletised_distribution
     @palletised_distribution = PalletisedDistribution.find(params[:id])
+  end
+
+  def authorize_palletised_distribution_read!
+    authorize! :read, @palletised_distribution || PalletisedDistribution
+  end
+
+  def authorize_palletised_distribution_manage!
+    authorize! :manage, @palletised_distribution || PalletisedDistribution
   end
 
   def all_params_blank?(attrs)

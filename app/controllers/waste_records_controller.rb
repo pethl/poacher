@@ -2,6 +2,11 @@ class WasteRecordsController < ApplicationController
   before_action :set_traceability_record
   before_action :set_waste_record, only: %i[edit update destroy]
 
+  # Same split as TraceabilityRecord, which it's always nested under: Office reads,
+  # Cutting manages.
+  before_action :authorize_waste_record_read!, only: %i[index]
+  before_action :authorize_waste_record_manage!, only: %i[new create edit update destroy]
+
   # GET /waste_records
   def index
     @waste_records = WasteRecord.all
@@ -57,6 +62,14 @@ class WasteRecordsController < ApplicationController
 
     def set_waste_record
       @waste_record = @traceability_record.waste_records.find(params[:id])
+    end
+
+    def authorize_waste_record_read!
+      authorize! :read, @waste_record || WasteRecord
+    end
+
+    def authorize_waste_record_manage!
+      authorize! :manage, @waste_record || WasteRecord
     end
 
     def waste_record_params

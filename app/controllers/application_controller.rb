@@ -8,9 +8,16 @@ class ApplicationController < ActionController::Base
   #include AbstractController::Rendering
   helper_method :is_admin?
  
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: exception.message }
+      format.json { render json: { error: exception.message }, status: :forbidden }
+    end
+  end
+
   def is_admin?
-    user_signed_in? ? current_user.admin : false
-  end  
+    user_signed_in? ? current_user.in_group?("admin") : false
+  end
 
   def after_sign_in_path_for(resource)
      root_path

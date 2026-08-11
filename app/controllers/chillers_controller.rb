@@ -1,6 +1,10 @@
 class ChillersController < ApplicationController
   before_action :set_chiller, only: %i[ show edit update destroy ]
 
+  # H&S: read · Cutting: manage (they own it). No Office access.
+  before_action :authorize_chiller_read!, only: %i[index show]
+  before_action :authorize_chiller_manage!, only: %i[new create edit update destroy create_month]
+
   #button on index to create a month of blank records at a time
   def create_month
     get_latest_date = Chiller.exists? ? Chiller.all.ordered.last.date : Date.today.beginning_of_month - 1.day
@@ -44,6 +48,8 @@ class ChillersController < ApplicationController
   # GET /chillers/1/edit
   def edit
     @users = User.where(dept: "Cutting Room", employment_status: "Active").ordered
+    # Whoever opens the edit form is doing the signing — default to them.
+    @chiller.user_id = current_user.id
   end
 
   # POST /chillers or /chillers.json
@@ -93,6 +99,14 @@ class ChillersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_chiller
       @chiller = Chiller.find(params[:id])
+    end
+
+    def authorize_chiller_read!
+      authorize! :read, @chiller || Chiller
+    end
+
+    def authorize_chiller_manage!
+      authorize! :manage, @chiller || Chiller
     end
 
     # Only allow a list of trusted parameters through.

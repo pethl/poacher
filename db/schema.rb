@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
+ActiveRecord::Schema[7.1].define(version: 2026_08_11_150004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -286,6 +286,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
     t.index ["updated_by_id"], name: "index_grading_notes_on_updated_by_id"
   end
 
+  create_table "group_permissions", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.string "resource_key", null: false
+    t.string "action", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "resource_key", "action"], name: "index_group_permissions_on_group_resource_action", unique: true
+    t.index ["group_id"], name: "index_group_permissions_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "display_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_groups_on_key", unique: true
+  end
+
   create_table "ingredient_batch_changes", force: :cascade do |t|
     t.bigint "makesheet_id", null: false
     t.bigint "delivery_inspection_id", null: false
@@ -481,6 +499,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
     t.index ["market", "sale_date"], name: "index_market_sales_on_market_and_sale_date"
     t.index ["sale_date"], name: "index_market_sales_on_sale_date"
     t.index ["updated_by_id"], name: "index_market_sales_on_updated_by_id"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_memberships_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "milk_quality_monitors", force: :cascade do |t|
@@ -846,6 +874,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
   add_foreign_key "grading_notes", "users", column: "created_by_id"
   add_foreign_key "grading_notes", "users", column: "head_taster_id"
   add_foreign_key "grading_notes", "users", column: "updated_by_id"
+  add_foreign_key "group_permissions", "groups"
   add_foreign_key "ingredient_batch_changes", "delivery_inspections"
   add_foreign_key "ingredient_batch_changes", "makesheets"
   add_foreign_key "ingredient_batch_changes", "users", column: "created_by_id"
@@ -864,6 +893,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_08_09_142542) do
   add_foreign_key "makesheets", "users", column: "updated_by_id"
   add_foreign_key "market_sales", "users", column: "created_by_id"
   add_foreign_key "market_sales", "users", column: "updated_by_id"
+  add_foreign_key "memberships", "groups"
+  add_foreign_key "memberships", "users"
   add_foreign_key "milk_quality_monitors", "makesheets"
   add_foreign_key "milk_quality_monitors", "users", column: "created_by_id"
   add_foreign_key "milk_quality_monitors", "users", column: "updated_by_id"

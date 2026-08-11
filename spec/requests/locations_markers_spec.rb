@@ -5,6 +5,11 @@ RSpec.describe "LocationsController#print_markers", type: :request do
   let(:user) { create(:user) }
 
   before do
+    # print_markers requires :read on Location — grant directly rather than relying on
+    # the business matrix (db/seeds/authorization.rb), which can change independently.
+    join_group(user, "office")
+    grant("office", "location", :read)
+
     sign_in user
     # keep background mails quiet
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
@@ -38,5 +43,14 @@ RSpec.describe "LocationsController#print_markers", type: :request do
     get print_markers_locations_path, params: { aisle_name: "Shed 1 - Aisle 1 Left" }
 
     expect_pdf_ok!
+  end
+
+  it "is denied for a user without :read on Location" do
+    outsider = create(:user)
+    sign_in outsider
+
+    get print_markers_locations_path, params: { aisle_name: "ALL" }
+
+    expect(response).to redirect_to(root_path)
   end
 end

@@ -2,21 +2,9 @@ class WashesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_wash, only: %i[show edit update destroy]
 
-  def wash_home
-    @wash_created = Wash.where(wash_status: "Created").ordered.first
-    @todays_wash = Wash.ordered.last
-    @wash_approved = Wash.where(wash_status: "Approved").ordered.last
-
-    @picksheetitems =
-      if @wash_approved
-        PicksheetItem.where(picksheet_id: @wash_approved.picksheet_ids)
-      else
-        PicksheetItem.none
-      end
-
-    @picksheetitems = washable_picksheet_items(@picksheetitems)
-    @picksheetitems_by_product = @picksheetitems.group_by(&:product)
-  end
+  # Office: read · Store: manage (they own it) · Cutting: read.
+  before_action :authorize_wash_read!, only: %i[index show print_washsheet_pdf]
+  before_action :authorize_wash_manage!, only: %i[new create edit update destroy]
 
   # GET /washes
   def index
@@ -254,6 +242,14 @@ class WashesController < ApplicationController
 
   def set_wash
     @wash = Wash.find(params[:id])
+  end
+
+  def authorize_wash_read!
+    authorize! :read, @wash || Wash
+  end
+
+  def authorize_wash_manage!
+    authorize! :manage, @wash || Wash
   end
 
   def wash_params

@@ -1,6 +1,10 @@
 class MilkQualityMonitorsController < ApplicationController
   before_action :set_milk_quality_monitor, only: %i[ show edit update destroy ]
 
+  # Office: read · H&S: manage. Nobody else has any access.
+  before_action :authorize_milk_quality_monitor_read!, only: %i[index show rolling_geo_average]
+  before_action :authorize_milk_quality_monitor_manage!, only: %i[new create edit update destroy import]
+
   # GET /milk_quality_monitors or /milk_quality_monitors.json
   def index
     @milk_quality_monitors = MilkQualityMonitor.all.ordered
@@ -79,6 +83,14 @@ class MilkQualityMonitorsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_milk_quality_monitor
       @milk_quality_monitor = MilkQualityMonitor.find(params[:id])
+    end
+
+    def authorize_milk_quality_monitor_read!
+      authorize! :read, @milk_quality_monitor || MilkQualityMonitor
+    end
+
+    def authorize_milk_quality_monitor_manage!
+      authorize! :manage, @milk_quality_monitor || MilkQualityMonitor
     end
 
     # Only allow a list of trusted parameters through.

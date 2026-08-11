@@ -5,6 +5,12 @@ RSpec.describe "LabelsController", type: :request do
   let(:user) { create(:user) }
 
   before do
+    # Every action here (bar show_pdf, not covered by this spec) requires :print_labels
+    # on Makesheet — grant it directly rather than depending on a specific group's
+    # place in the business matrix, which can change independently of this spec.
+    join_group(user, "store")
+    grant("store", "makesheet", :print_labels)
+
     sign_in user
     # keep mailers quiet in test
     allow(UserMailer).to receive_message_chain(:welcome_email, :deliver_later)
@@ -67,6 +73,23 @@ RSpec.describe "LabelsController", type: :request do
     it "redirects to the print wizard when dates are missing" do
       get print_cheese_labels_path, params: { start_date: "", end_date: "" }
       expect(response).to redirect_to(print_wizard_locations_path)
+    end
+  end
+
+  describe "authorization" do
+    let(:outsider) { create(:user) } # no group, no :print_labels grant
+
+    before do
+      sign_in outsider
+    end
+
+    it "is denied for a user without :print_labels on Makesheet" do
+      makesheet = create(:makesheet)
+
+      get preview_single_cheese_label_path(makesheet)
+
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to be_present
     end
   end
 end

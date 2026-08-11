@@ -6,6 +6,18 @@ class MakesheetsController < ApplicationController
   before_action :set_bucket_tare, only: [:new, :create, :edit, :update]
   before_action :set_starter_defaults,  only: [:new, :create, :edit, :update]
 
+  # Read-only/report actions: anyone with :read (or :manage) on Makesheet.
+  before_action :authorize_makesheet_read!, only: %i[
+    makesheet_search recent overview yield_dashboard batch_turns graded_blackboard
+    monthly_summary rennet_for_milk_lookup index show qr_code print_makesheet_pdf
+    summary on_hold
+  ]
+
+  # Actions that create/change/destroy a Makesheet: :manage only (Dairy, plus Admin/Mgmt).
+  before_action :authorize_makesheet_manage!, only: %i[
+    new create simple_new edit update destroy
+  ]
+
   
 
   def makesheet_search
@@ -386,6 +398,17 @@ class MakesheetsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_makesheet
       @makesheet = Makesheet.find(params[:id])
+    end
+
+    # Uses @makesheet when set_makesheet already ran (show/edit/update/destroy/batch_turns);
+    # otherwise checks the class, which is equivalent under this app's Ability rules since
+    # none of them carry per-record conditions.
+    def authorize_makesheet_read!
+      authorize! :read, @makesheet || Makesheet
+    end
+
+    def authorize_makesheet_manage!
+      authorize! :manage, @makesheet || Makesheet
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,6 +1,10 @@
 class TraceabilityRecordsController < ApplicationController
   before_action :set_traceability_record, only: %i[ show edit update destroy ]
 
+  # Office: read · Cutting: manage (they own it).
+  before_action :authorize_traceability_record_read!, only: %i[index show]
+  before_action :authorize_traceability_record_manage!, only: %i[new create edit update destroy]
+
   # GET /traceability_records or /traceability_records.json
   def index
     # only show records linked to open makesheets. makesheet is closed when sally adds to a batch weight record
@@ -89,7 +93,15 @@ class TraceabilityRecordsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_traceability_record
       @traceability_record = TraceabilityRecord.find(params[:id])
-      
+
+    end
+
+    def authorize_traceability_record_read!
+      authorize! :read, @traceability_record || TraceabilityRecord
+    end
+
+    def authorize_traceability_record_manage!
+      authorize! :manage, @traceability_record || TraceabilityRecord
     end
 
     # Only allow a list of trusted parameters through.

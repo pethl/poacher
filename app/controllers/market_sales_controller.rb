@@ -2,6 +2,10 @@ class MarketSalesController < ApplicationController
   before_action :set_market_sale, only: %i[ show edit update destroy ]
   before_action :set_existing_names, only: [:new, :edit]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_market_sale_read!, only: %i[index show summary summary_end]
+  before_action :authorize_market_sale_manage!, only: %i[new create edit update destroy]
+
   # GET /market_sales or /market_sales.json
   def index
     @market_sales = MarketSale.all
@@ -180,6 +184,14 @@ def summary
     # Use callbacks to share common setup or constraints between actions.
     def set_market_sale
       @market_sale = MarketSale.find(params[:id])
+    end
+
+    def authorize_market_sale_read!
+      authorize! :read, @market_sale || MarketSale
+    end
+
+    def authorize_market_sale_manage!
+      authorize! :manage, @market_sale || MarketSale
     end
 
     # Only allow a list of trusted parameters through.

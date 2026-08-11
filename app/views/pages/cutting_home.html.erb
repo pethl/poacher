@@ -9,7 +9,9 @@
     <%= link_to "Dispatch and Collection", "/picksheets/dispatch_and_collection", class: "#{nav_box_class} mx-auto" %>
 
     <%= link_to "Individual Batch Traceability", "/traceability_records", class: "#{nav_box_class} mx-auto" %>
-    <%= link_to "Cheese Batch Weights", "/batch_weights", class: "#{nav_box_class} mx-auto" %>
+    <% if can? :read, BatchWeight %>
+      <%= link_to "Batch Weights Report", "/batch_weights", class: "#{nav_box_class} mx-auto" %>
+    <% end %>
     <%= link_to "Calculator", "/vacuum_pouch_calculator", class: "#{nav_box_class} mx-auto" %>
 
 

@@ -1,6 +1,6 @@
 <% qr = RQRCode::QRCode.new(development_url) %>
 
-<<div class="fixed bottom-3 right-3 bg-white/90 backdrop-blur
+<div class="fixed bottom-3 right-3 bg-white/90 backdrop-blur
             border border-green-600 rounded-lg shadow-lg
             p-2 z-50">
 
@@ -13,4 +13,26 @@
         standalone: true,
         use_path: true
       ) %>
+</div>
+
+<% if current_user %>
+  <div class="fixed bottom-3 left-3 bg-white/90 backdrop-blur
+              border border-blue-600 rounded-lg shadow-lg
+              p-2 z-50 text-[11px] text-gray-800 max-w-xs">
+
+    <div class="text-[10px] font-semibold text-blue-700 mb-1">
+      🔑 Dev: current_user
+    </div>
+
+    <div><%= current_user.email %></div>
+
+    <div class="text-gray-600">
+      Groups:
+      <% if current_user.groups.any? %>
+        <%= current_user.groups.map(&:display_name).sort.join(", ") %>
+      <% else %>
+        <span class="italic text-red-600">none assigned</span>
+      <% end %>
+    </div>
   </div>
+<% end %>

@@ -47,4 +47,59 @@ RSpec.describe User, type: :model do
         expect(User.active).not_to include(inactive)
       end
     end
+
+  describe "#in_group?" do
+    it "is true once the user has joined the group" do
+      user = create(:user)
+      join_group(user, "dairy")
+
+      expect(user.in_group?("dairy")).to be true
+      expect(user.in_group?(:dairy)).to be true # accepts a symbol too
+    end
+
+    it "is false for a group the user hasn't joined" do
+      user = create(:user)
+      join_group(user, "dairy")
+
+      expect(user.in_group?("cutting")).to be false
+    end
+
+    it "is false with no group membership at all" do
+      user = create(:user)
+
+      expect(user.in_group?("dairy")).to be false
+    end
+  end
+
+  describe "#can_access_section?" do
+    it "is true for a bounded group the user has joined" do
+      user = create(:user)
+      join_group(user, "office")
+
+      expect(user.can_access_section?("office")).to be true
+    end
+
+    it "is false for a bounded section the user hasn't joined" do
+      user = create(:user)
+      join_group(user, "office")
+
+      expect(user.can_access_section?("dairy")).to be false
+    end
+
+    it "is true for any section when the user is admin" do
+      user = create(:user)
+      join_group(user, "admin")
+
+      expect(user.can_access_section?("dairy")).to be true
+      expect(user.can_access_section?("office")).to be true
+    end
+
+    it "is true for any section when the user is mgmt" do
+      user = create(:user)
+      join_group(user, "mgmt")
+
+      expect(user.can_access_section?("dairy")).to be true
+      expect(user.can_access_section?("store")).to be true
+    end
+  end
 end

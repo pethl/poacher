@@ -2,6 +2,10 @@ class ReferencesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_reference, only: %i[ show edit update destroy ]
 
+  # Office: manage. Nobody else has any access at all.
+  before_action :authorize_reference_read!, only: %i[index show]
+  before_action :authorize_reference_manage!, only: %i[new create edit update destroy]
+
   # GET /references or /references.json
   def index
     scope = Reference.all
@@ -69,6 +73,14 @@ class ReferencesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_reference
       @reference = Reference.find(params[:id])
+    end
+
+    def authorize_reference_read!
+      authorize! :read, @reference || Reference
+    end
+
+    def authorize_reference_manage!
+      authorize! :manage, @reference || Reference
     end
 
     # Only allow a list of trusted parameters through.

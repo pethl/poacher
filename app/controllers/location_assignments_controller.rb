@@ -1,6 +1,13 @@
 class LocationAssignmentsController < ApplicationController
   require "ostruct"
 
+  # No LocationAssignment model exists — this controller works across Location and
+  # Makesheet directly. Reports need :read on Location (Office/H&S/Store all have it);
+  # actually assigning a makesheet to a location needs the narrow :assign_location
+  # custom action on Makesheet (currently Store only) rather than full :manage.
+  before_action :authorize_location_read!, only: %i[location_report inspection_results]
+  before_action :authorize_location_assign!, only: %i[new create]
+
   def new
     @location_assignment = OpenStruct.new(location_id: params[:location_id])
   end
@@ -127,7 +134,15 @@ capacity = Location.where(location_type: "Trolley").count
  
   
   private
-  
+
+  def authorize_location_read!
+    authorize! :read, Location
+  end
+
+  def authorize_location_assign!
+    authorize! :assign_location, Makesheet
+  end
+
   def chart_data_for_scope(locations)
     ids = locations.map(&:id)
     occupied_ids = Makesheet.where(location_id: ids).pluck(:location_id).uniq

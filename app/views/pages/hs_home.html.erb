@@ -1,0 +1,50 @@
+<% content_for(:page_title, "HEALTH & SAFETY") %>
+
+<div class="max-w-5xl mx-auto px-4 mt-8 mb-8">
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+
+    <% if can? :manage, Sample %>
+    <%= link_to "Samples", "/samples", class: "#{nav_box_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :manage, MilkQualityMonitor %>
+    <%= link_to "Milk Quality", "/milk_quality_monitors", class: "#{nav_box_class} mx-auto" %>
+    <% end %>
+
+  </div>
+
+  <div class="h-8"></div>
+
+  <h2 class="text-lg font-semibold mb-2">Oversight</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+
+    <% if can? :read, Makesheet %>
+    <%= link_to "Makesheets", "/makesheets", class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :read, Breakage %>
+    <%= link_to "Metal Breakages", "/breakages", class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :read, Location %>
+    <%= link_to "Shed Maps", shed_map_path(shed: 4), class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :read, CleaningForeignBodyCheck %>
+    <%= link_to "Cleaning Schedule", "/cleaning_foreign_body_checks/week_view", class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :read, ScaleCheck %>
+    <%= link_to "Scale Checks", "/scale_checks/week_view", class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+    <% if can? :read, Chiller %>
+    <%= link_to "Chiller Temp Display", "/chillers", class: "#{nav_box_light_class} mx-auto" %>
+    <% end %>
+
+
+
+  </div>
+
+</div>
