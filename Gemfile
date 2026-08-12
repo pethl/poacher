@@ -6,7 +6,7 @@ ruby "3.3.7"
 # Framework and server
 gem "rails", "~> 7.1.3"
 gem "logger"
-gem "puma", "~> 6.0"
+gem "puma", ">= 7.0.3", "< 8"
 
 # Database
 gem "pg"
