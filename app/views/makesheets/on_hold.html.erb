@@ -1,6 +1,8 @@
 <% content_for :title, "Poacher: On Hold Makesheets" %>
 <% content_for :page_title, "ON HOLD – #{params[:status] == 'finished' ? 'Finished' : 'In Store'}" %>
-<%= render 'shared/dairy_nav' %>
+<div class="hidden md:block">
+  <%= render 'shared/dairy_nav' %>
+</div>
 
 <div class="max-w-4xl mx-auto px-4">
 

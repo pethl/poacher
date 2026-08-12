@@ -17,12 +17,11 @@
       <% end %>
     </div>
 
-    <div class="rounded-lg ">
-      <%= turbo_frame_tag "contacts" do %>
+    <div class="rounded-lg">
+      <%= turbo_frame_tag "contacts", target: "_top" do %>
       <%= render "contacts_table", contacts: @contacts %>
       <% end %>
     </div>
-
 
   </div>
 </div>

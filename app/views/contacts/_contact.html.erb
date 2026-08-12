@@ -10,8 +10,11 @@
     <!-- Row 2 -->
     <label class="text-right font-semibold text-gray-700">Reference</label>
     <div><%= contact.reference %></div>
+
     <label class="text-right font-semibold text-gray-700">Email</label>
-    <div><%= contact.email %></div>
+    <div class="min-w-0 break-words">
+      <%= contact.email %>
+    </div>
 
     <!-- Row 3 -->
     <label class="text-right font-semibold text-gray-700">Mobile</label>

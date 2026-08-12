@@ -118,12 +118,13 @@
     <!-- Milk -->
 
     <div class="col-span-1 text-left font-light">MILK</div>
+
     <div class="col-span-1 self-center">
       <%= form.label :milk_used, "Milk (ltrs)", class: label_class %>
     </div>
-    <div class="col-span-2 md:col-span-1 text-left">
+    <div class="col-span-1 md:col-span-1 text-left">
       <%= form.number_field :milk_used, placeholder: "litres", class: makesheet_small_right_class, step: :any,
-              data: { action: "input->makesheet#updateSaltWeights", makesheet_target: "milkUsed" } %>
+                      data: { action: "input->makesheet#updateSaltWeights", makesheet_target: "milkUsed" } %>
     </div>
     <div class="col-span-2 self-center">
       <%= form.label :warm_am, class: label_class %>
@@ -137,22 +138,35 @@
     <div class="col-span-2 md:col-span-1 text-left">
       <%= form.select :twelve_hr_pm, options_for_select(yes_no, selected: makesheet.twelve_hr_pm || "Yes"), {}, class: makesheet_small_left_class %>
     </div>
-    <div></div>
+    <div>
+    </div>
 
     <!-- Milk From FM -->
 
-    <div class="col-span-1 text-left font-light">MILK FROM FARMERS MARKETS</div>
-    <div class="col-span-1 self-center">
+    <div class="col-span-4 md:col-span-1 text-left font-light">
+      MILK FROM FARMERS MARKETS
+    </div>
+
+    <div class="col-span-2 md:col-span-1 self-center">
       <%= form.label :number_of_bottles_from_fm, "Number of Bottles", class: label_class %>
     </div>
+
     <div class="col-span-2 md:col-span-1 text-left">
-      <%= form.number_field :number_of_bottles_from_fm, class: makesheet_small_right_class %>
+      <%= form.number_field :number_of_bottles_from_fm,
+        class: "#{makesheet_small_right_class} w-full md:w-auto" %>
     </div>
-    <div class="col-span-2 self-center">
+
+    <!-- Force next fields onto a new row on desktop -->
+    <div class="hidden md:block md:col-span-1"></div>
+
+    <!-- New row -->
+    <div class="col-span-2 md:col-start-2 md:col-span-1 self-center">
       <%= form.label :use_by_date_milk_from_fm, "Use By Date", class: label_class %>
     </div>
-    <div class="col-span-2 md:col-span-1 text-left">
-      <%= form.date_field :use_by_date_milk_from_fm, class: makesheet_med_class %>
+
+    <div class="col-span-2 md:col-span-1 text-left min-w-0">
+      <%= form.date_field :use_by_date_milk_from_fm,
+        class: "#{makesheet_med_class} w-full max-w-full md:w-auto" %>
     </div>
 
 

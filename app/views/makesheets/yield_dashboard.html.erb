@@ -1,10 +1,12 @@
   <% content_for :title, "Poacher: Yield Management" %>
   <% content_for(:page_title, "YIELD DASHBOARD")%>
-  <%= render 'shared/dairy_nav' %>
+  <div class="hidden md:block">
+    <%= render 'shared/dairy_nav' %>
+  </div>
 
-<div class="w-full sm:w-full md:w-full lg:w-2/3 xl:w-1/2 mx-auto bg-white p-4 flex flex-col justify-center">
+  <div class="w-full sm:w-full md:w-full lg:w-2/3 xl:w-1/2 mx-auto bg-white p-4 flex flex-col justify-center">
 
-  <% @make_types.select { |type| type == "Standard" }.each do |make_type| %>
+    <% @make_types.select { |type| type == "Standard" }.each do |make_type| %>
 
     <div class="bg-white rounded-2xl shadow-lg border-gray-300  border p-8 flex flex-col text-center">
       <!-- Make Type Title -->
@@ -12,20 +14,20 @@
 
       <!-- Projected Yield -->
       <% if @projected_yields[make_type] %>
-        <p class="text-3xl font-extrabold text-green-600 mb-4">
-          <%= number_to_percentage(@projected_yields[make_type], precision: 2) %><br>
-           <span class="text-xs text-gray-600 font-light">averaged from last 10 makes</span>
-        </p>
-       
+      <p class="text-3xl font-extrabold text-green-600 mb-4">
+        <%= number_to_percentage(@projected_yields[make_type], precision: 2) %><br>
+        <span class="text-xs text-gray-600 font-light">averaged from last 10 makes</span>
+      </p>
+
       <% else %>
-        <p class="text-gray-400 mb-4">Not enough data</p>
+      <p class="text-gray-400 mb-4">Not enough data</p>
       <% end %>
 
       <% chart_data = @yield_data[make_type] || [] %>
 
 
       <% if chart_data.any? %>
-     <%= line_chart chart_data.map { |d| [d[:x], d[:y]] },
+      <%= line_chart chart_data.map { |d| [d[:x], d[:y]] },
           xtitle: "Date", ytitle: "Yield (%)",
           points: false,
           curve: false, 
@@ -58,8 +60,8 @@
           } %>
 
       <% else %>
-        <p class="text-gray-400 text-center mt-4">No yield data available</p>
+      <p class="text-gray-400 text-center mt-4">No yield data available</p>
       <% end %>
     </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>

@@ -69,13 +69,31 @@ As the project documentation develops, this section will be expanded with compon
 
 ---
 
-## Authentication
+## Authentication and Authorization
 
-> *This section will be expanded.*
+The application uses Devise for authentication (who you are) and CanCanCan for authorization
+(what you can do).
 
-The application currently uses Devise for user authentication.
+Rather than hand-writing permission rules in code, access is defined as data: a `Group` ↔
+`Membership` ↔ `User` structure, plus `GroupPermission` rows that grant a group a specific
+action on a specific resource. A single `Ability` class (`app/models/ability.rb`) reads that
+data at request time and builds the actual CanCanCan rules, caching each group's permissions
+for an hour and busting the cache whenever a `GroupPermission` row changes.
 
-Future versions of the application may include role-based authorisation to provide fine-grained access to features and business functions.
+Two kinds of group exist:
+
+- **Blanket groups** (Admin, Mgmt) — full access to business data. Admin additionally manages
+  the authorization system itself (Users, Groups, permission rows); Mgmt does not.
+- **Bounded groups** (Office, H&S, Dairy, Store, Cutting) — each granted specific actions on
+  specific models via `GroupPermission` rows, defined in `db/seeds/authorization.rb`. A user
+  can belong to more than one group; their access is the union of all of them.
+
+Every model that can be permission-gated is whitelisted in
+`app/models/concerns/permission_registry.rb`, along with the allowed actions (`manage`,
+`read`, plus narrower custom actions like `print_labels`, `link`, and `assign_location` for
+cases that don't fit a plain CRUD split). Controllers enforce this via `authorize!` calls —
+see `app/docs/auth_models.md` for the full rollout checklist of which controllers enforce
+which rules.
 
 ---
 

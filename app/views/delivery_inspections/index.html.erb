@@ -1,8 +1,10 @@
-<div class="overscroll-none">
+<div class="overscroll-none overflow-x-hidden w-full max-w-full">
   <% content_for :title, "Poacher: Delivery Inspections" %>
   <% content_for(:page_title, "DELIVERY INSPECTION RECORD - INGREDIENTS AND PACKAGING") %>
   <% content_for :page_button, new_delivery_inspection_path %>
-  <%= render 'shared/dairy_nav' %>
+  <div class="hidden md:block">
+    <%= render 'shared/dairy_nav' %>
+  </div>
 
   <div id="delivery_inspections">
     <div class="mx-auto w-full lg:w-2/3">
@@ -23,21 +25,20 @@
       <%# ---------- FILTER BAR (uses dairy_ingredients) ---------- %>
 
       <div class="pl-4 w-full lg:w-5/6 xl:max-w-screen-xl 2xl:max-w-screen-2xl mb-4">
-        <div class="w-full lg:w-2/3 flex items-end justify-between">
-          <%= form_with url: delivery_inspections_path, method: :get, local: true, class: "flex items-end gap-2" do %>
+        <div class="w-full lg:w-2/3 flex flex-col sm:flex-row gap-3 sm:items-end sm:justify-between"> <%= form_with url: delivery_inspections_path, method: :get, local: true, class: "flex items-end gap-2" do %>
           <div>
             <label class="block text-xs font-medium text-gray-700 mb-1">Filter</label>
             <%= select_tag :item,
                     options_for_select(dairy_ingredients, @item_name),
                     include_blank: "All ingredients",
-                    class: field_class_flex %>
+                    class: "#{field_class_flex} !w-40 sm:!w-auto max-w-full" %>
           </div>
           <%= submit_tag "Filter", class: fill_button_class %>
           <%= link_to "Clear", delivery_inspections_path, class: clear_button_class %>
           <% end %>
 
           <%# Legend box on far right %>
-          <div class="ml-auto border border-gray-900 text-xs rounded-lg px-4 py-2 flex items-center justify-center gap-4">
+          <div class="hidden sm:flex ml-auto border border-gray-900 text-xs rounded-lg px-4 py-2 items-center justify-center gap-4">
 
             <div class="flex items-center gap-1">
               <div class="h-4 border-l-4 border-green-500"></div>
@@ -59,8 +60,8 @@
       </div>
       <%# ---------- END FILTER BAR (uses dairy_ingredients) ---------- %>
 
-      <div class="flex-1 overflow-y-auto">
-        <table class="mx-auto w-full lg:w-2/3 table-fixed text-sm border ">
+      <div class="w-full max-w-full overflow-x-auto overflow-y-auto">
+        <table class="min-w-[1200px] lg:w-2/3 lg:mx-auto table-fixed text-sm border">
           <!-- Lock column widths so header/body always match -->
           <colgroup>
             <col class="w-28" /> <!-- Delivery Date -->
