@@ -2,105 +2,353 @@
 <% content_for(:page_title, "STOCK POSITION: #{Time.now.to_formatted_s(:uk_day)}") %>
 <% content_for(:print_button, "browser-print") %>
 
+<div class="w-full max-w-full">
+  <div class="w-full px-2 md:px-4 lg:max-w-screen-lg lg:mx-auto text-sm">
 
-<div class="h-4/5 flex flex-col">
-<div class="w-full px-2 md:px-4 lg:max-w-screen-lg lg:mx-auto text-sm">
+    <!-- Mobile explanation -->
+    <p class="md:hidden text-xs text-center text-gray-500 mb-3">
+      Batch counts by grade and status
+    </p>
 
+    <main class="w-full">
 
-    <main class="flex-1 flex items-center justify-center p-6">
-      <table class="w-full table-fixed  text-left rtl:text-right text-gray-700">
-        <thead class="text-sm uppercase bg-gray-200">
+      <table class="w-full table-fixed text-xs md:text-sm text-gray-700">
+
+        <!-- ===================== -->
+        <!-- HEADER -->
+        <!-- ===================== -->
+        <thead class="uppercase bg-gray-200">
           <tr>
-            <th class="px-4 py-3 text-right bg-white"></th>
+
+            <!-- Grade -->
+            <th class="px-1 md:px-4 py-2 md:py-3 text-left md:text-right bg-white">
+            </th>
+
             <% %w[Nursery Store Wash Finished].each do |status| %>
-              <th class="px-4 py-3 text-right border border-gray-400"><%= status %></th>
+            <th class="px-1 md:px-4 py-2 md:py-3
+                         text-center md:text-right
+                         border border-gray-400
+                         text-[10px] sm:text-xs md:text-sm">
+              <%= status %>
+            </th>
             <% end %>
+
           </tr>
         </thead>
+
+
         <tbody>
 
-          <!-- Row: Ungraded -->
+          <!-- ===================== -->
+          <!-- UNGRADED -->
+          <!-- ===================== -->
+
           <tr class="bg-white border-b border-gray-400 hover:bg-gray-100">
-            <td class="border-l border-r border-t border-gray-400 px-4 py-2 text-right font-medium text-gray-900">Ungraded</td>
+
+            <td class="border-l border-r border-t border-gray-400
+                       px-1 md:px-4 py-2
+                       text-left md:text-right
+                       font-medium text-gray-900
+                       break-words">
+
+              <span class="md:hidden text-[11px]">
+                Ungraded
+              </span>
+
+              <span class="hidden md:inline">
+                Ungraded
+              </span>
+
+            </td>
+
+
             <% %w[Nursery Store Wash Finished].each do |status| %>
-            <td class="border-r border-gray-400 px-4 py-2 text-right">
-                <% matching = Makesheet.where(status: status, grade: [nil, ""]) %>
-                          
-                <% if matching.exists? %>
-                  <% cheese_total = matching.sum(:number_of_cheeses) %>
-                  <% batch_count = matching.count %>
-                  <% avg_cheese = batch_count.zero? ? 0 : (cheese_total.to_f / batch_count).round(1) %>
-                  <% total_weight = matching.sum(:total_weight) %>
-                  <% formatted_weight = number_with_delimiter(total_weight.to_f.round) %>
 
-                  <% has_missing_data = matching.where(number_of_cheeses: [nil, ""])
-                                                .or(matching.where(total_weight: [nil, ""]))
-                                                .exists? %>
+            <td class="border-r border-gray-400
+                         px-1 md:px-4 py-2
+                         text-center md:text-right
+                         align-top">
 
-                  <div class="font-semibold">
+              <% matching = Makesheet.where(
+                     status: status,
+                     grade: [nil, ""]
+                   ) %>
+
+              <% if matching.exists? %>
+
+              <% cheese_total = matching.sum(:number_of_cheeses) %>
+              <% batch_count = matching.count %>
+
+              <% avg_cheese =
+                       batch_count.zero? ? 0 :
+                       (cheese_total.to_f / batch_count).round(1) %>
+
+              <% total_weight = matching.sum(:total_weight) %>
+
+              <% formatted_weight =
+                       number_with_delimiter(
+                         total_weight.to_f.round
+                       ) %>
+
+              <% has_missing_data =
+                       matching
+                         .where(number_of_cheeses: [nil, ""])
+                         .or(
+                           matching.where(total_weight: [nil, ""])
+                         )
+                         .exists? %>
+
+
+              <!-- MOBILE -->
+              <!-- Batch count only -->
+              <div class="md:hidden">
+
+                <div class="font-semibold text-sm text-gray-900">
+
+                  <% if has_missing_data %>
+                  <span class="text-red-600" title="Some batches missing cheese or weight data.">
+                    ❗
+                  </span>
+                  <% end %>
+
+                  <%= batch_count %>
+
+                </div>
+
+              </div>
+
+
+              <!-- DESKTOP / TABLET -->
+              <!-- Full operational information -->
+              <div class="hidden md:block">
+
+                <div class="font-semibold">
+
+                  <span class="inline-block w-full text-right">
+
+                    <% if has_missing_data %>
+                    <span class="text-red-600" title="Some batches missing cheese or weight data.">
+                      ❗
+                    </span>
+                    <% end %>
+
+                    Cheeses: <%= cheese_total %>
+
+                  </span>
+
+                </div>
+
+                <div class="text-sm text-gray-500">
+
+                  <div>
                     <span class="inline-block w-full text-right">
-                      <% if has_missing_data %>
-                        <span class="text-red-600" title="Some batches missing cheese or weight data.">❗️</span>
-                      <% end %>
-                      Cheeses: <%= cheese_total %>
+                      Batches: <%= batch_count %>
                     </span>
                   </div>
 
-                  <div class="text-sm text-gray-500">
-                    <div><span class="inline-block w-full text-right">Batches: <%= batch_count %></span></div>
-                    <div><span class="inline-block w-full text-right">Avg/batch: <%= avg_cheese %></span></div>
-                    <div><span class="inline-block w-full text-right text-sm font-semibold">Weight(kg): <%= formatted_weight %></span></div>
-                  </div>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
-
-          <% grades = Reference.where(group: "grade").order(:sort_order).pluck(:value) %>
-
-          <% grades.each do |grade| %>
-            <% total = Makesheet.where(grade: grade).sum(:number_of_cheeses) %>
-            <% next if total == 0 %>
-            <tr class="bg-white border-b border-gray-400 hover:bg-gray-100">
-              <td class="border-l border-r border-t border-gray-400 px-4 py-2 text-right font-medium text-gray-900 whitespace-normal md:whitespace-nowrap">
-                <%= grade %></td>
-              <% %w[Nursery Store Wash Finished].each do |status| %>
-             <td class="border-r border-gray-400 px-4 py-2 text-right align-top">
-                <% matching = Makesheet.where(status: status, grade: grade) %>
-                <% if matching.exists? %>
-                  <% cheese_total = matching.sum(:number_of_cheeses) %>
-                  <% batch_count = matching.count %>
-                  <% avg_cheese = batch_count.zero? ? 0 : (cheese_total.to_f / batch_count).round(1) %>
-                  <% total_weight = matching.sum(:total_weight) %>
-                  <% formatted_weight = number_with_delimiter(total_weight.to_f.round) %>
-
-                  <% has_missing_data = matching.where(number_of_cheeses: [nil, ""])
-                                                .or(matching.where(total_weight: [nil, ""]))
-                                                .exists? %>
-
-                  <div class="font-semibold">
+                  <div>
                     <span class="inline-block w-full text-right">
-                      <% if has_missing_data %>
-                        <span class="text-red-600" title="Some batches missing cheese or weight data.">❗️</span>
-                      <% end %>
-                      Cheeses: <%= cheese_total %>
+                      Avg/batch: <%= avg_cheese %>
                     </span>
                   </div>
 
-                  <div class="text-xs text-gray-500">
-                    <div><span class="inline-block w-full text-right">Batches: <%= batch_count %></span></div>
-                    <div><span class="inline-block w-full text-right">Avg/batch: <%= avg_cheese %></span></div>
-                    <div><span class="inline-block w-full text-right">Weight(kg): <%= formatted_weight %></span></div>
+                  <div>
+                    <span class="inline-block w-full text-right font-semibold">
+                      Weight(kg): <%= formatted_weight %>
+                    </span>
                   </div>
-                <% end %>
-              </td>
+
+                </div>
+
+              </div>
+
+              <% else %>
+
+              <!-- Mobile zero -->
+              <span class="md:hidden text-gray-300">
+                0
+              </span>
 
               <% end %>
-            </tr>
+
+            </td>
+
+            <% end %>
+
+          </tr>
+
+
+          <!-- ===================== -->
+          <!-- GRADES -->
+          <!-- ===================== -->
+
+          <% grades =
+               Reference
+                 .where(group: "grade")
+                 .order(:sort_order)
+                 .pluck(:value) %>
+
+
+          <% grades.each do |grade| %>
+
+          <% total =
+                 Makesheet
+                   .where(grade: grade)
+                   .sum(:number_of_cheeses) %>
+
+          <% next if total == 0 %>
+
+
+          <tr class="bg-white border-b border-gray-400 hover:bg-gray-100">
+
+            <!-- Grade -->
+            <td class="border-l border-r border-t border-gray-400
+                         px-1 md:px-4 py-2
+                         text-left md:text-right
+                         font-medium text-gray-900
+                         break-words">
+
+              <span class="text-[11px] md:text-sm">
+                <%= grade %>
+              </span>
+
+            </td>
+
+
+            <% %w[Nursery Store Wash Finished].each do |status| %>
+
+            <td class="border-r border-gray-400
+                           px-1 md:px-4 py-2
+                           text-center md:text-right
+                           align-top">
+
+              <% matching =
+                       Makesheet.where(
+                         status: status,
+                         grade: grade
+                       ) %>
+
+
+              <% if matching.exists? %>
+
+              <% cheese_total =
+                         matching.sum(:number_of_cheeses) %>
+
+              <% batch_count =
+                         matching.count %>
+
+              <% avg_cheese =
+                         batch_count.zero? ? 0 :
+                         (cheese_total.to_f / batch_count).round(1) %>
+
+              <% total_weight =
+                         matching.sum(:total_weight) %>
+
+              <% formatted_weight =
+                         number_with_delimiter(
+                           total_weight.to_f.round
+                         ) %>
+
+              <% has_missing_data =
+                         matching
+                           .where(number_of_cheeses: [nil, ""])
+                           .or(
+                             matching.where(total_weight: [nil, ""])
+                           )
+                           .exists? %>
+
+
+              <!-- ===================== -->
+              <!-- MOBILE -->
+              <!-- ===================== -->
+
+              <div class="md:hidden">
+
+                <div class="font-semibold text-sm text-gray-900">
+
+                  <% if has_missing_data %>
+                  <span class="text-red-600" title="Some batches missing cheese or weight data.">
+                    ❗
+                  </span>
+                  <% end %>
+
+                  <%= batch_count %>
+
+                </div>
+
+              </div>
+
+
+              <!-- ===================== -->
+              <!-- DESKTOP / TABLET -->
+              <!-- ===================== -->
+
+              <div class="hidden md:block">
+
+                <div class="font-semibold">
+
+                  <span class="inline-block w-full text-right">
+
+                    <% if has_missing_data %>
+                    <span class="text-red-600" title="Some batches missing cheese or weight data.">
+                      ❗
+                    </span>
+                    <% end %>
+
+                    Cheeses: <%= cheese_total %>
+
+                  </span>
+
+                </div>
+
+
+                <div class="text-xs text-gray-500">
+
+                  <div>
+                    <span class="inline-block w-full text-right">
+                      Batches: <%= batch_count %>
+                    </span>
+                  </div>
+
+                  <div>
+                    <span class="inline-block w-full text-right">
+                      Avg/batch: <%= avg_cheese %>
+                    </span>
+                  </div>
+
+                  <div>
+                    <span class="inline-block w-full text-right">
+                      Weight(kg): <%= formatted_weight %>
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <% else %>
+
+              <!-- A quiet zero is useful in the mobile matrix -->
+              <span class="md:hidden text-gray-300">
+                0
+              </span>
+
+              <% end %>
+
+            </td>
+
+            <% end %>
+
+          </tr>
+
           <% end %>
 
         </tbody>
+
       </table>
+
     </main>
+
   </div>
 </div>
